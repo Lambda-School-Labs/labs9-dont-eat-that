@@ -9,4 +9,4 @@ server.use(cors());
 server.get('/', (req,res) => res.send('Welcome to the Don\'t Eat That app server!'))
 
 const port = process.env.PORT || 8000;
-server.listen(port, () => console.log(`=====Server running on ${port}=====`))
+server.listen(port, () => console.log(`=====Server running on ${port}=====`));
