@@ -1,0 +1,20 @@
+{
+  "name": "dont-eat-that",
+  "version": "1.0.0",
+  "description": "Back-end of app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lambda-School-Labs/labs9-dont-eat-that.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lambda-School-Labs/labs9-dont-eat-that/issues"
+  },
+  "homepage": "https://github.com/Lambda-School-Labs/labs9-dont-eat-that#readme"
+}
