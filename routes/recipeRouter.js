@@ -65,7 +65,7 @@ router.get('/one/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/create', async (req, res) => {
   const { name, description, userid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
   if (name && description && userid && ingredients) {
     try {
@@ -98,12 +98,38 @@ router.post('/', async (req, res) => {
     } catch (err) {
       console.log(err);
       res.status(500).json({
-        message: 'The recipes information could not be retrieved',
+        message: 'There was an error saving the recipe',
         err
       });
     }
   } else {
     res.status(400).json({ message: 'Please provide all fields.' });
+  }
+});
+
+router.delete('/delete/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const recipe = await db('recipes') // deletes recipe in recipe database
+      .where({ id: id })
+      .del();
+    const recing = await db('recipes-ingredients') // deletes recipe in recipes-ingredients database
+      .where({ recipe_id: id })
+      .del();
+    if (recipe) {
+      // checks to see if any deletion actually occured
+      res.status(200).json(recipe);
+    } else {
+      res
+        .status(400)
+        .json({ message: "The recipe with the specified id doesn't exist." });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'There was an error deleting the recipe',
+      err
+    });
   }
 });
 
