@@ -10,16 +10,20 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SideMenu from "./components/sideMenu.js";
-import TopMenu from "./components/topMenu.js";
+// import SideMenu from "./components/sideMenu.js";
+// import TopMenu from "./components/topMenu.js";
+import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <TopMenu />
-        <SideMenu />
-        <DisplayRecipesViewer />
+
+      Welcome to Don't Eat That
+        {/* <TopMenu /> */}
+        {/* <SideMenu /> */}
+        {/* <DisplayRecipesViewer /> */}
       </div>
     );
   }
