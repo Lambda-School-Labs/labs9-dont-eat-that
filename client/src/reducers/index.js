@@ -1,28 +1,29 @@
+import * as actionTypes from "../actions";
+
 
 // BELOW CODE IS SAMPLE
 //IT WILL BE CHANGED AS NEEDED
 
 const initialState = {
-    fetching: false,
-    smurfs: [],
-    error: null
-  };
-  
-  export const RecipesReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case "FETCHING_REQUEST":
-        return { ...state, fetching: true };
-  
-      case "FETCHING_SUCCESS":
-        console.log("fetching success", action.payload);
-        return { ...state, fetching: false, smurfs: [...action.payload] };
-  
-      case "FETCHING_FAILURE":
-        return { ...state, fetching: false, error: action.payload };
-  
+  fetching: false,
+  recipes: [],
+  error: null
+};
 
-      default:
-        return state;
-    }
-  };
-  
+export const RecipesReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionTypes.GETTING_RECIPES:
+      return { ...state, gettingRecipes: true };
+    case actionTypes.GET_RECIPES:
+      return { ...state, recipes: action.payload, gettingRecipes: false };
+
+    case actionTypes.ERROR:
+      return {
+        ...state,
+        gettingRecipes: false,
+        creatingRecipes: false
+      };
+    default:
+      return state;
+  }
+};
