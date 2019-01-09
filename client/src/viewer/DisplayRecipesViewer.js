@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getRecipes } from '../actions';
+import DisplayListRecipes from "../components/DisplayListRecipes";
 // import {
 //   DeleteRecipe,
 //   DisplayListRecipes,
@@ -29,9 +30,8 @@ class DisplayRecipeViewer extends Component {
       <div className="recipe-view-container">
         <Route
           path="/"
-          render={props => {
-            <DisplayListRecipes />;
-          }}
+         component={DisplayListRecipes}
+          
         />
 
         {/*         
@@ -74,4 +74,11 @@ class DisplayRecipeViewer extends Component {
   }
 }
 
-export default DisplayRecipeViewer;
+const mapStateToProps = state => {
+  const { getRecipes } = state;
+  return {
+    recipes: state.recipes,
+    error: state.error
+  };
+};
+export default connect(mapStateToProps, {getRecipes})(DisplayRecipeViewer);

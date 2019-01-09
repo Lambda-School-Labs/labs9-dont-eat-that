@@ -24,16 +24,16 @@ export const getRecipes = () => {
 
 
 // single recipe
-export const getRecipes = () => {
-    const recipes = axios.get(`${URL}api/recipes/all`);
-    return dispatch => {
-      dispatch({ type: GETTING_RECIPES });
-      recipes
-        .then(response => {
-          dispatch({ type: GET_RECIPES, payload: response.data });
-        })
-        .catch(err => {
-          dispatch({ type: ERROR, payload: err });
-        });
-    };
-  };
+// export const getRecipe = () => {
+//     const recipes = axios.get(`${URL}api/recipes/all`);
+//     return dispatch => {
+//       dispatch({ type: GETTING_RECIPE });
+//       recipes
+//         .then(response => {
+//           dispatch({ type: GET_RECIPES, payload: response.data });
+//         })
+//         .catch(err => {
+//           dispatch({ type: ERROR, payload: err });
+//         });
+//     };
+//   };
