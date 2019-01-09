@@ -1,4 +1,7 @@
 
+// BELOW CODE IS SAMPLE
+//IT WILL BE CHANGED AS NEEDED
+
 const initialState = {
     fetching: false,
     smurfs: [],
