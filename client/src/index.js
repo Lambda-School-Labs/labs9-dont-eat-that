@@ -10,7 +10,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { RecipesReducer } from './reducers/';
-
+import Firebase, {FirebaseContext} from './components/firebase';
 
 
 const composeEnhancers =
@@ -23,9 +23,11 @@ const store = createStore(RecipesReducer, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
+  <FirebaseContext.Provider value={new Firebase()}>
     <Router>
       <App />
     </Router>
+    </FirebaseContext.Provider>
   </Provider>,
   document.getElementById('root')
 );
