@@ -31,31 +31,6 @@ router.get('/:userid', (req, res) => {
 });
 
 // geting single recipe details
-// router.get('/one/:id', (req, res) => {
-//   const id = req.params.id;
-//   db('recipes')
-//     .where({ 'recipes.id': id })
-//     .first()
-//     .join('recipes-ingredients', 'recipes.id', 'recipes-ingredients.recipe_id')
-//     .join('ingredients', 'ingredients.id', 'recipes-ingredients.ingredient_id')
-//     .select(
-//       db.ref('recipes.name').as('recipename'),
-//       'recipes.description',
-//       'recipes.user_id',
-//       db.ref('ingredients.name').as('ingredientname'),
-//       'recipes-ingredients.quantity',
-//       'ingredients.unit'
-//     )
-//     .then(recipe => res.status(200).json(recipe))
-//     .catch(err => {
-//       console.log(err);
-//       res.status(500).json({
-//         message: 'The recipes information could not be retrieved',
-//         err
-//       });
-//     });
-// });
-
 router.get('/one/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -75,14 +50,23 @@ router.get('/one/:id', async (req, res) => {
         'recipes-ingredients.quantity',
         'ingredients.unit'
       );
-    res.status(200).json({ ...recipe, ingredients: ingredients });
+    if (!recipe || !ingredients) {
+      res
+        .status(404)
+        .json({ message: "The recipe with the specified id doesn't exist." });
+    } else {
+      res.status(200).json({ ...recipe, ingredients: ingredients });
+    }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: 'The recipes information could not be retrieved',
       err
     });
   }
+});
+
+router.post('/', (req, res) => {
+  const {} = req.body;
 });
 
 module.exports = router;
