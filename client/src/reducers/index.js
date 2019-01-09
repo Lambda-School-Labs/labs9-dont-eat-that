@@ -10,7 +10,7 @@ const initialState = {
   error: null
 };
 
-export const RecipesReducer = (state = initialState, action) => {
+export const recipesReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GETTING_RECIPES:
       return { ...state, gettingRecipes: true };
