@@ -27,6 +27,19 @@ Returns an id of the recipe created. Needs a recipe name, description, userid, a
 }
 ```
 
+## EDIT https://donteatthat.herokuapp.com/api/recipes/edit/:id
+
+Returns the edited object like the one above. Needs a recipe name, description, userid, and an ingredient array with each ingredient having a name, quanitity and unit as follows:
+
+```js
+{
+	"name": "avocado smoothie",
+	"description": "Delicious simple avocado smoothie.",
+	"userid": 2,
+	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
+}
+```
+
 ## DELETE https://donteatthat.herokuapp.com/api/recipes/delete/:id
 
 Returns a count of the number of recipes deleted. Needs the recipe id in query to work.
