@@ -15,15 +15,14 @@ import './App.css';
 import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
 
 
+
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-
-      Welcome to Don't Eat That
-        {/* <TopMenu /> */}
-        {/* <SideMenu /> */}
-        {/* <DisplayRecipesViewer /> */}
+        <SideMenu />
+        <DisplayNotesView />
       </div>
     );
   }
