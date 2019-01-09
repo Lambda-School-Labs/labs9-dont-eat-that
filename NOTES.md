@@ -14,7 +14,7 @@ Returns an array of all the recipes of a single user.
 
 Returns a json of a recipe and it's details and ingredients.
 
-## POST https://donteatthat.herokuapp.com/api/recipes/
+## POST https://donteatthat.herokuapp.com/api/recipes/create
 
 Returns an id of the recipe created. Needs a recipe name, description, userid, and an ingredient array with each ingredient having a name, quanitity and unit as follows:
 
@@ -26,3 +26,7 @@ Returns an id of the recipe created. Needs a recipe name, description, userid, a
 	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
 }
 ```
+
+## DELETE https://donteatthat.herokuapp.com/api/recipes/delete/:id
+
+Returns a count of the number of recipes deleted. Needs the recipe id in query to work.
