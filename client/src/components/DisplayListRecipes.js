@@ -13,8 +13,7 @@ class DisplayListRecipes extends Component {
               <div>
                 <Recipe
                   key={recipe.id}
-                  recipe={recipe.name}
-                  ingredents={recipe.ingredents}
+                  recipe={recipes.name}
                 />
               </div>
             );
@@ -28,8 +27,8 @@ class DisplayListRecipes extends Component {
 const mapStateToProps = state => {
     const { recipesReducer} = state;
     return {
-        smurfs: smurfsReducer.smurfs,
-        error: smurfsReducer.error
+        recipes: recipesReducer.recipes,
+        error: recipesReducer.error
     };
 };
 

@@ -6,8 +6,7 @@ import * as actionTypes from "../actions";
 
 const initialState = {
   fetching: false,
-  recipe: "",
-  ingredents: [],
+  recipes: [],
   error: null
 };
 
