@@ -65,8 +65,46 @@ router.get('/one/:id', async (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
-  const {} = req.body;
+router.post('/', async (req, res) => {
+  const { name, description, userid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
+  if (name && description && userid && ingredients) {
+    try {
+      const recipe = await db('recipes').insert({
+        // inserting into recipes database
+        name: name,
+        description: description,
+        user_id: userid
+      });
+      await ingredients.map(async ingredient => {
+        const ingredientSearch = await db('ingredients') // checking if ingredient already in database
+          .where({ name: ingredient.name })
+          .first();
+        let ingredientDone = undefined;
+        if (!ingredientSearch) {
+          ingredientDone = await db('ingredients').insert({
+            // inserting into ingredients database if ingredient doesn't exist
+            name: ingredient.name,
+            unit: ingredient.unit
+          });
+        }
+        await db('recipes-ingredients').insert({
+          // inserting into recipes-ingredients database
+          recipe_id: recipe[0],
+          ingredient_id: ingredientSearch.id || ingredientDone[0],
+          quantity: ingredient.quantity
+        });
+      });
+      res.status(200).json(recipe[0]);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        message: 'The recipes information could not be retrieved',
+        err
+      });
+    }
+  } else {
+    res.status(400).json({ message: 'Please provide all fields.' });
+  }
 });
 
 module.exports = router;
