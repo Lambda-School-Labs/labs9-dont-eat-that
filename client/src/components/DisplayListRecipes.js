@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import DisplayOneRecipe from './DisplayOneRecipe';
+// import DisplayOneRecipe from './DisplayOneRecipe';
 
 const DisplayListDiv = styled.div`
   display: flex;
@@ -27,9 +27,9 @@ class DisplayListRecipes extends Component {
               <h3>Create a Recipe</h3>
             </CreateRecipeDiv>
           </Link>
-          {this.props.recipes.map(recipe => {
+          {/* {this.props.recipes.map(recipe => {
             return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
-          })}
+          })} */}
         </DisplayListDiv>
       </div>
     );
