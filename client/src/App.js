@@ -12,7 +12,7 @@ import logo from './logo.svg';
 import './App.css';
 // import SideMenu from "./components/sideMenu.js";
 // import TopMenu from "./components/topMenu.js";
-import DisplayRecipeViewer from "./viewer/DisplayRecipesViewer.js";
+import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
 
 
 
@@ -22,7 +22,7 @@ class App extends Component {
     return (
       <div className="App">
         {/* <SideMenu /> */}
-        <DisplayRecipeViewer />
+        <DisplayRecipesViewer />
       </div>
     );
   }

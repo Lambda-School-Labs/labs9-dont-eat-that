@@ -20,7 +20,7 @@ import DisplayListRecipes from "../components/DisplayListRecipes";
 
 // }
 
-class DisplayRecipeViewer extends Component {
+class DisplayRecipesViewer extends Component {
   componentDidMount() {
     // getting all the notes function will go here
     this.props.getRecipes();
@@ -81,4 +81,4 @@ const mapStateToProps = state => {
     error: state.error
   };
 };
-export default connect(mapStateToProps, {getRecipes})(DisplayRecipeViewer);
+export default connect(mapStateToProps, {getRecipes})(DisplayRecipesViewer);
