@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import DisplayOneRecipe from './displayOneRecipe';
 
 class DisplayListRecipes extends Component {
   render() {
@@ -11,10 +12,7 @@ class DisplayListRecipes extends Component {
           {this.props.recipes.map(recipe => {
             return (
               <div>
-                <Recipe
-                  key={recipe.id}
-                  recipe={recipes.name}
-                />
+                <DisplayOneRecipe key={recipe.id} recipe={recipe.name} description={recipe.description} />
               </div>
             );
           })}
@@ -25,11 +23,11 @@ class DisplayListRecipes extends Component {
 }
 
 const mapStateToProps = state => {
-    const { recipesReducer} = state;
-    return {
-        recipes: recipesReducer.recipes,
-        error: recipesReducer.error
-    };
+  const { recipesReducer } = state;
+  return {
+    recipes: state.recipes,
+    error: state.error
+  };
 };
 
 export default connect(mapStateToProps)(DisplayListRecipes);
