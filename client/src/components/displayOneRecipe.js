@@ -5,6 +5,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const DisplayRecipeDiv = styled.div`
   border: 1px solid black;
@@ -15,11 +16,16 @@ const DisplayRecipeDiv = styled.div`
 const DisplayOneRecipe = props => {
   console.log(props);
   return (
-    <DisplayRecipeDiv>
-      <h3>{props.recipe.name}</h3>
-      <h4>Description:</h4>
-      <p>{props.recipe.description}</p>
-    </DisplayRecipeDiv>
+    <Link
+      to={`/recipes/one/${props.recipe.id}`}
+      style={{ textDecoration: 'none' }}
+    >
+      <DisplayRecipeDiv>
+        <h3>{props.recipe.name}</h3>
+        <h4>Description:</h4>
+        <p>{props.recipe.description}</p>
+      </DisplayRecipeDiv>
+    </Link>
   );
 };
 
