@@ -9,3 +9,6 @@
 - `knex migrate:rollback`
 - `knex migrate:latest`
 
+
+#local postgress server
+https://github.com/Lambda-School-Labs/Labs8-OfflineReader/wiki/Setting-up-a-PostgreSQL-database-for-local-testing
