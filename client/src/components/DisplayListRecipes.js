@@ -12,7 +12,7 @@ class DisplayListRecipes extends Component {
           {this.props.recipes.map(recipe => {
             return (
               <div>
-                <DisplayOneRecipe />
+                <DisplayOneRecipe key={recipe.id} recipe={recipe.name} description={recipe.description} />
               </div>
             );
           })}
@@ -31,8 +31,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(DisplayListRecipes);
-
-{
-  /* key={recipe.id}
-recipe={recipes.name} */
-}
