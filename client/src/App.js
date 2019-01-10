@@ -5,18 +5,30 @@
 // DisplayRecipesViewer will control/manage the main part of the service, including display list of recipes,
 // whole recipes, add/edit/delete, billing, setting...
 
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react';
+
+import './App.css';
 // import SideMenu from "./components/sideMenu.js";
 // import TopMenu from "./components/topMenu.js";
 import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
+import SignUp from "./components/signUp";
 
 class App extends Component {
+
+  
+
+
+
   render() {
     return (
       <div className="App">
         {/* <SideMenu /> */}
+
+
+        <SignUp />
+
         <DisplayRecipesViewer />
+
       </div>
     );
   }

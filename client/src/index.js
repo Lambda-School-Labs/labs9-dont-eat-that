@@ -9,6 +9,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+
+import Firebase, {FirebaseContext} from './components/firebase';
+
 // import { recipesReducer } from './reducers/';
 import rootReducer from './reducers';
 
@@ -24,9 +27,11 @@ const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
+  <FirebaseContext.Provider value={new Firebase()}>
     <Router>
       <App />
     </Router>
+    </FirebaseContext.Provider>
   </Provider>,
   document.getElementById('root')
 );
