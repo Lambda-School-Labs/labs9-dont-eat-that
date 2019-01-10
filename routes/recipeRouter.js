@@ -30,7 +30,7 @@ router.get("/:userid", (req, res) => {
     );
 });
 
-// geting single recipe details
+// getting single recipe details
 router.get("/one/:id", async (req, res) => {
   try {
     const id = req.params.id;
