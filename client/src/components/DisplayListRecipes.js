@@ -1,23 +1,36 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { connect } from "react-redux";
-import DisplayOneRecipe from "./DisplayOneRecipe";
+import DisplayOneRecipe from './DisplayOneRecipe';
+
+const DisplayListDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+`;
+
+const CreateRecipeDiv = styled.div`
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+`;
 
 class DisplayListRecipes extends Component {
   render() {
     return (
       <div className="recipe-list">
         <h1>Recipes</h1>
-        <Link to='recipes/new'>Enter New Recipe</Link>
-        <ul>
+        <DisplayListDiv>
+          <Link to="/recipes/new">
+            <CreateRecipeDiv>
+              <h3>Create a Recipe</h3>
+            </CreateRecipeDiv>
+          </Link>
           {this.props.recipes.map(recipe => {
-            return (
-              <div>
-                <DisplayOneRecipe key={recipe.id} recipe={recipe} />
-              </div>
-            );
+            return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
           })}
-        </ul>
+        </DisplayListDiv>
       </div>
     );
   }

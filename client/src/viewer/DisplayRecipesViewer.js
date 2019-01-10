@@ -1,25 +1,11 @@
-import React, { Component } from "react";
-import { Route } from "react-router-dom";
-import { connect } from "react-redux";
-import { getAllRecipes } from "../actions";
-import DisplayListRecipes from "../components/DisplayListRecipes";
+
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getAllRecipes } from '../actions';
+
+import DisplayListRecipes from '../components/DisplayListRecipes';
 import AddNewRecipeForm from '../components/AddNewRecipeForm';
-// import {
-//   DeleteRecipe,
-//   DisplayListRecipes,
-//   DisplayOneRecipe,
-//   EditRecipe,
-//   Login,
-//   Nutrition,
-//   UserSettings,
-//   Sidebar,
-//   SearchBar
-// } from '../components';
-
-// this will be for the actions
-// import {
-
-// }
 
 class DisplayRecipesViewer extends Component {
   componentDidMount() {
