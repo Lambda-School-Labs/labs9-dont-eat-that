@@ -1,3 +1,11 @@
+// This is a testing for  endpoints in recipeRouter.js
+// At the moment it has several limitations
+// 1. due to having sqlite3 DB in local server, post/put doesn't work correctly
+// 2. for delete and edit, recipe ID needs to be manually changed before 
+//     every test.  Some way to automatically get an appropriate ID is needed.
+
+
+
 const request = require("supertest");
 
 const server = require("../server.js");
@@ -113,7 +121,7 @@ const localURL = "/all";
   describe("/api/recipes/delete  DELETE", () => {
     
     // change recipe ID that you want to delete
-    const localURL = "/delete/35";
+    const localURL = "/delete/36";
    
 
 
