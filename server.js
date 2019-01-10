@@ -3,6 +3,7 @@ const knex = require('knex');
 const cors = require('cors');
 
 const recipeRouter = require('./routes/recipeRouter');
+const userRouter = require('./routes/userRouter');
 
 const server = express();
 
