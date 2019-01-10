@@ -12,7 +12,7 @@ server.use(cors());
 server.use('/api/recipes/', recipeRouter);
 
 server.get('/', (req, res) =>
-  res.send("Welcome to the Don't Eat That app server!")
+res.status(200).json("Welcome to the Don't Eat That app server!")
 );
 
 module.exports = server;
