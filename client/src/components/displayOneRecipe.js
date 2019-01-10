@@ -7,14 +7,20 @@ import React from 'react';
 
 const DisplayOneRecipe = props => {
   return (
-    <div className="oneRecipeDisplay">
-      {/* <h3 key={props.key}>{props.recipe.title}</h3>
+    <div key={props.key} className="oneRecipeDisplay">
+      <h3 >{props.recipe}</h3>
       <h4> ingredients : </h4>
-      <p>{props.recipe.ingredients}</p> */}
-    testing recipes
+      <p>{props.description}</p>
+
     </div>
   );
 };
+
+DisplayOneRecipe.defaultProps = {
+  fetching:false,
+  recipes: [],
+  error: null
+}
 
 export default DisplayOneRecipe;
 
