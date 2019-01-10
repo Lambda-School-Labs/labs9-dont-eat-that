@@ -2,14 +2,44 @@
 
 https://donteatthat.herokuapp.com
 
-## https://donteatthat.herokuapp.com/api/recipes/all
+## GET https://donteatthat.herokuapp.com/api/recipes/all
 
 Returns an array of all the recipes of all users.
 
-## https://donteatthat.herokuapp.com/api/recipes/:userid
+## GET https://donteatthat.herokuapp.com/api/recipes/:userid
 
 Returns an array of all the recipes of a single user.
 
-## https://donteatthat.herokuapp.com/api/recipes/one/:id
+## GET https://donteatthat.herokuapp.com/api/recipes/one/:id
 
 Returns a json of a recipe and it's details and ingredients.
+
+## POST https://donteatthat.herokuapp.com/api/recipes/create
+
+Returns an id of the recipe created. Needs a recipe name, description, userid, and an ingredient array with each ingredient having a name, quanitity and unit as follows:
+
+```js
+{
+	"name": "avocado smoothie",
+	"description": "Delicious simple avocado smoothie.",
+	"userid": 2,
+	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
+}
+```
+
+## EDIT https://donteatthat.herokuapp.com/api/recipes/edit/:id
+
+Returns the edited object like the one above. Needs a recipe name, description, userid, and an ingredient array with each ingredient having a name, quanitity and unit as follows:
+
+```js
+{
+	"name": "avocado smoothie",
+	"description": "Delicious simple avocado smoothie.",
+	"userid": 2,
+	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
+}
+```
+
+## DELETE https://donteatthat.herokuapp.com/api/recipes/delete/:id
+
+Returns a count of the number of recipes deleted. Needs the recipe id in query to work.

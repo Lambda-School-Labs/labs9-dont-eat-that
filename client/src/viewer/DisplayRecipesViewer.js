@@ -1,31 +1,40 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  DeleteRecipe,
-  DisplayListRecipes,
-  DisplayOneRecipe,
-  EditRecipe,
-  Login,
-  Nutrition,
-  UserSettings,
-  Sidebar,
-  SearchBar
-} from '../components';
+import { getRecipes } from '../actions';
+import DisplayListRecipes from "../components/DisplayListRecipes";
+// import {
+//   DeleteRecipe,
+//   DisplayListRecipes,
+//   DisplayOneRecipe,
+//   EditRecipe,
+//   Login,
+//   Nutrition,
+//   UserSettings,
+//   Sidebar,
+//   SearchBar
+// } from '../components';
 
 // this will be for the actions
 // import {
 
 // }
 
-class DisplayRecipeViewer extends Component {
+class DisplayRecipesViewer extends Component {
   componentDidMount() {
     // getting all the notes function will go here
+    this.props.getRecipes();
   }
-
   render() {
     return (
       <div className="recipe-view-container">
+        <Route
+          path="/"
+         component={DisplayListRecipes}
+          
+        />
+
+        {/*         
         <header>
           <Route
             path="/"
@@ -55,13 +64,21 @@ class DisplayRecipeViewer extends Component {
             render={props => {
               <Sidebar />;
             }}
-          />  
+          />
           </nav>
         </div>
         <footer>license, disclaimers, links to profiles are here</footer>
+      </div> */}
       </div>
     );
   }
 }
 
-export default DisplayRecipeViewer;
+const mapStateToProps = state => {
+  const { getRecipes } = state;
+  return {
+    recipes: state.recipes,
+    error: state.error
+  };
+};
+export default connect(mapStateToProps, {getRecipes})(DisplayRecipesViewer);
