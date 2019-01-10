@@ -3,28 +3,23 @@
 // and display the info
 // Display two buttons - edit and delete.  Both buttons will be linked to a props methods
 
-
 import React from 'react';
 
 const DisplayOneRecipe = props => {
   return (
     <div className="oneRecipeDisplay">
-      <h3> {props.title}</h3>
-
-     {/* show image? 
-        <img src = {props.imageUrl}>
-    */}
-
+      {/* <h3 key={props.key}>{props.recipe.title}</h3>
       <h4> ingredients : </h4>
-      <p>{props.ingredients}</p>
+      <p>{props.recipe.ingredients}</p> */}
+    testing recipes
+    </div>
+  );
+};
 
-      <h4> Descriptions : </h4>
-      <p> {props.descriptions}</p>
+export default DisplayOneRecipe;
 
-      <h4> Nutrition : </h4>
-      <p> {props.nutrition}</p>
-
-      <button
+{
+  /* <button
         onClick={() => {
           props.editReceipe(props.id);
         }}
@@ -38,9 +33,5 @@ const DisplayOneRecipe = props => {
         }}
       >
         Delete
-      </button>
-    </div>
-  );
-};
-
-export default DisplayOneRecipe;
+      </button> */
+}

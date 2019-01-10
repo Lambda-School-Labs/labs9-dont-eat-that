@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { RecipesReducer } from './reducers/';
+import { recipesReducer } from './reducers/';
 
 
 
@@ -19,7 +19,7 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
-const store = createStore(RecipesReducer, enhancer);
+const store = createStore(recipesReducer, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
