@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { getRecipes } from '../actions';
+import React, { Component } from "react";
+import { Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { getAllRecipes } from "../actions";
 import DisplayListRecipes from "../components/DisplayListRecipes";
 // import {
 //   DeleteRecipe,
@@ -23,16 +23,12 @@ import DisplayListRecipes from "../components/DisplayListRecipes";
 class DisplayRecipesViewer extends Component {
   componentDidMount() {
     // getting all the notes function will go here
-    this.props.getRecipes();
+    this.props.getAllRecipes();
   }
   render() {
     return (
       <div className="recipe-view-container">
-        <Route
-          path="/"
-         component={DisplayListRecipes}
-          
-        />
+        <Route path="/" component={DisplayListRecipes} />
 
         {/*         
         <header>
@@ -75,10 +71,12 @@ class DisplayRecipesViewer extends Component {
 }
 
 const mapStateToProps = state => {
-  const { getRecipes } = state;
   return {
-    recipes: state.recipes,
-    error: state.error
+    recipes: state.recipesReducer.recipes,
+    error: state.recipesReducer.error
   };
 };
-export default connect(mapStateToProps, {getRecipes})(DisplayRecipesViewer);
+export default connect(
+  mapStateToProps,
+  { getAllRecipes }
+)(DisplayRecipesViewer);
