@@ -37,25 +37,24 @@ class SignUpFormBase extends Component {
   onSubmit = event => {
     const { username, email, passwordOne } = this.state;
 
-    alert( 'JamesTsting');
-    alert( email);
-
-    console.log( 'test0: ' + email + passwordOne );
+ 
+   
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-          alert('SingUp.js   create user SUCCESS');
-        // this.setState({ ...INITIAL_STATE });
-        //open right page after signup/in
+          console.log('SingUp.js   create user SUCCESS');
+          console.log(authUser);
+        this.setState({ ...INITIAL_STATE });
+        //change URL to open appropriate page after signup/in
         //this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
         console.log('SingUp.js   create user FAILED');
         alert('SingUp.js   create user FAILED');
-        // this.setState({ error });
+        this.setState({ error });
       });
-      alert('SingUp.js   end of createUser ');
+    
     event.preventDefault();
   }
 
@@ -63,28 +62,7 @@ class SignUpFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  test = event => {
-   
-    console.log(this.props);
-    console.log(this.props.firebase);
-
-   
-    this.props.firebase
-    .doCreateUserWithEmailAndPassword("test@email.com", "edwsqa23#K")
-       .then(authUser => {
-        alert('SingUp.js   create user SUCCESS');
-      // this.setState({ ...INITIAL_STATE });
-      //open right page after signup/in
-      //this.props.history.push(ROUTES.HOME);
-    })
-    .catch(error => {
-      console.log('SingUp.js   create user FAILED');
-      alert('SingUp.js   create user FAILED');
-      // this.setState({ error });
-    });
-
-
-  }
+  
 
   render() {
 
@@ -104,7 +82,7 @@ class SignUpFormBase extends Component {
 
 
     return (
-      <div>
+     
       
       <form onSubmit={this.onSubmit}>
         <input
@@ -139,8 +117,8 @@ class SignUpFormBase extends Component {
 
         {error && <p>{error.message}</p>}
       </form>
-      <button onClick = {this.test} > temp </button>
-      </div>
+     
+     
     );
   }
 }
@@ -152,7 +130,7 @@ const SignUpLink = () => (
   </p>
 );
 
-// without compose
+// without compose, use below code
 //const SignUpForm = withFirebase(SignUpFormBase);
 
 const SignUpForm = compose(
