@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class AddNewRecipeForm extends Component {
+class AddNewRecipeForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,23 +19,26 @@ export default class AddNewRecipeForm extends Component {
     }
 
     ingHandler = ev => {
+        // Get which ingredient form field type is being handled
         let rowType = ev.target.name.slice(0, 4);
         if (rowType === "quty") {
             rowType = 'quantity';
         }
+        // Get what number of row on the form is being handled
         let rowNum = Number(ev.target.name.slice(4));
-        if (rowNum >= this.state.ingredients.length) {
-            let newObj = { [rowType]: ev.target.value };
+
+        if (rowNum >= this.state.ingredients.length) { // If the user is creating a new ingredient
+            let newObj = { [rowType]: ev.target.value }; // Make a new ingredient object
             this.setState({
                 ingredients: [
                     ...this.state.ingredients,
-                    newObj
+                    newObj                     // Add new ingredient object to end of array in state
                 ]
             });
-            if (rowNum > this.state.ingredients.length) {
-                ev.target.blur();
+            if (rowNum > this.state.ingredients.length) { 
+                ev.target.blur();       // Force them not to skip rows in the table
             }
-        } else {
+        } else {                        // If modifying an ingredient that's already in state
             let ingArray = this.state.ingredients;
             let oldObj = ingArray[rowNum];
             let newObj = {
@@ -51,12 +55,29 @@ export default class AddNewRecipeForm extends Component {
     submitHandler = ev => {
         ev.preventDefault();
         console.log("Got here, now need to call an action");
+        
+        // Convert quantities to numbers
+        let ingArray = this.state.ingredients;
+        for (let i = 0; i < ingArray.length; i++) {
+            ingArray[i].quantity = Number(ingArray[i].quantity);
+        }
+
+        // Package up the recipe object to be sent to the API
+        let recipeObj = {
+            name: this.state.name,
+            description: this.state.description,
+            ingredients: ingArray
+        };
+
+        // Call the action to send this object to POST a recipe
+
     }
 
     render() {
+        // Build the array of HTML inputs that will get inserted into the form
         let ingredientRows = [];
         for (let i = 0; i < this.state.numIngredients; i++) {
-            if (i >= this.state.ingredients.length) {
+            if (i >= this.state.ingredients.length) { // If this is a blank row at the bottom of the table
                 ingredientRows.push(<input 
                     type="text" 
                     placeholder="Ingredient Name" 
@@ -79,7 +100,8 @@ export default class AddNewRecipeForm extends Component {
                     onChange={this.ingHandler} 
                 />);
                 ingredientRows.push(<br />);
-            } else {
+            } else {                            // If this row of the table corresponds to an ingredient
+                                                // that already has data in state for it
                 ingredientRows.push(<input 
                     type="text" 
                     placeholder="Ingredient Name" 
@@ -122,10 +144,12 @@ export default class AddNewRecipeForm extends Component {
                     onChange={this.typingHandler}
                     required
                 />
+                <label for='numIngredients'>Number of Ingredients:</label>
                 <input
                     type="number"
                     placeholder="3"
                     name="numIngredients"
+                    id='numIngredients'
                     value={this.state.numIngredients}
                     onChange={this.typingHandler}
                 />
@@ -136,3 +160,12 @@ export default class AddNewRecipeForm extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+
+}
+
+export default connect(
+    mapStateToProps,
+    {}
+)(AddNewRecipeForm);
