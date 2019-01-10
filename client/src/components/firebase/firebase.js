@@ -18,7 +18,7 @@ const config = {
       constructor(){
           app.initializeApp(config);
 
-          this.auth = app.auth;
+          this.auth = app.auth();
       }
 
 
@@ -35,7 +35,7 @@ const config = {
       doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password);
 
-        
+
   }
 
   export default Firebase;

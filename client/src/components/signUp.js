@@ -29,26 +29,33 @@ class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
     this.state = { ...INITIAL_STATE };
+
+   
   }
 
+  
   onSubmit = event => {
     const { username, email, passwordOne } = this.state;
+
+    alert( 'JamesTsting');
+    alert( email);
+
+    console.log( 'test0: ' + email + passwordOne );
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-   debugger 
-       alert('SingUp.js   create user SUCCESS');
-        this.setState({ ...INITIAL_STATE });
+          alert('SingUp.js   create user SUCCESS');
+        // this.setState({ ...INITIAL_STATE });
         //open right page after signup/in
         //this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
-        debugger
+        console.log('SingUp.js   create user FAILED');
         alert('SingUp.js   create user FAILED');
-        this.setState({ error });
+        // this.setState({ error });
       });
-
+      alert('SingUp.js   end of createUser ');
     event.preventDefault();
   }
 
@@ -56,6 +63,28 @@ class SignUpFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  test = event => {
+   
+    console.log(this.props);
+    console.log(this.props.firebase);
+
+   
+    this.props.firebase
+    .doCreateUserWithEmailAndPassword("test@email.com", "edwsqa23#K")
+       .then(authUser => {
+        alert('SingUp.js   create user SUCCESS');
+      // this.setState({ ...INITIAL_STATE });
+      //open right page after signup/in
+      //this.props.history.push(ROUTES.HOME);
+    })
+    .catch(error => {
+      console.log('SingUp.js   create user FAILED');
+      alert('SingUp.js   create user FAILED');
+      // this.setState({ error });
+    });
+
+
+  }
 
   render() {
 
@@ -75,6 +104,8 @@ class SignUpFormBase extends Component {
 
 
     return (
+      <div>
+      
       <form onSubmit={this.onSubmit}>
         <input
           name="username"
@@ -108,6 +139,8 @@ class SignUpFormBase extends Component {
 
         {error && <p>{error.message}</p>}
       </form>
+      <button onClick = {this.test} > temp </button>
+      </div>
     );
   }
 }
