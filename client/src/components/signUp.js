@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 
 // import { FirebaseContext } from '../Firebase';
 import { withFirebase } from './firebase';
+import { compose } from 'recompose';  // manage higher order component
+
+
 
 const SignUpPage = () => (
   <div>
@@ -22,9 +25,10 @@ const INITIAL_STATE = {
 };
 
 
-class SignUpForm extends Component {
+class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
+    this.state = { ...INITIAL_STATE };
   }
 
   onSubmit = event => {
@@ -33,9 +37,15 @@ class SignUpForm extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
+   debugger 
+       alert('SingUp.js   create user SUCCESS');
         this.setState({ ...INITIAL_STATE });
+        //open right page after signup/in
+        //this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
+        debugger
+        alert('SingUp.js   create user FAILED');
         this.setState({ error });
       });
 
@@ -108,6 +118,13 @@ const SignUpLink = () => (
     {/* <Link to={ROUTES.SIGN_UP}>Sign Up</Link> */}
   </p>
 );
+
+// without compose
+//const SignUpForm = withFirebase(SignUpFormBase);
+
+const SignUpForm = compose(
+  withFirebase,
+)(SignUpFormBase);
 
 export default SignUpPage;
 
