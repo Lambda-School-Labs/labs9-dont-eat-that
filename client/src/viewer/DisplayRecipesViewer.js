@@ -28,7 +28,7 @@ class DisplayRecipesViewer extends Component {
   render() {
     return (
       <div className="recipe-view-container">
-        <Route path="/" component={DisplayListRecipes} />
+        <Route exact path="/recipes" component={DisplayListRecipes} />
 
         {/*         
         <header>

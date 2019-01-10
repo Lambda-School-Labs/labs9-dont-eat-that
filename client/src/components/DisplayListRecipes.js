@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import DisplayOneRecipe from "./DisplayOneRecipe";
 
@@ -7,6 +8,7 @@ class DisplayListRecipes extends Component {
     return (
       <div className="recipe-list">
         <h1>Recipes</h1>
+        <Link to='recipes/new'>Enter New Recipe</Link>
         <ul>
           {this.props.recipes.map(recipe => {
             return (

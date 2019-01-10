@@ -6,6 +6,7 @@
 // whole recipes, add/edit/delete, billing, setting...
 
 import React, { Component } from 'react';
+import { Route, NavLink } from 'react-router-dom';
 
 import './App.css';
 // import SideMenu from "./components/sideMenu.js";
@@ -17,18 +18,13 @@ class App extends Component {
 
   
 
-
-
   render() {
     return (
       <div className="App">
-        {/* <SideMenu /> */}
-
-
         <SignUp />
-
-        <DisplayRecipesViewer />
-
+        <NavLink to="/recipes">Recipes List</NavLink>
+        <NavLink to="/recipes/new">New Recipe</NavLink>
+        <Route path='/recipes' component={DisplayRecipesViewer} />
       </div>
     );
   }
