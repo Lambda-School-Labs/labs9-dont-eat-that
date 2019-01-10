@@ -3,7 +3,7 @@
 // 1. due to having sqlite3 DB in local server, post/put doesn't work correctly
 // 2. for delete and edit, recipe ID needs to be manually changed before 
 //     every test.  Some way to automatically get an appropriate ID is needed.
-
+//3. Currently it is testing local server.  it needs to be edited so it can test deployed server
 
 
 const request = require("supertest");
