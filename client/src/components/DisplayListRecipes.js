@@ -22,7 +22,7 @@ class DisplayListRecipes extends Component {
       <div className="recipe-list">
         <h1>Recipes</h1>
         <DisplayListDiv>
-          <Link to="/create">
+          <Link to="/recipes/new">
             <CreateRecipeDiv>
               <h3>Create a Recipe</h3>
             </CreateRecipeDiv>
