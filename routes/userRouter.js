@@ -40,12 +40,12 @@ router.post('/create', async (req, res) => {
       .first();
     if (userSearch === undefined) {
       // if user doesn't already exist, create user
-      await db('users')
+      const user = await db('users')
         .insert({ username, password, email, firebaseid })
         .returning('id');
-      res.status(200).json('id');
+      res.status(200).json(user);
     } else {
-      res.status(400).json({ message: 'User already exists in databse.' });
+      res.status(400).json({ message: 'User already exists in database.' });
     }
   } else {
     res.status(400).json({ message: 'Please provide all fields.' });
