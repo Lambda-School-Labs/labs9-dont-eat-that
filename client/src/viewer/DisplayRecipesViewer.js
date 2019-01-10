@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { getAllRecipes } from "../actions";
 import DisplayListRecipes from "../components/DisplayListRecipes";
+import AddNewRecipeForm from '../components/AddNewRecipeForm';
 // import {
 //   DeleteRecipe,
 //   DisplayListRecipes,
@@ -29,7 +30,7 @@ class DisplayRecipesViewer extends Component {
     return (
       <div className="recipe-view-container">
         <Route exact path="/recipes" component={DisplayListRecipes} />
-
+        <Route path="/recipes/new" component={AddNewRecipeForm} />
         {/*         
         <header>
           <Route
