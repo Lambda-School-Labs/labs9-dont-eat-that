@@ -1,24 +1,9 @@
-import React, { Component } from "react";
-import { Route } from "react-router-dom";
-import { connect } from "react-redux";
-import { getAllRecipes } from "../actions";
-import DisplayListRecipes from "../components/DisplayListRecipes";
-// import {
-//   DeleteRecipe,
-//   DisplayListRecipes,
-//   DisplayOneRecipe,
-//   EditRecipe,
-//   Login,
-//   Nutrition,
-//   UserSettings,
-//   Sidebar,
-//   SearchBar
-// } from '../components';
-
-// this will be for the actions
-// import {
-
-// }
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getAllRecipes } from '../actions';
+import DisplayListRecipes from '../components/DisplayListRecipes';
+import CreateRecipe from '../components/CreateRecipe';
 
 class DisplayRecipesViewer extends Component {
   componentDidMount() {
@@ -28,8 +13,8 @@ class DisplayRecipesViewer extends Component {
   render() {
     return (
       <div className="recipe-view-container">
-        <Route path="/" component={DisplayListRecipes} />
-
+        <Route exact path="/" component={DisplayListRecipes} />
+        <Route path="/create" component={CreateRecipe} />
         {/*         
         <header>
           <Route

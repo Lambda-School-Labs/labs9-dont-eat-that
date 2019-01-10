@@ -10,25 +10,16 @@ import React, { Component } from 'react';
 import './App.css';
 // import SideMenu from "./components/sideMenu.js";
 // import TopMenu from "./components/topMenu.js";
-import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
-import SignUp from "./components/signUp";
+import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import SignUp from './components/signUp';
 
 class App extends Component {
-
-  
-
-
-
   render() {
     return (
       <div className="App">
         {/* <SideMenu /> */}
-
-
         <SignUp />
-
         <DisplayRecipesViewer />
-
       </div>
     );
   }

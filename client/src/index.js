@@ -1,21 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import Firebase, {FirebaseContext} from './components/firebase';
-
-// import { recipesReducer } from './reducers/';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import Firebase, { FirebaseContext } from './components/firebase';
 import rootReducer from './reducers';
-
-
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -27,10 +22,10 @@ const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
-  <FirebaseContext.Provider value={new Firebase()}>
-    <Router>
-      <App />
-    </Router>
+    <FirebaseContext.Provider value={new Firebase()}>
+      <Router>
+        <App />
+      </Router>
     </FirebaseContext.Provider>
   </Provider>,
   document.getElementById('root')
