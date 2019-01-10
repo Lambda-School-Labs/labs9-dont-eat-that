@@ -10,6 +10,10 @@ exports.up = function(knex, Promise) {
       .string('email', 127)
       .notNullable()
       .unique();
+    tbl
+      .string('firebaseid', 127)
+      .notNullable()
+      .unique()
   });
 };
 
