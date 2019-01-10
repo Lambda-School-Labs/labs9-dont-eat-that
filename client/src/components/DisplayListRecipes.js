@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import DisplayOneRecipe from './displayOneRecipe';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import DisplayOneRecipe from './DisplayOneRecipe';
+
+const DisplayListDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+`;
+
+const CreateRecipeDiv = styled.div`
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+`;
 
 class DisplayListRecipes extends Component {
   render() {
     return (
       <div className="recipe-list">
         <h1>Recipes</h1>
-        <ul>
+        <DisplayListDiv>
+          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
+            <CreateRecipeDiv>
+              <h3>Create a Recipe</h3>
+            </CreateRecipeDiv>
+          </Link>
           {this.props.recipes.map(recipe => {
-            return (
-              <div>
-                <DisplayOneRecipe key={recipe.id} recipe={recipe.name} description={recipe.description} />
-              </div>
-            );
+            return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
           })}
-        </ul>
+        </DisplayListDiv>
       </div>
     );
   }
@@ -25,8 +39,8 @@ class DisplayListRecipes extends Component {
 const mapStateToProps = state => {
   const { recipesReducer } = state;
   return {
-    recipes: state.recipes,
-    error: state.error
+    recipes: recipesReducer.recipes,
+    error: recipesReducer.error
   };
 };
 
