@@ -9,8 +9,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { RecipesReducer } from './reducers/';
+
 import Firebase, {FirebaseContext} from './components/firebase';
+
+// import { recipesReducer } from './reducers/';
+import rootReducer from './reducers';
+
 
 
 const composeEnhancers =
@@ -19,7 +23,7 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
-const store = createStore(RecipesReducer, enhancer);
+const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <Provider store={store}>
