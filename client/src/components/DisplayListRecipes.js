@@ -22,7 +22,7 @@ class DisplayListRecipes extends Component {
       <div className="recipe-list">
         <h1>Recipes</h1>
         <DisplayListDiv>
-          <Link to="/recipes/new">
+          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
               <h3>Create a Recipe</h3>
             </CreateRecipeDiv>
