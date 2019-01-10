@@ -13,7 +13,7 @@ import './App.css';
 // import SideMenu from "./components/sideMenu.js";
 // import TopMenu from "./components/topMenu.js";
 import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
-import SignUp from "./components/signUp";
+import SignInPage from "./components/signIn/";
 
 class App extends Component {
 
@@ -30,7 +30,7 @@ class App extends Component {
         {/* <SideMenu /> */}
         {/* <DisplayRecipesViewer /> */}
 
-        <SignUp />
+        <SignInPage />
       </div>
     );
   }
