@@ -13,20 +13,20 @@ router.get('/', (req, res) => {
 
 router.get('/all', (req, res) => {
     
-    db("users")
+    db('users')
         .then(users => res.status(200).json(users))
         .catch(err => 
             res.status(500).json({
-                message:"Unable to retrieve all user data.",err
+                message:'Unable to retrieve all user data.',err
             }));
 });
 
 
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
     const userid = req.params.id;
     // console.log(id);
     
-    db("users")
+    db('users')
         .where({id: userid})
         .then(users => res.status(200).json(users))
         .catch(err => 
@@ -36,7 +36,20 @@ router.get("/:id", (req, res) => {
 
 });
 
-// router.post("/create-new-user")
+router.post('/newuser', async (req, res) => {
+    const {username, password, email, firebaseid} = req.body;
+    if(username && password && email && firebaseid) {
+        try {
+            const user = await db('users')
+            .insert({
+                username: username,
+                password: password,
+                email: email
+            })
+            .returning('id');
+        }
+    }
+})
 
 
 
