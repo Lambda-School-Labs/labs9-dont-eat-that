@@ -99,12 +99,8 @@ const localURL = "/all";
        let response = await request(server).get(recipeRouterURL+localURL);
   
       expect(response.body).toBeDefined();
-      expect(response.body).toEqual(    [{
-        "id": 1,
-        "name": "taco",
-        "description": "Enjoy!",
-        "user_id": 1
-       }])
+      expect(response.body).toHaveProperty("name");
+      
     });
 
   })
