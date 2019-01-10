@@ -10,14 +10,13 @@ export const recipesReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GETTING_RECIPES:
       return { ...state, gettingRecipes: true };
-    case actionTypes.RECIPE_SUCCESS:
+    case actionTypes.GET_RECIPES:
       return { ...state, recipes: action.payload, gettingRecipes: false };
-
     case actionTypes.ERROR:
       return {
         ...state,
         gettingRecipes: false,
-        creatingRecipes: false
+        error: action.payload
       };
     default:
       return state;

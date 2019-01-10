@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import DisplayOneRecipe from './displayOneRecipe';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import DisplayOneRecipe from "./DisplayOneRecipe";
 
 class DisplayListRecipes extends Component {
   render() {
@@ -12,7 +11,7 @@ class DisplayListRecipes extends Component {
           {this.props.recipes.map(recipe => {
             return (
               <div>
-                <DisplayOneRecipe key={recipe.id} recipe={recipe.name} description={recipe.description} />
+                <DisplayOneRecipe key={recipe.id} recipe={recipe} />
               </div>
             );
           })}
@@ -25,8 +24,8 @@ class DisplayListRecipes extends Component {
 const mapStateToProps = state => {
   const { recipesReducer } = state;
   return {
-    recipes: state.recipes,
-    error: state.error
+    recipes: recipesReducer.recipes,
+    error: recipesReducer.error
   };
 };
 
