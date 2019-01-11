@@ -33,15 +33,15 @@ router.get('/:id', (req, res) => {
 
 // router.post("/create-new-user")
 router.post('/create', async (req, res) => {
-  const { username, password, email, firebaseid } = req.body;
-  if (username && password && email && firebaseid) {
+  const { firebaseid } = req.body;
+  if (firebaseid) {
     const userSearch = await db('users') // checking if user already in database
-      .where({ username })
+      .where({ firebaseid })
       .first();
     if (userSearch === undefined) {
       // if user doesn't already exist, create user
       const user = await db('users')
-        .insert({ username, password, email, firebaseid })
+        .insert({ firebaseid })
         .returning('id');
       res.status(200).json(user);
     } else {
@@ -51,6 +51,5 @@ router.post('/create', async (req, res) => {
     res.status(400).json({ message: 'Please provide all fields.' });
   }
 });
-
 
 module.exports = router;

@@ -119,9 +119,9 @@ router.post('/create', async (req, res) => {
 
 router.put('/edit/:id', async (req, res) => {
   // *may need to add returning parameter for postgresql
-  const { name, description, userid, ingredients } = req.body;
+  const { name, description, ingredients } = req.body;
   const id = req.params.id;
-  if (name && description && userid && ingredients) {
+  if (name && description && ingredients) {
     // checks if all fields in req.body
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
