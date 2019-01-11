@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 // import { FirebaseContext } from '../Firebase';
 import { withFirebase } from './firebase';
@@ -28,7 +27,7 @@ class SignUpFormBase extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const newUser = { username, email, passwordOne } = this.state;
+    const { email, passwordOne } = this.state;
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .post()
