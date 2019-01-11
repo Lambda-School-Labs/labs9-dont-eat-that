@@ -1,16 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const ADD_RECIPE = "ADD_RECIPE";
-export const DELETE_RECIPE = "DELETE_RECIPE";
-export const EDIT_RECIPE = "EDIT_RECIPE";
-export const ERROR = "ERROR";
-export const GET_RECIPE = "GET_RECIPES";
-export const GET_RECIPES = "GET_RECIPES";
-export const GETTING_RECIPES = "GETTING_RECIPES";
-export const RECIPE_SUCCESS = "RECIPE_SUCCESS";
-export const RECIPE_FAILURE = "RECIPE_FAILURE";
+export const ADD_RECIPE = 'ADD_RECIPE';
+export const ADD_USER = 'ADD_USER';
+export const DELETE_RECIPE = 'DELETE_RECIPE';
+export const EDIT_RECIPE = 'EDIT_RECIPE';
+export const ERROR = 'ERROR';
+export const GET_RECIPE = 'GET_RECIPE';
+export const GET_RECIPES = 'GET_RECIPES';
+export const GETTING_RECIPE = 'GETTING_RECIPE';
+export const GETTING_RECIPES = 'GETTING_RECIPES';
+export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
+export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 
-const URL = "https://donteatthat.herokuapp.com";
+const URL = 'https://donteatthat.herokuapp.com';
 
 // all recipes
 export const getAllRecipes = () => dispatch => {
@@ -23,10 +25,10 @@ export const getAllRecipes = () => dispatch => {
 
 // single recipe
 export const getRecipe = id => dispatch => {
-  dispatch({ type: GETTING_RECIPES });
+  dispatch({ type: GETTING_RECIPE });
   axios
     .get(`${URL}/api/recipes/one/${id}`)
-    .then(res => ({ type: GET_RECIPE, payload: res.data }))
+    .then(res => dispatch({ type: GET_RECIPE, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
@@ -44,9 +46,22 @@ export const editRecipe = (id, recipe) => dispatch => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
-export const deleteRecipe = id => dispatch => {
+export const deleteRecipe = id => (dispatch, getState) => {
+  // going through recipes and filtering out selected recipe to be in payload
+  const filteredRecipes = getState().recipesReducer.recipes.filter(
+    recipe => `${recipe.id}` !== id
+  );
   axios
     .delete(`${URL}/api/recipes/delete/${id}`)
-    .then(res => dispatch({ type: DELETE_RECIPE, payload: res.data }))
+    .then(res => dispatch({ type: DELETE_RECIPE, payload: filteredRecipes }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const addUser = firebaseid => dispatch => {
+  axios
+    .post(`${URL}/api/users/create`, { firebaseid })
+    .then(res =>
+      dispatch({ type: ADD_USER, payload: { id: res.data, firebaseid } })
+    )
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };

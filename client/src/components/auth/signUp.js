@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 // import { FirebaseContext } from '../Firebase';
-import { withFirebase } from './firebase';
+import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
+import { connect } from 'react-redux';
+import { addUser } from '../../actions';
 
 const SignUpPage = () => (
   <div>
@@ -26,13 +28,14 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
+    event.preventDefault();
     const { email, passwordOne } = this.state;
-
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         console.log('SingUp.js   create user SUCCESS');
-        console.log(authUser);
+        console.log('authUser', authUser);
+        this.props.addUser(authUser.user.uid);
         this.setState({ ...INITIAL_STATE });
         //change URL to open appropriate page after signup/in
         //this.props.history.push(ROUTES.HOME);
@@ -109,7 +112,10 @@ const SignUpLink = () => (
 // without compose, use below code
 //const SignUpForm = withFirebase(SignUpFormBase);
 
-const SignUpForm = compose(withFirebase)(SignUpFormBase);
+const SignUpForm = connect(
+  null,
+  { addUser }
+)(compose(withFirebase)(SignUpFormBase));
 
 export default SignUpPage;
 
