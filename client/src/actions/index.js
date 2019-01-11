@@ -27,10 +27,7 @@ export const getRecipe = id => dispatch => {
   dispatch({ type: GETTING_RECIPE });
   axios
     .get(`${URL}/api/recipes/one/${id}`)
-    .then(res => {
-      console.log(res);
-      dispatch({ type: GET_RECIPE, payload: res.data });
-    })
+    .then(res => dispatch({ type: GET_RECIPE, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
