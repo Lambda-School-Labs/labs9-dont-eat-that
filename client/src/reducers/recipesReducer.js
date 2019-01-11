@@ -16,6 +16,8 @@ export const recipesReducer = (state = initialState, action) => {
       return { ...state, recipes: action.payload, gettingRecipes: false };
     case actionTypes.GET_RECIPE:
       return { ...state, recipe: action.payload, gettingRecipe: false };
+    case actionTypes.DELETE_RECIPE:
+      return { ...state, recipes: action.payload };
     case actionTypes.ERROR:
       return {
         ...state,

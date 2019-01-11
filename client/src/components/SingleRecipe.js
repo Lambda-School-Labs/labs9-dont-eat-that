@@ -1,11 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getRecipe } from '../actions';
+import { getRecipe, deleteRecipe } from '../actions';
 
 const RecipeDescAndIngDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
+`;
+
+const DeleteRecipeButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  font-size: 1rem;
+  padding: 15px;
 `;
 
 class SingleRecipe extends React.Component {
@@ -13,10 +22,13 @@ class SingleRecipe extends React.Component {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
   }
+  deleteRecipe = () => {
+    const id = this.props.match.params.id;
+    this.props.deleteRecipe(id);
+    this.props.history.push('/recipes');
+  };
   render() {
     const { recipe } = this.props;
-    console.log(this.props);
-    console.log(recipe);
     if (recipe) {
       return (
         <div>
@@ -31,13 +43,16 @@ class SingleRecipe extends React.Component {
               {}
               <ul>
                 {recipe.ingredients.map(ingredient => (
-                  <li>{`${ingredient.name} ${ingredient.quantity} ${
-                    ingredient.unit
-                  }`}</li>
+                  <li key={ingredient.name}>{`${ingredient.name} ${
+                    ingredient.quantity
+                  } ${ingredient.unit}`}</li>
                 ))}
               </ul>
             </div>
           </RecipeDescAndIngDiv>
+          <DeleteRecipeButton onClick={this.deleteRecipe}>
+            Delete Recipe
+          </DeleteRecipeButton>
         </div>
       );
     } else {
@@ -54,5 +69,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getRecipe }
+  { getRecipe, deleteRecipe }
 )(SingleRecipe);
