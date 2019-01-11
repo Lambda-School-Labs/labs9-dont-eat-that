@@ -27,9 +27,9 @@ class DisplayListRecipes extends Component {
               <h3>Create a Recipe</h3>
             </CreateRecipeDiv>
           </Link>
-          {/* {this.props.recipes.map(recipe => {
+                   {this.props.recipes.map(recipe => {
             return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
-          })} */}
+          })}
         </DisplayListDiv>
       </div>
     );
