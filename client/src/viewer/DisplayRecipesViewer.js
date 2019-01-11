@@ -1,39 +1,21 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getRecipes } from '../actions';
-import DisplayListRecipes from "../components/DisplayListRecipes";
-// import {
-//   DeleteRecipe,
-//   DisplayListRecipes,
-//   DisplayOneRecipe,
-//   EditRecipe,
-//   Login,
-//   Nutrition,
-//   UserSettings,
-//   Sidebar,
-//   SearchBar
-// } from '../components';
+import { getAllRecipes, getRecipe } from '../actions';
 
-// this will be for the actions
-// import {
-
-// }
+import DisplayListRecipes from '../components/DisplayListRecipes';
+import AddNewRecipeForm from '../components/AddNewRecipeForm';
 
 class DisplayRecipesViewer extends Component {
   componentDidMount() {
     // getting all the notes function will go here
-    this.props.getRecipes();
+    this.props.getAllRecipes();
   }
   render() {
     return (
       <div className="recipe-view-container">
-        <Route
-          path="/"
-         component={DisplayListRecipes}
-          
-        />
-
+        <Route exact path="/recipes" component={DisplayListRecipes} />
+        <Route exact path="/recipes/new" component={AddNewRecipeForm} />
         {/*         
         <header>
           <Route
@@ -75,10 +57,12 @@ class DisplayRecipesViewer extends Component {
 }
 
 const mapStateToProps = state => {
-  const { getRecipes } = state;
   return {
-    recipes: state.recipes,
-    error: state.error
+    recipes: state.recipesReducer.recipes,
+    error: state.recipesReducer.error
   };
 };
-export default connect(mapStateToProps, {getRecipes})(DisplayRecipesViewer);
+export default connect(
+  mapStateToProps,
+  { getAllRecipes, getRecipe }
+)(DisplayRecipesViewer);
