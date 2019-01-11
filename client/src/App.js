@@ -12,19 +12,18 @@ import './App.css';
 // import SideMenu from "./components/sideMenu.js";
 // import TopMenu from "./components/topMenu.js";
 import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import SingleRecipe from './components/SingleRecipe';
 import SignUp from './components/signUp';
 
 class App extends Component {
-  
-  
-  
   render() {
     return (
       <div className="App">
         <SignUp />
         <NavLink to="/recipes">Recipes List</NavLink>
         <NavLink to="/recipes/new">New Recipe</NavLink>
-        <Route path='/recipes' component={DisplayRecipesViewer} />
+        <Route path="/recipes" component={DisplayRecipesViewer} />
+        <Route exact path="/recipes/one/:id" component={SingleRecipe} />
       </div>
     );
   }
