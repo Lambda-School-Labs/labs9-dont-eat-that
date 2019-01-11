@@ -11,6 +11,7 @@ import { Route, NavLink } from 'react-router-dom';
 import './App.css';
 // import SideMenu from "./components/sideMenu.js";
 // import TopMenu from "./components/topMenu.js";
+<<<<<<< HEAD
 import DisplayRecipesViewer from "./viewer/DisplayRecipesViewer.js";
 import SignInPage from "./components/auth/signIn.js";
 import SignOutButton from "./components/auth/signOut.js";
@@ -46,6 +47,13 @@ class App extends Component {
 
   
   
+=======
+import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import SingleRecipe from './components/SingleRecipe';
+import SignUp from './components/signUp';
+
+class App extends Component {
+>>>>>>> dev
   render() {
     return (
       <div className="App">
@@ -53,7 +61,8 @@ class App extends Component {
         <SignOutButton />
         <NavLink to="/recipes">Recipes List</NavLink>
         <NavLink to="/recipes/new">New Recipe</NavLink>
-        <Route path='/recipes' component={DisplayRecipesViewer} />
+        <Route path="/recipes" component={DisplayRecipesViewer} />
+        <Route exact path="/recipes/one/:id" component={SingleRecipe} />
       </div>
     );
   }

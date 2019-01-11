@@ -4,7 +4,7 @@
   "description": "Back-end of app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watch --verbose",
     "start": "node index.js",
     "server": "nodemon index.js"
   },
@@ -12,6 +12,10 @@
     "type": "git",
     "url": "git+https://github.com/Lambda-School-Labs/labs9-dont-eat-that.git"
   },
+  "jest": {
+    "testEnvirnoment": "node"
+  },
+
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -26,6 +30,8 @@
     "sqlite3": "^4.0.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.9",
+    "supertest": "^3.3.0"
   }
 }

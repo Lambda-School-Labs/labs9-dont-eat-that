@@ -26,13 +26,14 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
+    event.preventDefault();
     const { email, passwordOne } = this.state;
-
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .post()
       .then(authUser => {
         console.log('SingUp.js   create user SUCCESS');
-        console.log(authUser);
+        console.log(authUser.user.uid);
         this.setState({ ...INITIAL_STATE });
         //change URL to open appropriate page after signup/in
         //this.props.history.push(ROUTES.HOME);
