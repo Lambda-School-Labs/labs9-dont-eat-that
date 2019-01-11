@@ -45,9 +45,13 @@ export const editRecipe = (id, recipe) => dispatch => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
-export const deleteRecipe = id => dispatch => {
+export const deleteRecipe = id => (dispatch, getState) => {
+  // going through recipes and filtering out selected recipe to be in payload
+  const filteredRecipes = getState().recipesReducer.recipes.filter(
+    recipe => `${recipe.id}` !== id
+  );
   axios
     .delete(`${URL}/api/recipes/delete/${id}`)
-    .then(res => dispatch({ type: DELETE_RECIPE, payload: res.data }))
+    .then(res => dispatch({ type: DELETE_RECIPE, payload: filteredRecipes }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
