@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // import { FirebaseContext } from '../Firebase';
-import { withFirebase } from './firebase';
+import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
 
 const SignUpPage = () => (

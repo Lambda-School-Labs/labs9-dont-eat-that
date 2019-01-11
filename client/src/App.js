@@ -10,32 +10,51 @@ import { Route, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 import './App.css';
-// import SideMenu from "./components/sideMenu.js";
-// import TopMenu from "./components/topMenu.js";
 import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
-import SignUp from './components/signUp';
-import LogIn from './components/LogIn';
-import LogOut from './components/LogOut';
+import SignUp from './components/auth/signUp';
+import SignIn from './components/auth/signIn';
+import SignOut from './components/auth/signOut';
 
 const NavDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
+
 class App extends Component {
+  // componentDidMount and componentWillUnmout is used to check if user is loggedin
+  // it will make state changes when user login or out.
+  // guide provide other way that remove this.  that require more higher order components.
+  // but that method would be hard to use redux state management
+  // it might be good to use higher order components and not using redux...
+
+  componentDidMount() {
+    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+      // will make change with redux
+      authUser ? console.log('logged IN') : console.log('logged OUT');
+
+      // ? this.setState({ authUser })
+      // : this.setState({ authUser: null });
+    });
+  }
+  componentWillUnmount() {
+    this.listener();
+  }
   render() {
     return (
       <div className="App">
         <NavDiv>
           <NavLink to="/signup">Sign Up</NavLink>
-          <NavLink to="/login">LogIn</NavLink>
-          <NavLink to="/logout">LogOut</NavLink>
+          <NavLink to="/signin">Sign In</NavLink>
+          <NavLink to="/signout">Sign Out</NavLink>
           <NavLink to="/recipes">Recipes List</NavLink>
           <NavLink to="/recipes/new">New Recipe</NavLink>
         </NavDiv>
+
         <Route path="/signup" component={SignUp} />
-        <Route path="/login" component={LogIn} />
-        <Route path="/logout" component={LogOut} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signout" component={SignOut} />
         <Route path="/recipes" component={DisplayRecipesViewer} />
         <Route exact path="/recipes/one/:id" component={SingleRecipe} />
       </div>
@@ -43,4 +62,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withFirebase(App);
