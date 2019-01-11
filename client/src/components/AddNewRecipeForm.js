@@ -63,6 +63,7 @@ class AddNewRecipeForm extends Component {
         }
 
         // Package up the recipe object to be sent to the API
+        // eslint-disable-next-line
         let recipeObj = {
             name: this.state.name,
             description: this.state.description,
