@@ -30,9 +30,9 @@ class SignUpFormBase extends Component {
     const { email, passwordOne } = this.state;
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .post()
       .then(authUser => {
         console.log('SingUp.js   create user SUCCESS');
+        console.log('authUser', authUser);
         console.log(authUser.user.uid);
         this.setState({ ...INITIAL_STATE });
         //change URL to open appropriate page after signup/in
@@ -52,6 +52,7 @@ class SignUpFormBase extends Component {
   };
 
   render() {
+    console.log(this.props.firebase);
     const { username, email, passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid =

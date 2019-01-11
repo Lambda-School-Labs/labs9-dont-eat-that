@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { SignUpLink } from './signUp.js';
@@ -17,7 +16,7 @@ const SignInPage = () => (
 const INITIAL_STATE = {
   email: '',
   password: '',
-  error: null,
+  error: null
 };
 
 class SignInFormBase extends Component {
@@ -28,22 +27,21 @@ class SignInFormBase extends Component {
   }
 
   onSubmit = event => {
+    event.preventDefault();
     const { email, password } = this.state;
 
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
-      .then((user) => {
+      .then(user => {
         this.setState({ ...INITIAL_STATE });
-        console.log("Login SUCCESS");
-        console.log( user);
+        console.log('Login SUCCESS');
+        console.log(user);
         // need to set below code to appropriate URL
         // this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
         this.setState({ error });
       });
-
-    event.preventDefault();
   };
 
   onChange = event => {
@@ -61,7 +59,7 @@ class SignInFormBase extends Component {
           name="email"
           value={email}
           onChange={this.onChange}
-          type="text"
+          type="email"
           placeholder="Email Address"
         />
         <input
@@ -81,10 +79,7 @@ class SignInFormBase extends Component {
   }
 }
 
-const SignInForm = compose(
-  withRouter,
-  withFirebase,
-)(SignInFormBase);
+const SignInForm = compose(withFirebase)(SignInFormBase);
 
 export default SignInPage;
 
