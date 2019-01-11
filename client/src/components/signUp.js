@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // import { FirebaseContext } from '../Firebase';
 import { withFirebase } from './firebase';
@@ -26,13 +27,14 @@ class SignUpFormBase extends Component {
   }
 
   onSubmit = event => {
-    const { email, passwordOne } = this.state;
-
+    event.preventDefault();
+    const newUser = { username, email, passwordOne } = this.state;
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .post()
       .then(authUser => {
         console.log('SingUp.js   create user SUCCESS');
-        console.log(authUser);
+        console.log(authUser.user.uid);
         this.setState({ ...INITIAL_STATE });
         //change URL to open appropriate page after signup/in
         //this.props.history.push(ROUTES.HOME);
