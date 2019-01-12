@@ -1,5 +1,4 @@
 const express = require('express');
-const knex = require('knex');
 const cors = require('cors');
 
 const recipeRouter = require('./routes/recipeRouter');
@@ -9,12 +8,22 @@ const server = express();
 
 server.use(express.json());
 server.use(cors());
+server.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+  );
+  next();
+});
 
 server.use('/api/recipes/', recipeRouter);
-server.use("/api/users/", userRouter);
+server.use('/api/users/', userRouter);
 
 server.get('/', (req, res) =>
-res.status(200).json("Welcome to the Don't Eat That app server!")
+  res.status(200).json("Welcome to the Don't Eat That app server!")
 );
 
 module.exports = server;
