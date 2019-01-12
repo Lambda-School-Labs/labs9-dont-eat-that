@@ -5,15 +5,33 @@ const db = require('../data/dbConfig');
 const router = express.Router();
 
 // get all recipes including others
-router.get('/all', (req, res) => {
-  db('recipes')
-    .then(recipes => res.status(200).json(recipes))
-    .catch(err =>
-      res.status(500).json({
-        message: 'The recipes information could not be retrieved',
-        err
-      })
-    );
+router.get('/all', async (req, res) => {
+  try {
+    const recipes = await db('recipes'); // getting all recipes
+    const recipesAndIng = recipes.map(async recipe => {
+      // mapping over recipes and adding ingredients
+      const ingredients = await db('ingredients')
+        .join(
+          'recipes-ingredients',
+          'ingredients.id',
+          'recipes-ingredients.ingredient_id'
+        )
+        .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+        .where({ 'recipes.id': recipe.id })
+        .select(
+          'ingredients.name',
+          'recipes-ingredients.quantity',
+          'ingredients.unit'
+        );
+      return { ...recipes, ingredients };
+    });
+    res.status(200).json(recipesAndIng);
+  } catch (err) {
+    res.status(500).json({
+      message: 'The recipes information could not be retrieved',
+      err
+    });
+  }
 });
 
 // get recipes for just the user
