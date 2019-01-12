@@ -1,12 +1,10 @@
-
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable("allergies", tbl => {
+  return knex.schema.createTable('allergies', tbl => {
     tbl.increments();
-    tbl
-        .string('name', 127);
+    tbl.string('name');
   });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists("allergies");
+  return knex.schema.dropTableIfExists('allergies');
 };
