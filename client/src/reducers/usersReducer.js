@@ -18,6 +18,14 @@ export const usersReducer = (state = initialState, action) => {
           { id: action.payload.id, firebaseid: action.payload.firebaseid }
         ]
       };
+    case actionTypes.GET_UALLERGIES:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          allergies: [action.payload]
+        }
+      };
     case actionTypes.ADD_ALLERGY:
       return {
         ...state,

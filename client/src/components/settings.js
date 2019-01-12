@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { withFirebase } from './firebase';
-import { addAllergy } from '../actions';
+import { addAllergy, getAllergies } from '../actions';
 
 class Settings extends React.Component {
   state = {
@@ -11,14 +11,16 @@ class Settings extends React.Component {
     password: '',
     allergy: ''
   };
-
+  componentDidMount() {
+    this.props.getAllergies();
+  }
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
   onAddAllergy = e => {
     this.props.addAllergy(this.state.allergy);
     this.setState({ allergy: '' });
-  }
+  };
   render() {
     return (
       <div>
@@ -65,12 +67,23 @@ class Settings extends React.Component {
         <div>
           <h2>Allergies</h2>
           <ul>
-            {this.props.allergies.map(allergy => {
-              return <li key={allergy.name}>{allergy.name}</li>;
+            {this.props.allergies.map((allergy, i) => {
+              return (
+                <li key={allergy} style={{ margin: 0 }}>
+                  {allergy}
+                </li>
+              );
             })}
           </ul>
-          <label htmlFor="allergy"></label>
-          <input type="text" name="allergy" id="allergy" placeholder="Please enter an allergy..." value={this.state.allergy} onChange={this.onChange}/>
+          <label htmlFor="allergy" />
+          <input
+            type="text"
+            name="allergy"
+            id="allergy"
+            placeholder="Please enter an allergy..."
+            value={this.state.allergy}
+            onChange={this.onChange}
+          />
           <button onClick={this.onAddAllergy}>Add Allergy</button>
         </div>
       </div>
@@ -86,5 +99,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addAllergy }
+  { addAllergy, getAllergies }
 )(compose(withFirebase)(Settings));
