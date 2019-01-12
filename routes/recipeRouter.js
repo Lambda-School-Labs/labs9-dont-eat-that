@@ -23,9 +23,9 @@ router.get('/all', async (req, res) => {
           'recipes-ingredients.quantity',
           'ingredients.unit'
         );
-      return { ...recipe, ingredients };
+      return recipe;
     });
-    res.status(200).json({ recipesAndIng });
+    res.status(200).json(recipesAndIng);
   } catch (err) {
     res.status(500).json({
       message: 'The recipes information could not be retrieved',
