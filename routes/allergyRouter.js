@@ -6,12 +6,28 @@ const router = express.Router();
 
 router.get('/all', async (req, res) => {
   try {
-    const allergies = await db('allergies')
+    const allergies = await db('allergies');
     res.status(200).json(allergies);
   } catch (err) {
-    res.status(500).json({ message: "Unable to get allergies at this time."})
+    res.status(500).json({ message: 'Unable to get allergies at this time.' });
   }
-})
+});
+
+// get allergies for single user
+router.get('/user/:id', async (req, res) => {
+  const firebaseid = req.params.id;
+  try {
+    const allergies = await db('allergies')
+      .join('users-allergies', 'allergies.id', 'users-allergies.allergy_id')
+      .join('users', 'users.id', 'users-allergies.user_id')
+      .where({ 'users.firebaseid': firebaseid })
+      .select('allergies.name');
+    const allergiesArray = allergies.map(allergy => allergy.name);
+    res.status(200).json(allergiesArray);
+  } catch (err) {
+    res.status(500).json({ message: 'Unable to get allergies.' });
+  }
+});
 
 router.post('/create', async (req, res) => {
   const { firebaseid, allergy } = req.body;
@@ -20,7 +36,8 @@ router.post('/create', async (req, res) => {
       const allergyCheck = await db('allergies') // checking if allergy already in db
         .where({ name: allergy })
         .first();
-      if (allergyCheck) { // if allergy already in db, get user from users db and insert into db
+      if (allergyCheck) {
+        // if allergy already in db, get user from users db and insert into db
         const user = await db('users')
           .where({ firebaseid })
           .first();
@@ -29,7 +46,8 @@ router.post('/create', async (req, res) => {
           allergy_id: allergyCheck.id
         });
         res.status(201).json(allergyCheck.id);
-      } else { // if allergy not in db, insert, get user from users db and insert into db
+      } else {
+        // if allergy not in db, insert, get user from users db and insert into db
         const allergyId = await db('allergies')
           .insert({ name: allergy })
           .returning('id');
@@ -39,8 +57,8 @@ router.post('/create', async (req, res) => {
         await db('users-allergies').insert({
           user_id: user.id,
           allergy_id: allergyId
-    });
-    res.status(201).json(allergyId);
+        });
+        res.status(201).json(allergyId);
       }
     } else {
       res.status(422).json({

@@ -10,6 +10,7 @@ export const EDIT_RECIPE = 'EDIT_RECIPE';
 export const ERROR = 'ERROR';
 export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
+export const GET_UALLERGIES = 'GET_UALLERGIES';
 export const GETTING_RECIPE = 'GETTING_RECIPE';
 export const GETTING_RECIPES = 'GETTING_RECIPES';
 export const GET_USER = 'GET_USER';
@@ -98,10 +99,18 @@ export const cancelSubscription = () => dispatch => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
+export const getAllergies = () => dispatch => {
+  const firebaseid = localStorage.getItem('uid');
+  axios
+    .get(`${URL}/api/allergies/user/${firebaseid}`)
+    .then(res => ({ type: GET_UALLERGIES, payload: res.data }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
 export const addAllergy = allergy => dispatch => {
   const firebaseid = localStorage.getItem('uid');
   axios
-    .post(`${URL}/api/allergies/`, { firebaseid, allergy })
+    .post(`${URL}/api/allergies/create`, { firebaseid, allergy })
     .then(res => dispatch({ type: ADD_ALLERGY, payload: allergy }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
