@@ -67,7 +67,7 @@ router.get('/one/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   const { name, description, firebaseid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
-  if (name && description && userid && ingredients) {
+  if (name && description && firebaseid && ingredients) {
     try {
       const getUserId = await db('users')
         .where({ firebaseid })
@@ -77,7 +77,7 @@ router.post('/create', async (req, res) => {
           // inserting into recipes database
           name: name,
           description: description,
-          user_id: getUserId
+          user_id: getUserId.id
         })
         .returning('id');
       await ingredients.map(async ingredient => {
