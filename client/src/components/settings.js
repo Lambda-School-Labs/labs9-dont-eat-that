@@ -3,12 +3,12 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { withFirebase } from './firebase';
+import { addAllergy } from '../actions';
 
 class Settings extends React.Component {
   state = {
     email: '',
-    password: '',
-    allergies: this.props.allergies
+    password: ''
   };
 
   onChange = event => {
@@ -61,11 +61,11 @@ class Settings extends React.Component {
         <div>
           <h2>Allergies</h2>
           <ul>
-            {this.state.allergies.map(allergy => {
+            {this.props.allergies.map(allergy => {
               return <li key={allergy.name}>{allergy.name}</li>;
             })}
           </ul>
-          <button>Add Allergy</button>
+          <button onClick={this.props.addAllergy}>Add Allergy</button>
         </div>
       </div>
     );
@@ -78,4 +78,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(compose(withFirebase)(Settings));
+export default connect(
+  mapStateToProps,
+  { addAllergy }
+)(compose(withFirebase)(Settings));

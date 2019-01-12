@@ -2,6 +2,7 @@ import * as actionTypes from '../actions';
 
 const initialState = {
   users: [],
+  user: { allergies: [] },
   error: null
 };
 
@@ -16,6 +17,14 @@ export const usersReducer = (state = initialState, action) => {
           ...state.users,
           { id: action.payload.id, firebaseid: action.payload.firebaseid }
         ]
+      };
+    case actionTypes.ADD_ALLERGY:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          allergies: [...state.user.allergies, action.payload]
+        }
       };
     case actionTypes.ERROR:
       return { ...state, error: action.payload };

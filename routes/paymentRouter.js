@@ -25,7 +25,7 @@ router.post('/charge', async (req, res) => {
         customerid: customer.id,
         subscriptionid: subscription.id
       });
-    res.status(200).json({ subscription });
+    res.status(201).json({ subscription });
   } catch (err) {
     res
       .status(500)

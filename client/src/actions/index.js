@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+export const ADD_ALLERGY = 'ADD_ALLERGY';
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const ADD_USER = 'ADD_USER';
 export const CANCEL_SUB = 'CANCEL_SUB';
@@ -94,5 +95,13 @@ export const cancelSubscription = () => dispatch => {
   axios
     .post(`${URL}/api/payments/cancel`, { firebaseid })
     .then(res => dispatch({ type: CANCEL_SUB, payload: true }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const addAllergy = allergy => dispatch => {
+  const firebaseid = localStorage.getItem('uid');
+  axios
+    .post(`${URL}/api/allergies/`, { firebaseid, allergy })
+    .then(res => dispatch({ type: ADD_ALLERGY, payload: allergy }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };

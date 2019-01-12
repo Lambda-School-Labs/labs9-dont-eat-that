@@ -125,7 +125,7 @@ router.post('/create', async (req, res) => {
           });
         }
       });
-      res.status(200).json(recipe[0]);
+      res.status(201).json(recipe[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({
