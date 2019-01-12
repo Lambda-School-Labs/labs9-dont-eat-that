@@ -10,7 +10,11 @@ export const paymentReducer = (state = initialState, action) => {
     case actionTypes.CHARGE_USER:
       return { ...state, paymentComplete: action.payload };
     case actionTypes.CANCEL_SUB:
-      return { ...state, subscriptionCanceled: action.payload };
+      return {
+        ...state,
+        subscriptionCanceled: action.payload,
+        paymentComplete: false
+      };
     case actionTypes.ERROR:
       return { ...state, error: action.payload };
     default:

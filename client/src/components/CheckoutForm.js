@@ -19,7 +19,15 @@ class CheckoutForm extends React.Component {
   };
 
   render() {
-    if (this.props.complete) return <h1>Purchase Complete</h1>;
+    if (this.props.complete)
+      return (
+        <div>
+          <h1>Purchase Complete</h1>
+          <button onClick={this.props.cancelSubscription}>
+            Cancel Subscription
+          </button>
+        </div>
+      );
     return (
       <div className="checkout">
         <p>Would you like to complete the purchase?</p>
@@ -43,9 +51,6 @@ class CheckoutForm extends React.Component {
 
         <CardElement />
         <button onClick={this.submit}>Submit</button>
-        <button onClick={this.props.cancelSubscription}>
-          Cancel Subscription
-        </button>
       </div>
     );
   }
