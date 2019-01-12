@@ -23,7 +23,7 @@ router.get('/all', async (req, res) => {
           'recipes-ingredients.quantity',
           'ingredients.unit'
         );
-      return { ...recipes, ingredients };
+      return { ...recipe, ingredients };
     });
     res.status(200).json({ recipesAndIng });
   } catch (err) {
