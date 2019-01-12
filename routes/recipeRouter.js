@@ -66,15 +66,18 @@ router.get('/one/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const { name, description, userid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
+  const { name, description, firebaseid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
   if (name && description && userid && ingredients) {
     try {
+      const getUserId = await db('users')
+        .where({ firebaseid })
+        .first();
       const recipe = await db('recipes')
         .insert({
           // inserting into recipes database
           name: name,
           description: description,
-          user_id: userid
+          user_id: getUserId
         })
         .returning('id');
       await ingredients.map(async ingredient => {
@@ -118,14 +121,16 @@ router.post('/create', async (req, res) => {
 });
 
 router.put('/edit/:id', async (req, res) => {
-  // *may need to add returning parameter for postgresql
-  const { name, description, ingredients } = req.body;
+  const { name, description, firebaseid, ingredients } = req.body;
   const id = req.params.id;
-  if (name && description && ingredients) {
+  if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
+    const getUserId = await db('users') // getting userId in users table from firebaseid
+      .where({ firebaseid })
+      .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: userid })
+      .update({ name: name, description: description, user_id: getUserId })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
