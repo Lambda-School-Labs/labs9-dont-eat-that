@@ -14,6 +14,8 @@ export const usersReducer = (state = initialState, action) => {
           { id: action.payload.id, firebaseid: action.payload.firebaseid }
         ]
       };
+    case actionTypes.ERROR:
+      return { ...state, error: action.payload };
     default:
       return state;
   }

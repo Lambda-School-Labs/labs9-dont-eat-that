@@ -7,6 +7,7 @@
 
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
+import { Elements, StripeProvider } from 'react-stripe-elements';
 import styled from 'styled-components';
 
 import './App.css';
@@ -16,6 +17,7 @@ import SingleRecipe from './components/SingleRecipe';
 import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
+import CheckoutForm from './components/CheckoutForm';
 
 const NavDiv = styled.div`
   display: flex;
@@ -43,21 +45,32 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <NavDiv>
-          <NavLink to="/signup">Sign Up</NavLink>
-          <NavLink to="/signin">Sign In</NavLink>
-          <NavLink to="/signout">Sign Out</NavLink>
-          <NavLink to="/recipes">Recipes List</NavLink>
-          <NavLink to="/recipes/new">New Recipe</NavLink>
-        </NavDiv>
+      <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
+        <div className="App">
+          <NavDiv>
+            <NavLink to="/recipes">Recipes List</NavLink>
+            <NavLink to="/recipes/new">New Recipe</NavLink>
+            <NavLink to="/signup">Sign Up</NavLink>
+            <NavLink to="/signin">Sign In</NavLink>
+            <NavLink to="/billing">Billing</NavLink>
+            <NavLink to="/signout">Sign Out</NavLink>
+          </NavDiv>
 
-        <Route path="/signup" component={SignUp} />
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signout" component={SignOut} />
-        <Route path="/recipes" component={DisplayRecipesViewer} />
-        <Route exact path="/recipes/one/:id" component={SingleRecipe} />
-      </div>
+          <Route path="/signup" component={SignUp} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signout" component={SignOut} />
+          <Route
+            path="/billing"
+            render={props => (
+              <Elements>
+                <CheckoutForm {...props} />
+              </Elements>
+            )}
+          />
+          <Route path="/recipes" component={DisplayRecipesViewer} />
+          <Route exact path="/recipes/one/:id" component={SingleRecipe} />
+        </div>
+      </StripeProvider>
     );
   }
 }
