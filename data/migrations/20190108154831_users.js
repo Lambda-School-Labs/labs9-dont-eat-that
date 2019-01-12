@@ -5,6 +5,8 @@ exports.up = function(knex, Promise) {
       .string('firebaseid')
       .notNullable()
       .unique();
+    tbl.string('customerid');
+    tbl.string('subscriptionid');
   });
 };
 

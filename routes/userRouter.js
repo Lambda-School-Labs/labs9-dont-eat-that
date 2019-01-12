@@ -34,21 +34,28 @@ router.get('/:id', (req, res) => {
 // router.post("/create-new-user")
 router.post('/create', async (req, res) => {
   const { firebaseid } = req.body;
-  if (firebaseid) {
-    const userSearch = await db('users') // checking if user already in database
-      .where({ firebaseid })
-      .first();
-    if (userSearch === undefined) {
-      // if user doesn't already exist, create user
-      const user = await db('users')
-        .insert({ firebaseid })
-        .returning('id');
-      res.status(200).json(user);
+  try {
+    if (firebaseid) {
+      const userSearch = await db('users') // checking if user already in database
+        .where({ firebaseid })
+        .first();
+      if (userSearch === undefined) {
+        // if user doesn't already exist, create user
+        const user = await db('users')
+          .insert({ firebaseid })
+          .returning('id');
+        res.status(200).json(user);
+      } else {
+        res.status(400).json({ message: 'User already exists in database.' });
+      }
     } else {
-      res.status(400).json({ message: 'User already exists in database.' });
+      res.status(400).json({ message: 'Please provide all fields.' });
     }
-  } else {
-    res.status(400).json({ message: 'Please provide all fields.' });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Problem with creating user.',
+      err
+    });
   }
 });
 
