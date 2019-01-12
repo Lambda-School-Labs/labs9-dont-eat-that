@@ -11,6 +11,7 @@ export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
 export const GETTING_RECIPE = 'GETTING_RECIPE';
 export const GETTING_RECIPES = 'GETTING_RECIPES';
+export const GET_USER = 'GET_USER';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 
@@ -56,6 +57,14 @@ export const deleteRecipe = id => (dispatch, getState) => {
   axios
     .delete(`${URL}/api/recipes/delete/${id}`)
     .then(res => dispatch({ type: DELETE_RECIPE, payload: filteredRecipes }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const getUser = () => dispatch => {
+  let firebaseid = localStorage.getItem('uid');
+  axios
+    .get(`${URL}/api/users/one/${firebaseid}`)
+    .then(res => dispatch({ type: GET_USER, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 

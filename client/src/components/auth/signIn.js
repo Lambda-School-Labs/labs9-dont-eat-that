@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
+import { connect } from 'react-redux';
 
 import { SignUpLink } from './signUp.js';
 import { withFirebase } from '../firebase/index.js';
+import { getUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
@@ -34,11 +36,12 @@ class SignInFormBase extends Component {
       .doSignInWithEmailAndPassword(email, password)
       .then(user => {
         this.setState({ ...INITIAL_STATE });
-        console.log('Login SUCCESS');
-        console.log(user);
         localStorage.setItem('uid', user.user.uid);
-        // need to set below code to appropriate URL
-        this.props.history.push("/recipes");
+        return user;
+      })
+      .then(res => {
+        this.props.getUser();
+        this.props.history.push('/recipes');
       })
       .catch(error => {
         this.setState({ error });
@@ -80,7 +83,10 @@ class SignInFormBase extends Component {
   }
 }
 
-const SignInForm = compose(withFirebase)(SignInFormBase);
+const SignInForm = connect(
+  null,
+  { getUser }
+)(compose(withFirebase)(SignInFormBase));
 
 export default SignInPage;
 

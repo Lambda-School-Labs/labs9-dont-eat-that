@@ -12,6 +12,7 @@ import styled from 'styled-components';
 
 import './App.css';
 import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import AddNewRecipeForm from './components/AddNewRecipeForm';
 import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
 import SignUp from './components/auth/signUp';
@@ -68,6 +69,7 @@ class App extends Component {
             )}
           />
           <Route path="/recipes" component={DisplayRecipesViewer} />
+          <Route exact path="/recipes/new" component={AddNewRecipeForm} />
           <Route exact path="/recipes/one/:id" component={SingleRecipe} />
         </div>
       </StripeProvider>

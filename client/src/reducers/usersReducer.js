@@ -7,8 +7,11 @@ const initialState = {
 
 export const usersReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.GET_USER:
+      return { ...state, user: action.payload };
     case actionTypes.ADD_USER:
       return {
+        ...state,
         users: [
           ...state.users,
           { id: action.payload.id, firebaseid: action.payload.firebaseid }
