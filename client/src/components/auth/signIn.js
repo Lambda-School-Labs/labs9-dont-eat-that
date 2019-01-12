@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './signUp.js';
 import { withFirebase } from '../firebase/index.js';
@@ -40,6 +41,7 @@ class SignInFormBase extends Component {
         return user;
       })
       .then(res => {
+        console.log('PROPS', this.props);
         this.props.getUser();
         this.props.history.push('/recipes');
       })
@@ -83,10 +85,12 @@ class SignInFormBase extends Component {
   }
 }
 
-const SignInForm = connect(
-  null,
-  { getUser }
-)(compose(withFirebase)(SignInFormBase));
+const SignInForm = withRouter(
+  connect(
+    null,
+    { getUser }
+  )(compose(withFirebase)(SignInFormBase))
+);
 
 export default SignInPage;
 

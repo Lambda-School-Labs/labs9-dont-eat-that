@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/all', async (req, res) => {
   try {
     const recipes = await db('recipes'); // getting all recipes
-    const recipesAndIng = recipes.map(async recipe => {
+    const recipesAndIng = await recipes.map(async recipe => {
       // mapping over recipes and adding ingredients
       const ingredients = await db('ingredients')
         .join(
