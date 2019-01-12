@@ -159,6 +159,18 @@ Dietary/Allergy awareness (MVP) unlimited
 - Code base is exposed to the world to see
 - Using added on domain name so less professional
 
+#### Food API
+
+**Solution:** USDA API
+**Why did you choose this API over others?**
+
+- Allows up to 3,600 requests per hour per IP address, allowing us to make multiple requests when searching for foods and macronutrients
+
+**What other APIs could you have used and why not?**
+
+- Spoonacular: Free up to only 50 requests and 500 results per day, charged if over limit
+- Edamam: Free up to 200 recipes and 1000 lines of text total (very limited)
+
 ### Back-end API
 
 #### Recipes
