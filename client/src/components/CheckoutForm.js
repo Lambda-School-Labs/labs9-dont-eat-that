@@ -51,6 +51,10 @@ class CheckoutForm extends React.Component {
 
         <CardElement />
         <button onClick={this.submit}>Submit</button>
+        <br />
+        <button onClick={this.props.cancelSubscription}>
+          Cancel Subscription
+        </button>
       </div>
     );
   }

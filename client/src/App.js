@@ -12,12 +12,14 @@ import styled from 'styled-components';
 
 import './App.css';
 import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import AddNewRecipeForm from './components/AddNewRecipeForm';
 import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
 import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
 import CheckoutForm from './components/CheckoutForm';
+import Settings from './components/Settings';
 
 const NavDiv = styled.div`
   display: flex;
@@ -53,6 +55,7 @@ class App extends Component {
             <NavLink to="/signup">Sign Up</NavLink>
             <NavLink to="/signin">Sign In</NavLink>
             <NavLink to="/billing">Billing</NavLink>
+            <NavLink to="/settings">Settings</NavLink>
             <NavLink to="/signout">Sign Out</NavLink>
           </NavDiv>
 
@@ -67,7 +70,9 @@ class App extends Component {
               </Elements>
             )}
           />
+          <Route path="/settings" component={Settings} />
           <Route path="/recipes" component={DisplayRecipesViewer} />
+          <Route exact path="/recipes/new" component={AddNewRecipeForm} />
           <Route exact path="/recipes/one/:id" component={SingleRecipe} />
         </div>
       </StripeProvider>

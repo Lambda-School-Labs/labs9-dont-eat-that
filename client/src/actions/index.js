@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+export const ADD_ALLERGY = 'ADD_ALLERGY';
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const ADD_USER = 'ADD_USER';
 export const CANCEL_SUB = 'CANCEL_SUB';
@@ -11,6 +12,7 @@ export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
 export const GETTING_RECIPE = 'GETTING_RECIPE';
 export const GETTING_RECIPES = 'GETTING_RECIPES';
+export const GET_USER = 'GET_USER';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 
@@ -59,6 +61,14 @@ export const deleteRecipe = id => (dispatch, getState) => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
+export const getUser = () => dispatch => {
+  let firebaseid = localStorage.getItem('uid');
+  axios
+    .get(`${URL}/api/users/one/${firebaseid}`)
+    .then(res => dispatch({ type: GET_USER, payload: res.data }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
 export const addUser = firebaseid => dispatch => {
   axios
     .post(`${URL}/api/users/create`, { firebaseid })
@@ -85,5 +95,13 @@ export const cancelSubscription = () => dispatch => {
   axios
     .post(`${URL}/api/payments/cancel`, { firebaseid })
     .then(res => dispatch({ type: CANCEL_SUB, payload: true }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const addAllergy = allergy => dispatch => {
+  const firebaseid = localStorage.getItem('uid');
+  axios
+    .post(`${URL}/api/allergies/`, { firebaseid, allergy })
+    .then(res => dispatch({ type: ADD_ALLERGY, payload: allergy }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };

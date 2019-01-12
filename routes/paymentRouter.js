@@ -22,11 +22,10 @@ router.post('/charge', async (req, res) => {
     await db('users') // saving customer and subscription id to user db
       .where({ firebaseid })
       .update({
-        firebaseid,
         customerid: customer.id,
         subscriptionid: subscription.id
       });
-    res.status(200).json({ subscription });
+    res.status(201).json({ subscription });
   } catch (err) {
     res
       .status(500)
@@ -41,6 +40,9 @@ router.post('/cancel', async (req, res) => {
       .where({ firebaseid })
       .first();
     const subscription = await stripe.subscriptions.del(user.subscriptionid); // cancelling subscription with user subscriptionid
+    await db('users') // removing subscriptionid from user in db
+      .where({ firebaseid })
+      .update({ subscriptionid: null });
     res.status(200).json({ subscription });
   } catch (err) {
     res
