@@ -36,8 +36,9 @@ class SignInFormBase extends Component {
         this.setState({ ...INITIAL_STATE });
         console.log('Login SUCCESS');
         console.log(user);
+        localStorage.setItem('uid', user.user.uid);
         // need to set below code to appropriate URL
-        // this.props.history.push(ROUTES.HOME);
+        this.props.history.push("/recipes");
       })
       .catch(error => {
         this.setState({ error });
