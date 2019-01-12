@@ -8,13 +8,17 @@ import { addAllergy } from '../actions';
 class Settings extends React.Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+    allergy: ''
   };
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-
+  onAddAllergy = e => {
+    this.props.addAllergy(this.state.allergy);
+    this.setState({ allergy: '' });
+  }
   render() {
     return (
       <div>
@@ -65,7 +69,9 @@ class Settings extends React.Component {
               return <li key={allergy.name}>{allergy.name}</li>;
             })}
           </ul>
-          <button onClick={this.props.addAllergy}>Add Allergy</button>
+          <label htmlFor="allergy"></label>
+          <input type="text" name="allergy" id="allergy" placeholder="Please enter an allergy..." value={this.state.allergy} onChange={this.onChange}/>
+          <button onClick={this.onAddAllergy}>Add Allergy</button>
         </div>
       </div>
     );
