@@ -18,9 +18,9 @@ router.get('/all', async (req, res) => {
       const recipes = await db('recipes') // adding recipes to mapped user
         .where({ user_id: user.id })
         .select('id', 'name', 'description');
-      return { ...user, allergies, recipes };
+      return user;
     });
-    res.status(200).json({ usersPlus });
+    res.status(200).json(usersPlus);
   } catch (err) {
     res.status(500).json({ message: 'Users could not be retrieved.' });
   }
