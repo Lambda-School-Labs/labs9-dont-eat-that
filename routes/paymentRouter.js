@@ -14,17 +14,18 @@ router.post('/charge', async (req, res) => {
       // creating customer
       source: token
     });
-    await db('users') // saving customer id to user db
-      .where({ firebaseid })
-      .update({ customerid: customer.id });
     const subscription = await stripe.subscriptions.create({
       // subscription customer to plan
       customer: customer.id,
       items: [{ plan }]
     });
-    await db('users') // saving subscription id to user db
+    await db('users') // saving customer and subscription id to user db
       .where({ firebaseid })
-      .update({ subscriptionid: subscription.id });
+      .update({
+        firebaseid,
+        customerid: customer.id,
+        subscriptionid: subscription.id
+      });
     res.status(200).json({ subscription });
   } catch (err) {
     res

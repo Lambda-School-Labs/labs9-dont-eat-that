@@ -74,10 +74,10 @@ class AddNewRecipeForm extends Component {
       firebaseid,
       ingredients: ingArray
     };
-
     // Call the action to send this object to POST a recipe
     this.props.addRecipe(recipeObj);
     this.setState({ name: '', description: '', ingredients: [] });
+    this.props.history.push('/recipes');
   };
 
   render() {
