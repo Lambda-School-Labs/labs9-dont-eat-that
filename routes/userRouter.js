@@ -17,7 +17,7 @@ router.get('/all', (req, res) => {
 });
 
 // get user by id
-router.get('/:id', (req, res) => {
+router.get('/one/:id', (req, res) => {
   const userid = req.params.id;
   db('users')
     .where({ id: userid })
