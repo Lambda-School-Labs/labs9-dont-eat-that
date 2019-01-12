@@ -123,14 +123,14 @@ router.post('/create', async (req, res) => {
 router.put('/edit/:id', async (req, res) => {
   const { name, description, firebaseid, ingredients } = req.body;
   const id = req.params.id;
-  if (name && description && ingredients) {
+  if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
-    const userIdLookUp = await db('users') // getting userId in users table from firebaseid
+    const getUserId = await db('users') // getting userId in users table from firebaseid
       .where({ firebaseid })
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: userIdLookUp })
+      .update({ name: name, description: description, user_id: getUserId })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
