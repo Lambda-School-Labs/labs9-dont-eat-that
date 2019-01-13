@@ -1,6 +1,7 @@
 import * as actionTypes from '../actions';
 
 const initialState = {
+  autoComIng: null,
   nutrition: null,
   error: null
 };
@@ -11,6 +12,8 @@ export const nutritionReducer = (state = initialState, action) => {
       return { ...state, nutrition: action.payload };
     case actionTypes.REMOVE_NUTRITION:
       return { ...state, nutrition: action.payload };
+    case actionTypes.AUTOCOM_ING:
+      return { ...state, autoComIng: action.payload };
     default:
       return state;
   }

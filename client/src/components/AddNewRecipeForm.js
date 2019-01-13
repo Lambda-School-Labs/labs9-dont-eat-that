@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addRecipe } from '../actions';
+import { addRecipe, autoComIng } from '../actions';
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
@@ -57,8 +57,6 @@ class AddNewRecipeForm extends Component {
 
   submitHandler = ev => {
     ev.preventDefault();
-    console.log('Got here, now need to call an action');
-
     // Convert quantities to numbers
     let ingArray = this.state.ingredients;
     for (let i = 0; i < ingArray.length; i++) {
@@ -148,7 +146,7 @@ class AddNewRecipeForm extends Component {
       }
     }
     return (
-      <form onSubmit={this.submitHandler}>
+      <form onSubmit={this.submitHandler} autocomplete="off">
         <h2>Upload New Recipe</h2>
         <input
           type="text"
@@ -183,10 +181,12 @@ class AddNewRecipeForm extends Component {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    autoComIng: state.nutritionReducer.autoComIng
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { addRecipe }
+  { addRecipe, autoComIng }
 )(AddNewRecipeForm);

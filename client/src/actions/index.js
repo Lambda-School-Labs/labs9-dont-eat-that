@@ -3,6 +3,7 @@ import axios from 'axios';
 export const ADD_ALLERGY = 'ADD_ALLERGY';
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const ADD_USER = 'ADD_USER';
+export const AUTOCOM_ING = 'AUTOCOM_ING';
 export const CANCEL_SUB = 'CANCEL_SUB';
 export const CHARGE_USER = 'CHARGE_USER';
 export const DELETE_RECIPE = 'DELETE_RECIPE';
@@ -132,4 +133,24 @@ export const getNutrition = (title, ingr) => dispatch => {
 
 export const removeNutrition = () => dispatch => {
   dispatch({ type: REMOVE_NUTRITION, payload: null });
+};
+
+export const autoComIng = query => async (dispatch, getState) => {
+  try {
+    const allergyQuery = await getState()
+      .userReducer.user.allergies.join('%2C+')
+      .replace(/ /g, '+');
+    const response = await axios.get(
+      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=10&intolerances=${allergyQuery}&query=${query}`,
+      {
+        headers: {
+          'X-RapidAPI-Key': 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy'
+        }
+      }
+    );
+    const queryArr = response.map(res => res.name);
+    dispatch({ type: AUTOCOM_ING, payload: queryArr });
+  } catch (err) {
+    dispatch({ type: ERROR, payload: err });
+  }
 };
