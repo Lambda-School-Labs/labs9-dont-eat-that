@@ -48,7 +48,31 @@ class SingleRecipe extends React.Component {
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
       this.getNutrition();
-      return <div>Loading...</div>;
+      return (
+        <div>
+          <h1>{recipe.name}</h1>
+          <RecipeDescAndIngDiv>
+            <div>
+              <h3>Recipe Description</h3>
+              <p>{recipe.description}</p>
+            </div>
+            <div>
+              <h3>Ingredients</h3>
+              {}
+              <ul>
+                {recipe.ingredients.map(ingr => (
+                  <li key={ingr.name}>{`${ingr.quantity} ${
+                    ingr.unit ? ingr.unit : ''
+                  } ${ingr.name}`}</li>
+                ))}
+              </ul>
+            </div>
+          </RecipeDescAndIngDiv>
+          <DeleteRecipeButton onClick={this.deleteRecipe}>
+            Delete Recipe
+          </DeleteRecipeButton>
+        </div>
+      );
     } else if (recipe && nutrition) {
       return (
         <div>
