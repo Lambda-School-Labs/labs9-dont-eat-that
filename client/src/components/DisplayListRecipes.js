@@ -17,6 +17,23 @@ const CreateRecipeDiv = styled.div`
 `;
 
 class DisplayListRecipes extends Component {
+  displayDiv = () => {
+    return this.props.recipes.map(recipe => {
+      // returns a JSX element
+      const outerBoolArr = recipe.ingredients.map(ingredient => {
+        // mapping through ingredient array
+        const innerBoolArr = this.props.allergies.map(
+          allergy => allergy === ingredient.name
+        );
+        return innerBoolArr.includes(true);
+      });
+      if (outerBoolArr.includes(true)) {
+        return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
+      } else {
+        return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
+      }
+    });
+  };
   render() {
     return (
       <div className="recipe-list">
@@ -27,9 +44,7 @@ class DisplayListRecipes extends Component {
               <h3>Create a Recipe</h3>
             </CreateRecipeDiv>
           </Link>
-          {this.props.recipes.map(recipe => {
-            return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
-          })}
+          {this.displayDiv()}
         </DisplayListDiv>
       </div>
     );
@@ -40,7 +55,8 @@ const mapStateToProps = state => {
   const { recipesReducer } = state;
   return {
     recipes: recipesReducer.recipes,
-    error: recipesReducer.error
+    error: recipesReducer.error,
+    allergies: state.usersReducer.user.allergies
   };
 };
 
