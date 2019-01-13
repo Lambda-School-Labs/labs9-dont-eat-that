@@ -19,15 +19,15 @@ const CreateRecipeDiv = styled.div`
 class DisplayListRecipes extends Component {
   displayDiv = () => {
     return this.props.recipes.map(recipe => {
-      // returns a JSX element
+      // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
-        // mapping through ingredient array
         const innerBoolArr = this.props.allergies.map(
-          allergy => allergy === ingredient.name
+          allergy => allergy === ingredient.name // seeing if any allergies in one ingredient
         );
-        return innerBoolArr.includes(true);
+        return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
       if (outerBoolArr.includes(true)) {
+        // seeing if any allergies in all ingredients
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
       } else {
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;

@@ -3,11 +3,13 @@ import axios from 'axios';
 export const ADD_ALLERGY = 'ADD_ALLERGY';
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const ADD_USER = 'ADD_USER';
+export const AUTOCOM_ING = 'AUTOCOM_ING';
 export const CANCEL_SUB = 'CANCEL_SUB';
 export const CHARGE_USER = 'CHARGE_USER';
 export const DELETE_RECIPE = 'DELETE_RECIPE';
 export const EDIT_RECIPE = 'EDIT_RECIPE';
 export const ERROR = 'ERROR';
+export const GET_NUTRITION = 'GET_NUTRITION';
 export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
@@ -16,6 +18,8 @@ export const GETTING_RECIPES = 'GETTING_RECIPES';
 export const GET_USER = 'GET_USER';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
+export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
+export const RESET_AUTOCOM = 'RESET_AUTOCOM';
 
 const URL = 'https://donteatthat.herokuapp.com';
 
@@ -113,4 +117,45 @@ export const addAllergy = allergy => dispatch => {
     .post(`${URL}/api/allergies/create`, { firebaseid, allergy })
     .then(res => dispatch({ type: ADD_ALLERGY, payload: allergy }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const getNutrition = (title, ingr) => dispatch => {
+  axios
+    .post(
+      'https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=e766d0318dfa0deb2000552f4e149af0',
+      { title, ingr }
+    )
+    .then(res => {
+      console.log('res.data', res.data);
+      dispatch({ type: GET_NUTRITION, payload: res.data });
+    })
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const removeNutrition = () => dispatch => {
+  dispatch({ type: REMOVE_NUTRITION, payload: null });
+};
+
+export const autoComIng = query => async (dispatch, getState) => {
+  try {
+    const allergyQuery = await getState()
+      .usersReducer.user.allergies.join('%2C+')
+      .replace(/ /g, '+');
+    const response = await axios.get(
+      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&intolerances=${allergyQuery}&query=${query}`,
+      {
+        headers: {
+          'X-RapidAPI-Key': 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy'
+        }
+      }
+    );
+    const queryArr = response.data.map(res => res.name);
+    dispatch({ type: AUTOCOM_ING, payload: queryArr });
+  } catch (err) {
+    dispatch({ type: ERROR, payload: err });
+  }
+};
+
+export const resetAutoCom = () => dispatch => {
+  dispatch({ type: RESET_AUTOCOM, payload: null });
 };
