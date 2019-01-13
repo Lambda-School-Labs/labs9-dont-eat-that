@@ -1,6 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addRecipe, autoComIng } from '../actions';
+import { addRecipe, autoComIng, resetAutoCom } from '../actions';
+import styled from 'styled-components';
+
+const AutoComDiv = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const AutoComItemsDiv = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  border: 1px solid #d4d4d4;
+  z-index: 10;
+
+  div {
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
+`;
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
@@ -9,18 +29,28 @@ class AddNewRecipeForm extends Component {
       name: '',
       description: '',
       numIngredients: 3,
-      ingredients: []
+      ingredients: [
+        { name: '', quantity: '', unit: '' },
+        { name: '', quantity: '', unit: '' },
+        { name: '', quantity: '', unit: '' }
+      ],
+      focuses: [{ focus: false }, { focus: false }, { focus: false }]
     };
   }
 
   typingHandler = ev => {
     this.setState({
-      [ev.target.name]: ev.target.value
+      [ev.target.name]: ev.target.value,
+      ingredients: [
+        ...this.state.ingredients,
+        { name: '', quantity: '', unit: '' }
+      ],
+      focuses: [...this.state.focus, { focus: false }]
     });
   };
 
   ingHandler = ev => {
-    // Get which ingredient form field type is being handled
+    // Get which ingredient form field type is being handled: name, quty, or unit
     let rowType = ev.target.name.slice(0, 4);
     if (rowType === 'quty') {
       rowType = 'quantity';
@@ -78,53 +108,63 @@ class AddNewRecipeForm extends Component {
     this.props.history.push('/recipes');
   };
 
+  onClickAutocomplete = (i, item) => {
+    if (this.state.ingredients[i].name !== item) {
+      let ingredients = this.state.ingredients.slice();
+      ingredients[i].name = item;
+      this.setState({ ingredients });
+      this.props.resetAutoCom();
+      this.onBlur(i);
+      console.log('inside onclickautocomplete');
+    }
+  };
+
+  onFocus = index => {
+    let focuses = this.state.focuses.slice();
+    focuses[index].focus = true;
+    this.setState({ focuses });
+  };
+
+  onBlur = index => {
+    let focuses = this.state.focuses.slice();
+    focuses[index].focus = false;
+    this.setState({ focuses });
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
-      if (i >= this.state.ingredients.length) {
-        // If this is a blank row at the bottom of the table
-        ingredientRows.push(
-          <input
-            type="text"
-            placeholder="Ingredient Name"
-            name={`name${i}`}
-            value=""
-            onChange={this.ingHandler}
-          />
-        );
-        ingredientRows.push(
-          <input
-            type="text"
-            placeholder="Ingredient Quantity"
-            name={`quty${i}`}
-            value=""
-            onChange={this.ingHandler}
-          />
-        );
-        ingredientRows.push(
-          <input
-            type="text"
-            placeholder="Ingredient Unit"
-            name={`unit${i}`}
-            value=""
-            onChange={this.ingHandler}
-          />
-        );
-        ingredientRows.push(<br />);
-      } else {
-        // If this row of the table corresponds to an ingredient
-        // that already has data in state for it
-        ingredientRows.push(
-          <input
-            type="text"
-            placeholder="Ingredient Name"
-            name={`name${i}`}
-            value={this.state.ingredients[i].name}
-            onChange={this.ingHandler}
-          />
-        );
-        ingredientRows.push(
+      ingredientRows.push(
+        <div key={`row${i}`}>
+          <AutoComDiv>
+            <input
+              type="text"
+              placeholder="Ingredient Name"
+              name={`name${i}`}
+              value={this.state.ingredients[i].name}
+              autoComplete="new-password"
+              onFocus={() => this.onFocus(i)}
+              onChange={e => {
+                this.ingHandler(e);
+                this.props.autoComIng(this.state.ingredients[i].name);
+              }}
+            />
+            {this.props.autoCom && this.state.focuses[i].focus && (
+              <AutoComItemsDiv>
+                {this.props.autoCom.map(item => {
+                  return (
+                    <div
+                      key={item}
+                      onClick={() => this.onClickAutocomplete(i, item)}
+                    >
+                      {item}
+                    </div>
+                  );
+                })}
+              </AutoComItemsDiv>
+            )}
+          </AutoComDiv>
           <input
             type="text"
             placeholder="Ingredient Quantity"
@@ -132,8 +172,6 @@ class AddNewRecipeForm extends Component {
             value={this.state.ingredients[i].quantity}
             onChange={this.ingHandler}
           />
-        );
-        ingredientRows.push(
           <input
             type="text"
             placeholder="Ingredient Unit"
@@ -141,12 +179,12 @@ class AddNewRecipeForm extends Component {
             value={this.state.ingredients[i].unit}
             onChange={this.ingHandler}
           />
-        );
-        ingredientRows.push(<br />);
-      }
+          <br />
+        </div>
+      );
     }
     return (
-      <form onSubmit={this.submitHandler} autocomplete="off">
+      <form onSubmit={this.submitHandler} autoComplete="off">
         <h2>Upload New Recipe</h2>
         <input
           type="text"
@@ -156,6 +194,7 @@ class AddNewRecipeForm extends Component {
           onChange={this.typingHandler}
           required
         />
+        <br />
         <textarea
           placeholder="Recipe Description"
           name="description"
@@ -163,6 +202,7 @@ class AddNewRecipeForm extends Component {
           onChange={this.typingHandler}
           required
         />
+        <br />
         <label htmlFor="numIngredients">Number of Ingredients:</label>
         <input
           type="number"
@@ -182,11 +222,11 @@ class AddNewRecipeForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    autoComIng: state.nutritionReducer.autoComIng
+    autoCom: state.nutritionReducer.autoComIng
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addRecipe, autoComIng }
+  { addRecipe, autoComIng, resetAutoCom }
 )(AddNewRecipeForm);

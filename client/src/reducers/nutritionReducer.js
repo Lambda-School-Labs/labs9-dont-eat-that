@@ -14,6 +14,8 @@ export const nutritionReducer = (state = initialState, action) => {
       return { ...state, nutrition: action.payload };
     case actionTypes.AUTOCOM_ING:
       return { ...state, autoComIng: action.payload };
+    case actionTypes.RESET_AUTOCOM:
+      return { ...state, autoComIng: action.payload };
     default:
       return state;
   }

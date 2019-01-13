@@ -19,6 +19,7 @@ export const GET_USER = 'GET_USER';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
+export const RESET_AUTOCOM = 'RESET_AUTOCOM';
 
 const URL = 'https://donteatthat.herokuapp.com';
 
@@ -138,19 +139,23 @@ export const removeNutrition = () => dispatch => {
 export const autoComIng = query => async (dispatch, getState) => {
   try {
     const allergyQuery = await getState()
-      .userReducer.user.allergies.join('%2C+')
+      .usersReducer.user.allergies.join('%2C+')
       .replace(/ /g, '+');
     const response = await axios.get(
-      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=10&intolerances=${allergyQuery}&query=${query}`,
+      `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&intolerances=${allergyQuery}&query=${query}`,
       {
         headers: {
           'X-RapidAPI-Key': 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy'
         }
       }
     );
-    const queryArr = response.map(res => res.name);
+    const queryArr = response.data.map(res => res.name);
     dispatch({ type: AUTOCOM_ING, payload: queryArr });
   } catch (err) {
     dispatch({ type: ERROR, payload: err });
   }
+};
+
+export const resetAutoCom = () => dispatch => {
+  dispatch({ type: RESET_AUTOCOM, payload: null });
 };
