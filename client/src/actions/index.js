@@ -8,6 +8,7 @@ export const CHARGE_USER = 'CHARGE_USER';
 export const DELETE_RECIPE = 'DELETE_RECIPE';
 export const EDIT_RECIPE = 'EDIT_RECIPE';
 export const ERROR = 'ERROR';
+export const GET_NUTRITION = 'GET_NUTRITION';
 export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
@@ -16,6 +17,7 @@ export const GETTING_RECIPES = 'GETTING_RECIPES';
 export const GET_USER = 'GET_USER';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
+export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
 
 const URL = 'https://donteatthat.herokuapp.com';
 
@@ -113,4 +115,21 @@ export const addAllergy = allergy => dispatch => {
     .post(`${URL}/api/allergies/create`, { firebaseid, allergy })
     .then(res => dispatch({ type: ADD_ALLERGY, payload: allergy }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const getNutrition = (title, ingr) => dispatch => {
+  axios
+    .post(
+      'https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=e766d0318dfa0deb2000552f4e149af0',
+      { title, ingr }
+    )
+    .then(res => {
+      console.log('res.data', res.data);
+      dispatch({ type: GET_NUTRITION, payload: res.data });
+    })
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const removeNutrition = () => dispatch => {
+  dispatch({ type: REMOVE_NUTRITION, payload: null });
 };
