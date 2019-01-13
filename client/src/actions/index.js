@@ -103,7 +103,7 @@ export const getAllergies = () => dispatch => {
   const firebaseid = localStorage.getItem('uid');
   axios
     .get(`${URL}/api/allergies/user/${firebaseid}`)
-    .then(res => ({ type: GET_UALLERGIES, payload: res.data }))
+    .then(res => dispatch({ type: GET_UALLERGIES, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 

@@ -22,72 +22,72 @@ class Settings extends React.Component {
     this.setState({ allergy: '' });
   };
   render() {
-    return (
-      <div>
-        <h1>Settings</h1>
+    if (this.props.allergies) {
+      return (
         <div>
-          <h2>User Account</h2>
-          <form
-            onSubmit={() =>
-              this.props.firebase.doPasswordReset(this.state.email)
-            }
-          >
-            <label htmlFor="email">Password Reset</label>
+          <h1>Settings</h1>
+          <div>
+            <h2>User Account</h2>
+            <form
+              onSubmit={() =>
+                this.props.firebase.doPasswordReset(this.state.email)
+              }
+            >
+              <label htmlFor="email">Password Reset</label>
+              <br />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={this.state.email}
+                onChange={this.onChange}
+              />
+              <br />
+              <button type="submit">Submit</button>
+            </form>
             <br />
+            <form
+              onSubmit={() =>
+                this.props.firebase.doPasswordUpdate(this.state.password)
+              }
+            >
+              <label htmlFor="password">Password Change</label>
+              <br />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={this.state.password}
+                onChange={this.onChange}
+              />
+              <br />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+          <div>
+            <h2>Allergies</h2>
+            <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
+              {this.props.allergies.map((allergy, i) => {
+                return <li key={i}>{allergy}</li>;
+              })}
+            </ul>
+            <label htmlFor="allergy" />
             <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
+              type="text"
+              name="allergy"
+              id="allergy"
+              placeholder="Please enter an allergy..."
+              value={this.state.allergy}
               onChange={this.onChange}
             />
-            <br />
-            <button type="submit">Submit</button>
-          </form>
-          <br />
-          <form
-            onSubmit={() =>
-              this.props.firebase.doPasswordUpdate(this.state.password)
-            }
-          >
-            <label htmlFor="password">Password Change</label>
-            <br />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.onChange}
-            />
-            <br />
-            <button type="submit">Submit</button>
-          </form>
+            <button onClick={this.onAddAllergy}>Add Allergy</button>
+          </div>
         </div>
-        <div>
-          <h2>Allergies</h2>
-          <ul>
-            {this.props.allergies.map((allergy, i) => {
-              return (
-                <li key={allergy} style={{ margin: 0 }}>
-                  {allergy}
-                </li>
-              );
-            })}
-          </ul>
-          <label htmlFor="allergy" />
-          <input
-            type="text"
-            name="allergy"
-            id="allergy"
-            placeholder="Please enter an allergy..."
-            value={this.state.allergy}
-            onChange={this.onChange}
-          />
-          <button onClick={this.onAddAllergy}>Add Allergy</button>
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
   }
 }
 

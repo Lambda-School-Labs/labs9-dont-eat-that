@@ -14,12 +14,15 @@ const DisplayRecipeDiv = styled.div`
 `;
 
 const DisplayOneRecipe = props => {
+  console.log(props);
   return (
     <Link
       to={`/recipes/one/${props.recipe.id}`}
       style={{ textDecoration: 'none' }}
     >
-      <DisplayRecipeDiv>
+      <DisplayRecipeDiv
+        style={{ border: props.allergy ? `10px solid red` : null }}
+      >
         <h3>{props.recipe.name}</h3>
         <h4>Description:</h4>
         <p>{props.recipe.description}</p>

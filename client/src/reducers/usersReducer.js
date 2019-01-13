@@ -23,7 +23,7 @@ export const usersReducer = (state = initialState, action) => {
         ...state,
         user: {
           ...state.user,
-          allergies: [action.payload]
+          allergies: action.payload
         }
       };
     case actionTypes.ADD_ALLERGY:
