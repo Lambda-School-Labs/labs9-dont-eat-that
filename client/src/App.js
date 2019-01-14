@@ -17,7 +17,6 @@ import Settings from './components/Settings';
 import ConditionalLanding from './components/Landing';
 
 const NavDiv = styled.div`
-  display: flex;
   justify-content: space-evenly;
 `;
 
