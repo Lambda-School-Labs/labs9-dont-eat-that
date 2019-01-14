@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 // import { FirebaseContext } from '../Firebase';
 import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
@@ -105,7 +105,7 @@ class SignUpFormBase extends Component {
 const SignUpLink = () => (
   <p>
     Don't have an account?
-    {/* <Link to={ROUTES.SIGN_UP}>Sign Up</Link> */}
+     <Link to="/signup">Sign Up</Link> 
   </p>
 );
 
