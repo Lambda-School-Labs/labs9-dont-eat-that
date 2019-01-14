@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { editRecipe, autoComIng, resetAutoCom, getRecipe } from '../actions';
+import {
+  editRecipe,
+  autoComIng,
+  resetAutoCom,
+  getRecipe,
+  getAllergies
+} from '../actions';
 import styled from 'styled-components';
 
 const AutoComDiv = styled.div`
@@ -39,6 +45,7 @@ class AddNewRecipeForm extends Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
+    this.props.getAllergies();
   }
 
   typingHandler = e => {
@@ -155,6 +162,17 @@ class AddNewRecipeForm extends Component {
     this.setState({ focuses });
   };
 
+  ingAllergyWarning = index => {
+    const boolArr = this.props.allergies.map(
+      allergy => allergy === this.state.ingredients[index].name
+    );
+    if (boolArr.includes(true)) {
+      return { background: 'red' };
+    } else {
+      return {};
+    }
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     if (this.props.recipe) {
@@ -173,6 +191,9 @@ class AddNewRecipeForm extends Component {
                 onChange={e => {
                   this.ingHandler(e);
                   this.props.autoComIng(this.state.ingredients[i].name);
+                }}
+                style={() => {
+                  this.ingAllergyWarning(i);
                 }}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (
@@ -251,11 +272,12 @@ class AddNewRecipeForm extends Component {
 const mapStateToProps = state => {
   return {
     autoCom: state.nutritionReducer.autoComIng,
-    recipe: state.recipesReducer.recipe
+    recipe: state.recipesReducer.recipe,
+    allergies: state.usersReducer.user.allergies
   };
 };
 
 export default connect(
   mapStateToProps,
-  { editRecipe, autoComIng, resetAutoCom, getRecipe }
+  { editRecipe, autoComIng, resetAutoCom, getRecipe, getAllergies }
 )(AddNewRecipeForm);
