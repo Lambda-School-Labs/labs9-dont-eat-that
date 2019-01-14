@@ -79,6 +79,10 @@ export const addAllergy = allergy => dispatch => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
+// export const deleteAllergy = id => ({
+
+// }
+
 export const getNutrition = (title, ingr) => dispatch => {
   axios
     .post(
