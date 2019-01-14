@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // import { FirebaseContext } from '../Firebase';
 import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
 import { connect } from 'react-redux';
 import { addUser } from '../../actions';
+import { domainToASCII } from 'url';
 
 const SignUpPage = () => (
   <div>
@@ -104,7 +106,7 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
   <p>
-    Don't have an account?
+    <Link to="/signup">Don't have an account?</Link>
     {/* <Link to={ROUTES.SIGN_UP}>Sign Up</Link> */}
   </p>
 );

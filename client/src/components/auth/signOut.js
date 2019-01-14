@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { withFirebase } from '../firebase';
 
@@ -7,6 +8,7 @@ const SignOutButton = ({ firebase }) => {
     localStorage.removeItem('uid');
     localStorage.removeItem('token');
     firebase.doSignOut();
+    history.push('/');
   };
   return (
     <div>
