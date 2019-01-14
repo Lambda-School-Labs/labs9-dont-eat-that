@@ -20,6 +20,7 @@ import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
 import CheckoutForm from './components/CheckoutForm';
 import Settings from './components/Settings';
+import ConditionalLanding from './components/Landing';
 
 const NavDiv = styled.div`
   display: flex;
@@ -46,6 +47,9 @@ class App extends Component {
     this.listener();
   }
   render() {
+    if (localStorage.uid) {
+
+    }
     return (
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
@@ -59,6 +63,7 @@ class App extends Component {
             <NavLink to="/signout">Sign Out</NavLink>
           </NavDiv>
 
+          <Route exact path="/" component={ConditionalLanding} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signout" component={SignOut} />
