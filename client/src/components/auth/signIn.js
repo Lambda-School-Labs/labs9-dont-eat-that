@@ -13,6 +13,7 @@ const SignInPage = () => (
     <h1>SignIn</h1>
     <SignInForm />
     <SignInGoogle />
+    <SignInFacebook />
     <SignUpLink />
   </div>
 );
@@ -140,7 +141,44 @@ class SignInGoogleBase extends Component {
   }
 }
 
+class SignInFacebookBase extends Component {
+  constructor(props) {
+    super(props);
 
+    this.state = { error: null };
+  }
+
+  onSubmit = event => {
+    this.props.firebase
+      .doSignInWithFacebook()
+      .then(user => {
+        this.setState({ ...INITIAL_STATE });
+        localStorage.setItem('uid', user.user.uid);
+        return user;
+      })
+      .then(res => {
+        this.props.getUser();
+        this.props.history.push('/recipes');
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+
+    event.preventDefault();
+  };
+
+  render() {
+    const { error } = this.state;
+
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Facebook</button>
+
+        {error && <p>{error.message}</p>}
+      </form>
+    );
+  }
+}
 const SignInForm = withRouter(
   connect(
     null,
@@ -155,6 +193,12 @@ const SignInGoogle = withRouter(
   )(compose(withFirebase)(SignInGoogleBase))
 );
 
+const SignInFacebook = withRouter(
+  connect(
+    null,
+    { getUser }
+  )(compose(withFirebase)(SignInFacebookBase))
+);
 
 export default SignInPage;
 
