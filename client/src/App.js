@@ -8,7 +8,7 @@ import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
 import AddNewRecipeForm from './components/AddNewRecipeForm';
 import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
-import EditRecipe from './components/EditRecipe';
+import EditRecipe from './components/editRecipe';
 import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
