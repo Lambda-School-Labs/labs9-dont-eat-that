@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
+export const ERROR = "ERROR";
 
 
 const URL = 'https://donteatthat.herokuapp.com';

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const CANCEL_SUB = 'CANCEL_SUB';
 export const CHARGE_USER = 'CHARGE_USER';
+export const ERROR = "ERROR";
 
 const URL = 'https://donteatthat.herokuapp.com';
 
