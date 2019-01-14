@@ -12,6 +12,7 @@ const SignInPage = () => (
   <div>
     <h1>SignIn</h1>
     <SignInForm />
+    <SignInGoogle />
     <SignUpLink />
   </div>
 );
@@ -85,6 +86,61 @@ class SignInFormBase extends Component {
   }
 }
 
+class SignInGoogleBase extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { error: null };
+  }
+
+  onSubmit = event => {
+    this.props.firebase
+      .doSignInWithGoogle()
+      .then(user => {
+        this.setState({ ...INITIAL_STATE });
+        localStorage.setItem('uid', user.user.uid);
+        return user;
+      })
+      .then(res => {
+        this.props.getUser();
+        this.props.history.push('/recipes');
+      })
+      // .then(socialAuthUser => {
+      //   console.log("Google USer obj = ", socialAuthUser.user);
+      //   // Create a user in your Firebase Realtime Database too
+      //   // return this.props.firebase
+      //   //   .user(socialAuthUser.user.uid)
+      //   //   .set({
+      //   //     username: socialAuthUser.user.displayName,
+      //   //     email: socialAuthUser.user.email,
+      //   //     roles: [],
+      //   //   });
+      // })
+      // .then(() => {
+      //   this.setState({ error: null });
+      // //  this.props.history.push(ROUTES.HOME);
+      // })
+      .catch(error => {
+        this.setState({ error });
+      });
+
+    event.preventDefault();
+  };
+
+  render() {
+    const { error } = this.state;
+
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Google</button>
+
+        {error && <p>{error.message}</p>}
+      </form>
+    );
+  }
+}
+
+
 const SignInForm = withRouter(
   connect(
     null,
@@ -92,6 +148,14 @@ const SignInForm = withRouter(
   )(compose(withFirebase)(SignInFormBase))
 );
 
+const SignInGoogle = withRouter(
+  connect(
+    null,
+    { getUser }
+  )(compose(withFirebase)(SignInGoogleBase))
+);
+
+
 export default SignInPage;
 
-export { SignInForm };
+export { SignInForm, SignInGoogle };
