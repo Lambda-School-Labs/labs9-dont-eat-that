@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { Elements, StripeProvider } from 'react-stripe-elements';
@@ -9,6 +8,7 @@ import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
 import AddNewRecipeForm from './components/AddNewRecipeForm';
 import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
+import EditRecipe from './components/EditRecipe';
 import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
@@ -68,6 +68,7 @@ class App extends Component {
           <Route path="/recipes" component={DisplayRecipesViewer} />
           <Route exact path="/recipes/new" component={AddNewRecipeForm} />
           <Route exact path="/recipes/one/:id" component={SingleRecipe} />
+          <Route exact path="/recipes/edit/:id" component={EditRecipe} />
         </div>
       </StripeProvider>
     );
