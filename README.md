@@ -161,15 +161,18 @@ Dietary/Allergy awareness (MVP) unlimited
 
 #### Food API
 
-**Solution:** USDA API
+**Solution:** Edamam Nutritional Analysis API, Spoonacular API
 **Why did you choose this API over others?**
 
-- Allows up to 3,600 requests per hour per IP address, allowing us to make multiple requests when searching for foods and macronutrients
+- Great parsing through ingredients with NLP to get nutrient analysis of a recipe (Edamam)
+- Ease of use and ok documentation (both)
+- Had the specific features needed to implement for app
+- Free tier very limited, applied for developer tier (Edamam) and student tier (Spoonacular)
 
 **What other APIs could you have used and why not?**
 
-- Spoonacular: Free up to only 50 requests and 500 results per day, charged if over limit
-- Edamam: Free up to 200 recipes and 1000 lines of text total (very limited)
+- USDA: Bad ingredients returned on search, limited API
+- Nutritionix: Very limited API
 
 ### Back-end API
 

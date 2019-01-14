@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getRecipe, deleteRecipe } from '../actions';
+import {
+  getRecipe,
+  deleteRecipe,
+  getNutrition,
+  removeNutrition
+} from '../actions';
 
 const RecipeDescAndIngDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
+  text-align: left;
 `;
 
 const DeleteRecipeButton = styled.button`
   position: absolute;
-  top: 10px;
+  top: 40px;
   right: 10px;
   background: red;
   font-size: 1rem;
@@ -18,38 +24,100 @@ const DeleteRecipeButton = styled.button`
 `;
 
 class SingleRecipe extends React.Component {
+  state = {};
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
   }
+  getNutrition = () => {
+    const { name, ingredients } = this.props.recipe;
+    const ingrArr = ingredients.map(
+      ingr => `${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`
+    );
+    this.props.getNutrition(name, ingrArr); // gets nutritional value of recipe from Edamam
+  };
   deleteRecipe = () => {
     const id = this.props.match.params.id;
     this.props.deleteRecipe(id);
     this.props.history.push('/recipes');
   };
+  componentWillUnmount() {
+    this.props.removeNutrition(); // removes nutrition from state
+  }
   render() {
-    const { recipe } = this.props;
-    if (recipe) {
+    const { recipe, nutrition } = this.props;
+    if (recipe && !nutrition) {
+      this.getNutrition();
       return (
         <div>
           <h1>{recipe.name}</h1>
           <RecipeDescAndIngDiv>
             <div>
-              <h5>Recipe Description</h5>
+              <h3>Recipe Description</h3>
               <p>{recipe.description}</p>
             </div>
             <div>
-              <h5>Ingredients</h5>
+              <h3>Ingredients</h3>
               {}
               <ul>
-                {recipe.ingredients.map(ingredient => (
-                  <li key={ingredient.name}>{`${ingredient.name} ${
-                    ingredient.quantity
-                  } ${ingredient.unit}`}</li>
+                {recipe.ingredients.map(ingr => (
+                  <li key={ingr.name}>{`${ingr.quantity} ${
+                    ingr.unit ? ingr.unit : ''
+                  } ${ingr.name}`}</li>
                 ))}
               </ul>
             </div>
           </RecipeDescAndIngDiv>
+          <DeleteRecipeButton onClick={this.deleteRecipe}>
+            Delete Recipe
+          </DeleteRecipeButton>
+        </div>
+      );
+    } else if (recipe && nutrition) {
+      return (
+        <div>
+          <h1>{recipe.name}</h1>
+          <RecipeDescAndIngDiv>
+            <div>
+              <h3>Recipe Description</h3>
+              <p>{recipe.description}</p>
+            </div>
+            <div>
+              <h3>Ingredients</h3>
+              {}
+              <ul>
+                {recipe.ingredients.map(ingr => (
+                  <li key={ingr.name}>{`${ingr.quantity} ${
+                    ingr.unit ? ingr.unit : ''
+                  } ${ingr.name}`}</li>
+                ))}
+              </ul>
+            </div>
+          </RecipeDescAndIngDiv>
+          <div>
+            <h3>Nutrition Facts</h3>
+            <p>Calories: {nutrition.calories}</p>
+            <p>Servings: {nutrition.yield}</p>
+            <h5>Macronutrients</h5>
+            <p>
+              Carbohydrates:{' '}
+              {`${nutrition.totalNutrients.CHOCDF.quantity} ${
+                nutrition.totalNutrients.CHOCDF.unit
+              }`}
+            </p>
+            <p>
+              Protein:{' '}
+              {`${nutrition.totalNutrients.PROCNT.quantity} ${
+                nutrition.totalNutrients.PROCNT.unit
+              }`}
+            </p>
+            <p>
+              Fat:{' '}
+              {`${nutrition.totalNutrients.FAT.quantity} ${
+                nutrition.totalNutrients.FAT.unit
+              }`}
+            </p>
+          </div>
           <DeleteRecipeButton onClick={this.deleteRecipe}>
             Delete Recipe
           </DeleteRecipeButton>
@@ -63,11 +131,12 @@ class SingleRecipe extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    recipe: state.recipesReducer.recipe
+    recipe: state.recipesReducer.recipe,
+    nutrition: state.nutritionReducer.nutrition
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getRecipe, deleteRecipe }
+  { getRecipe, deleteRecipe, getNutrition, removeNutrition }
 )(SingleRecipe);
