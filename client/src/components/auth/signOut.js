@@ -1,9 +1,9 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { withFirebase } from '../firebase';
 
-const SignOutButton = ({ firebase }) => {
+const SignOutButton = withRouter(({ firebase, history }) => {
   const onSignOut = () => {
     localStorage.removeItem('uid');
     localStorage.removeItem('token');
@@ -16,6 +16,6 @@ const SignOutButton = ({ firebase }) => {
       <button onClick={onSignOut}>Sign Out</button>
     </div>
   );
-};
+});
 
 export default withFirebase(SignOutButton);
