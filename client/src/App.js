@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { Elements, StripeProvider } from 'react-stripe-elements';
@@ -9,14 +8,15 @@ import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
 import AddNewRecipeForm from './components/AddNewRecipeForm';
 import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
+import EditRecipe from './components/EditRecipe';
 import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
 import CheckoutForm from './components/CheckoutForm';
 import Settings from './components/Settings';
+import ConditionalLanding from './components/Landing';
 
 const NavDiv = styled.div`
-  display: flex;
   justify-content: space-evenly;
 `;
 
@@ -40,6 +40,9 @@ class App extends Component {
     this.listener();
   }
   render() {
+    if (localStorage.uid) {
+
+    }
     return (
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
@@ -53,6 +56,7 @@ class App extends Component {
             <NavLink to="/signout">Sign Out</NavLink>
           </NavDiv>
 
+          <Route exact path="/" component={ConditionalLanding} />
           <Route path="/signup" component={SignUp} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signout" component={SignOut} />
@@ -68,6 +72,7 @@ class App extends Component {
           <Route path="/recipes" component={DisplayRecipesViewer} />
           <Route exact path="/recipes/new" component={AddNewRecipeForm} />
           <Route exact path="/recipes/one/:id" component={SingleRecipe} />
+          <Route exact path="/recipes/edit/:id" component={EditRecipe} />
         </div>
       </StripeProvider>
     );

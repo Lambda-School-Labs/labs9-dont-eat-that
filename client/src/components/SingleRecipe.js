@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   getRecipe,
   deleteRecipe,
   getNutrition,
-  removeNutrition
+  removeNutrition,
+  getUser
 } from '../actions';
 
 const RecipeDescAndIngDiv = styled.div`
@@ -23,11 +25,21 @@ const DeleteRecipeButton = styled.button`
   padding: 15px;
 `;
 
+const EditRecipeButton = styled.button`
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  background: green;
+  font-size: 1rem;
+  padding: 15px;
+`;
+
 class SingleRecipe extends React.Component {
   state = {};
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
+    this.props.getUser();
   }
   getNutrition = () => {
     const { name, ingredients } = this.props.recipe;
@@ -46,6 +58,7 @@ class SingleRecipe extends React.Component {
   }
   render() {
     const { recipe, nutrition } = this.props;
+    const firebaseid = localStorage.getItem('uid');
     if (recipe && !nutrition) {
       this.getNutrition();
       return (
@@ -68,12 +81,20 @@ class SingleRecipe extends React.Component {
               </ul>
             </div>
           </RecipeDescAndIngDiv>
-          <DeleteRecipeButton onClick={this.deleteRecipe}>
-            Delete Recipe
-          </DeleteRecipeButton>
+          {firebaseid === this.props.user.firebaseid && (
+            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+              <EditRecipeButton>Edit Recipe</EditRecipeButton>
+            </Link>
+          )}
+          {firebaseid === this.props.user.firebaseid && (
+            <DeleteRecipeButton onClick={this.deleteRecipe}>
+              Delete Recipe
+            </DeleteRecipeButton>
+          )}
         </div>
       );
     } else if (recipe && nutrition) {
+      // change when altering editrecipe or singlerecipe
       return (
         <div>
           <h1>{recipe.name}</h1>
@@ -118,9 +139,16 @@ class SingleRecipe extends React.Component {
               }`}
             </p>
           </div>
-          <DeleteRecipeButton onClick={this.deleteRecipe}>
-            Delete Recipe
-          </DeleteRecipeButton>
+          {firebaseid === this.props.user.firebaseid && (
+            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+              <EditRecipeButton>Edit Recipe</EditRecipeButton>
+            </Link>
+          )}
+          {firebaseid === this.props.user.firebaseid && (
+            <DeleteRecipeButton onClick={this.deleteRecipe}>
+              Delete Recipe
+            </DeleteRecipeButton>
+          )}
         </div>
       );
     } else {
@@ -132,11 +160,12 @@ class SingleRecipe extends React.Component {
 const mapStateToProps = state => {
   return {
     recipe: state.recipesReducer.recipe,
-    nutrition: state.nutritionReducer.nutrition
+    nutrition: state.nutritionReducer.nutrition,
+    user: state.usersReducer.user
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getRecipe, deleteRecipe, getNutrition, removeNutrition }
+  { getRecipe, deleteRecipe, getNutrition, removeNutrition, getUser }
 )(SingleRecipe);
