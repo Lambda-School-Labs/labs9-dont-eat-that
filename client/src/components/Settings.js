@@ -1,15 +1,15 @@
-import React from 'react';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
+import React from "react";
+import { compose } from "recompose";
+import { connect } from "react-redux";
 
-import { withFirebase } from './firebase';
-import { addAllergy, getAllergies } from '../actions/index';
+import { withFirebase } from "./firebase";
+import { addAllergy, getAllergies, deleteAllergy } from "../actions/index";
 
 class Settings extends React.Component {
   state = {
-    email: '',
-    password: '',
-    allergy: ''
+    email: "",
+    password: "",
+    allergy: ""
   };
   componentDidMount() {
     this.props.getAllergies();
@@ -19,8 +19,9 @@ class Settings extends React.Component {
   };
   onAddAllergy = e => {
     this.props.addAllergy(this.state.allergy);
-    this.setState({ allergy: '' });
+    this.setState({ allergy: "" });
   };
+
   render() {
     if (this.props.allergies) {
       return (
@@ -67,9 +68,14 @@ class Settings extends React.Component {
           </div>
           <div>
             <h2>Allergies</h2>
-            <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
+            <ul style={{ paddingLeft: 0, listStyle: "none" }}>
               {this.props.allergies.map((allergy, i) => {
-                return <li key={i}>{allergy}</li>;
+                return (
+                  <li key={i}>
+                    <span onClick={() => this.props.deleteAllergy(allergy)}>X</span>
+                    {allergy}
+                  </li>
+                );
               })}
             </ul>
             <label htmlFor="allergy" />
@@ -99,5 +105,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addAllergy, getAllergies }
+  { addAllergy, getAllergies, deleteAllergy }
 )(compose(withFirebase)(Settings));
