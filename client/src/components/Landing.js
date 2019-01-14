@@ -29,6 +29,7 @@ const Landing = props => {
 
 const ConditionalLanding = (args) => (
     <Route {...args} render={(props) => (
+        // Redirect to the Recipe List page if the user is logged in; otherwise display the nested Landing component defined above.
         localStorage.uid
             ? <Redirect to={{
                 pathname: '/recipes',
