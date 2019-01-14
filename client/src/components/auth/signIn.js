@@ -13,7 +13,7 @@ const SignInPage = () => (
     <h1>SignIn</h1>
     <SignInForm />
     <SignInGoogle />
-    {/* <SignInFacebook /> */}
+    <SignInFacebook /> 
     <SignUpLink />
   </div>
 );
