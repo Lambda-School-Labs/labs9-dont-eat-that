@@ -3,7 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 
 import { withFirebase } from './firebase';
-import { addAllergy, getAllergies } from '../actions';
+import { addAllergy, getAllergies } from '../actions/index';
 
 class Settings extends React.Component {
   state = {

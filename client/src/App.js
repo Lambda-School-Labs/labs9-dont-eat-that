@@ -13,7 +13,7 @@ import SignUp from './components/auth/signUp';
 import SignIn from './components/auth/signIn';
 import SignOut from './components/auth/signOut';
 import CheckoutForm from './components/CheckoutForm';
-import Settings from './components/settings';
+import Settings from './components/Settings';
 
 const NavDiv = styled.div`
   display: flex;

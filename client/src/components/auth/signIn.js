@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './signUp.js';
 import { withFirebase } from '../firebase/index.js';
-import { getUser } from '../../actions';
+import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
@@ -100,27 +100,13 @@ class SignInGoogleBase extends Component {
       .then(user => {
         this.setState({ ...INITIAL_STATE });
         localStorage.setItem('uid', user.user.uid);
+        this.props.addUser(user.user.uid);
         return user;
       })
       .then(res => {
         this.props.getUser();
         this.props.history.push('/recipes');
       })
-      // .then(socialAuthUser => {
-      //   console.log("Google USer obj = ", socialAuthUser.user);
-      //   // Create a user in your Firebase Realtime Database too
-      //   // return this.props.firebase
-      //   //   .user(socialAuthUser.user.uid)
-      //   //   .set({
-      //   //     username: socialAuthUser.user.displayName,
-      //   //     email: socialAuthUser.user.email,
-      //   //     roles: [],
-      //   //   });
-      // })
-      // .then(() => {
-      //   this.setState({ error: null });
-      // //  this.props.history.push(ROUTES.HOME);
-      // })
       .catch(error => {
         this.setState({ error });
       });
@@ -154,6 +140,7 @@ class SignInFacebookBase extends Component {
       .then(user => {
         this.setState({ ...INITIAL_STATE });
         localStorage.setItem('uid', user.user.uid);
+        this.props.addUser(user.user.uid);
         return user;
       })
       .then(res => {
@@ -189,17 +176,17 @@ const SignInForm = withRouter(
 const SignInGoogle = withRouter(
   connect(
     null,
-    { getUser }
+    { getUser, addUser }
   )(compose(withFirebase)(SignInGoogleBase))
 );
 
 const SignInFacebook = withRouter(
   connect(
     null,
-    { getUser }
+    { getUser, addUser }
   )(compose(withFirebase)(SignInFacebookBase))
 );
 
 export default SignInPage;
 
-export { SignInForm, SignInGoogle };
+export { SignInForm, SignInGoogle, SignInFacebook };

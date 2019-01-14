@@ -33,16 +33,15 @@ class SignUpFormBase extends Component {
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
-        console.log('SingUp.js   create user SUCCESS');
-        console.log('authUser', authUser);
+        console.log('SignUp.js create user SUCCESS');
         this.props.addUser(authUser.user.uid);
         this.setState({ ...INITIAL_STATE });
         //change URL to open appropriate page after signup/in
         //this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
-        console.log('SingUp.js   create user FAILED');
-        alert('SingUp.js   create user FAILED');
+        console.log('SignUp.js create user FAILED');
+        alert('SignUp.js create user FAILED');
         this.setState({ error });
       });
 
@@ -105,7 +104,7 @@ class SignUpFormBase extends Component {
 const SignUpLink = () => (
   <p>
     Don't have an account?
-     <Link to="/signup">Sign Up</Link> 
+    <Link to="/signup">Sign Up</Link>
   </p>
 );
 
