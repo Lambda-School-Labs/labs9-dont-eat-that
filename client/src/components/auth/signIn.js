@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './signUp.js';
 import { withFirebase } from '../firebase/index.js';
-import { getUser } from '../../actions';
+import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
@@ -99,6 +99,7 @@ class SignInGoogleBase extends Component {
       .then(user => {
         this.setState({ ...INITIAL_STATE });
         localStorage.setItem('uid', user.user.uid);
+        this.props.addUser(user.user.uid);
         return user;
       })
       .then(res => {
@@ -140,7 +141,6 @@ class SignInGoogleBase extends Component {
   }
 }
 
-
 const SignInForm = withRouter(
   connect(
     null,
@@ -151,10 +151,9 @@ const SignInForm = withRouter(
 const SignInGoogle = withRouter(
   connect(
     null,
-    { getUser }
+    { getUser, addUser }
   )(compose(withFirebase)(SignInGoogleBase))
 );
-
 
 export default SignInPage;
 
