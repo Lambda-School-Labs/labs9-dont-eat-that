@@ -189,6 +189,4 @@ const SignInFacebook = withRouter(
 
 export default SignInPage;
 
-export { SignInForm, SignInGoogle
-  // , SignInFacebook
- };
+export { SignInForm, SignInGoogle, SignInFacebook };

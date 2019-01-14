@@ -21,7 +21,7 @@ class Firebase {
 
     // for 3rd party OAuth
     this.googleProvider = new app.auth.GoogleAuthProvider();
-    // this.facebookProvider = new app.auth.FacebookAuthProvider();
+    this.facebookProvider = new app.auth.FacebookAuthProvider();
 
   }
 
@@ -34,8 +34,8 @@ class Firebase {
   doSignInWithGoogle = () =>
     this.auth.signInWithPopup(this.googleProvider);
     
-  // doSignInWithFacebook = () =>
-  //   this.auth.signInWithPopup(this.facebookProvider);
+  doSignInWithFacebook = () =>
+    this.auth.signInWithPopup(this.facebookProvider);
 
     doSignOut = () => this.auth.signOut();
 
