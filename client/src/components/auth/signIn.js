@@ -5,13 +5,15 @@ import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './signUp.js';
 import { withFirebase } from '../firebase/index.js';
-import { getUser } from '../../actions';
+import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
   <div>
     <h1>SignIn</h1>
     <SignInForm />
+    <SignInGoogle />
+    <SignInFacebook />
     <SignUpLink />
   </div>
 );
@@ -85,6 +87,85 @@ class SignInFormBase extends Component {
   }
 }
 
+class SignInGoogleBase extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { error: null };
+  }
+
+  onSubmit = event => {
+    this.props.firebase
+      .doSignInWithGoogle()
+      .then(user => {
+        this.setState({ ...INITIAL_STATE });
+        localStorage.setItem('uid', user.user.uid);
+        this.props.addUser(user.user.uid);
+        return user;
+      })
+      .then(res => {
+        this.props.getUser();
+        this.props.history.push('/recipes');
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+
+    event.preventDefault();
+  };
+
+  render() {
+    const { error } = this.state;
+
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Google</button>
+
+        {error && <p>{error.message}</p>}
+      </form>
+    );
+  }
+}
+
+class SignInFacebookBase extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { error: null };
+  }
+
+  onSubmit = event => {
+    this.props.firebase
+      .doSignInWithFacebook()
+      .then(user => {
+        this.setState({ ...INITIAL_STATE });
+        localStorage.setItem('uid', user.user.uid);
+        this.props.addUser(user.user.uid);
+        return user;
+      })
+      .then(res => {
+        this.props.getUser();
+        this.props.history.push('/recipes');
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
+
+    event.preventDefault();
+  };
+
+  render() {
+    const { error } = this.state;
+
+    return (
+      <form onSubmit={this.onSubmit}>
+        <button type="submit">Sign In with Facebook</button>
+
+        {error && <p>{error.message}</p>}
+      </form>
+    );
+  }
+}
 const SignInForm = withRouter(
   connect(
     null,
@@ -92,6 +173,20 @@ const SignInForm = withRouter(
   )(compose(withFirebase)(SignInFormBase))
 );
 
+const SignInGoogle = withRouter(
+  connect(
+    null,
+    { getUser, addUser }
+  )(compose(withFirebase)(SignInGoogleBase))
+);
+
+const SignInFacebook = withRouter(
+  connect(
+    null,
+    { getUser, addUser }
+  )(compose(withFirebase)(SignInFacebookBase))
+);
+
 export default SignInPage;
 
-export { SignInForm };
+export { SignInForm, SignInGoogle, SignInFacebook };
