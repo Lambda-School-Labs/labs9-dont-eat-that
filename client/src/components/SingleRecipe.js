@@ -93,7 +93,8 @@ class SingleRecipe extends React.Component {
           )}
         </div>
       );
-    } else if (recipe && nutrition) {
+    } else if (recipe && nutrition && false) {
+      // fix when done with editrecipe
       return (
         <div>
           <h1>{recipe.name}</h1>

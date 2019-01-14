@@ -146,45 +146,47 @@ router.put('/edit/:id', async (req, res) => {
   const id = req.params.id;
   if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
-    const getUserId = await db('users') // getting userId in users table from firebaseid
+    const user = await db('users') // getting userId in users table from firebaseid
       .where({ firebaseid })
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: getUserId })
+      .update({ name: name, description: description, user_id: user.id })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
       await db('recipes-ingredients') // deletes current recipe-ingredient relations
         .where({ recipe_id: id })
         .del();
-      await ingredients.map(async ingredient => {
-        const ingredientSearch = await db('ingredients') // checking if ingredient already in database
-          .where({ name: ingredient.name })
-          .first();
-        if (ingredientSearch === undefined) {
-          const ingredientDone = await db('ingredients')
-            .insert({
-              // inserting into ingredients database if ingredient doesn't exist
-              name: ingredient.name,
-              unit: ingredient.unit
-            })
-            .returning('id');
-          await db('recipes-ingredients').insert({
-            // inserting recipe-ingredient relations into database if ingredient doesn't exist
-            recipe_id: id,
-            ingredient_id: ingredientDone[0],
-            quantity: ingredient.quantity
-          });
-        } else {
-          await db('recipes-ingredients').insert({
-            // inserting recipe-ingredient relations into database if ingredient exists
-            recipe_id: id,
-            ingredient_id: ingredientSearch.id,
-            quantity: ingredient.quantity
-          });
-        }
-      });
+      await Promise.all(
+        ingredients.map(async ingredient => {
+          const ingredientSearch = await db('ingredients') // checking if ingredient already in database
+            .where({ name: ingredient.name })
+            .first();
+          if (ingredientSearch === undefined) {
+            const ingredientDone = await db('ingredients')
+              .insert({
+                // inserting into ingredients database if ingredient doesn't exist
+                name: ingredient.name,
+                unit: ingredient.unit
+              })
+              .returning('id');
+            await db('recipes-ingredients').insert({
+              // inserting recipe-ingredient relations into database if ingredient doesn't exist
+              recipe_id: id,
+              ingredient_id: ingredientDone[0],
+              quantity: ingredient.quantity
+            });
+          } else {
+            await db('recipes-ingredients').insert({
+              // inserting recipe-ingredient relations into database if ingredient exists
+              recipe_id: id,
+              ingredient_id: ingredientSearch.id,
+              quantity: ingredient.quantity
+            });
+          }
+        })
+      );
       const recipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
         .where({ id: id })
         .first();
