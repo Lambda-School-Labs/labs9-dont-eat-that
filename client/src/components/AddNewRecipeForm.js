@@ -216,14 +216,6 @@ class AddNewRecipeForm extends Component {
           required
         />
         <br />
-        <textarea
-          placeholder="Recipe Description"
-          name="description"
-          value={this.state.description}
-          onChange={this.typingHandler}
-          required
-        />
-        <br />
         <label htmlFor="numIngredients">Number of Ingredients:</label>
         <input
           type="number"
@@ -235,6 +227,16 @@ class AddNewRecipeForm extends Component {
         />
         <br />
         {ingredientRows}
+        <textarea
+          placeholder="Recipe Description and Steps"
+          name="description"
+          value={this.state.description}
+          onChange={this.typingHandler}
+          required
+          rows="22"
+          cols="80"
+        />
+        <br />        
         <button type="submit">Save Recipe</button>
       </form>
     );
