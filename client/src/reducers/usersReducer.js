@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions';
+import * as actionTypes from "../actions";
 
 const initialState = {
   users: [],
@@ -32,6 +32,14 @@ export const usersReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           allergies: [...state.user.allergies, action.payload]
+        }
+      };
+    case actionTypes.DELETE_ALLERGY:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          allergies: action.payload
         }
       };
     case actionTypes.ERROR:
