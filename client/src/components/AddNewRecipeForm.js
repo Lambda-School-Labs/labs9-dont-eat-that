@@ -38,15 +38,39 @@ class AddNewRecipeForm extends Component {
     };
   }
 
-  typingHandler = ev => {
-    this.setState({
-      [ev.target.name]: ev.target.value,
-      ingredients: [
-        ...this.state.ingredients,
-        { name: '', quantity: '', unit: '' }
-      ],
-      focuses: [...this.state.focus, { focus: false }]
-    });
+  typingHandler = e => {
+    if (e.target.name === 'numIngredients') {
+      // numIngredients needs certain logic
+      let prevNumIng;
+      const value = e.target.value; // declared since lost in async setState
+      this.setState(prevState => {
+        prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
+        if (prevNumIng > value) {
+          return {
+            numIngredients: value,
+            ingredients: this.state.ingredients.slice(0, value),
+            focuses: this.state.focuses.slice(0, value)
+          };
+        } else if (prevNumIng < value) {
+          let otherIng = [];
+          let otherFoc = [];
+          for (let i = 0; i < value - prevNumIng; i++) {
+            // getting extra rows for ing and foc
+            otherIng.push({ name: '', quantity: '', unit: '' });
+            otherFoc.push({ focus: false });
+          }
+          return {
+            numIngredients: value,
+            ingredients: [...this.state.ingredients, ...otherIng],
+            focuses: [...this.state.focuses, ...otherFoc]
+          };
+        } else {
+          return { numIngredients: value };
+        }
+      });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
   };
 
   ingHandler = ev => {
