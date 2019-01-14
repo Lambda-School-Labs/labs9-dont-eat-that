@@ -56,9 +56,9 @@ router.post('/create', async (req, res) => {
           .first();
         await db('users-allergies').insert({
           user_id: user.id,
-          allergy_id: allergyId
+          allergy_id: allergyId[0]
         });
-        res.status(201).json(allergyId);
+        res.status(201).json(allergyId[0]);
       }
     } else {
       res.status(422).json({
