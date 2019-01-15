@@ -97,7 +97,7 @@ export const deleteAllergy = allergy => (dispatch, getState) => {
     }
   );
   axios
-    .delete(`${URL}/api/allergies/delete/${allergy}`, { firebaseid, allergy })
+    .delete(`${URL}/api/allergies/delete/${firebaseid}/${allergy}`)
     .then(res => dispatch({ type: DELETE_ALLERGY, payload: allergyArr }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
