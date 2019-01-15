@@ -6,6 +6,7 @@ import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
 import { connect } from 'react-redux';
 import { addUser } from '../../actions';
+// eslint-disable-next-line
 import { domainToASCII } from 'url';
 
 const SignUpPage = () => (
@@ -105,8 +106,7 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
   <p>
-    Don't have an account?
-    <Link to="/signup">Sign Up</Link>
+    Don't have an account? <Link to="/signup">Sign Up</Link>
   </p>
 );
 

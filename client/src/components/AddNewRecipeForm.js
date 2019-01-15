@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addRecipe, autoComIng, resetAutoCom } from '../actions';
+import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import styled from 'styled-components';
 
 const AutoComDiv = styled.div`
@@ -36,6 +36,10 @@ class AddNewRecipeForm extends Component {
       ],
       focuses: [{ focus: false }, { focus: false }, { focus: false }]
     };
+  }
+
+  componentDidMount() {
+    this.props.getAllergies();
   }
 
   typingHandler = e => {
@@ -135,6 +139,7 @@ class AddNewRecipeForm extends Component {
   onClickAutocomplete = (i, item) => {
     let ingredients = this.state.ingredients.slice();
     ingredients[i].name = item;
+    console.log('here');
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
@@ -152,13 +157,24 @@ class AddNewRecipeForm extends Component {
     this.setState({ focuses });
   };
 
+  ingAllergyWarning = index => {
+    const boolArr = this.props.allergies.map(
+      allergy => allergy === this.state.ingredients[index].name
+    );
+    if (boolArr.includes(true)) {
+      return { background: 'red' };
+    } else {
+      return {};
+    }
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
       ingredientRows.push(
         <div key={`row${i}`}>
-          <AutoComDiv onBlur={() => this.onBlur(i)}>
+          <AutoComDiv>
             <input
               type="text"
               placeholder="Ingredient Name"
@@ -170,6 +186,7 @@ class AddNewRecipeForm extends Component {
                 this.ingHandler(e);
                 this.props.autoComIng(this.state.ingredients[i].name);
               }}
+              style={this.ingAllergyWarning(i)}
             />
             {this.props.autoCom && this.state.focuses[i].focus && (
               <AutoComItemsDiv>
@@ -216,14 +233,6 @@ class AddNewRecipeForm extends Component {
           required
         />
         <br />
-        <textarea
-          placeholder="Recipe Description"
-          name="description"
-          value={this.state.description}
-          onChange={this.typingHandler}
-          required
-        />
-        <br />
         <label htmlFor="numIngredients">Number of Ingredients:</label>
         <input
           type="number"
@@ -235,6 +244,16 @@ class AddNewRecipeForm extends Component {
         />
         <br />
         {ingredientRows}
+        <textarea
+          placeholder="Recipe Description and Steps"
+          name="description"
+          value={this.state.description}
+          onChange={this.typingHandler}
+          required
+          rows="22"
+          cols="80"
+        />
+        <br />
         <button type="submit">Save Recipe</button>
       </form>
     );
@@ -243,11 +262,12 @@ class AddNewRecipeForm extends Component {
 
 const mapStateToProps = state => {
   return {
-    autoCom: state.nutritionReducer.autoComIng
+    autoCom: state.nutritionReducer.autoComIng,
+    allergies: state.usersReducer.user.allergies
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addRecipe, autoComIng, resetAutoCom }
+  { addRecipe, autoComIng, resetAutoCom, getAllergies }
 )(AddNewRecipeForm);

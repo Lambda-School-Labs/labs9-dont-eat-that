@@ -15,6 +15,7 @@ export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
 export const AUTOCOM_ING = 'AUTOCOM_ING';
 export const RESET_AUTOCOM = 'RESET_AUTOCOM';
+export const DELETE_ALLERGY = 'DELETE_ALLERGY';
 export const ERROR = 'ERROR';
 
 const URL = 'https://donteatthat.herokuapp.com';
@@ -85,6 +86,19 @@ export const addAllergy = allergy => dispatch => {
   axios
     .post(`${URL}/api/allergies/create`, { firebaseid, allergy })
     .then(res => dispatch({ type: ADD_ALLERGY, payload: allergy }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const deleteAllergy = allergy => (dispatch, getState) => {
+  const firebaseid = localStorage.getItem('uid');
+  const allergyArr = getState().usersReducer.user.allergies.filter(
+    oldAllergy => {
+      return oldAllergy !== allergy;
+    }
+  );
+  axios
+    .delete(`${URL}/api/allergies/delete/${firebaseid}/${allergy}`)
+    .then(res => dispatch({ type: DELETE_ALLERGY, payload: allergyArr }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 

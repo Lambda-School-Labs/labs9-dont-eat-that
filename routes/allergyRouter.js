@@ -70,4 +70,30 @@ router.post('/create', async (req, res) => {
   }
 });
 
+router.delete('/delete/:id/:allergy', async (req, res) => {
+  const firebaseid = req.params.id;
+  const allergy = req.params.allergy;
+  try {
+    if (firebaseid && allergy) {
+      const user = await db('users')
+        .where({ firebaseid })
+        .first();
+      const oneAllergy = await db('allergies')
+        .where({ name: allergy })
+        .first();
+      const count = await db('users-allergies')
+        .where({ allergy_id: oneAllergy.id, user_id: user.id })
+        .del();
+      res.status(200).json(count);
+    } else {
+      res.status(400).json({ message: 'Please provide all fields' });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error deleting the allergy',
+      err
+    });
+  }
+});
+
 module.exports = router;

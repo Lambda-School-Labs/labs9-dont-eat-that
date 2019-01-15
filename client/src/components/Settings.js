@@ -1,10 +1,15 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 
 import { withFirebase } from './firebase';
-import { addAllergy, getAllergies } from '../actions/index';
+import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
 
+const DeleteAllergySpan = styled.span`
+  color: red;
+  cursor: pointer;
+`;
 class Settings extends React.Component {
   state = {
     email: '',
@@ -21,6 +26,7 @@ class Settings extends React.Component {
     this.props.addAllergy(this.state.allergy);
     this.setState({ allergy: '' });
   };
+
   render() {
     if (this.props.allergies) {
       return (
@@ -69,7 +75,29 @@ class Settings extends React.Component {
             <h2>Allergies</h2>
             <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
               {this.props.allergies.map((allergy, i) => {
-                return <li key={i}>{allergy}</li>;
+                if (typeof allergy === 'object') {
+                  return (
+                    <li key={i}>
+                      {allergy.name}{' '}
+                      <DeleteAllergySpan
+                        onClick={() => this.props.deleteAllergy(allergy.name)}
+                      >
+                        X
+                      </DeleteAllergySpan>
+                    </li>
+                  );
+                } else {
+                  return (
+                    <li key={i}>
+                      {allergy}{' '}
+                      <DeleteAllergySpan
+                        onClick={() => this.props.deleteAllergy(allergy)}
+                      >
+                        X
+                      </DeleteAllergySpan>
+                    </li>
+                  );
+                }
               })}
             </ul>
             <label htmlFor="allergy" />
@@ -99,5 +127,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addAllergy, getAllergies }
+  { addAllergy, getAllergies, deleteAllergy }
 )(compose(withFirebase)(Settings));
