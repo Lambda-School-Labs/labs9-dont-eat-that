@@ -215,6 +215,7 @@ class AddNewRecipeForm extends Component {
               name={`quty${i}`}
               value={this.state.ingredients[i].quantity}
               onChange={this.ingHandler}
+              onFocus={() => this.onBlur(i)}
             />
             <input
               type="text"
@@ -222,6 +223,7 @@ class AddNewRecipeForm extends Component {
               name={`unit${i}`}
               value={this.state.ingredients[i].unit}
               onChange={this.ingHandler}
+              onFocus={() => this.onBlur(i)}
             />
             <br />
           </div>
