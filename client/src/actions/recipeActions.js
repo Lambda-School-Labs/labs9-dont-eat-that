@@ -91,14 +91,16 @@ export const addAllergy = allergy => dispatch => {
 
 export const deleteAllergy = allergy => (dispatch, getState) => {
   const firebaseid = localStorage.getItem('uid');
-  const allergyArr = getState().usersReducer.user.allergies.filter(oldAllergy => {
-    return oldAllergy !== allergy;
-  })
+  const allergyArr = getState().usersReducer.user.allergies.filter(
+    oldAllergy => {
+      return oldAllergy !== allergy;
+    }
+  );
   axios
-    .delete(`${URL}/api/allergies/delete/${allergy}`, {firebaseid, allergy})
+    .delete(`${URL}/api/allergies/delete/${allergy}`, { firebaseid, allergy })
     .then(res => dispatch({ type: DELETE_ALLERGY, payload: allergyArr }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
-}
+};
 
 export const getNutrition = (title, ingr) => dispatch => {
   axios

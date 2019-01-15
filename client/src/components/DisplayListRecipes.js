@@ -11,7 +11,13 @@ const DisplayListDiv = styled.div`
 `;
 
 const CreateRecipeDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 1px solid black;
+  height: 200px;
+  width: 200px;
   padding: 10px;
   margin: 10px;
 `;
@@ -42,6 +48,7 @@ class DisplayListRecipes extends Component {
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
               <h3>Create a Recipe</h3>
+              <h3>+</h3>
             </CreateRecipeDiv>
           </Link>
           {this.displayDiv()}

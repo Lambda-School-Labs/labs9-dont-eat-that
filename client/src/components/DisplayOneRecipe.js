@@ -9,8 +9,11 @@ import { Link } from 'react-router-dom';
 
 const DisplayRecipeDiv = styled.div`
   border: 1px solid black;
+  width: 200px;
+  height: 200px;
   padding: 10px;
   margin: 10px;
+  overflow: hidden;
 `;
 
 const DisplayOneRecipe = props => {

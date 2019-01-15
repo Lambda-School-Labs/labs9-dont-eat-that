@@ -13,7 +13,7 @@ const SignInPage = () => (
     <h1>SignIn</h1>
     <SignInForm />
     <SignInGoogle />
-    <SignInFacebook /> 
+    <SignInFacebook />
     <SignUpLink />
   </div>
 );
@@ -45,8 +45,9 @@ class SignInFormBase extends Component {
       .then(res => {
         console.log('PROPS', this.props);
         this.props.getUser();
-        this.props.history.push('/recipes');
+        return res;
       })
+      .then(res => this.props.history.push('/recipes'))
       .catch(error => {
         this.setState({ error });
       });

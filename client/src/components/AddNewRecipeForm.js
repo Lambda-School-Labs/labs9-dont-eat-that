@@ -139,6 +139,7 @@ class AddNewRecipeForm extends Component {
   onClickAutocomplete = (i, item) => {
     let ingredients = this.state.ingredients.slice();
     ingredients[i].name = item;
+    console.log('here');
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
@@ -173,7 +174,7 @@ class AddNewRecipeForm extends Component {
     for (let i = 0; i < this.state.numIngredients; i++) {
       ingredientRows.push(
         <div key={`row${i}`}>
-          <AutoComDiv onBlur={() => this.onBlur(i)}>
+          <AutoComDiv>
             <input
               type="text"
               placeholder="Ingredient Name"
@@ -185,9 +186,7 @@ class AddNewRecipeForm extends Component {
                 this.ingHandler(e);
                 this.props.autoComIng(this.state.ingredients[i].name);
               }}
-              style={() => {
-                this.ingAllergyWarning(i);
-              }}
+              style={this.ingAllergyWarning(i)}
             />
             {this.props.autoCom && this.state.focuses[i].focus && (
               <AutoComItemsDiv>
@@ -254,7 +253,7 @@ class AddNewRecipeForm extends Component {
           rows="22"
           cols="80"
         />
-        <br />        
+        <br />
         <button type="submit">Save Recipe</button>
       </form>
     );

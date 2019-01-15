@@ -180,7 +180,7 @@ class AddNewRecipeForm extends Component {
       for (let i = 0; i < this.state.numIngredients; i++) {
         ingredientRows.push(
           <div key={`row${i}`}>
-            <AutoComDiv onBlur={() => this.onBlur(i)}>
+            <AutoComDiv>
               <input
                 type="text"
                 placeholder="Ingredient Name"
@@ -192,9 +192,7 @@ class AddNewRecipeForm extends Component {
                   this.ingHandler(e);
                   this.props.autoComIng(this.state.ingredients[i].name);
                 }}
-                style={() => {
-                  this.ingAllergyWarning(i);
-                }}
+                style={this.ingAllergyWarning(i)}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (
                 <AutoComItemsDiv>
