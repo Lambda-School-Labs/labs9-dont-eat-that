@@ -74,8 +74,8 @@ router.delete('/delete/:id', async (req, res) => {
   const { firebaseid, allergy } = req.body;
   try {
     if (firebaseid && allergy) {
-      const count = await db('users')
-        .join('users-allergies', 'users.id', 'users-allergies.user_id')
+      const count = await db('users-allergies')
+        .join('users', 'users.id', 'users-allergies.user_id')
         .join('allergies', 'allergies.id', 'users-allergies.allergy_id')
         .where({ 'allergies.name': allergy, 'users.firebaseid': firebaseid })
         .del();
