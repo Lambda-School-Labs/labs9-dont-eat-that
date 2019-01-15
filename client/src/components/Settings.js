@@ -32,13 +32,14 @@ class Settings extends React.Component {
     if (this.props.allergies) {
       return (
         <div>
+          
           <h1>Settings</h1>
           <div>
-            <h2>User Account</h2>
-            
+            <h2>User Account</h2>   
             <br />
            <PasswordChangeForm />
           </div>
+
           <div>
             <h2>Allergies</h2>
             <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
