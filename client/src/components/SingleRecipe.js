@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Parser from 'html-react-parser';
 import styled from 'styled-components';
 import {
   getRecipe,
@@ -58,7 +59,6 @@ class SingleRecipe extends React.Component {
   }
   render() {
     const { recipe, nutrition } = this.props;
-    const firebaseid = localStorage.getItem('uid');
     if (recipe && !nutrition) {
       this.getNutrition();
       return (
@@ -67,7 +67,7 @@ class SingleRecipe extends React.Component {
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
-              <p>{recipe.description}</p>
+              <p>{Parser(recipe.description)}</p>
             </div>
             <div>
               <h3>Ingredients</h3>
@@ -81,12 +81,12 @@ class SingleRecipe extends React.Component {
               </ul>
             </div>
           </RecipeDescAndIngDiv>
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
               <EditRecipeButton>Edit Recipe</EditRecipeButton>
             </Link>
           )}
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <DeleteRecipeButton onClick={this.deleteRecipe}>
               Delete Recipe
             </DeleteRecipeButton>
@@ -94,6 +94,7 @@ class SingleRecipe extends React.Component {
         </div>
       );
     } else if (recipe && nutrition) {
+      // fix when going live
       // change when altering editrecipe or singlerecipe
       return (
         <div>
@@ -101,7 +102,7 @@ class SingleRecipe extends React.Component {
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
-              <p>{recipe.description}</p>
+              <p>{Parser(recipe.description)}</p>
             </div>
             <div>
               <h3>Ingredients</h3>
@@ -139,12 +140,12 @@ class SingleRecipe extends React.Component {
               }`}
             </p>
           </div>
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
               <EditRecipeButton>Edit Recipe</EditRecipeButton>
             </Link>
           )}
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <DeleteRecipeButton onClick={this.deleteRecipe}>
               Delete Recipe
             </DeleteRecipeButton>

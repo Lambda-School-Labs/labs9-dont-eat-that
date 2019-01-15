@@ -4,6 +4,7 @@
 // Display two buttons - edit and delete.  Both buttons will be linked to a props methods
 
 import React from 'react';
+import Parser from 'html-react-parser';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +28,7 @@ const DisplayOneRecipe = props => {
       >
         <h3>{props.recipe.name}</h3>
         <h4>Description:</h4>
-        <p>{props.recipe.description}</p>
+        <p>{Parser(props.recipe.description)}</p>
       </DisplayRecipeDiv>
     </Link>
   );
