@@ -10,22 +10,29 @@ router.post('/charge', async (req, res) => {
   const plan = // getting actually stripe plan id for silver or gold plan
     customerPlan === 'silver' ? 'plan_EKIEXJhyKqBTFd' : 'plan_EKIFbngvwjejux';
   try {
-    const customer = await stripe.customers.create({
-      // creating customer
-      source: token
-    });
-    const subscription = await stripe.subscriptions.create({
-      // subscription customer to plan
-      customer: customer.id,
-      items: [{ plan }]
-    });
-    await db('users') // saving customer and subscription id to user db
+    const user = db('users')
       .where({ firebaseid })
-      .update({
-        customerid: customer.id,
-        subscriptionid: subscription.id
+      .first();
+    if (!user.subscriptionid) {
+      const customer = await stripe.customers.create({
+        // creating customer
+        source: token
       });
-    res.status(201).json({ subscription });
+      const subscription = await stripe.subscriptions.create({
+        // subscription customer to plan
+        customer: customer.id,
+        items: [{ plan }]
+      });
+      await db('users') // saving customer and subscription id to user db
+        .where({ firebaseid })
+        .update({
+          customerid: customer.id,
+          subscriptionid: subscription.id
+        });
+      res.status(201).json({ subscription });
+    } else {
+      res.status(400).json({ message: 'User already has a subscription.' });
+    }
   } catch (err) {
     res
       .status(500)
