@@ -174,14 +174,13 @@ class AddNewRecipeForm extends Component {
     for (let i = 0; i < this.state.numIngredients; i++) {
       ingredientRows.push(
         <div key={`row${i}`}>
-          <AutoComDiv>
+          <AutoComDiv onFocus={() => this.onFocus(i)}>
             <input
               type="text"
               placeholder="Ingredient Name"
               name={`name${i}`}
               value={this.state.ingredients[i].name}
               autoComplete="new-password"
-              onFocus={() => this.onFocus(i)}
               onChange={e => {
                 this.ingHandler(e);
                 this.props.autoComIng(this.state.ingredients[i].name);
