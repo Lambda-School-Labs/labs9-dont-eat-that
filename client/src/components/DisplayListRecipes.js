@@ -34,21 +34,14 @@ class DisplayListRecipes extends Component {
       isSearched: false
     };
 
-    this.searchedRecipes = [];
+    this.displayedRecipes = [];
 
   }
-
+  // maybe filter the array?
   displayDiv = () => {
-    console.log("DisplayListRecipe.js   this.props.recipes = ", this.props.recipes);
-    console.log("DisplayListRecipe.js   this.searchedRecipes = ", this.searchedRecipes);
+        console.log(this.displayedRecipes);
 
-    const displayedRecipes = this.searchedRecipes == [] ? this.props.recipes : this.searchedRecipes;
-    const displayedRecipes1 = this.searchedRecipes == [] ? console.log('searchedRec is []') : console.log('searchedRec is NOT  []')
-
-
-    console.log("DisplayListRecipe.js   displayRecipes = ", displayedRecipes);
-
-    return displayedRecipes.map(recipe => {
+    return this.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
@@ -69,19 +62,22 @@ class DisplayListRecipes extends Component {
   handleInputChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
-      isSearched: true
+     
     });
-    // this.props.handleSearchBoolean(true);
+  
   };
+// edge case for spacing, for later
 
 
   render()
   {
-    if (this.state.isSearched){
-      this.searchedRecipes = searchFunc(this.state.query, this.props.recipes);
-      console.log("DisplayListRecipe.js   Inside Render  isSearched = true")
+    if (this.state.query){ 
+      this.displayedRecipes = searchFunc(this.state.query, this.props.recipes);
+    
     }  
-  
+    else{
+    this.displayedRecipes = this.props.recipes;
+    }
 
     return (
       <div className="recipe-list">
