@@ -1,25 +1,24 @@
 export const searchFunc = (query, recipes) => {
-    console.log("recipes", recipes)
 
-//    const checkIngredient = (recipe) => {
-//     if(){
-//         console.log('CheckIngr  recipe = ', recipe);
-//            console.log('CheckIngre ingredient = ', recipe.ingredients);
-//             return recipe.ingredients.map ( ingredient => 
-//                 ingredient.name.includes(query) )
 
-//     }   
+    // checkIngredient function checks if a recipe's ingredient names has search query
+    // and returns true or false
     
-//    }
-//   return recipes.filter( recipe => recipe.ingredients.filter (ingredient => ingredient.name.includes(query)));
-
-
-
+   const checkIngredient = (recipe) => {
+     
+    const result = recipe.ingredients.filter ( ingredient => 
+                ingredient.name.includes(query) ) 
+    
+        // filter returns array and even empty array is truthy.  
+        // so check the length and return true or false
+        
+        return result.length > 0 ? true : false;
+    }   
+    
+    // returns recipes that has search query in recipe name or ingredient name
     return recipes.filter(
-        recipe => recipe.name.includes(query) 
-        // || checkIngredient(recipe)
+        recipe => recipe.name.includes(query)  || checkIngredient(recipe)
     );
 
   };
 
-//   console.log(ingredient)

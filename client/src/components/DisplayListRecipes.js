@@ -41,6 +41,11 @@ class DisplayListRecipes extends Component {
   displayDiv = () => {
         console.log(this.displayedRecipes);
 
+        // for search result to work, I changed below code to use this.displayedRecipes, 
+        // instead of this.props.recipes
+        // displayedRecipes will get recipes array that match search query
+        // if there is no search query, it will get this.props.recipes
+
     return this.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
@@ -71,9 +76,9 @@ class DisplayListRecipes extends Component {
 
   render()
   {
+    // check if there is query and assign correct recipes array for this.displayedRecipes
     if (this.state.query){ 
       this.displayedRecipes = searchFunc(this.state.query, this.props.recipes);
-    
     }  
     else{
     this.displayedRecipes = this.props.recipes;
