@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import DisplayOneRecipe from './DisplayOneRecipe';
+import SimpleSearch from './util/simpleSearch.js';
+import { searchFunc } from "./util";
+
 
 const DisplayListDiv = styled.div`
   display: flex;
@@ -23,8 +26,29 @@ const CreateRecipeDiv = styled.div`
 `;
 
 class DisplayListRecipes extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: "",
+      isSearched: false
+    };
+
+    this.searchedRecipes = [];
+
+  }
+
   displayDiv = () => {
-    return this.props.recipes.map(recipe => {
+    console.log("DisplayListRecipe.js   this.props.recipes = ", this.props.recipes);
+    console.log("DisplayListRecipe.js   this.searchedRecipes = ", this.searchedRecipes);
+
+    const displayedRecipes = this.searchedRecipes == [] ? this.props.recipes : this.searchedRecipes;
+    const displayedRecipes1 = this.searchedRecipes == [] ? console.log('searchedRec is []') : console.log('searchedRec is NOT  []')
+
+
+    console.log("DisplayListRecipe.js   displayRecipes = ", displayedRecipes);
+
+    return displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
@@ -40,9 +64,33 @@ class DisplayListRecipes extends Component {
       }
     });
   };
-  render() {
+
+
+  handleInputChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+      isSearched: true
+    });
+    // this.props.handleSearchBoolean(true);
+  };
+
+
+  render()
+  {
+    if (this.state.isSearched){
+      this.searchedRecipes = searchFunc(this.state.query, this.props.recipes);
+      console.log("DisplayListRecipe.js   Inside Render  isSearched = true")
+    }  
+  
+
     return (
       <div className="recipe-list">
+      <SimpleSearch 
+               recipes={this.state.notes}
+               query={this.state.query}
+               handleInputChange={this.handleInputChange}
+               />
+
         <h1>Recipes</h1>
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
@@ -56,7 +104,8 @@ class DisplayListRecipes extends Component {
       </div>
     );
   }
-}
+  };
+
 
 const mapStateToProps = state => {
   const { recipesReducer } = state;
@@ -66,5 +115,6 @@ const mapStateToProps = state => {
     allergies: state.usersReducer.user.allergies
   };
 };
+  
 
 export default connect(mapStateToProps)(DisplayListRecipes);
