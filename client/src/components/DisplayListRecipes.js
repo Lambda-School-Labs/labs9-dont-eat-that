@@ -11,12 +11,35 @@ const DisplayListDiv = styled.div`
 `;
 
 const CreateRecipeDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 1px solid black;
+  height: 200px;
+  width: 200px;
   padding: 10px;
   margin: 10px;
 `;
 
 class DisplayListRecipes extends Component {
+  displayDiv = () => {
+    return this.props.recipes.map(recipe => {
+      // returns on of the JSX elements in if/else below
+      const outerBoolArr = recipe.ingredients.map(ingredient => {
+        const innerBoolArr = this.props.allergies.map(
+          allergy => allergy === ingredient.name // seeing if any allergies in one ingredient
+        );
+        return innerBoolArr.includes(true); // returns true if allergy in ingredient
+      });
+      if (outerBoolArr.includes(true)) {
+        // seeing if any allergies in all ingredients
+        return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
+      } else {
+        return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
+      }
+    });
+  };
   render() {
     return (
       <div className="recipe-list">
@@ -25,11 +48,10 @@ class DisplayListRecipes extends Component {
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
               <h3>Create a Recipe</h3>
+              <h3>+</h3>
             </CreateRecipeDiv>
           </Link>
-          {this.props.recipes.map(recipe => {
-            return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
-          })}
+          {this.displayDiv()}
         </DisplayListDiv>
       </div>
     );
@@ -40,7 +62,8 @@ const mapStateToProps = state => {
   const { recipesReducer } = state;
   return {
     recipes: recipesReducer.recipes,
-    error: recipesReducer.error
+    error: recipesReducer.error,
+    allergies: state.usersReducer.user.allergies
   };
 };
 

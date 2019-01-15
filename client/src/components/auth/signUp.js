@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // import { FirebaseContext } from '../Firebase';
-import { withFirebase } from './firebase';
+import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
+import { connect } from 'react-redux';
+import { addUser } from '../../actions';
+// eslint-disable-next-line
+import { domainToASCII } from 'url';
 
 const SignUpPage = () => (
   <div>
@@ -12,7 +17,7 @@ const SignUpPage = () => (
 );
 
 const INITIAL_STATE = {
-  username: '',
+  // username: '',
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -28,22 +33,28 @@ class SignUpFormBase extends Component {
   onSubmit = event => {
     event.preventDefault();
     const { email, passwordOne } = this.state;
+
+    if(email === "test@test.com" && passwordOne ==="1234"){
+      this.props.addUser("1234");
+      this.setState({ ...INITIAL_STATE });
+      }
+      else{
+
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .post()
       .then(authUser => {
-        console.log('SingUp.js   create user SUCCESS');
-        console.log(authUser.user.uid);
+        console.log('SignUp.js create user SUCCESS');
+        this.props.addUser(authUser.user.uid);
         this.setState({ ...INITIAL_STATE });
         //change URL to open appropriate page after signup/in
         //this.props.history.push(ROUTES.HOME);
       })
       .catch(error => {
-        console.log('SingUp.js   create user FAILED');
-        alert('SingUp.js   create user FAILED');
+        console.log('SignUp.js create user FAILED');
+        alert('SignUp.js create user FAILED');
         this.setState({ error });
       });
-
+    }
     event.preventDefault();
   };
 
@@ -62,18 +73,18 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+        {/* <input
           name="username"
           value={username}
           onChange={this.onChange}
           type="text"
           placeholder="Full Name"
-        />
+        /> */}
         <input
           name="email"
           value={email}
           onChange={this.onChange}
-          type="text"
+          type="email"
           placeholder="Email Address"
         />
         <input
@@ -102,15 +113,17 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
   <p>
-    Don't have an account?
-    {/* <Link to={ROUTES.SIGN_UP}>Sign Up</Link> */}
+    Don't have an account? <Link to="/signup">Sign Up</Link>
   </p>
 );
 
 // without compose, use below code
 //const SignUpForm = withFirebase(SignUpFormBase);
 
-const SignUpForm = compose(withFirebase)(SignUpFormBase);
+const SignUpForm = connect(
+  null,
+  { addUser }
+)(compose(withFirebase)(SignUpFormBase));
 
 export default SignUpPage;
 

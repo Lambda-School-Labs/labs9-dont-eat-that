@@ -5,15 +5,36 @@ const db = require('../data/dbConfig');
 const router = express.Router();
 
 // get all recipes including others
-router.get('/all', (req, res) => {
-  db('recipes')
-    .then(recipes => res.status(200).json(recipes))
-    .catch(err =>
-      res.status(500).json({
-        message: 'The recipes information could not be retrieved',
-        err
+router.get('/all', async (req, res) => {
+  try {
+    const recipes = await db('recipes'); // getting all recipes
+    const recipesAndIng = await Promise.all(
+      recipes.map(async recipe => {
+        // mapping over recipes and adding ingredients
+        const ingredients = await db('ingredients')
+          .join(
+            'recipes-ingredients',
+            'ingredients.id',
+            'recipes-ingredients.ingredient_id'
+          )
+          .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+          .where({ 'recipes.id': recipe.id })
+          .select(
+            'ingredients.name',
+            'recipes-ingredients.quantity',
+            'ingredients.unit'
+          );
+        return { ...recipe, ingredients };
       })
     );
+    console.log(recipesAndIng);
+    res.status(200).json(recipesAndIng);
+  } catch (err) {
+    res.status(500).json({
+      message: 'The recipes information could not be retrieved',
+      err
+    });
+  }
 });
 
 // get recipes for just the user
@@ -66,45 +87,50 @@ router.get('/one/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const { name, description, userid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
-  if (name && description && userid && ingredients) {
+  const { name, description, firebaseid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
+  if (name && description && firebaseid && ingredients) {
     try {
+      const user = await db('users')
+        .where({ firebaseid })
+        .first();
       const recipe = await db('recipes')
         .insert({
           // inserting into recipes database
           name: name,
           description: description,
-          user_id: userid
+          user_id: user.id
         })
         .returning('id');
-      await ingredients.map(async ingredient => {
-        const ingredientSearch = await db('ingredients') // checking if ingredient already in database
-          .where({ name: ingredient.name })
-          .first();
-        if (ingredientSearch === undefined) {
-          const ingredientDone = await db('ingredients')
-            .insert({
-              // inserting into ingredients database if ingredient doesn't exist
-              name: ingredient.name,
-              unit: ingredient.unit
-            })
-            .returning('id');
-          await db('recipes-ingredients').insert({
-            // inserting into recipes-ingredients database
-            recipe_id: recipe[0],
-            ingredient_id: ingredientDone[0],
-            quantity: ingredient.quantity
-          });
-        } else {
-          await db('recipes-ingredients').insert({
-            // inserting into recipes-ingredients database
-            recipe_id: recipe[0],
-            ingredient_id: ingredientSearch.id,
-            quantity: ingredient.quantity
-          });
-        }
-      });
-      res.status(200).json(recipe[0]);
+      await Promise.all(
+        ingredients.map(async ingredient => {
+          const ingredientSearch = await db('ingredients') // checking if ingredient already in database
+            .where({ name: ingredient.name, unit: ingredient.unit })
+            .first();
+          if (ingredientSearch === undefined) {
+            const ingredientDone = await db('ingredients')
+              .insert({
+                // inserting into ingredients database if ingredient doesn't exist
+                name: ingredient.name,
+                unit: ingredient.unit
+              })
+              .returning('id');
+            await db('recipes-ingredients').insert({
+              // inserting into recipes-ingredients database
+              recipe_id: recipe[0],
+              ingredient_id: ingredientDone[0],
+              quantity: ingredient.quantity
+            });
+          } else {
+            await db('recipes-ingredients').insert({
+              // inserting into recipes-ingredients database
+              recipe_id: recipe[0],
+              ingredient_id: ingredientSearch.id,
+              quantity: ingredient.quantity
+            });
+          }
+        })
+      );
+      res.status(201).json(recipe[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -118,47 +144,51 @@ router.post('/create', async (req, res) => {
 });
 
 router.put('/edit/:id', async (req, res) => {
-  // *may need to add returning parameter for postgresql
-  const { name, description, userid, ingredients } = req.body;
+  const { name, description, firebaseid, ingredients } = req.body;
   const id = req.params.id;
-  if (name && description && userid && ingredients) {
+  if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
+    const user = await db('users') // getting userId in users table from firebaseid
+      .where({ firebaseid })
+      .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: userid })
+      .update({ name: name, description: description, user_id: user.id })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
       await db('recipes-ingredients') // deletes current recipe-ingredient relations
         .where({ recipe_id: id })
         .del();
-      await ingredients.map(async ingredient => {
-        const ingredientSearch = await db('ingredients') // checking if ingredient already in database
-          .where({ name: ingredient.name })
-          .first();
-        if (ingredientSearch === undefined) {
-          const ingredientDone = await db('ingredients')
-            .insert({
-              // inserting into ingredients database if ingredient doesn't exist
-              name: ingredient.name,
-              unit: ingredient.unit
-            })
-            .returning('id');
-          await db('recipes-ingredients').insert({
-            // inserting recipe-ingredient relations into database if ingredient doesn't exist
-            recipe_id: id,
-            ingredient_id: ingredientDone[0],
-            quantity: ingredient.quantity
-          });
-        } else {
-          await db('recipes-ingredients').insert({
-            // inserting recipe-ingredient relations into database if ingredient exists
-            recipe_id: id,
-            ingredient_id: ingredientSearch.id,
-            quantity: ingredient.quantity
-          });
-        }
-      });
+      await Promise.all(
+        ingredients.map(async ingredient => {
+          const ingredientSearch = await db('ingredients') // checking if ingredient already in database
+            .where({ name: ingredient.name, unit: ingredient.unit })
+            .first();
+          if (ingredientSearch === undefined) {
+            const ingredientDone = await db('ingredients')
+              .insert({
+                // inserting into ingredients database if ingredient doesn't exist
+                name: ingredient.name,
+                unit: ingredient.unit
+              })
+              .returning('id');
+            await db('recipes-ingredients').insert({
+              // inserting recipe-ingredient relations into database if ingredient doesn't exist
+              recipe_id: id,
+              ingredient_id: ingredientDone[0],
+              quantity: ingredient.quantity
+            });
+          } else {
+            await db('recipes-ingredients').insert({
+              // inserting recipe-ingredient relations into database if ingredient exists
+              recipe_id: id,
+              ingredient_id: ingredientSearch.id,
+              quantity: ingredient.quantity
+            });
+          }
+        })
+      );
       const recipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
         .where({ id: id })
         .first();

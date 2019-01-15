@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions';
+import * as actionTypes from '../actions/index';
 
 const initialState = {
   fetching: false,
@@ -16,6 +16,14 @@ export const recipesReducer = (state = initialState, action) => {
       return { ...state, recipes: action.payload, gettingRecipes: false };
     case actionTypes.GET_RECIPE:
       return { ...state, recipe: action.payload, gettingRecipe: false };
+    case actionTypes.ADD_RECIPE:
+      return { ...state, recipes: [...state.recipes, action.payload] };
+    case actionTypes.EDIT_RECIPE:
+      return {
+        ...state,
+        recipe: action.payload.recipe,
+        recipes: action.payload.recipes
+      };
     case actionTypes.DELETE_RECIPE:
       return { ...state, recipes: action.payload };
     case actionTypes.ERROR:

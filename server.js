@@ -1,20 +1,23 @@
 const express = require('express');
-const knex = require('knex');
 const cors = require('cors');
 
 const recipeRouter = require('./routes/recipeRouter');
 const userRouter = require('./routes/userRouter');
+const paymentRouter = require('./routes/paymentRouter');
+const allergyRouter = require('./routes/allergyRouter');
 
 const server = express();
 
-server.use(express.json());
 server.use(cors());
+server.use(express.json());
 
 server.use('/api/recipes/', recipeRouter);
-server.use("/api/users/", userRouter);
+server.use('/api/users/', userRouter);
+server.use('/api/payments/', paymentRouter);
+server.use('/api/allergies/', allergyRouter);
 
 server.get('/', (req, res) =>
-res.status(200).json("Welcome to the Don't Eat That app server!")
+  res.status(200).json("Welcome to the Don't Eat That app server!")
 );
 
 module.exports = server;

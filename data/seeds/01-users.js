@@ -6,28 +6,16 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('users').insert([
         {
-          username: 'McKay',
-          password: 'test',
-          firebaseid: '1234',
-          email: 'dummy@mckaybonham.com'
+          firebaseid: '1234'
         },
         {
-          username: 'Peter',
-          password: 'test',
-          firebaseid: '1235',
-          email: 'dummy@peterpham.com'
+          firebaseid: '1235'
         },
         {
-          username: 'Vance',
-          password: 'test',
-          firebaseid: '1236',
-          email: 'dummy@vanceleon.com'
+          firebaseid: '1236'
         },
         {
-          username: 'Edward',
-          password: 'test',
-          firebaseid: '1237',
-          email: 'dummy@edwardjeong.com'
+          firebaseid: '1237'
         }
       ]);
     });

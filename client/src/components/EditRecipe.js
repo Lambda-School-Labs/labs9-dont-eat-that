@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
-import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
+import {
+  editRecipe,
+  autoComIng,
+  resetAutoCom,
+  getRecipe,
+  getAllergies
+} from '../actions';
 import styled from 'styled-components';
 
 const AutoComDiv = styled.div`
@@ -27,19 +33,19 @@ class AddNewRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      description: '',
-      numIngredients: 3,
-      ingredients: [
-        { name: '', quantity: '', unit: '' },
-        { name: '', quantity: '', unit: '' },
-        { name: '', quantity: '', unit: '' }
-      ],
-      focuses: [{ focus: false }, { focus: false }, { focus: false }]
+      name: this.props.recipe.name || '',
+      description: this.props.recipe.description || '',
+      numIngredients: this.props.recipe.ingredients.length || 3,
+      ingredients: this.props.recipe.ingredients,
+      focuses: this.props.recipe.ingredients.map(ingredient => ({
+        focus: false
+      }))
     };
   }
 
   componentDidMount() {
+    const id = this.props.match.params.id;
+    this.props.getRecipe(id);
     this.props.getAllergies();
   }
 
@@ -136,15 +142,14 @@ class AddNewRecipeForm extends Component {
       ingredients: ingArray
     };
     // Call the action to send this object to POST a recipe
-    this.props.addRecipe(recipeObj);
+    this.props.editRecipe(this.props.match.params.id, recipeObj);
     this.setState({ name: '', description: '', ingredients: [] });
-    this.props.history.push('/recipes');
+    this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
   };
 
   onClickAutocomplete = (i, item) => {
     let ingredients = this.state.ingredients.slice();
     ingredients[i].name = item;
-    console.log('here');
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
@@ -175,92 +180,95 @@ class AddNewRecipeForm extends Component {
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
-    let ingredientRows = [];
-    for (let i = 0; i < this.state.numIngredients; i++) {
-      ingredientRows.push(
-        <div key={`row${i}`}>
-          <AutoComDiv>
+    if (this.props.recipe) {
+      let ingredientRows = [];
+      for (let i = 0; i < this.state.numIngredients; i++) {
+        ingredientRows.push(
+          <div key={`row${i}`}>
+            <AutoComDiv>
+              <input
+                type="text"
+                placeholder="Ingredient Name"
+                name={`name${i}`}
+                value={this.state.ingredients[i].name}
+                autoComplete="new-password"
+                onFocus={() => this.onFocus(i)}
+                onChange={e => {
+                  this.ingHandler(e);
+                  this.props.autoComIng(this.state.ingredients[i].name);
+                }}
+                style={this.ingAllergyWarning(i)}
+              />
+              {this.props.autoCom && this.state.focuses[i].focus && (
+                <AutoComItemsDiv>
+                  {this.props.autoCom.map(item => {
+                    return (
+                      <div
+                        key={item}
+                        onClick={() => this.onClickAutocomplete(i, item)}
+                      >
+                        {item}
+                      </div>
+                    );
+                  })}
+                </AutoComItemsDiv>
+              )}
+            </AutoComDiv>
             <input
               type="text"
-              placeholder="Ingredient Name"
-              name={`name${i}`}
-              value={this.state.ingredients[i].name}
-              autoComplete="new-password"
-              onChange={e => {
-                this.ingHandler(e);
-                this.props.autoComIng(this.state.ingredients[i].name);
-              }}
-              onFocus={() => this.onFocus(i)}
-              style={this.ingAllergyWarning(i)}
+              placeholder="Ingredient Quantity"
+              name={`quty${i}`}
+              value={this.state.ingredients[i].quantity}
+              onChange={this.ingHandler}
+              onFocus={() => this.onBlur(i)}
             />
-            {this.props.autoCom && this.state.focuses[i].focus && (
-              <AutoComItemsDiv>
-                {this.props.autoCom.map(item => {
-                  return (
-                    <div
-                      key={item}
-                      onClick={() => this.onClickAutocomplete(i, item)}
-                    >
-                      {item}
-                    </div>
-                  );
-                })}
-              </AutoComItemsDiv>
-            )}
-          </AutoComDiv>
+            <input
+              type="text"
+              placeholder="Ingredient Unit"
+              name={`unit${i}`}
+              value={this.state.ingredients[i].unit}
+              onChange={this.ingHandler}
+              onFocus={() => this.onBlur(i)}
+            />
+            <br />
+          </div>
+        );
+      }
+      return (
+        <form onSubmit={this.submitHandler} autoComplete="off">
+          <h2>Upload New Recipe</h2>
           <input
             type="text"
-            placeholder="Ingredient Quantity"
-            name={`quty${i}`}
-            value={this.state.ingredients[i].quantity}
-            onChange={this.ingHandler}
-            onFocus={() => this.onBlur(i)}
-          />
-          <input
-            type="text"
-            placeholder="Ingredient Unit"
-            name={`unit${i}`}
-            value={this.state.ingredients[i].unit}
-            onChange={this.ingHandler}
-            onFocus={() => this.onBlur(i)}
+            placeholder="Recipe Name"
+            name="name"
+            value={this.state.name}
+            onChange={this.typingHandler}
+            required
           />
           <br />
-        </div>
+          <label htmlFor="numIngredients">Number of Ingredients:</label>
+          <input
+            type="number"
+            placeholder="3"
+            name="numIngredients"
+            id="numIngredients"
+            value={this.state.numIngredients}
+            onChange={this.typingHandler}
+          />
+          <br />
+          {ingredientRows}
+          <ReactQuill
+            value={this.state.description}
+            onChange={html => this.quillHandler(html)}
+            modules={AddNewRecipeForm.modules}
+            formats={AddNewRecipeForm.formats}
+          />
+          <button type="submit">Save Recipe</button>
+        </form>
       );
+    } else {
+      return <div>Loading...</div>;
     }
-    return (
-      <form onSubmit={this.submitHandler} autoComplete="off">
-        <h2>Upload New Recipe</h2>
-        <input
-          type="text"
-          placeholder="Recipe Name"
-          name="name"
-          value={this.state.name}
-          onChange={this.typingHandler}
-          required
-        />
-        <br />
-        <label htmlFor="numIngredients">Number of Ingredients:</label>
-        <input
-          type="number"
-          placeholder="3"
-          name="numIngredients"
-          id="numIngredients"
-          value={this.state.numIngredients}
-          onChange={this.typingHandler}
-        />
-        <br />
-        {ingredientRows}
-        <ReactQuill
-          value={this.state.description}
-          onChange={html => this.quillHandler(html)}
-          modules={AddNewRecipeForm.modules}
-          formats={AddNewRecipeForm.formats}
-        />
-        <br />
-        <button type="submit">Save Recipe</button>
-      </form>
-    );
   }
 }
 
@@ -302,11 +310,12 @@ AddNewRecipeForm.formats = [
 const mapStateToProps = state => {
   return {
     autoCom: state.nutritionReducer.autoComIng,
+    recipe: state.recipesReducer.recipe,
     allergies: state.usersReducer.user.allergies
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addRecipe, autoComIng, resetAutoCom, getAllergies }
+  { editRecipe, autoComIng, resetAutoCom, getRecipe, getAllergies }
 )(AddNewRecipeForm);
