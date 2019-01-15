@@ -70,14 +70,19 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.delete('/delete/:id', async (req, res) => {
-  const { firebaseid, allergy } = req.body;
+router.delete('/delete/:id/:allergy', async (req, res) => {
+  const firebaseid = req.params.id;
+  const allergy = req.params.allergy;
   try {
     if (firebaseid && allergy) {
+      const user = await db('users')
+        .where({ firebaseid })
+        .first();
+      const oneAllergy = await db('allergies')
+        .where({ name: allergy })
+        .first();
       const count = await db('users-allergies')
-        .join('users', 'users.id', 'users-allergies.user_id')
-        .join('allergies', 'allergies.id', 'users-allergies.allergy_id')
-        .where({ 'allergies.name': allergy, 'users.firebaseid': firebaseid })
+        .where({ allergy_id: oneAllergy.id, user_id: user.id })
         .del();
       res.status(200).json(count);
     } else {
