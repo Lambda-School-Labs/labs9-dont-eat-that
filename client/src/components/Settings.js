@@ -75,16 +75,29 @@ class Settings extends React.Component {
             <h2>Allergies</h2>
             <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
               {this.props.allergies.map((allergy, i) => {
-                return (
-                  <li key={i}>
-                    {allergy}{' '}
-                    <DeleteAllergySpan
-                      onClick={() => this.props.deleteAllergy(allergy)}
-                    >
-                      X
-                    </DeleteAllergySpan>
-                  </li>
-                );
+                if (typeof allergy === 'object') {
+                  return (
+                    <li key={i}>
+                      {allergy.name}{' '}
+                      <DeleteAllergySpan
+                        onClick={() => this.props.deleteAllergy(allergy.name)}
+                      >
+                        X
+                      </DeleteAllergySpan>
+                    </li>
+                  );
+                } else {
+                  return (
+                    <li key={i}>
+                      {allergy}{' '}
+                      <DeleteAllergySpan
+                        onClick={() => this.props.deleteAllergy(allergy)}
+                      >
+                        X
+                      </DeleteAllergySpan>
+                    </li>
+                  );
+                }
               })}
             </ul>
             <label htmlFor="allergy" />
