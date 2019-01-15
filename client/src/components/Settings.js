@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
+import PasswordChangeForm from './auth/passwordChange';
 
 const DeleteAllergySpan = styled.span`
   color: red;
@@ -36,23 +37,7 @@ class Settings extends React.Component {
             <h2>User Account</h2>
             
             <br />
-            <form
-              onSubmit={() =>
-                this.props.firebase.doPasswordUpdate(this.state.password)
-              }
-            >
-              <label htmlFor="password">Password Change</label>
-              <br />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.onChange}
-              />
-              <br />
-              <button type="submit">Submit</button>
-            </form>
+           <PasswordChangeForm />
           </div>
           <div>
             <h2>Allergies</h2>

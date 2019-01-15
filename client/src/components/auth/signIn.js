@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './signUp.js';
-import  PasswordForgetPage, {PasswordForgetForm}  from './passwordForgot.js';
+import  PasswordForgetPage  from './passwordForgot.js';
 
 import { withFirebase } from '../firebase/index.js';
 import { getUser, addUser } from '../../actions';
