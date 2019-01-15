@@ -34,24 +34,7 @@ class Settings extends React.Component {
           <h1>Settings</h1>
           <div>
             <h2>User Account</h2>
-            <form
-              onSubmit={() =>
-                this.props.firebase.doPasswordReset(this.state.email)
-              }
-            >
-              <label htmlFor="email">Password Reset</label>
-              <br />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value={this.state.email}
-                onChange={this.onChange}
-              />
-              <br />
-              <button type="submit">Submit</button>
-            </form>
+            
             <br />
             <form
               onSubmit={() =>
