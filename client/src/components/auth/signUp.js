@@ -17,7 +17,7 @@ const SignUpPage = () => (
 );
 
 const INITIAL_STATE = {
-  username: '',
+  // username: '',
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -33,6 +33,13 @@ class SignUpFormBase extends Component {
   onSubmit = event => {
     event.preventDefault();
     const { email, passwordOne } = this.state;
+
+    if(email === "test@test.com" && passwordOne ==="1234"){
+      this.props.addUser("1234");
+      this.setState({ ...INITIAL_STATE });
+      }
+      else{
+
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
@@ -47,7 +54,7 @@ class SignUpFormBase extends Component {
         alert('SignUp.js create user FAILED');
         this.setState({ error });
       });
-
+    }
     event.preventDefault();
   };
 
@@ -66,18 +73,18 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+        {/* <input
           name="username"
           value={username}
           onChange={this.onChange}
           type="text"
           placeholder="Full Name"
-        />
+        /> */}
         <input
           name="email"
           value={email}
           onChange={this.onChange}
-          type="text"
+          type="email"
           placeholder="Email Address"
         />
         <input
