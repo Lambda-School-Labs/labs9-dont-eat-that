@@ -185,9 +185,7 @@ class AddNewRecipeForm extends Component {
                 this.ingHandler(e);
                 this.props.autoComIng(this.state.ingredients[i].name);
               }}
-              style={() => {
-                this.ingAllergyWarning(i);
-              }}
+              style={this.ingAllergyWarning(i)}
             />
             {this.props.autoCom && this.state.focuses[i].focus && (
               <AutoComItemsDiv>
@@ -254,7 +252,7 @@ class AddNewRecipeForm extends Component {
           rows="22"
           cols="80"
         />
-        <br />        
+        <br />
         <button type="submit">Save Recipe</button>
       </form>
     );
