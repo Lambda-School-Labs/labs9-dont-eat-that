@@ -69,7 +69,7 @@ class AddFromWeb extends Component {
                     value={this.state.targetUrl}
                     onChange={this.typingHandler}
                 />
-                <button type="submit">Search</button>
+                <button type="submit">Import</button>
             </form>
         )
     }
