@@ -8,8 +8,10 @@ import { connect } from 'react-redux';
 import { addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
-import {loadReCaptcha} from 'react-recaptcha-google';
-// import ReCaptchaBox from './reCaptcha';
+import {ReCaptcha, loadReCaptcha} from 'react-recaptcha-google';
+// import ReCaptcha from './reCaptcha';
+
+
 // import ReCaptchaBox from './reCaptcha';
 
 
@@ -30,16 +32,29 @@ const INITIAL_STATE = {
 };
 
 class SignUpFormBase extends Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);    
     this.onSubmit = this.onSubmit.bind(this);
     this.state = { ...INITIAL_STATE };
+
+    this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this);
+    this.verifyCallback = this.verifyCallback.bind(this);
+
   }
 
 
   componentDidMount() {
     loadReCaptcha();
+
+    if (this.captchaDemo) {
+      console.log("started, just a second...")
+      this.captchaDemo.reset();
   }
+  }
+
+
+  
+
 
   onSubmit = event => {
     event.preventDefault();
@@ -76,6 +91,17 @@ class SignUpFormBase extends Component {
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+
+  onLoadRecaptcha() {
+    if (this.captchaDemo) {
+        this.captchaDemo.reset();
+    }
+}
+verifyCallback(recaptchaToken) {
+  // Here you will get the final recaptchaToken!!!  
+  console.log(recaptchaToken,  "<= your recaptcha token")
+  this.setState({isReCaptcha: true});
+}
 
   render() {
     const { username, email, passwordOne, passwordTwo, error } = this.state;
@@ -122,7 +148,17 @@ class SignUpFormBase extends Component {
         </button>
 
         {error && <p>{error.message}</p>}
-        <div class="g-recaptcha" data-sitekey="6Ld1bIoUAAAAAEvgl5ejxRCQWn-QWOmTY5xv0Ybb" onClick={this.reCaptcha}></div>
+        {/* <div> */}
+        {/* You can replace captchaDemo with any ref word */}
+        <ReCaptcha
+            ref={(el) => {this.captchaDemo = el;}}
+            size="normal"
+            data-theme="dark"            
+            render="explicit"
+            sitekey="6Ld1bIoUAAAAAEvgl5ejxRCQWn-QWOmTY5xv0Ybb"
+            onloadCallback={this.onLoadRecaptcha}
+            verifyCallback={this.verifyCallback}
+        />
       </form>
     );
   }
