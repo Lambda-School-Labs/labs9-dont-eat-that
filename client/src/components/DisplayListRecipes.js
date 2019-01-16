@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from "./util";
-
+import { Header, Container } from 'semantic-ui-react';
 
 const DisplayListDiv = styled.div`
   display: flex;
@@ -86,22 +86,29 @@ class DisplayListRecipes extends Component {
 
     return (
       <div className="recipe-list">
+      {/* <Container fluid> */}
+
       <SimpleSearch 
                recipes={this.state.notes}
                query={this.state.query}
                handleInputChange={this.handleInputChange}
                />
 
-        <h1>Recipes</h1>
+        <Header as='h1'>Recipes</Header>
+        <Header as='h1'>First Header</Header>
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
-              <h3>Create a Recipe</h3>
+              <h3 as='h3'>Create a Recipe</h3>
               <h3>+</h3>
             </CreateRecipeDiv>
           </Link>
+          {/* <Container fluid> */}
+
           {this.displayDiv()}
+          {/* </Container> */}
         </DisplayListDiv>
+      {/* </Container> */}
       </div>
     );
   }

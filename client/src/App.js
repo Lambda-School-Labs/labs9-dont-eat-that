@@ -15,8 +15,6 @@ import SignOut from './components/auth/signOut';
 import CheckoutForm from './components/CheckoutForm';
 import Settings from './components/Settings';
 import ConditionalLanding from './components/Landing';
-import AddFromWeb from './components/AddFromWeb';
-
 const NavDiv = styled.div`
   justify-content: space-evenly;
 `;
@@ -50,7 +48,6 @@ class App extends Component {
           <NavDiv>
             <NavLink to="/recipes">Recipes List</NavLink>
             <NavLink to="/recipes/new">New Recipe</NavLink>
-            <NavLink to="/recipes/import">Import Recipe</NavLink>
             <NavLink to="/signup">Sign Up</NavLink>
             <NavLink to="/signin">Sign In</NavLink>
             <NavLink to="/billing">Billing</NavLink>
@@ -75,7 +72,6 @@ class App extends Component {
           <Route exact path="/recipes/new" component={AddNewRecipeForm} />
           <Route exact path="/recipes/one/:id" component={SingleRecipe} />
           <Route exact path="/recipes/edit/:id" component={EditRecipe} />
-          <Route path="/recipes/import" component={AddFromWeb} />
         </div>
       </StripeProvider>
     );
