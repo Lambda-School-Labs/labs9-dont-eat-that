@@ -71,7 +71,16 @@ class AddFromWeb extends Component {
           value={this.state.targetUrl}
           onChange={this.typingHandler}
         />
-        <button type="submit">Import</button>
+        {localStorage.getItem('uid') ? (
+          <button type="submit">Import Recipe</button>
+        ) : (
+          <React.Fragment>
+            <button type="submit" disabled>
+              Import Recipe
+            </button>
+            <p>Please Log In to Import a Recipe!</p>
+          </React.Fragment>
+        )}
       </form>
     );
   }

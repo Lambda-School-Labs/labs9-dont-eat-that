@@ -5,11 +5,11 @@ import { removeUser } from '../../actions';
 
 import { withFirebase } from '../firebase';
 
-const SignOutButton = withRouter(({ firebase, history }) => {
+const SignOutButton = withRouter(({ firebase, history, removeUser }) => {
   const onSignOut = () => {
     localStorage.removeItem('uid');
     firebase.doSignOut();
-    this.props.removeUser();
+    removeUser();
     history.push('/');
   };
   return (
