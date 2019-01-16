@@ -21,8 +21,6 @@ const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 const store = createStore(rootReducer, enhancer);
 ReactDOM.render(
   <Provider store={store}>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"></link>
-
     <FirebaseContext.Provider value={new Firebase()}>
       <Router>
         <App />
