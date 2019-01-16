@@ -102,14 +102,22 @@ export const deleteAllergy = allergy => (dispatch, getState) => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
-export const getNutrition = (title, ingr) => dispatch => {
-  axios
-    .post(
-      'https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=e766d0318dfa0deb2000552f4e149af0',
-      { title, ingr }
-    )
-    .then(res => dispatch({ type: GET_NUTRITION, payload: res.data }))
-    .catch(err => dispatch({ type: ERROR, payload: err }));
+export const getNutrition = (title, ingr) => (dispatch, getState) => {
+  const subscriptionid = getState().usersReducer.user.subscriptionid;
+  if (subscriptionid) {
+    axios
+      .post(
+        'https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=e766d0318dfa0deb2000552f4e149af0',
+        { title, ingr }
+      )
+      .then(res => dispatch({ type: GET_NUTRITION, payload: res.data }))
+      .catch(err => dispatch({ type: ERROR, payload: err }));
+  } else {
+    dispatch({
+      type: ERROR,
+      payload: "You don't have access to this feature."
+    });
+  }
 };
 
 export const removeNutrition = () => dispatch => {
