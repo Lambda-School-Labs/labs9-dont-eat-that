@@ -18,7 +18,7 @@ import {
   RESET_AUTOCOM
 } from "./recipeActions";
 
-import { ADD_USER, GET_USER } from "./userActions";
+import { ADD_USER, GET_USER, REMOVE_USER } from "./userActions";
 
 import { CANCEL_SUB, CHARGE_USER } from "./paymentActions";
 
@@ -41,6 +41,7 @@ export {
   RESET_AUTOCOM,
   ADD_USER,
   GET_USER,
+  REMOVE_USER,
   CANCEL_SUB,
   CHARGE_USER
 };
