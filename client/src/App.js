@@ -4,7 +4,7 @@ import { Elements, StripeProvider } from 'react-stripe-elements';
 import styled from 'styled-components';
 import AddFromWeb from './components/AddFromWeb';
 import './App.css';
-import DisplayRecipesViewer from './viewer/DisplayRecipesViewer.js';
+import DisplayListRecipes from './components/DisplayListRecipes';
 import AddNewRecipeForm from './components/AddNewRecipeForm';
 import { withFirebase } from './components/firebase';
 import SingleRecipe from './components/SingleRecipe';
@@ -69,11 +69,11 @@ class App extends Component {
             )}
           />
           <Route path="/settings" component={Settings} />
-          <Route path="/recipes" component={DisplayRecipesViewer} />
-          <Route exact path="/recipes/new" component={AddNewRecipeForm} />
-          <Route exact path="/recipes/one/:id" component={SingleRecipe} />
-          <Route exact path="/recipes/edit/:id" component={EditRecipe} />
-          <Route exact path="/recipes/import" component={AddFromWeb} />
+          <Route exact path="/recipes" component={DisplayListRecipes} />
+          <Route path="/recipes/new" component={AddNewRecipeForm} />
+          <Route path="/recipes/one/:id" component={SingleRecipe} />
+          <Route path="/recipes/edit/:id" component={EditRecipe} />
+          <Route path="/recipes/import" component={AddFromWeb} />
         </div>
       </StripeProvider>
     );

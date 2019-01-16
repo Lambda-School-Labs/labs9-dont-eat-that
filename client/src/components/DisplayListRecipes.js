@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
@@ -32,11 +32,25 @@ class DisplayListRecipes extends Component {
     super(props);
     this.state = {
       query: '',
-      isSearched: false
+      isSearched: false,
+      personalCheck: true
     };
 
     this.displayedRecipes = [];
   }
+
+  componentDidMount() {
+    // getting all the notes function will go here
+    if (!localStorage.getItem('uid')) {
+      this.props.getAllRecipes();
+    } else if (this.state.personalCheck) {
+      this.props.getOwnRecipes();
+    } else {
+      this.props.getForeignRecipes();
+    }
+    this.props.getAllergies();
+  }
+
   // maybe filter the array?
   displayDiv = () => {
     // for search result to work, I changed below code to use this.displayedRecipes,
@@ -68,6 +82,12 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
+  checkHandler = ev => {
+    this.setState({
+      [ev.target.name]: ev.target.checked
+    })
+  }
+
   render() {
     // check if there is query and assign correct recipes array for this.displayedRecipes
     if (this.state.query) {
@@ -82,6 +102,16 @@ class DisplayListRecipes extends Component {
           query={this.state.query}
           handleInputChange={this.handleInputChange}
         />
+        <form>
+          <input 
+            type="checkbox"
+            id="personalCheck"
+            name="personalCheck"
+            onChange={this.checkHandler}
+            checked={this.state.personalCheck}
+          />
+          <label htmlFor="personalCheck">See your own recipes</label>
+        </form>
 
         <h1>Recipes</h1>
         <DisplayListDiv>
@@ -108,4 +138,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(DisplayListRecipes);
+export default connect(mapStateToProps,
+  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies }
+)(DisplayListRecipes);

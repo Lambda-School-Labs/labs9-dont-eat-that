@@ -7,6 +7,8 @@ export const EDIT_RECIPE = 'EDIT_RECIPE';
 export const GET_NUTRITION = 'GET_NUTRITION';
 export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
+export const GET_OWN_RECIPES = 'GET_OWN_RECIPES';
+export const GET_FOREIGN_RECIPES = 'GET_FOREIGN_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
 export const GETTING_RECIPE = 'GETTING_RECIPE';
 export const GETTING_RECIPES = 'GETTING_RECIPES';
@@ -28,6 +30,24 @@ export const getAllRecipes = () => dispatch => {
     .then(res => dispatch({ type: GET_RECIPES, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
+
+// only your own recipes
+export const getOwnRecipes = () => dispatch => {
+  dispatch({ type: GETTING_RECIPES });
+  axios
+    .get(`${URL}/api/recipes/${localStorage.getItem('uid')}`)
+    .then(res => dispatch({ type: GET_OWN_RECIPES, payload: res.data }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+}
+
+// only foreign (other peoples') recipes
+export const getForeignRecipes = () => dispatch => {
+  dispatch({ type: GETTING_RECIPES });
+  axios
+    .get(`${URL}/api/recipes/${localStorage.getItem('uid')}/not`)
+    .then(res => dispatch({ type: GET_FOREIGN_RECIPES, payload: res.data }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+}
 
 // single recipe
 export const getRecipe = id => dispatch => {

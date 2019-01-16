@@ -38,10 +38,26 @@ router.get('/all', async (req, res) => {
 });
 
 // get recipes for just the user
-router.get('/:userid', (req, res) => {
-  const id = req.params.userid; // need to somehow get user_id
+router.get('/:firebaseid', (req, res) => {
+  const id = req.params.firebaseid; // need to somehow get user_id
   db('recipes')
-    .where({ user_id: id })
+    .join('users', 'recipes.user_id', 'users.id')
+    .where({ 'users.firebaseid': id })
+    .then(recipes => res.status(200).json(recipes))
+    .catch(err =>
+      res.status(500).json({
+        message: 'The recipes information could not be retrieved',
+        err
+      })
+    );
+});
+
+// get recipes for just other users
+router.get('/:firebaseid/not', (req, res) => {
+  const id = req.params.firebaseid; // need to somehow get user_id
+  db('recipes')
+    .join('users', 'recipes.user_id', 'users.id')
+    .whereNot({ 'users.firebaseid': id })
     .then(recipes => res.status(200).json(recipes))
     .catch(err =>
       res.status(500).json({
