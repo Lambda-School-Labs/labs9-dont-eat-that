@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
 import PasswordChangeForm from './auth/passwordChange';
+import {downloadRecipesToCSV} from './util';
+
 
 const DeleteAllergySpan = styled.span`
   color: red;
@@ -28,6 +30,12 @@ class Settings extends React.Component {
     this.setState({ allergy: '' });
   };
 
+  downloadCSV = e => {
+    e.preventDefault();
+    downloadRecipesToCSV(this.props.recipes);
+  
+  }
+
   render() {
     if (this.props.allergies) {
       return (
@@ -38,6 +46,11 @@ class Settings extends React.Component {
             <h2>User Account</h2>   
             <br />
            <PasswordChangeForm />
+          </div>
+
+          <div className="downloadCSV">
+          Download Recipes as Excel File
+            <button onClick={this.downloadCSV}>Download </button>
           </div>
 
           <div>
@@ -90,7 +103,8 @@ class Settings extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    allergies: state.usersReducer.user.allergies
+    allergies: state.usersReducer.user.allergies,
+    recipes : state.recipesReducer.recipes
   };
 };
 

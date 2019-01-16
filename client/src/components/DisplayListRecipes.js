@@ -98,8 +98,6 @@ class DisplayListRecipes extends Component {
     return (
       <div className="recipe-list">
         <SimpleSearch
-          recipes={this.state.notes}
-          query={this.state.query}
           handleInputChange={this.handleInputChange}
         />
         <form>

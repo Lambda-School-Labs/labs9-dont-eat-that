@@ -10,7 +10,7 @@ class SimpleSearchInput extends Component {
 
   render() {
     return (
-      <form className="searchNote">
+      <form className="searRecipes">
         <input
           type="input"
           onChange={this.props.handleInputChange}
