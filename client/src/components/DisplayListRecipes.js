@@ -39,7 +39,7 @@ class DisplayListRecipes extends Component {
   }
   // maybe filter the array?
   displayDiv = () => {
-        console.log(this.displayedRecipes);
+        // console.log(this.displayedRecipes);
 
         // for search result to work, I changed below code to use this.displayedRecipes, 
         // instead of this.props.recipes

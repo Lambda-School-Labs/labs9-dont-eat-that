@@ -3,14 +3,15 @@ export const searchFunc = (query, recipes) => {
 
     // checkIngredient function checks if a recipe's ingredient names has search query
     // and returns true or false
-    
+
    const checkIngredient = (recipe) => {
      
     const result = recipe.ingredients.filter ( ingredient => 
                 ingredient.name.includes(query) ) 
     
-        // filter returns array and even empty array is truthy.  
-        // so check the length and return true or false
+        // filter returns array and if there is no match it returns empty array
+        //  even empty array is truthy.  
+        // so check the length of array and return true or false
         
         return result.length > 0 ? true : false;
     }   
