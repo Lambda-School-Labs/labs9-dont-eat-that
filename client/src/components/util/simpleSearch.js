@@ -6,10 +6,7 @@
 
 import React, { Component } from "react";
 
-
 class SimpleSearchInput extends Component {
-
-
 
   render() {
     return (

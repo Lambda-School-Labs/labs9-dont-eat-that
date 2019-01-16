@@ -19,7 +19,6 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 const store = createStore(rootReducer, enhancer);
-
 ReactDOM.render(
   <Provider store={store}>
     <FirebaseContext.Provider value={new Firebase()}>

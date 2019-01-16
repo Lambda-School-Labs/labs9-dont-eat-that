@@ -1,13 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { removeUser } from '../../actions';
 
 import { withFirebase } from '../firebase';
 
-const SignOutButton = withRouter(({ firebase, history }) => {
+const SignOutButton = withRouter(({ firebase, history, removeUser }) => {
   const onSignOut = () => {
     localStorage.removeItem('uid');
-    localStorage.removeItem('token');
     firebase.doSignOut();
+    removeUser();
     history.push('/');
   };
   return (
@@ -18,4 +20,7 @@ const SignOutButton = withRouter(({ firebase, history }) => {
   );
 });
 
-export default withFirebase(SignOutButton);
+export default connect(
+  null,
+  { removeUser }
+)(withFirebase(SignOutButton));
