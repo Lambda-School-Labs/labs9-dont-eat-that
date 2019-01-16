@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const ADD_USER = 'ADD_USER';
 export const GET_USER = 'GET_USER';
+export const REMOVE_USER = 'REMOVE_USER';
 export const ERROR = "ERROR";
 
 
@@ -24,4 +25,8 @@ export const getUser = () => dispatch => {
       )
       .catch(err => dispatch({ type: ERROR, payload: err }));
   };
+
+  export const removeUser = () => dispatch => {
+    dispatch({ type: REMOVE_USER, payload: null })
+  }
   

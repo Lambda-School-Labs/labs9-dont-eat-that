@@ -1,10 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import DisplayOneRecipe from "./DisplayOneRecipe";
-import SimpleSearch from "./util/simpleSearch.js";
-import { searchFunc } from "./util";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+
+import DisplayOneRecipe from './DisplayOneRecipe';
+import SimpleSearch from './util/simpleSearch.js';
+import { searchFunc } from './util';
 // import { Header, Container } from "semantic-ui-react";
 
 const DisplayListDiv = styled.div`
@@ -29,7 +31,7 @@ class DisplayListRecipes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: "",
+      query: '',
       isSearched: false
     };
 
@@ -37,8 +39,6 @@ class DisplayListRecipes extends Component {
   }
   // maybe filter the array?
   displayDiv = () => {
-    console.log(this.displayedRecipes);
-
     // for search result to work, I changed below code to use this.displayedRecipes,
     // instead of this.props.recipes
     // displayedRecipes will get recipes array that match search query
@@ -75,7 +75,6 @@ class DisplayListRecipes extends Component {
     } else {
       this.displayedRecipes = this.props.recipes;
     }
-
     return (
       <div className="recipe-list">
         <SimpleSearch
@@ -86,7 +85,7 @@ class DisplayListRecipes extends Component {
 
         <h1>Recipes</h1>
         <DisplayListDiv>
-          <Link to="/recipes/new" style={{ textDecoration: "none" }}>
+          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
               <h3>Create a Recipe</h3>
               <h3>+</h3>
