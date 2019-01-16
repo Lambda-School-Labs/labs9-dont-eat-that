@@ -8,6 +8,10 @@ import { connect } from 'react-redux';
 import { addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
+import {loadReCaptcha} from 'react-recaptcha-google';
+// import ReCaptchaBox from './reCaptcha';
+// import ReCaptchaBox from './reCaptcha';
+
 
 const SignUpPage = () => (
   <div>
@@ -21,19 +25,26 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
-  error: null
+  error: null,
+  isReCaptcha : false
 };
 
 class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
+    this.onSubmit = this.onSubmit.bind(this);
     this.state = { ...INITIAL_STATE };
+  }
+
+
+  componentDidMount() {
+    loadReCaptcha();
   }
 
   onSubmit = event => {
     event.preventDefault();
     const { email, passwordOne } = this.state;
-
+    
     if(email === "test@test.com" && passwordOne ==="1234"){
       this.props.addUser("1234");
       this.setState({ ...INITIAL_STATE });
@@ -58,6 +69,10 @@ class SignUpFormBase extends Component {
     event.preventDefault();
   };
 
+  reCaptcha = event => {
+    console.log("true");
+  }
+
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -69,8 +84,9 @@ class SignUpFormBase extends Component {
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
-      username === '';
-
+      username === '' ||
+      this.state.isReCaptcha === false;
+      
     return (
       <form onSubmit={this.onSubmit}>
         {/* <input
@@ -106,6 +122,7 @@ class SignUpFormBase extends Component {
         </button>
 
         {error && <p>{error.message}</p>}
+        <div class="g-recaptcha" data-sitekey="6Ld1bIoUAAAAAEvgl5ejxRCQWn-QWOmTY5xv0Ybb" onClick={this.reCaptcha}></div>
       </form>
     );
   }
