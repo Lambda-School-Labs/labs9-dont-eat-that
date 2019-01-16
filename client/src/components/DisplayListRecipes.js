@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';

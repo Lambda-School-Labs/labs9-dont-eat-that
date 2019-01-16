@@ -8,7 +8,8 @@ import {
   deleteRecipe,
   getNutrition,
   removeNutrition,
-  getUser
+  getUser,
+  addRecipe
 } from '../actions';
 
 const RecipeDescAndIngDiv = styled.div`
@@ -35,6 +36,10 @@ const EditRecipeButton = styled.button`
   padding: 15px;
 `;
 
+const CopyRecipeSpan = styled.span`
+  cursor: pointer;
+`;
+
 class SingleRecipe extends React.Component {
   state = {};
   componentDidMount() {
@@ -54,6 +59,14 @@ class SingleRecipe extends React.Component {
     this.props.deleteRecipe(id);
     this.props.history.push('/recipes');
   };
+  copyRecipe = recipe => {
+    this.props.addRecipe({
+      name: recipe.name,
+      description: recipe.description,
+      firebaseid: localStorage.getItem('uid'),
+      ingredients: recipe.ingredients
+    });
+  };
   componentWillUnmount() {
     this.props.removeNutrition(); // removes nutrition from state
   }
@@ -63,7 +76,14 @@ class SingleRecipe extends React.Component {
       this.getNutrition();
       return (
         <div>
-          <h1>{recipe.name}</h1>
+          <h1>
+            {recipe.name}{' '}
+            {localStorage.getItem('uid') ? (
+              <CopyRecipeSpan onClick={() => this.copyRecipe(recipe)}>
+                Copy Recipe
+              </CopyRecipeSpan>
+            ) : null}
+          </h1>
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
@@ -94,11 +114,17 @@ class SingleRecipe extends React.Component {
         </div>
       );
     } else if (recipe && nutrition) {
-      // fix when going live
-      // change when altering editrecipe or singlerecipe
+      // copy of the above code except showing nutrition info when they're a subscriber
       return (
         <div>
-          <h1>{recipe.name}</h1>
+          <h1>
+            {recipe.name}{' '}
+            {localStorage.getItem('uid') ? (
+              <CopyRecipeSpan onClick={() => this.copyRecipe(recipe)}>
+                Copy Recipe
+              </CopyRecipeSpan>
+            ) : null}
+          </h1>
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
@@ -120,6 +146,7 @@ class SingleRecipe extends React.Component {
             <h3>Nutrition Facts</h3>
             <p>Calories: {nutrition.calories}</p>
             <p>Servings: {nutrition.yield}</p>
+            <p> </p>
             <h5>Macronutrients</h5>
             <p>
               Carbohydrates:{' '}
@@ -168,5 +195,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getRecipe, deleteRecipe, getNutrition, removeNutrition, getUser }
+  { getRecipe, deleteRecipe, getNutrition, removeNutrition, getUser, addRecipe }
 )(SingleRecipe);
