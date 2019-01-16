@@ -9,10 +9,7 @@ import { addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
 import {ReCaptcha, loadReCaptcha} from 'react-recaptcha-google';
-// import ReCaptcha from './reCaptcha';
 
-
-// import ReCaptchaBox from './reCaptcha';
 
 
 const SignUpPage = () => (
@@ -28,7 +25,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   error: null,
-  isReCaptcha : false
+  isReCaptcha : false 
 };
 
 class SignUpFormBase extends Component {
@@ -47,7 +44,7 @@ class SignUpFormBase extends Component {
     loadReCaptcha();
 
     if (this.captchaDemo) {
-      console.log("started, just a second...")
+      // console.log("started, just a second...")
       this.captchaDemo.reset();
   }
   }
@@ -92,12 +89,12 @@ class SignUpFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  onLoadRecaptcha() {
+  onLoadRecaptcha() { //on a page reload it will rest the box to unclicked
     if (this.captchaDemo) {
         this.captchaDemo.reset();
     }
 }
-verifyCallback(recaptchaToken) {
+verifyCallback(recaptchaToken) {//setting the state to true after the user verifies that they are a person
   // Here you will get the final recaptchaToken!!!  
   console.log(recaptchaToken,  "<= your recaptcha token")
   this.setState({isReCaptcha: true});
@@ -148,7 +145,7 @@ verifyCallback(recaptchaToken) {
         </button>
 
         {error && <p>{error.message}</p>}
-        {/* <div> */}
+    
         {/* You can replace captchaDemo with any ref word */}
         <ReCaptcha
             ref={(el) => {this.captchaDemo = el;}}
