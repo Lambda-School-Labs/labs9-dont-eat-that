@@ -42,7 +42,7 @@ export const downloadRecipesToCSV = recipes => {
       let ctr = 0;
       keys.forEach(function(key) {
         if (ctr > 0) csv += columnDelimiter;
-        let temp = recipes[key]  recipes[key].toString();
+        let temp = recipes[key] ? recipes[key].toString() : '';
         temp = temp.replace(/[,\n]/g, "");
         csv += temp;
   

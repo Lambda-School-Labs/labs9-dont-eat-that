@@ -95,6 +95,9 @@ class DisplayListRecipes extends Component {
     } else {
       this.displayedRecipes = this.props.recipes;
     }
+
+    console.log("DisplayListRecipe this.displayedRecipes = ", this.displayedRecipes);
+    
     return (
       <div className="recipe-list">
         <SimpleSearch

@@ -48,10 +48,13 @@ class Settings extends React.Component {
            <PasswordChangeForm />
           </div>
 
-          <div className="downloadCSV">
+// below codes is for downloading recipes into excel file
+// it is not done
+
+          {/* <div className="downloadCSV">
           Download Recipes as Excel File
             <button onClick={this.downloadCSV}>Download </button>
-          </div>
+          </div> */}
 
           <div>
             <h2>Allergies</h2>
