@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Lambda-School-Labs/labs9-dont-eat-that#readme",
   "dependencies": {
-    "aws-sdk": "^2.388.0",
+    "aws-sdk": "^2.389.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "knex": "^0.16.3",
