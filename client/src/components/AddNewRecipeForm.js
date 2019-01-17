@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactQuill from 'react-quill';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import styled from 'styled-components';
 
@@ -41,6 +42,10 @@ class AddNewRecipeForm extends Component {
   componentDidMount() {
     this.props.getAllergies();
   }
+
+  quillHandler = html => {
+    this.setState({ description: html });
+  };
 
   typingHandler = e => {
     if (e.target.name === 'numIngredients') {
@@ -246,21 +251,67 @@ class AddNewRecipeForm extends Component {
         />
         <br />
         {ingredientRows}
-        <textarea
-          placeholder="Recipe Description and Steps"
-          name="description"
+        <ReactQuill
           value={this.state.description}
-          onChange={this.typingHandler}
-          required
-          rows="22"
-          cols="80"
+          onChange={html => this.quillHandler(html)}
+          modules={AddNewRecipeForm.modules}
+          formats={AddNewRecipeForm.formats}
         />
         <br />
-        <button type="submit">Save Recipe</button>
+        {(!this.state.name || !this.state.description) && (
+          <p>
+            Please provide a name, description, and ingredients before
+            submitting a recipe!
+          </p>
+        )}
+        {localStorage.getItem('uid') ? (
+          <button type="submit">Save Recipe</button>
+        ) : (
+          <React.Fragment>
+            <button type="submit" disabled>
+              Save Recipe
+            </button>
+            <p>Please Log In to Add a Recipe!</p>
+          </React.Fragment>
+        )}
       </form>
     );
   }
 }
+
+AddNewRecipeForm.modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' }
+    ],
+    ['link'],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false
+  }
+};
+AddNewRecipeForm.formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link'
+];
 
 const mapStateToProps = state => {
   return {

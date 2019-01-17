@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Parser from 'html-react-parser';
 import styled from 'styled-components';
 import {
   getRecipe,
   deleteRecipe,
   getNutrition,
   removeNutrition,
-  getUser
+  getUser,
+  addRecipe
 } from '../actions';
 
 const RecipeDescAndIngDiv = styled.div`
@@ -28,10 +30,15 @@ const DeleteRecipeButton = styled.button`
 const EditRecipeButton = styled.button`
   position: absolute;
   top: 40px;
-  left: 10px;
+  left: 150px;
   background: green;
   font-size: 1rem;
   padding: 15px;
+`;
+
+const CopyRecipeSpan = styled.span`
+  cursor: pointer;
+  border : 1px solid black
 `;
 
 class SingleRecipe extends React.Component {
@@ -44,7 +51,10 @@ class SingleRecipe extends React.Component {
   getNutrition = () => {
     const { name, ingredients } = this.props.recipe;
     const ingrArr = ingredients.map(
-      ingr => `${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`
+      ingr =>
+        `${ingr.quantity ? ingr.quantity : ''} ${ingr.unit ? ingr.unit : ''} ${
+          ingr.name
+        }`
     );
     this.props.getNutrition(name, ingrArr); // gets nutritional value of recipe from Edamam
   };
@@ -53,21 +63,35 @@ class SingleRecipe extends React.Component {
     this.props.deleteRecipe(id);
     this.props.history.push('/recipes');
   };
+  copyRecipe = recipe => {
+    this.props.addRecipe({
+      name: recipe.name,
+      description: recipe.description,
+      firebaseid: localStorage.getItem('uid'),
+      ingredients: recipe.ingredients
+    });
+  };
   componentWillUnmount() {
     this.props.removeNutrition(); // removes nutrition from state
   }
   render() {
     const { recipe, nutrition } = this.props;
-    const firebaseid = localStorage.getItem('uid');
     if (recipe && !nutrition) {
       this.getNutrition();
       return (
         <div>
-          <h1>{recipe.name}</h1>
+          <h1>
+            {recipe.name}{' '}
+            {localStorage.getItem('uid') ? (
+              <CopyRecipeSpan onClick={() => this.copyRecipe(recipe)}>
+                Copy Recipe
+              </CopyRecipeSpan>
+            ) : null}
+          </h1>
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
-              <p>{recipe.description}</p>
+              <p>{Parser(recipe.description)}</p>
             </div>
             <div>
               <h3>Ingredients</h3>
@@ -81,12 +105,12 @@ class SingleRecipe extends React.Component {
               </ul>
             </div>
           </RecipeDescAndIngDiv>
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
               <EditRecipeButton>Edit Recipe</EditRecipeButton>
             </Link>
           )}
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <DeleteRecipeButton onClick={this.deleteRecipe}>
               Delete Recipe
             </DeleteRecipeButton>
@@ -94,21 +118,28 @@ class SingleRecipe extends React.Component {
         </div>
       );
     } else if (recipe && nutrition) {
-      // change when altering editrecipe or singlerecipe
+      // copy of the above code except showing nutrition info when they're a subscriber
       return (
         <div>
-          <h1>{recipe.name}</h1>
+          <h1>
+            {recipe.name}{' '}
+            {localStorage.getItem('uid') ? (
+              <CopyRecipeSpan onClick={() => this.copyRecipe(recipe)}>
+                Copy Recipe
+              </CopyRecipeSpan>
+            ) : null}
+          </h1>
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
-              <p>{recipe.description}</p>
+              <p>{Parser(recipe.description)}</p>
             </div>
             <div>
               <h3>Ingredients</h3>
               {}
               <ul>
                 {recipe.ingredients.map(ingr => (
-                  <li key={ingr.name}>{`${ingr.quantity} ${
+                  <li key={ingr.name}>{`${ingr.quantity ? ingr.quantity : ''} ${
                     ingr.unit ? ingr.unit : ''
                   } ${ingr.name}`}</li>
                 ))}
@@ -119,32 +150,39 @@ class SingleRecipe extends React.Component {
             <h3>Nutrition Facts</h3>
             <p>Calories: {nutrition.calories}</p>
             <p>Servings: {nutrition.yield}</p>
+            <p> </p>
             <h5>Macronutrients</h5>
             <p>
               Carbohydrates:{' '}
-              {`${nutrition.totalNutrients.CHOCDF.quantity} ${
-                nutrition.totalNutrients.CHOCDF.unit
-              }`}
+              {nutrition.totalNutrients.CHOCDF
+                ? `${nutrition.totalNutrients.CHOCDF.quantity} ${
+                    nutrition.totalNutrients.CHOCDF.unit
+                  }`
+                : '0 g'}
             </p>
             <p>
               Protein:{' '}
-              {`${nutrition.totalNutrients.PROCNT.quantity} ${
-                nutrition.totalNutrients.PROCNT.unit
-              }`}
+              {nutrition.totalNutrients.PROCNT
+                ? `${nutrition.totalNutrients.PROCNT.quantity} ${
+                    nutrition.totalNutrients.PROCNT.unit
+                  }`
+                : '0 g'}
             </p>
             <p>
               Fat:{' '}
-              {`${nutrition.totalNutrients.FAT.quantity} ${
-                nutrition.totalNutrients.FAT.unit
-              }`}
+              {nutrition.totalNutrients.FAT
+                ? `${nutrition.totalNutrients.FAT.quantity} ${
+                    nutrition.totalNutrients.FAT.unit
+                  }`
+                : '0 g'}
             </p>
           </div>
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
               <EditRecipeButton>Edit Recipe</EditRecipeButton>
             </Link>
           )}
-          {firebaseid === this.props.user.firebaseid && (
+          {recipe.user_id === this.props.user.id && (
             <DeleteRecipeButton onClick={this.deleteRecipe}>
               Delete Recipe
             </DeleteRecipeButton>
@@ -167,5 +205,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getRecipe, deleteRecipe, getNutrition, removeNutrition, getUser }
+  { getRecipe, deleteRecipe, getNutrition, removeNutrition, getUser, addRecipe }
 )(SingleRecipe);

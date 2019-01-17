@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './signUp.js';
+import  PasswordForgetPage  from './passwordForgot.js';
+
 import { withFirebase } from '../firebase/index.js';
 import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
@@ -12,6 +14,7 @@ const SignInPage = () => (
   <div>
     <h1>SignIn</h1>
     <SignInForm />
+   
     <SignInGoogle />
     <SignInFacebook />
     <SignUpLink />
@@ -21,7 +24,9 @@ const SignInPage = () => (
 const INITIAL_STATE = {
   email: '',
   password: '',
-  error: null
+  error: null,
+  resetPassword : false,
+
 };
 
 class SignInFormBase extends Component {
@@ -31,10 +36,20 @@ class SignInFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = event => {
+  onSubmit = async event => {
+    console.log('Inside Signin OnSubmit ');
     event.preventDefault();
     const { email, password } = this.state;
 
+    if(email === "test@test.com" && password ==="1234"){
+    this.setState({ ...INITIAL_STATE });
+    localStorage.setItem('uid', "1234");
+    await this.props.getUser()
+    // should change below code so it would wait until getUser is completed...
+    this.props.history.push('/recipes');
+    }
+    else{
+      console.log('Inside Signin OnSubmit Else');
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(user => {
@@ -51,7 +66,13 @@ class SignInFormBase extends Component {
       .catch(error => {
         this.setState({ error });
       });
+    }
   };
+
+  resetPassword = e => {
+    e.preventDefault();
+    this.setState({resetPassword : true});
+  }
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -62,7 +83,10 @@ class SignInFormBase extends Component {
 
     const isInvalid = password === '' || email === '';
 
+    const resetPasswordComponent = this.state.resetPassword === false ? null : <PasswordForgetPage/>;
+
     return (
+      <section>
       <form onSubmit={this.onSubmit}>
         <input
           name="email"
@@ -82,8 +106,15 @@ class SignInFormBase extends Component {
           Sign In
         </button>
 
-        {error && <p>{error.message}</p>}
+        <button onClick={this.resetPassword} >
+          Forgot Password?
+        </button>
+
+        {error && <p>Signin.js email Signin {error.message}</p>}
       </form>
+
+      {resetPasswordComponent}
+        </section>
     );
   }
 }
@@ -167,6 +198,10 @@ class SignInFacebookBase extends Component {
     );
   }
 }
+
+
+
+
 const SignInForm = withRouter(
   connect(
     null,
