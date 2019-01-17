@@ -71,16 +71,6 @@ class SingleRecipe extends React.Component {
       ingredients: recipe.ingredients
     });
   };
-  ingrStyle = ingr => {
-    const boolArr = this.props.allergies.map(allergy => {
-      if (typeof allergy === 'object') {
-        return allergy.name === ingr.name;
-      } else {
-        return allergy === ingr.name;
-      }
-    });
-    return boolArr.includes(true) ? { background: 'red' } : {};
-  };
   componentWillUnmount() {
     this.props.removeNutrition(); // removes nutrition from state
   }
@@ -146,11 +136,12 @@ class SingleRecipe extends React.Component {
             </div>
             <div>
               <h3>Ingredients</h3>
+              {}
               <ul>
                 {recipe.ingredients.map(ingr => (
-                  <li key={ingr.name} style={this.ingrStyle(ingr)}>{`${
-                    ingr.quantity ? ingr.quantity : ''
-                  } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
+                  <li key={ingr.name}>{`${ingr.quantity ? ingr.quantity : ''} ${
+                    ingr.unit ? ingr.unit : ''
+                  } ${ingr.name}`}</li>
                 ))}
               </ul>
             </div>
@@ -208,8 +199,7 @@ const mapStateToProps = state => {
   return {
     recipe: state.recipesReducer.recipe,
     nutrition: state.nutritionReducer.nutrition,
-    user: state.usersReducer.user,
-    allergies: state.usersReducer.user.allergies
+    user: state.usersReducer.user
   };
 };
 
