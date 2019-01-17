@@ -41,9 +41,10 @@ router.get('/all', async (req, res) => {
 router.get('/:firebaseid', async (req, res) => {
   const id = req.params.firebaseid; // need to somehow get user_id
   try {
-    const recipes = await db('recipes')
-      .join('users', 'recipes.user_id', 'users.id')
-      .where({ 'users.firebaseid': id });
+    const user = await db('users')
+      .where({ firebaseid: id })
+      .first();
+    const recipes = await db('recipes').where({ user_id: user.id });
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
@@ -76,9 +77,10 @@ router.get('/:firebaseid', async (req, res) => {
 router.get('/:firebaseid/not', async (req, res) => {
   const id = req.params.firebaseid;
   try {
-    const recipes = await db('recipes')
-      .join('users', 'recipes.user_id', 'users.id')
-      .whereNot({ 'users.firebaseid': id });
+    const user = await db('users')
+      .where({ firebaseid: id })
+      .first();
+    const recipes = await db('recipes').whereNot({ user_id: user.id });
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
