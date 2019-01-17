@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
-import styled from 'styled-components';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+// import styled from 'styled-components';
 
 // const NavDiv = styled.div`
 //   justify-content: space-evenly;

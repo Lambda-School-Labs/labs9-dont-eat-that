@@ -136,11 +136,17 @@ table {
 
 .topMenu {
   width: 100%;
+  margin: 10px 0;
+  border: 1px solid black;
 }
 .sideMenu {
   width: 20%;
+  margin: 10px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
 }
 .MainDisplaySection {
   text-align: center;
-  width: 80%;
+  width: 75%;
 }
