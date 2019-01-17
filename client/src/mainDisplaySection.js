@@ -36,16 +36,7 @@ class MainDisplaySection extends Component {
     return (
     
         <div className="MainDisplaySection">
-          <NavDiv>
-            <NavLink to="/recipes">Recipes List</NavLink>
-            <NavLink to="/recipes/new">New Recipe</NavLink>
-            <NavLink to="/recipes/import">Import Recipe</NavLink>
-            <NavLink to="/signup">Sign Up</NavLink>
-            <NavLink to="/signin">Sign In</NavLink>
-            <NavLink to="/billing">Billing</NavLink>
-            <NavLink to="/settings">Settings</NavLink>
-            <NavLink to="/signout">Sign Out</NavLink>
-          </NavDiv>
+      
 
           <Route exact path="/" component={ConditionalLanding} />
           <Route path="/signup" component={SignUp} />

@@ -15,9 +15,9 @@ import SignOut from './components/auth/signOut';
 import CheckoutForm from './components/CheckoutForm';
 import Settings from './components/Settings';
 import ConditionalLanding from './components/Landing';
-import mainDisplaySection from './mainDisplaySection';
-import TopMenu from './components/topMenu.js';
-// import SideMenu from './components/sideMenu.js';
+import MainDisplaySection from './mainDisplaySection';
+import TopMenu from './components/menus/topMenu.js';
+ import SideMenu from './components/menus/sideMenu.js';
 
 
 const NavDiv = styled.div`
@@ -51,8 +51,8 @@ class App extends Component {
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
           <TopMenu />
-          {/* <SideMenu />  */}
-          <mainDisplaySection />
+          <SideMenu /> 
+          <MainDisplaySection />
 
         </div>
       </StripeProvider>
