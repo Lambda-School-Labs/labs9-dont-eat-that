@@ -42,7 +42,7 @@ router.get('/one/:id', async (req, res) => {
         .join('users', 'users.id', 'users-allergies.user_id')
         .where({ 'users.id': user.id })
         .select('allergies.name');
-      const allergiesArr = allergies.map(allergy => allergy.name);
+    
       const recipes = await db('recipes')
         .where({ user_id: user.id })
         .select('id', 'name', 'description');
