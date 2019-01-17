@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 // import { FirebaseContext } from '../Firebase';
 import { withFirebase } from '../firebase';
 import { compose } from 'recompose'; // manage higher order component
 import { connect } from 'react-redux';
-import { addUser } from '../../actions';
+import { getUser, addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
 import {ReCaptcha, loadReCaptcha} from 'react-recaptcha-google';
@@ -51,7 +51,10 @@ class SignUpFormBase extends Component {
 
 
   
-
+// currently after a successful singup , localStorage is not set signIn page is displayed and 
+// Firebase automatically SignIn a user when signUp is complete
+// if we decide to allow auto signIn and display /recipes after signup
+// uncomment LocalStorage assign and change URL
 
   onSubmit = event => {
     event.preventDefault();
@@ -65,12 +68,21 @@ class SignUpFormBase extends Component {
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
+      .then(user => {
         console.log('SignUp.js create user SUCCESS');
-        this.props.addUser(authUser.user.uid);
+        this.props.addUser(user.user.uid);
         this.setState({ ...INITIAL_STATE });
-        //change URL to open appropriate page after signup/in
-        //this.props.history.push(ROUTES.HOME);
+        //  localStorage.setItem('uid', user.user.uid);
+        return user;
+
+      })
+      .then(user => {
+        this.props.getUser();
+        return user;
+      })
+      .then(res =>{
+        console.log("this.props = ",this.props.history )
+         this.props.history.push('/signin') //change this to recipes if routing back to recipes
       })
       .catch(error => {
         console.log('SignUp.js create user FAILED');
@@ -81,9 +93,9 @@ class SignUpFormBase extends Component {
     event.preventDefault();
   };
 
-  reCaptcha = event => {
-    console.log("true");
-  }
+  // reCaptcha = event => {
+  //   // console.log("true");
+  // }
 
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -96,7 +108,7 @@ class SignUpFormBase extends Component {
 }
 verifyCallback(recaptchaToken) {//setting the state to true after the user verifies that they are a person
   // Here you will get the final recaptchaToken!!!  
-  console.log(recaptchaToken,  "<= your recaptcha token")
+  // console.log(recaptchaToken,  "<= your recaptcha token")
   this.setState({isReCaptcha: true});
 }
 
@@ -170,10 +182,15 @@ const SignUpLink = () => (
 // without compose, use below code
 //const SignUpForm = withFirebase(SignUpFormBase);
 
-const SignUpForm = connect(
+const SignUpForm = withRouter(
+  connect(
   null,
-  { addUser }
-)(compose(withFirebase)(SignUpFormBase));
+  { getUser, addUser }
+)(compose(withFirebase)(SignUpFormBase))
+);
+
+
+
 
 export default SignUpPage;
 
