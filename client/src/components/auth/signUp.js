@@ -52,9 +52,10 @@ class SignUpFormBase extends Component {
 
   
 // currently after a successful singup , localStorage is not set signIn page is displayed and 
-// Firebase automatically SignIn a user when signUp is complete
+// at the moment, Firebase automatically SignIn a user when signUp is complete
 // if we decide to allow auto signIn and display /recipes after signup
-// uncomment LocalStorage assign and change URL
+// uncomment LocalStorage assign and change URL   
+// 
 
   onSubmit = event => {
     event.preventDefault();
