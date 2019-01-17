@@ -135,9 +135,16 @@ table {
 }
 
 .topMenu {
+  display: flex;
+  justify-content: flex-end;
   width: 100%;
   margin: 10px 0;
+  padding: 10px;
   border: 1px solid black;
+}
+
+.topMenu * {
+  margin-right: 10px;
 }
 .sideMenu {
   width: 20%;

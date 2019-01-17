@@ -15,11 +15,26 @@ class App extends Component {
   // but that method would be hard to use redux state management
   // it might be good to use higher order components and not using redux...
 
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        isLoggedIn : false,
+      };
+  
+     
+    }
   componentDidMount() {
+    if (localStorage.getItem('uid')) {
+      this.setState({isLoggedIn : true});
+    }
+
     this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
       // will make change with redux
-      authUser ? console.log('logged IN') : console.log('logged OUT');
-
+      authUser ? this.setState({isLoggedIn : true}) 
+               : this.setState({isLoggedIn : false});
+              
+           
       // ? this.setState({ authUser })
       // : this.setState({ authUser: null });
     });
@@ -33,7 +48,7 @@ class App extends Component {
     return (
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
-          <TopMenu />
+          <TopMenu isLoggedIn = {this.state.isLoggedIn} />
           <SideMenu />
           <MainDisplaySection />
         </div>
