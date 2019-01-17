@@ -12,7 +12,7 @@ const SideMenu = () => {
 // side menu should be hidden when landing page is shown
 // Landing page is displayed when user is not loggedin and path is '/'
 
-if (localStorage.uid && window.location.pathname !== '/') {
+if ( window.location.pathname !== '/') {
     return (
        <div className="sideMenu"> 
       <NavLink to="/recipes">Recipes List</NavLink>
