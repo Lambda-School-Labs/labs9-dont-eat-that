@@ -18,6 +18,7 @@ const DisplayRecipeDiv = styled.div`
 `;
 
 const DisplayOneRecipe = props => {
+  
   return (
     <Link
       to={`/recipes/one/${props.recipe.id}`}

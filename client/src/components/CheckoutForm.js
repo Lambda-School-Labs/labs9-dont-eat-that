@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import { connect } from 'react-redux';
-import { chargeUser, cancelSubscription } from '../actions';
+import { chargeUser, cancelSubscription, getUser } from '../actions';
 
 class CheckoutForm extends React.Component {
   state = {
@@ -16,6 +16,7 @@ class CheckoutForm extends React.Component {
     let { token } = await this.props.stripe.createToken({ name: 'name' });
     console.log(token);
     await this.props.chargeUser(token, this.state.plan);
+    await this.props.getUser();
   };
 
   render() {
@@ -68,5 +69,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { chargeUser, cancelSubscription }
+  { chargeUser, cancelSubscription, getUser }
 )(injectStripe(CheckoutForm));

@@ -55,3 +55,9 @@ For additional support, please contact us. When contacting us, please tell us wh
 
 Account Email: donteatthat4@gmail.com
 Account ID: 74e53a06-5e65-4d62-a2e8-1706db03e544
+
+Test Account
+There is an account that bypass Firebase and let you access the site.
+This is in case Firebase doesn't work in important moment (ie. demo)
+The account email is "test@test.com" and password is "1234"
+App will let this account access the site without going through Firebase OAuth.

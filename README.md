@@ -162,11 +162,12 @@ Dietary/Allergy awareness (MVP) unlimited
 #### Food API
 
 **Solution:** Edamam Nutritional Analysis API, Spoonacular API
+
 **Why did you choose this API over others?**
 
 - Great parsing through ingredients with NLP to get nutrient analysis of a recipe (Edamam)
 - Ease of use and ok documentation (both)
-- Had the specific features needed to implement for app
+- Had the specific features needed to implement for app (e.g. Spoonacular: auto-completion of ingredient names and Extract Recipes endpoint)
 - Free tier very limited, applied for developer tier (Edamam) and student tier (Spoonacular)
 
 **What other APIs could you have used and why not?**
@@ -263,6 +264,20 @@ Cancels a subscription and returns a subscription object. Requires a firebaseid 
 	"firebaseid": "123asdf23fasdf"
 }
 ```
+
+#### External Endpoints
+
+##### POST https://api.edamam.com/api/nutrition-details
+
+Given information about an ingredient (in Body), returns information about that ingredient's nutritional content.
+
+##### GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete
+
+Given part of a name of an ingredient, returns guesses at the ingredient's full name.
+
+##### GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract
+
+Given a URL of a website where a recipe is provided, attempts to parse the website and extract information about the recipe in question.
 
 ### Contributing
 

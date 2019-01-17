@@ -23,6 +23,9 @@ const Landing = props => {
         <LandingDiv>
             <img src={backdrop} alt="Mouth-watering food" />
             <p>Do you have trouble finding recipes that meet your dietary needs and avoid your allergens? Don't Eat That is the app for you! Here you can collect recipes or upload your own, and easily see which don't meet your nutritional standards.</p>
+        
+         {/* added below button, so not-logged user can enter the site.  SideMenu is hidden  */}
+            <button onClick={e => props.history.push('/recipes')}> Enter the Site! </button>
         </LandingDiv>
     );
 }
