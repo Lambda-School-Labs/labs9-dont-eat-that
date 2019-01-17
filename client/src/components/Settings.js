@@ -24,7 +24,7 @@ class Settings extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   onAddAllergy = e => {
-    this.props.addAllergy(this.state.allergy);
+    this.props.addAllergy(this.state.allergy.toLowerCase());
     this.setState({ allergy: '' });
   };
 
@@ -32,12 +32,11 @@ class Settings extends React.Component {
     if (this.props.allergies) {
       return (
         <div>
-          
           <h1>Settings</h1>
           <div>
-            <h2>User Account</h2>   
+            <h2>User Account</h2>
             <br />
-           <PasswordChangeForm />
+            <PasswordChangeForm />
           </div>
 
           <div>
