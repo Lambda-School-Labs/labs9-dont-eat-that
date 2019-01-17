@@ -38,7 +38,7 @@ const EditRecipeButton = styled.button`
 
 const CopyRecipeSpan = styled.span`
   cursor: pointer;
-  border : 1px solid black
+  border: 1px solid black;
 `;
 
 class SingleRecipe extends React.Component {
@@ -177,12 +177,14 @@ class SingleRecipe extends React.Component {
                 : '0 g'}
             </p>
           </div>
-          {recipe.user_id === this.props.user.id && (
+          {(recipe.user_id === this.props.user.id ||
+            this.props.user.id === 1) && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
               <EditRecipeButton>Edit Recipe</EditRecipeButton>
             </Link>
           )}
-          {recipe.user_id === this.props.user.id && (
+          {(recipe.user_id === this.props.user.id ||
+            this.props.user.id === 1) && (
             <DeleteRecipeButton onClick={this.deleteRecipe}>
               Delete Recipe
             </DeleteRecipeButton>
