@@ -41,7 +41,7 @@ class DisplayListRecipes extends Component {
       displayedRecipes: []
     };
 
-    this.finalDisplayedRecipes = [];
+   
   }
 
   componentDidMount() {
@@ -57,7 +57,7 @@ class DisplayListRecipes extends Component {
 
   // maybe filter the array?
   displayDiv = () => {
-    return this.finalDisplayedRecipes.map(recipe => {
+    return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
@@ -104,20 +104,14 @@ class DisplayListRecipes extends Component {
   };
 
   render() {
-    if (this.state.displayedRecipes.length !== this.props.recipes.length) {
-      this.displayRecipesCheck();
-    }
+  // in below if's 2nd condition (!this.state.query) checks if search is performed and if so, skip REcipesCheck to save
+  // searched results in this.state.displayedREcipes
 
-  // below if-else is for search functionalities 
-  // if there is query, invoke searchFunc and assign matched recipes array for this.finalDisplayedRecipes
-  //
-
-  if (this.state.query){ 
-    this.finalDisplayedRecipes = searchFunc(this.state.query, this.state.displayedRecipes);
-  }  
-  else{
-  this.finalDisplayedRecipes = this.state.displayedRecipes;
+  if (this.state.displayedRecipes.length !== this.props.recipes.length && !this.state.query) {
+    this.displayRecipesCheck();
   }
+
+
 
 
     return (
