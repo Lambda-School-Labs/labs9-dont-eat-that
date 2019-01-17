@@ -55,7 +55,7 @@ class DisplayListRecipes extends Component {
 
   // maybe filter the array?
   displayDiv = () => {
-    return this.state.displayedRecipes.map(recipe => {
+    return this.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
@@ -105,6 +105,16 @@ class DisplayListRecipes extends Component {
     if (this.state.displayedRecipes.length !== this.props.recipes.length) {
       this.displayRecipesCheck();
     }
+
+  // check if there is query and assign correct recipes array for this.displayedRecipes
+  if (this.state.query){ 
+    this.displayedRecipes = searchFunc(this.state.query, this.props.recipes);
+  }  
+  else{
+  this.displayedRecipes = this.props.recipes;
+  }
+
+
     return (
       <div className="recipe-list">
         <SimpleSearch
