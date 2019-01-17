@@ -267,6 +267,10 @@ Cancels a subscription and returns a subscription object. Requires a firebaseid 
 
 #### External Endpoints
 
+##### POST https://api.edamam.com/api/nutrition-details
+
+Given information about an ingredient (in Body), returns information about that ingredient's nutritional content.
+
 ##### GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete
 
 Given part of a name of an ingredient, returns guesses at the ingredient's full name.
