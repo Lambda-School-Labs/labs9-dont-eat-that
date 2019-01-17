@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import ReactQuill from 'react-quill';
 import {
   editRecipe,
@@ -29,24 +30,77 @@ const AutoComItemsDiv = styled.div`
   }
 `;
 
+const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
+const edamam = 'https://api.edamam.com/api/food-database';
+const edamamAppId = '4747cfb2';
+const edamamAppKey = '37224beb59fbab5b4b81b0e394d8b46e';
+
 class AddNewRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.recipe.name || '',
-      description: this.props.recipe.description || '',
-      numIngredients: this.props.recipe.ingredients.length || 3,
-      ingredients: this.props.recipe.ingredients,
-      focuses: this.props.recipe.ingredients.map(ingredient => ({
-        focus: false
-      }))
+      // name: this.props.recipe.name || '',
+      name: (this.props.recipe ? this.props.recipe.name : ''),
+      // description: this.props.recipe.description || '',
+      description: (this.props.recipe ? this.props.recipe.description : ''),
+      // numIngredients: this.props.recipe.ingredients.length || 3,
+      numIngredients: (this.props.recipe ? this.props.recipe.ingredients.length : 3),
+      // ingredients: this.props.recipe.ingredients,
+      ingredients: (this.props.recipe 
+        ? this.populateUnitsLists() 
+        : [ emptyIng, emptyIng, emptyIng ]),
+      focuses: (this.props.recipe 
+        ? this.props.recipe.ingredients.map(ingredient => ({
+            focus: false
+          }))
+        : [{ focus: false }, { focus: false }, { focus: false }])
     };
+    // const ingArr = this.state.ingredients.slice();
+    // for (let i = 0; i < ingArr.length; i++) {
+    //   ingArr[i].unitsList = [];
+    // }
+    // this.setState({ ingredients: ingArr });
+
+  }
+
+  populateUnitsLists = () => {
+    // Populate the unitsList property of each ingredient
+    const ingArr = this.props.recipe.ingredients.slice();     // Copy ingredients from the db without unitsLists
+    for (let i = 0; i < ingArr.length; i++) {
+
+      if (ingArr[i].name !== '') {          // To avoid pinging the API with empty string queries
+        ingArr[i].unitsList = [];           // Make sure there is a unitsList to add to
+        const encoded = encodeURIComponent(ingArr[i].name);    // Ready the ingredient name to be part of a URI
+        const url = `${edamam}/parser?ingr=${encoded}&app_id=${edamamAppId}&app_key=${edamamAppKey}`;
+        axios
+          .get(url)
+          .then(res => {
+            const hints = res.data.hints;
+            if (hints.length) {             // If the API returned any results for our search
+              hints[0].measures.map(measure => {      // res.data.hints[0].measures[0].label is where the Units suggestions are
+                ingArr[i].unitsList.push(measure.label);
+              });
+            } else {
+              ingArr[i].unitsList.push('Gram');
+            }
+          })
+          .catch(err => {
+            console.log({ error: err });
+          });
+      } else {
+        ingArr[i].unitsList = [ 'Gram' ];
+      }
+    }
+    return ingArr;
   }
 
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
     this.props.getAllergies();
+    this.setState({
+      ingredients: this.populateUnitsLists()
+    });
   }
 
   quillHandler = html => {
@@ -167,6 +221,34 @@ class AddNewRecipeForm extends Component {
     this.setState({ focuses });
   };
 
+  checkUnits = ev => {
+    if (ev.target.value !== '') {
+      const ingNum = Number(ev.target.name.slice(4));
+      const encoded = encodeURIComponent(ev.target.value);
+      const url = `${edamam}/parser?ingr=${encoded}&app_id=${edamamAppId}&app_key=${edamamAppKey}`;
+      const unitArr = [];
+      axios
+        .get(url)
+        .then(res => {
+          const hints = res.data.hints;
+          if (hints.length) {
+            hints[0].measures.map(measure => {
+              unitArr.push(measure.label);
+            });
+          } else {
+            unitArr.push('Gram');
+          }
+          const ingCopy = this.state.ingredients.slice();
+          ingCopy[ingNum].unitsList = unitArr;
+          ingCopy[ingNum].unit = unitArr[0];
+          this.setState({ ingredients: ingCopy });
+        })
+        .catch(err => {
+          console.log({ error: err });
+        });
+    }
+  }
+
   ingAllergyWarning = index => {
     const boolArr = this.props.allergies.map(
       allergy => allergy === this.state.ingredients[index].name
@@ -197,6 +279,7 @@ class AddNewRecipeForm extends Component {
                   this.ingHandler(e);
                   this.props.autoComIng(this.state.ingredients[i].name);
                 }}
+                onBlur={this.checkUnits}
                 style={this.ingAllergyWarning(i)}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (
@@ -222,14 +305,20 @@ class AddNewRecipeForm extends Component {
               onChange={this.ingHandler}
               onFocus={() => this.onBlur(i)}
             />
-            <input
+            <select
+              name={`unit${i}`}
+              onChange={this.ingHandler}
+            >
+              {this.state.ingredients[i].unitsList && this.state.ingredients[i].unitsList.map(unit => <option value={unit}>{unit}</option> )}
+            </select>
+            {/* <input
               type="text"
               placeholder="Ingredient Unit"
               name={`unit${i}`}
               value={this.state.ingredients[i].unit}
               onChange={this.ingHandler}
               onFocus={() => this.onBlur(i)}
-            />
+            /> */}
             <br />
           </div>
         );
