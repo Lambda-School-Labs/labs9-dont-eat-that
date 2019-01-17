@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
-import { Elements, StripeProvider } from 'react-stripe-elements';
-import styled from 'styled-components';
+import { Route } from 'react-router-dom';
+import { Elements } from 'react-stripe-elements';
 import AddFromWeb from './components/AddFromWeb';
 import './App.css';
 import DisplayListRecipes from './components/DisplayListRecipes';
@@ -16,11 +15,6 @@ import CheckoutForm from './components/CheckoutForm';
 import Settings from './components/Settings';
 import ConditionalLanding from './components/Landing';
 
-
-const NavDiv = styled.div`
-  justify-content: space-evenly;
-`;
-
 class MainDisplaySection extends Component {
   // componentDidMount and componentWillUnmout is used to check if user is loggedin
   // it will make state changes when user login or out.
@@ -28,36 +22,30 @@ class MainDisplaySection extends Component {
   // but that method would be hard to use redux state management
   // it might be good to use higher order components and not using redux...
 
-
   render() {
     if (localStorage.uid) {
-
     }
     return (
-    
-        <div className="MainDisplaySection">
-      
-
-          <Route exact path="/" component={ConditionalLanding} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signout" component={SignOut} />
-          <Route
-            path="/billing"
-            render={props => (
-              <Elements>
-                <CheckoutForm {...props} />
-              </Elements>
-            )}
-          />
-          <Route path="/settings" component={Settings} />
-          <Route exact path="/recipes" component={DisplayListRecipes} />
-          <Route path="/recipes/new" component={AddNewRecipeForm} />
-          <Route path="/recipes/one/:id" component={SingleRecipe} />
-          <Route path="/recipes/edit/:id" component={EditRecipe} />
-          <Route path="/recipes/import" component={AddFromWeb} />
-        </div>
-      
+      <div className="MainDisplaySection">
+        <Route exact path="/" component={ConditionalLanding} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signout" component={SignOut} />
+        <Route
+          path="/billing"
+          render={props => (
+            <Elements>
+              <CheckoutForm {...props} />
+            </Elements>
+          )}
+        />
+        <Route path="/settings" component={Settings} />
+        <Route exact path="/recipes" component={DisplayListRecipes} />
+        <Route path="/recipes/new" component={AddNewRecipeForm} />
+        <Route path="/recipes/one/:id" component={SingleRecipe} />
+        <Route path="/recipes/edit/:id" component={EditRecipe} />
+        <Route path="/recipes/import" component={AddFromWeb} />
+      </div>
     );
   }
 }

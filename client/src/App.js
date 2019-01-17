@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { StripeProvider } from 'react-stripe-elements';
-import styled from 'styled-components';
 import './App.css';
 
 import { withFirebase } from './components/firebase';
 
 import MainDisplaySection from './mainDisplaySection';
 import TopMenu from './components/menus/topMenu.js';
- import SideMenu from './components/menus/sideMenu.js';
-
-
-const NavDiv = styled.div`
-  justify-content: space-evenly;
-`;
+import SideMenu from './components/menus/sideMenu.js';
 
 class App extends Component {
   // componentDidMount and componentWillUnmout is used to check if user is loggedin
@@ -35,18 +29,16 @@ class App extends Component {
   }
   render() {
     if (localStorage.uid) {
-
     }
     return (
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
           <TopMenu />
-          <SideMenu /> 
+          <SideMenu />
           <MainDisplaySection />
-
         </div>
       </StripeProvider>
-    )
+    );
   }
 }
 
