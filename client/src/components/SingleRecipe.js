@@ -30,7 +30,7 @@ const DeleteRecipeButton = styled.button`
 const EditRecipeButton = styled.button`
   position: absolute;
   top: 40px;
-  left: 10px;
+  left: 150px;
   background: green;
   font-size: 1rem;
   padding: 15px;
@@ -38,6 +38,7 @@ const EditRecipeButton = styled.button`
 
 const CopyRecipeSpan = styled.span`
   cursor: pointer;
+  border : 1px solid black
 `;
 
 class SingleRecipe extends React.Component {
