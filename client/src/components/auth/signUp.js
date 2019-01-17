@@ -73,7 +73,7 @@ class SignUpFormBase extends Component {
         console.log('SignUp.js create user SUCCESS');
         this.props.addUser(user.user.uid);
         this.setState({ ...INITIAL_STATE });
-        //  localStorage.setItem('uid', user.user.uid);
+        localStorage.setItem('uid', user.user.uid);
         return user;
 
       })
@@ -83,7 +83,7 @@ class SignUpFormBase extends Component {
       })
       .then(res =>{
         console.log("this.props = ",this.props.history )
-         this.props.history.push('/signin') //change this to recipes if routing back to recipes
+        this.props.history.push('/recipes') //change this to recipes if routing back to recipes
       })
       .catch(error => {
         console.log('SignUp.js create user FAILED');
