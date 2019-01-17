@@ -258,6 +258,12 @@ class AddNewRecipeForm extends Component {
           formats={AddNewRecipeForm.formats}
         />
         <br />
+        {(!this.state.name || !this.state.description) && (
+          <p>
+            Please provide a name, description, and ingredients before
+            submitting a recipe!
+          </p>
+        )}
         {localStorage.getItem('uid') ? (
           <button type="submit">Save Recipe</button>
         ) : (
