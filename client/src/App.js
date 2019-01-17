@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
-import { Route, NavLink } from 'react-router-dom';
-import { Elements, StripeProvider } from 'react-stripe-elements';
+import { StripeProvider } from 'react-stripe-elements';
 import styled from 'styled-components';
-import AddFromWeb from './components/AddFromWeb';
 import './App.css';
-import DisplayListRecipes from './components/DisplayListRecipes';
-import AddNewRecipeForm from './components/AddNewRecipeForm';
+
 import { withFirebase } from './components/firebase';
-import SingleRecipe from './components/SingleRecipe';
-import EditRecipe from './components/EditRecipe';
-import SignUp from './components/auth/signUp';
-import SignIn from './components/auth/signIn';
-import SignOut from './components/auth/signOut';
-import CheckoutForm from './components/CheckoutForm';
-import Settings from './components/Settings';
-import ConditionalLanding from './components/Landing';
+
+import MainDisplaySection from './mainDisplaySection';
+import TopMenu from './components/menus/topMenu.js';
+ import SideMenu from './components/menus/sideMenu.js';
+
+
 const NavDiv = styled.div`
   justify-content: space-evenly;
 `;
@@ -45,38 +40,13 @@ class App extends Component {
     return (
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
-          <NavDiv>
-            <NavLink to="/recipes">Recipes List</NavLink>
-            <NavLink to="/recipes/new">New Recipe</NavLink>
-            <NavLink to="/recipes/import">Import Recipe</NavLink>
-            <NavLink to="/signup">Sign Up</NavLink>
-            <NavLink to="/signin">Sign In</NavLink>
-            <NavLink to="/billing">Billing</NavLink>
-            <NavLink to="/settings">Settings</NavLink>
-            <NavLink to="/signout">Sign Out</NavLink>
-          </NavDiv>
+          <TopMenu />
+          <SideMenu /> 
+          <MainDisplaySection />
 
-          <Route exact path="/" component={ConditionalLanding} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signout" component={SignOut} />
-          <Route
-            path="/billing"
-            render={props => (
-              <Elements>
-                <CheckoutForm {...props} />
-              </Elements>
-            )}
-          />
-          <Route path="/settings" component={Settings} />
-          <Route exact path="/recipes" component={DisplayListRecipes} />
-          <Route path="/recipes/new" component={AddNewRecipeForm} />
-          <Route path="/recipes/one/:id" component={SingleRecipe} />
-          <Route path="/recipes/edit/:id" component={EditRecipe} />
-          <Route path="/recipes/import" component={AddFromWeb} />
         </div>
       </StripeProvider>
-    );
+    )
   }
 }
 
