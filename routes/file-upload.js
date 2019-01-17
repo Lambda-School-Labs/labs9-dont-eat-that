@@ -3,8 +3,7 @@ const db = require('../data/dbConfig');
 const multer = require('multer');
 const multerS3 = require('multer-S3');
 const aws = require('aws-sdk');
-const upload = require('../services/multer');
-const singleUpload = upload.single('image');
+// let upload = require('multer');
 
 
 require('dotenv').config();
@@ -34,8 +33,9 @@ const upload = multer({
     })
 })
 
+const singleUpload = upload.single('image');
 
-router.post('/image-upload', function(req,res) {
+router.post('/', function(req,res) {
     singleUpload(req, res, function(err, some) {
         if(err){
             return res.status(422).send({errors:[{title: 'Image Upload Error', detail: err.message}]});
@@ -47,4 +47,4 @@ router.post('/image-upload', function(req,res) {
 
 
 
-module.exports = upload;
+module.exports = router;
