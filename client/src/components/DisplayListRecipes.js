@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies } from '../actions';
+import {
+  getAllRecipes,
+  getOwnRecipes,
+  getForeignRecipes,
+  getAllergies
+} from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
-// import { Header, Container } from "semantic-ui-react";
 
 const DisplayListDiv = styled.div`
   display: flex;
@@ -33,14 +37,12 @@ class DisplayListRecipes extends Component {
     this.state = {
       query: '',
       isSearched: false,
-      personalCheck: true
+      personalCheck: true,
+      displayedRecipes: []
     };
-
-    this.displayedRecipes = [];
   }
 
   componentDidMount() {
-    // getting all the notes function will go here
     if (!localStorage.getItem('uid')) {
       this.props.getAllRecipes();
     } else if (this.state.personalCheck) {
@@ -53,12 +55,7 @@ class DisplayListRecipes extends Component {
 
   // maybe filter the array?
   displayDiv = () => {
-    // for search result to work, I changed below code to use this.displayedRecipes,
-    // instead of this.props.recipes
-    // displayedRecipes will get recipes array that match search query
-    // if there is no search query, it will get this.props.recipes
-
-    return this.displayedRecipes.map(recipe => {
+    return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
@@ -75,43 +72,57 @@ class DisplayListRecipes extends Component {
     });
   };
 
-  handleInputChange = e => {
-    this.setState({
+  handleInputChange = async e => {
+    await this.setState({
       [e.target.name]: e.target.value
     });
+    if (this.state.query) {
+      this.setState({
+        displayedRecipes: searchFunc(this.state.query, this.props.recipes)
+      });
+    } else {
+      this.setState({ displayedRecipes: this.props.recipes });
+    }
   };
   // edge case for spacing, for later
 
-  checkHandler = ev => {
-    this.setState({
-      [ev.target.name]: ev.target.checked
-    })
-  }
+  checkHandler = async ev => {
+    await this.setState({
+      personalCheck: ev.target.checked
+    });
+    if (this.state.personalCheck) {
+      this.props.getOwnRecipes();
+    } else {
+      this.props.getForeignRecipes();
+    }
+  };
+
+  displayRecipesCheck = async () => {
+    await this.setState({ displayedRecipes: this.props.recipes });
+  };
 
   render() {
-    // check if there is query and assign correct recipes array for this.displayedRecipes
-    if (this.state.query) {
-      this.displayedRecipes = searchFunc(this.state.query, this.props.recipes);
-    } else {
-      this.displayedRecipes = this.props.recipes;
+    if (this.state.displayedRecipes.length !== this.props.recipes.length) {
+      this.displayRecipesCheck();
     }
     return (
       <div className="recipe-list">
         <SimpleSearch
-          recipes={this.state.notes}
           query={this.state.query}
           handleInputChange={this.handleInputChange}
         />
-        <form>
-          <input 
-            type="checkbox"
-            id="personalCheck"
-            name="personalCheck"
-            onChange={this.checkHandler}
-            checked={this.state.personalCheck}
-          />
-          <label htmlFor="personalCheck">See your own recipes</label>
-        </form>
+        {localStorage.getItem('uid') && (
+          <form>
+            <input
+              type="checkbox"
+              id="personalCheck"
+              name="personalCheck"
+              onChange={this.checkHandler}
+              checked={this.state.personalCheck}
+            />
+            <label htmlFor="personalCheck">See your own recipes</label>
+          </form>
+        )}
 
         <h1>Recipes</h1>
         <DisplayListDiv>
@@ -130,14 +141,14 @@ class DisplayListRecipes extends Component {
 }
 
 const mapStateToProps = state => {
-  const { recipesReducer } = state;
   return {
-    recipes: recipesReducer.recipes,
-    error: recipesReducer.error,
+    recipes: state.recipesReducer.recipes,
+    error: state.recipesReducer.error,
     allergies: state.usersReducer.user.allergies
   };
 };
 
-export default connect(mapStateToProps,
+export default connect(
+  mapStateToProps,
   { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies }
 )(DisplayListRecipes);
