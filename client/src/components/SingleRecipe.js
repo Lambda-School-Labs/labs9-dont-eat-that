@@ -83,7 +83,12 @@ class SingleRecipe extends React.Component {
           <h1>
             {recipe.name}{' '}
             {localStorage.getItem('uid') ? (
-              <CopyRecipeSpan onClick={() => this.copyRecipe(recipe)}>
+              <CopyRecipeSpan
+                onClick={() => {
+                  this.copyRecipe(recipe);
+                  this.props.history.push('/recipes');
+                }}
+              >
                 Copy Recipe
               </CopyRecipeSpan>
             ) : null}
@@ -124,7 +129,12 @@ class SingleRecipe extends React.Component {
           <h1>
             {recipe.name}{' '}
             {localStorage.getItem('uid') ? (
-              <CopyRecipeSpan onClick={() => this.copyRecipe(recipe)}>
+              <CopyRecipeSpan
+                onClick={() => {
+                  this.copyRecipe(recipe);
+                  this.props.history.push('/recipes');
+                }}
+              >
                 Copy Recipe
               </CopyRecipeSpan>
             ) : null}
