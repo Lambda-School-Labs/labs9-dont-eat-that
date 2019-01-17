@@ -290,7 +290,7 @@ AddNewRecipeForm.modules = {
       { indent: '-1' },
       { indent: '+1' }
     ],
-    ['link', 'image'],
+    ['link'],
     ['clean']
   ],
   clipboard: {
@@ -310,8 +310,7 @@ AddNewRecipeForm.formats = [
   'list',
   'bullet',
   'indent',
-  'link',
-  'image'
+  'link'
 ];
 
 const mapStateToProps = state => {
