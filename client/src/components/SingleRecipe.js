@@ -50,7 +50,10 @@ class SingleRecipe extends React.Component {
   getNutrition = () => {
     const { name, ingredients } = this.props.recipe;
     const ingrArr = ingredients.map(
-      ingr => `${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`
+      ingr =>
+        `${ingr.quantity ? ingr.quantity : ''} ${ingr.unit ? ingr.unit : ''} ${
+          ingr.name
+        }`
     );
     this.props.getNutrition(name, ingrArr); // gets nutritional value of recipe from Edamam
   };
@@ -135,7 +138,7 @@ class SingleRecipe extends React.Component {
               {}
               <ul>
                 {recipe.ingredients.map(ingr => (
-                  <li key={ingr.name}>{`${ingr.quantity} ${
+                  <li key={ingr.name}>{`${ingr.quantity ? ingr.quantity : ''} ${
                     ingr.unit ? ingr.unit : ''
                   } ${ingr.name}`}</li>
                 ))}
@@ -150,21 +153,27 @@ class SingleRecipe extends React.Component {
             <h5>Macronutrients</h5>
             <p>
               Carbohydrates:{' '}
-              {`${nutrition.totalNutrients.CHOCDF.quantity} ${
-                nutrition.totalNutrients.CHOCDF.unit
-              }`}
+              {nutrition.totalNutrients.CHOCDF
+                ? `${nutrition.totalNutrients.CHOCDF.quantity} ${
+                    nutrition.totalNutrients.CHOCDF.unit
+                  }`
+                : '0 g'}
             </p>
             <p>
               Protein:{' '}
-              {`${nutrition.totalNutrients.PROCNT.quantity} ${
-                nutrition.totalNutrients.PROCNT.unit
-              }`}
+              {nutrition.totalNutrients.PROCNT
+                ? `${nutrition.totalNutrients.PROCNT.quantity} ${
+                    nutrition.totalNutrients.PROCNT.unit
+                  }`
+                : '0 g'}
             </p>
             <p>
               Fat:{' '}
-              {`${nutrition.totalNutrients.FAT.quantity} ${
-                nutrition.totalNutrients.FAT.unit
-              }`}
+              {nutrition.totalNutrients.FAT
+                ? `${nutrition.totalNutrients.FAT.quantity} ${
+                    nutrition.totalNutrients.FAT.unit
+                  }`
+                : '0 g'}
             </p>
           </div>
           {recipe.user_id === this.props.user.id && (
