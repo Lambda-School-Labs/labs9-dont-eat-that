@@ -174,7 +174,6 @@ class AddNewRecipeForm extends Component {
       const encoded = encodeURIComponent(ev.target.value);
       const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${this.state.edamamAppId}&app_key=${this.state.edamamAppKey}`;
       const unitArr = [];
-      console.log(url);
       axios
         .get(url)
         .then(res => {
