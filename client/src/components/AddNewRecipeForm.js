@@ -155,6 +155,7 @@ class AddNewRecipeForm extends Component {
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
+    this.checkAutoComUnits(i, item);
   };
 
   onFocus = index => {
@@ -200,6 +201,31 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+  checkAutoComUnits = async (i, item) => {
+    try {
+      const encoded = encodeURIComponent(item);
+      const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${
+        this.state.edamamAppId
+      }&app_key=${this.state.edamamAppKey}`;
+      const unitArr = [];
+      const res = await axios.get(url);
+      if (res.data.hints.length) {
+        res.data.hints[0].measures.map(measure => {
+          unitArr.push(measure.label);
+          return null;
+        });
+      } else {
+        unitArr.push('Gram');
+      }
+      const ingCopy = this.state.ingredients.slice();
+      ingCopy[i].unitsList = unitArr;
+      ingCopy[i].unit = unitArr[0];
+      this.setState({ ingredients: ingCopy });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   ingAllergyWarning = index => {
     const boolArr = this.props.allergies.map(
       allergy => allergy === this.state.ingredients[index].name
@@ -238,7 +264,7 @@ class AddNewRecipeForm extends Component {
                   return (
                     <div
                       key={item}
-                      onClick={() => this.onClickAutocomplete(i, item)}
+                      onClick={e => this.onClickAutocomplete(i, item, e)}
                     >
                       {item}
                     </div>
@@ -257,7 +283,9 @@ class AddNewRecipeForm extends Component {
           />
           <select name={`unit${i}`} onChange={this.ingHandler}>
             {this.state.ingredients[i].unitsList.map(unit => (
-              <option value={unit}>{unit}</option>
+              <option key={unit} value={unit}>
+                {unit}
+              </option>
             ))}
           </select>
           {/* <input
