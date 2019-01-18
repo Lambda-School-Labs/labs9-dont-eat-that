@@ -1,36 +1,44 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import '../../App.css';
-
+import { Menu } from 'semantic-ui-react';
 
 // TopMenu manages top part of display, showing login related menu
 // Depend on user's login status, active/inactive menu changes.
 
-const TopMenu = (props) => {
+const TopMenu = props => {
   let displaySignUp, displaySignIn, displaySignOut;
 
-// using 3 variables because I could not put all in 1 variable.
-// if you could make it simpler, please edit it.
-
-    if (props.isLoggedIn){
-       displaySignUp = <p>Sign Up</p>
-       displaySignIn =<p>Sign In </p>
-       displaySignOut =<NavLink to="/signout">Sign Out</NavLink>
-    }
-    else {
-      displaySignUp = <NavLink to="/signup">Sign Up</NavLink> 
-      displaySignIn = <NavLink to="/signin">Sign In</NavLink>
-      displaySignOut = <p>Sign Out</p> 
-    }
-                        
-    return (
-        <div className="topMenu">
-
-        {displaySignUp}
-        {displaySignIn}
-        {displaySignOut}
-      </div>
+  if (props.isLoggedIn) {
+    displaySignOut = (
+      <NavLink to="/signout">
+        <Menu.Item>Logout</Menu.Item>
+      </NavLink>
+    );
+  } else {
+    displaySignUp = (
+      <NavLink to="/signup">
+        <Menu.Item>Sign Up</Menu.Item>
+      </NavLink>
+    );
+    displaySignIn = (
+      <NavLink to="/signin">
+        <Menu.Item>Login</Menu.Item>
+      </NavLink>
     );
   }
 
-  export default TopMenu;
+  return (
+    <Menu className="topMenu" size="small" inverted>
+      <NavLink to="/">
+        <Menu.Item>Landing Page</Menu.Item>
+      </NavLink>
+      <Menu.Menu position="right">
+        {displaySignUp}
+        {displaySignIn}
+        {displaySignOut}
+      </Menu.Menu>
+    </Menu>
+  );
+};
+
+export default TopMenu;

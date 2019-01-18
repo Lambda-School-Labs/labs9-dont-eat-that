@@ -91,6 +91,7 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -105,17 +106,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -123,37 +128,37 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .App {
-  text-align: center;
   display: flex;
-  flex-flow: wrap;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .topMenu {
-  display: flex;
-  justify-content: flex-end;
   width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid black;
 }
 
-.topMenu * {
-  margin-right: 10px;
-}
 .sideMenu {
   width: 20%;
   margin: 10px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
 }
+
 .MainDisplaySection {
   text-align: center;
   width: 75%;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
 }

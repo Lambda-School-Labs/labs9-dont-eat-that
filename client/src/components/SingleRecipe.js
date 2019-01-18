@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
+import { Button } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {
   getRecipe,
@@ -16,24 +17,6 @@ const RecipeDescAndIngDiv = styled.div`
   display: flex;
   justify-content: space-evenly;
   text-align: left;
-`;
-
-const DeleteRecipeButton = styled.button`
-  position: absolute;
-  top: 40px;
-  right: 10px;
-  background: red;
-  font-size: 1rem;
-  padding: 15px;
-`;
-
-const EditRecipeButton = styled.button`
-  position: absolute;
-  top: 40px;
-  left: 150px;
-  background: green;
-  font-size: 1rem;
-  padding: 15px;
 `;
 
 const CopyRecipeSpan = styled.span`
@@ -112,13 +95,13 @@ class SingleRecipe extends React.Component {
           </RecipeDescAndIngDiv>
           {recipe.user_id === this.props.user.id && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-              <EditRecipeButton>Edit Recipe</EditRecipeButton>
+              <Button color="green">Edit Recipe</Button>
             </Link>
           )}
           {recipe.user_id === this.props.user.id && (
-            <DeleteRecipeButton onClick={this.deleteRecipe}>
+            <Button color="red" onClick={this.deleteRecipe}>
               Delete Recipe
-            </DeleteRecipeButton>
+            </Button>
           )}
         </div>
       );
@@ -129,14 +112,14 @@ class SingleRecipe extends React.Component {
           <h1>
             {recipe.name}{' '}
             {localStorage.getItem('uid') ? (
-              <CopyRecipeSpan
+              <Button
                 onClick={() => {
                   this.copyRecipe(recipe);
                   this.props.history.push('/recipes');
                 }}
               >
                 Copy Recipe
-              </CopyRecipeSpan>
+              </Button>
             ) : null}
           </h1>
           <RecipeDescAndIngDiv>
@@ -190,14 +173,14 @@ class SingleRecipe extends React.Component {
           {(recipe.user_id === this.props.user.id ||
             this.props.user.id === 1) && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-              <EditRecipeButton>Edit Recipe</EditRecipeButton>
+              <Button color="green">Edit Recipe</Button>
             </Link>
           )}
           {(recipe.user_id === this.props.user.id ||
             this.props.user.id === 1) && (
-            <DeleteRecipeButton onClick={this.deleteRecipe}>
+            <Button color="red" onClick={this.deleteRecipe}>
               Delete Recipe
-            </DeleteRecipeButton>
+            </Button>
           )}
         </div>
       );
