@@ -13,6 +13,17 @@ import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
 
+const RecipeListPage = styled.div`
+  form {
+    margin-top: 4px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+`;
+
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -29,6 +40,11 @@ const CreateRecipeDiv = styled.div`
   width: 200px;
   padding: 10px;
   margin: 10px;
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
 `;
 
 class DisplayListRecipes extends Component {
@@ -40,8 +56,6 @@ class DisplayListRecipes extends Component {
       personalCheck: true,
       displayedRecipes: []
     };
-
-   
   }
 
   componentDidMount() {
@@ -107,15 +121,12 @@ class DisplayListRecipes extends Component {
   // in below if's 2nd condition (!this.state.query) checks if search is performed and if so, skip REcipesCheck to save
   // searched results in this.state.displayedREcipes
 
-  if (this.state.displayedRecipes.length !== this.props.recipes.length && !this.state.query) {
-    this.displayRecipesCheck();
-  }
-
-
-
+    if (this.state.displayedRecipes.length !== this.props.recipes.length && !this.state.query) {
+      this.displayRecipesCheck();
+    }
 
     return (
-      <div className="recipe-list">
+      <RecipeListPage>
         <SimpleSearch
           query={this.state.query}
           handleInputChange={this.handleInputChange}
@@ -144,7 +155,7 @@ class DisplayListRecipes extends Component {
 
           {this.displayDiv()}
         </DisplayListDiv>
-      </div>
+      </RecipeListPage>
     );
   }
 }
