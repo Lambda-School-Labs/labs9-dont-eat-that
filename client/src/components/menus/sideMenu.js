@@ -7,29 +7,22 @@ import { NavLink } from 'react-router-dom';
 // `;
 
 const SideMenu = () => {
+  // side menu should be hidden when landing page is shown
+  // Landing page is displayed when user is not loggedin and path is '/'
 
-
-// side menu should be hidden when landing page is shown
-// Landing page is displayed when user is not loggedin and path is '/'
-
-if ( window.location.pathname !== '/') {
+  if (window.location.pathname !== '/') {
     return (
-       <div className="sideMenu"> 
-      <NavLink to="/recipes">Recipes List</NavLink>
-      <NavLink to="/recipes/new">New Recipe</NavLink>
-      <NavLink to="/recipes/import">Import Recipe</NavLink>
- 
-      <NavLink to="/billing">Billing</NavLink>
-      <NavLink to="/settings">Settings</NavLink>
-  
-    </div>
-    );
-  }
+      <div className="sideMenu">
+        <NavLink to="/recipes">Recipes List</NavLink>
+        <NavLink to="/recipes/new">New Recipe</NavLink>
+        <NavLink to="/recipes/import">Import Recipe</NavLink>
 
-  else {
-    return(
-      <div></div>
+        <NavLink to="/billing">Billing</NavLink>
+        <NavLink to="/settings">Settings</NavLink>
+      </div>
     );
+  } else {
+    return <div />;
   }
-}
-  export default SideMenu;
+};
+export default SideMenu;
