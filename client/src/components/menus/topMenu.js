@@ -29,6 +29,9 @@ const TopMenu = props => {
 
   return (
     <Menu className="topMenu" size="small" inverted>
+      <Menu.Item>
+        <NavLink to="/">Landing Page</NavLink>
+      </Menu.Item>
       <Menu.Menu position="right">
         {displaySignUp}
         {displaySignIn}

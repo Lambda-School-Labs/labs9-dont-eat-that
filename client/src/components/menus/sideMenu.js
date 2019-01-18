@@ -10,7 +10,13 @@ const SideMenu = () => {
   // side menu should be hidden when landing page is shown
   // Landing page is displayed when user is not loggedin and path is '/'
 
-  if (window.location.pathname !== '/') {
+  if (
+    window.location.pathname === '/' ||
+    window.location.pathname === '/signin' ||
+    window.location.pathname === '/signup'
+  ) {
+    return null;
+  } else {
     return (
       <div className="sideMenu">
         <NavLink to="/recipes">Recipes List</NavLink>
@@ -21,8 +27,6 @@ const SideMenu = () => {
         <NavLink to="/settings">Settings</NavLink>
       </div>
     );
-  } else {
-    return <div />;
   }
 };
 export default SideMenu;

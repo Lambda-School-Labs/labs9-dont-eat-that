@@ -139,17 +139,14 @@ table {
 }
 
 .App {
-  text-align: center;
   display: flex;
-  flex-flow: wrap;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
 .topMenu {
   width: 100%;
-}
-
-.topMenu * {
-  margin-right: 10px;
 }
 
 .sideMenu {
