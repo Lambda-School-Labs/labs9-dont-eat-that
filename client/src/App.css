@@ -151,12 +151,10 @@ table {
 .sideMenu {
   width: 20%;
   margin: 10px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
 }
 
 .MainDisplaySection {
+  text-align: center;
   width: 75%;
 }
 
