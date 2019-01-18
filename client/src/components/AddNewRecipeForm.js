@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import styled from 'styled-components';
-import MyDropzone from './FileDrop';
+// import MyDropzone from './FileDrop';
 
 const AutoComDiv = styled.div`
   position: relative;
@@ -34,11 +34,7 @@ class AddNewRecipeForm extends Component {
       name: '',
       description: '',
       numIngredients: 3,
-      ingredients: [
-        emptyIng,
-        emptyIng,
-        emptyIng
-      ],
+      ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
@@ -144,7 +140,11 @@ class AddNewRecipeForm extends Component {
     };
     // Call the action to send this object to POST a recipe
     this.props.addRecipe(recipeObj);
-    this.setState({ name: '', description: '', ingredients: [ emptyIng, emptyIng, emptyIng ] });
+    this.setState({
+      name: '',
+      description: '',
+      ingredients: [emptyIng, emptyIng, emptyIng]
+    });
     this.props.history.push('/recipes');
   };
 
@@ -173,7 +173,9 @@ class AddNewRecipeForm extends Component {
     if (ev.target.value !== '') {
       const ingNum = Number(ev.target.name.slice(4));
       const encoded = encodeURIComponent(ev.target.value);
-      const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${this.state.edamamAppId}&app_key=${this.state.edamamAppKey}`;
+      const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${
+        this.state.edamamAppId
+      }&app_key=${this.state.edamamAppKey}`;
       const unitArr = [];
       axios
         .get(url)
@@ -182,6 +184,7 @@ class AddNewRecipeForm extends Component {
           if (hints.length) {
             hints[0].measures.map(measure => {
               unitArr.push(measure.label);
+              return null;
             });
           } else {
             unitArr.push('Gram');
@@ -195,7 +198,7 @@ class AddNewRecipeForm extends Component {
           console.log({ error: err });
         });
     }
-  }
+  };
 
   ingAllergyWarning = index => {
     const boolArr = this.props.allergies.map(
@@ -252,11 +255,10 @@ class AddNewRecipeForm extends Component {
             onChange={this.ingHandler}
             onFocus={() => this.onBlur(i)}
           />
-          <select
-            name={`unit${i}`}
-            onChange={this.ingHandler}
-          >
-            {this.state.ingredients[i].unitsList.map(unit => <option value={unit}>{unit}</option> )}
+          <select name={`unit${i}`} onChange={this.ingHandler}>
+            {this.state.ingredients[i].unitsList.map(unit => (
+              <option value={unit}>{unit}</option>
+            ))}
           </select>
           {/* <input
             type="text"
@@ -273,7 +275,7 @@ class AddNewRecipeForm extends Component {
     return (
       <form onSubmit={this.submitHandler} autoComplete="off">
         <h2>Upload New Recipe</h2>
-        <MyDropzone />
+        {/*<MyDropzone />*/}
         <input
           type="text"
           placeholder="Recipe Name"

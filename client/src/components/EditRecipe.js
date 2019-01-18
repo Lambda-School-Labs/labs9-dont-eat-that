@@ -40,45 +40,49 @@ class AddNewRecipeForm extends Component {
     super(props);
     this.state = {
       // name: this.props.recipe.name || '',
-      name: (this.props.recipe ? this.props.recipe.name : ''),
+      name: this.props.recipe ? this.props.recipe.name : '',
       // description: this.props.recipe.description || '',
-      description: (this.props.recipe ? this.props.recipe.description : ''),
+      description: this.props.recipe ? this.props.recipe.description : '',
       // numIngredients: this.props.recipe.ingredients.length || 3,
-      numIngredients: (this.props.recipe ? this.props.recipe.ingredients.length : 3),
+      numIngredients: this.props.recipe
+        ? this.props.recipe.ingredients.length
+        : 3,
       // ingredients: this.props.recipe.ingredients,
-      ingredients: (this.props.recipe 
-        ? this.populateUnitsLists() 
-        : [ emptyIng, emptyIng, emptyIng ]),
-      focuses: (this.props.recipe 
+      ingredients: this.props.recipe
+        ? this.populateUnitsLists()
+        : [emptyIng, emptyIng, emptyIng],
+      focuses: this.props.recipe
         ? this.props.recipe.ingredients.map(ingredient => ({
             focus: false
           }))
-        : [{ focus: false }, { focus: false }, { focus: false }])
+        : [{ focus: false }, { focus: false }, { focus: false }]
     };
     // const ingArr = this.state.ingredients.slice();
     // for (let i = 0; i < ingArr.length; i++) {
     //   ingArr[i].unitsList = [];
     // }
     // this.setState({ ingredients: ingArr });
-
   }
 
   populateUnitsLists = () => {
     // Populate the unitsList property of each ingredient
-    const ingArr = this.props.recipe.ingredients.slice();     // Copy ingredients from the db without unitsLists
+    const ingArr = this.props.recipe.ingredients.slice(); // Copy ingredients from the db without unitsLists
     for (let i = 0; i < ingArr.length; i++) {
-
-      if (ingArr[i].name !== '') {          // To avoid pinging the API with empty string queries
-        ingArr[i].unitsList = [];           // Make sure there is a unitsList to add to
-        const encoded = encodeURIComponent(ingArr[i].name);    // Ready the ingredient name to be part of a URI
+      if (ingArr[i].name !== '') {
+        // To avoid pinging the API with empty string queries
+        ingArr[i].unitsList = []; // Make sure there is a unitsList to add to
+        const encoded = encodeURIComponent(ingArr[i].name); // Ready the ingredient name to be part of a URI
         const url = `${edamam}/parser?ingr=${encoded}&app_id=${edamamAppId}&app_key=${edamamAppKey}`;
         axios
           .get(url)
           .then(res => {
             const hints = res.data.hints;
-            if (hints.length) {             // If the API returned any results for our search
-              hints[0].measures.map(measure => {      // res.data.hints[0].measures[0].label is where the Units suggestions are
+            if (hints.length) {
+              // If the API returned any results for our search
+              hints[0].measures.map(measure => {
+                // res.data.hints[0].measures[0].label is where the Units suggestions are
                 ingArr[i].unitsList.push(measure.label);
+                return null;
               });
             } else {
               ingArr[i].unitsList.push('Gram');
@@ -88,11 +92,11 @@ class AddNewRecipeForm extends Component {
             console.log({ error: err });
           });
       } else {
-        ingArr[i].unitsList = [ 'Gram' ];
+        ingArr[i].unitsList = ['Gram'];
       }
     }
     return ingArr;
-  }
+  };
 
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -234,6 +238,7 @@ class AddNewRecipeForm extends Component {
           if (hints.length) {
             hints[0].measures.map(measure => {
               unitArr.push(measure.label);
+              return null;
             });
           } else {
             unitArr.push('Gram');
@@ -247,7 +252,7 @@ class AddNewRecipeForm extends Component {
           console.log({ error: err });
         });
     }
-  }
+  };
 
   ingAllergyWarning = index => {
     const boolArr = this.props.allergies.map(
@@ -305,11 +310,11 @@ class AddNewRecipeForm extends Component {
               onChange={this.ingHandler}
               onFocus={() => this.onBlur(i)}
             />
-            <select
-              name={`unit${i}`}
-              onChange={this.ingHandler}
-            >
-              {this.state.ingredients[i].unitsList && this.state.ingredients[i].unitsList.map(unit => <option value={unit}>{unit}</option> )}
+            <select name={`unit${i}`} onChange={this.ingHandler}>
+              {this.state.ingredients[i].unitsList &&
+                this.state.ingredients[i].unitsList.map(unit => (
+                  <option value={unit}>{unit}</option>
+                ))}
             </select>
             {/* <input
               type="text"
