@@ -12,12 +12,12 @@ const router = express.Router();
 
 // router.
 aws.config.update({
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, 
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     region: 'us-east-2',
 });
 
-const s3 = new aws.S3();
+const s3 = new aws.S3(); //when called will create a new instance
 
 const upload = multer({
     storage: multerS3({
