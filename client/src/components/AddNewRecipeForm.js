@@ -3,18 +3,21 @@ import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
+import { Form } from 'semantic-ui-react';
 import styled from 'styled-components';
 // import MyDropzone from './FileDrop';
 
-const AutoComDiv = styled.div`
-  position: relative;
-  display: inline-block;
-`;
+// const AutoComDiv = styled.div`
+//   width: 500px;
+//   position: relative;
+//   display: inline-block;
+// `;
 
 const AutoComItemsDiv = styled.div`
   position: absolute;
   left: 0;
   right: 0;
+  top: 40px;
   border: 1px solid #d4d4d4;
   z-index: 10;
 
@@ -22,6 +25,16 @@ const AutoComItemsDiv = styled.div`
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
+  }
+`;
+
+const AddNewRecipeFormDiv = styled.div`
+  padding: 20px;
+
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 15px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -176,7 +189,7 @@ class AddNewRecipeForm extends Component {
       const encoded = encodeURIComponent(ev.target.value);
       const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${
         this.state.edamamAppId
-      }&app_key=${this.state.edamamAppKey}`;
+        }&app_key=${this.state.edamamAppKey}`;
       const unitArr = [];
       axios
         .get(url)
@@ -242,112 +255,115 @@ class AddNewRecipeForm extends Component {
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
       ingredientRows.push(
-        <div key={`row${i}`}>
-          <AutoComDiv>
+        <Form.Group key={`row${i}`}>
+          <Form.Input width="10">
+            {/* <AutoComDiv> */}
+              <input
+                type="text"
+                placeholder="Ingredient Name"
+                name={`name${i}`}
+                value={this.state.ingredients[i].name}
+                autoComplete="new-password"
+                onChange={e => {
+                  this.ingHandler(e);
+                  this.props.autoComIng(this.state.ingredients[i].name);
+                }}
+                onFocus={() => this.onFocus(i)}
+                onBlur={this.checkUnits}
+                style={this.ingAllergyWarning(i)}
+              />
+              {this.props.autoCom && this.state.focuses[i].focus && (
+                <AutoComItemsDiv>
+                  {this.props.autoCom.map(item => {
+                    return (
+                      <div
+                        key={item}
+                        onClick={e => this.onClickAutocomplete(i, item, e)}
+                      >
+                        {item}
+                      </div>
+                    );
+                  })}
+                </AutoComItemsDiv>
+              )}
+            {/* </AutoComDiv> */}
+          </Form.Input>
+          <Form.Input width="4">
             <input
               type="text"
-              placeholder="Ingredient Name"
-              name={`name${i}`}
-              value={this.state.ingredients[i].name}
-              autoComplete="new-password"
-              onChange={e => {
-                this.ingHandler(e);
-                this.props.autoComIng(this.state.ingredients[i].name);
-              }}
-              onFocus={() => this.onFocus(i)}
-              onBlur={this.checkUnits}
-              style={this.ingAllergyWarning(i)}
+              placeholder="Ingredient Quantity"
+              name={`quty${i}`}
+              value={this.state.ingredients[i].quantity}
+              onChange={this.ingHandler}
+              onFocus={() => this.onBlur(i)}
             />
-            {this.props.autoCom && this.state.focuses[i].focus && (
-              <AutoComItemsDiv>
-                {this.props.autoCom.map(item => {
-                  return (
-                    <div
-                      key={item}
-                      onClick={e => this.onClickAutocomplete(i, item, e)}
-                    >
-                      {item}
-                    </div>
-                  );
-                })}
-              </AutoComItemsDiv>
-            )}
-          </AutoComDiv>
-          <input
-            type="text"
-            placeholder="Ingredient Quantity"
-            name={`quty${i}`}
-            value={this.state.ingredients[i].quantity}
-            onChange={this.ingHandler}
-            onFocus={() => this.onBlur(i)}
-          />
-          <select name={`unit${i}`} onChange={this.ingHandler}>
-            {this.state.ingredients[i].unitsList.map(unit => (
-              <option key={unit} value={unit}>
-                {unit}
-              </option>
-            ))}
-          </select>
-          {/* <input
-            type="text"
-            placeholder="Ingredient Unit"
-            name={`unit${i}`}
-            value={this.state.ingredients[i].unit}
-            onChange={this.ingHandler}
-            onFocus={() => this.onBlur(i)}
-          /> */}
-          <br />
-        </div>
+          </Form.Input>
+          <Form.Dropdown width="5">
+            <select name={`unit${i}`} onChange={this.ingHandler}>
+              {this.state.ingredients[i].unitsList.map(unit => (
+                <option key={unit} value={unit}>
+                  {unit}
+                </option>
+              ))}
+            </select>
+          </Form.Dropdown>
+        </Form.Group>
       );
     }
     return (
-      <form onSubmit={this.submitHandler} autoComplete="off">
+      <AddNewRecipeFormDiv>
         <h2>Upload New Recipe</h2>
-        {/*<MyDropzone />*/}
-        <input
-          type="text"
-          placeholder="Recipe Name"
-          name="name"
-          value={this.state.name}
-          onChange={this.typingHandler}
-          required
-        />
-        <br />
-        <label htmlFor="numIngredients">Number of Ingredients:</label>
-        <input
-          type="number"
-          placeholder="3"
-          name="numIngredients"
-          id="numIngredients"
-          value={this.state.numIngredients}
-          onChange={this.typingHandler}
-        />
-        <br />
-        {ingredientRows}
-        <ReactQuill
-          value={this.state.description}
-          onChange={html => this.quillHandler(html)}
-          modules={AddNewRecipeForm.modules}
-          formats={AddNewRecipeForm.formats}
-        />
-        <br />
-        {(!this.state.name || !this.state.description) && (
-          <p>
-            Please provide a name, description, and ingredients before
-            submitting a recipe!
-          </p>
-        )}
-        {localStorage.getItem('uid') ? (
-          <button type="submit">Save Recipe</button>
-        ) : (
-          <React.Fragment>
-            <button type="submit" disabled>
-              Save Recipe
-            </button>
-            <p>Please Log In to Add a Recipe!</p>
-          </React.Fragment>
-        )}
-      </form>
+        <Form onSubmit={this.submitHandler} autoComplete="off">
+          <Form.Group widths="equal">
+            <Form.Field width="6">
+              <input
+                type="text"
+                placeholder="Recipe Name"
+                name="name"
+                value={this.state.name}
+                onChange={this.typingHandler}
+                required
+              />
+            </Form.Field>
+            <Form.Field width="1">
+              <label htmlFor="numIngredients">Number of Ingredients:</label>
+              <input
+                type="number"
+                placeholder="3"
+                name="numIngredients"
+                id="numIngredients"
+                value={this.state.numIngredients}
+                onChange={this.typingHandler}
+              />
+            </Form.Field>
+          </Form.Group>
+          {ingredientRows}
+          <ReactQuill
+            value={this.state.description}
+            onChange={html => this.quillHandler(html)}
+            modules={AddNewRecipeForm.modules}
+            formats={AddNewRecipeForm.formats}
+            height="100px"
+          />
+          <br />
+          {(!this.state.name || !this.state.description) && (
+            <p>
+              Please provide a name, description, and ingredients before
+              submitting a recipe!
+            </p>
+          )}
+          {localStorage.getItem('uid') ? (
+            <button type="submit">Save Recipe</button>
+          ) : (
+            <React.Fragment>
+              <button type="submit" disabled>
+                Save Recipe
+              </button>
+              <p>Please Log In to Add a Recipe!</p>
+            </React.Fragment>
+          )}
+        </Form>
+      </AddNewRecipeFormDiv>
     );
   }
 }
