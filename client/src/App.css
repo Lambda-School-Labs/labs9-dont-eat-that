@@ -142,7 +142,6 @@ table {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  text-align: center;
 }
 
 .topMenu {
@@ -158,6 +157,10 @@ table {
 }
 
 .MainDisplaySection {
-  text-align: center;
   width: 75%;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
 }
