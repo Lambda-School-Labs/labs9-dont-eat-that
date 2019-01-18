@@ -6,7 +6,7 @@ class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
   // Landing page is displayed when user is not loggedin and path is '/'
 
-  state = { activeItem: 'recipeList' };
+  state = { activeItem: window.location.pathname };
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
@@ -24,8 +24,8 @@ class SideMenu extends React.Component {
         <Menu pointing vertical inverted className="sideMenu">
           <NavLink to="/recipes">
             <Menu.Item
-              name="recipeList"
-              active={item === 'recipeList'}
+              name="/recipes"
+              active={item === '/recipes'}
               onClick={this.handleItemClick}
             >
               Recipes List
@@ -33,8 +33,8 @@ class SideMenu extends React.Component {
           </NavLink>
           <NavLink to="/recipes/new">
             <Menu.Item
-              name="newRecipe"
-              active={item === 'newRecipe'}
+              name="/recipes/new"
+              active={item === '/recipes/new'}
               onClick={this.handleItemClick}
             >
               New Recipe
@@ -42,8 +42,8 @@ class SideMenu extends React.Component {
           </NavLink>
           <NavLink to="/recipes/import">
             <Menu.Item
-              name="importRecipe"
-              active={item === 'importRecipe'}
+              name="/recipes/import"
+              active={item === '/recipes/import'}
               onClick={this.handleItemClick}
             >
               Import Recipe
@@ -51,8 +51,8 @@ class SideMenu extends React.Component {
           </NavLink>
           <NavLink to="/billing">
             <Menu.Item
-              name="billing"
-              active={item === 'billing'}
+              name="/billing"
+              active={item === '/billing'}
               onClick={this.handleItemClick}
             >
               Billing
@@ -60,8 +60,8 @@ class SideMenu extends React.Component {
           </NavLink>
           <NavLink to="/settings">
             <Menu.Item
-              name="settings"
-              active={item === 'settings'}
+              name="/settings"
+              active={item === '/settings'}
               onClick={this.handleItemClick}
             >
               Settings
