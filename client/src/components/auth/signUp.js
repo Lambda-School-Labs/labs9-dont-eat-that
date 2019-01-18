@@ -100,6 +100,7 @@ class SignUpFormBase extends Component {
       this.captchaDemo.reset();
     }
   }
+  
   verifyCallback(recaptchaToken) {
     //setting the state to true after the user verifies that they are a person
     // Here you will get the final recaptchaToken!!!
