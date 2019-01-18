@@ -5,7 +5,7 @@ const recipeRouter = require('./routes/recipeRouter');
 const userRouter = require('./routes/userRouter');
 const paymentRouter = require('./routes/paymentRouter');
 const allergyRouter = require('./routes/allergyRouter');
-const fileUpload = require('./routes/file-upload');
+// const fileUpload = require('./routes/file-upload');
 
 
 const server = express();
@@ -17,7 +17,7 @@ server.use('/api/recipes/', recipeRouter);
 server.use('/api/users/', userRouter);
 server.use('/api/payments/', paymentRouter);
 server.use('/api/allergies/', allergyRouter);
-server.use('/api/image-upload/', fileUpload);
+// server.use('/api/image-upload/', fileUpload);
 
 server.get('/', (req, res) =>
   res.status(200).json("Welcome to the Don't Eat That app server!")

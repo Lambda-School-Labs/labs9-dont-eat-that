@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import styled from 'styled-components';
-import MyDropzone from './FileDrop';
+// import MyDropzone from './FileDrop';
 
 const AutoComDiv = styled.div`
   position: relative;
@@ -273,7 +273,7 @@ class AddNewRecipeForm extends Component {
     return (
       <form onSubmit={this.submitHandler} autoComplete="off">
         <h2>Upload New Recipe</h2>
-        <MyDropzone />
+        {/* <MyDropzone /> */}
         <input
           type="text"
           placeholder="Recipe Name"
