@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../data/dbConfig');
 const multer = require('multer');
-const multerS3 = require('multer-S3');
+const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
 // let upload = require('multer');
 

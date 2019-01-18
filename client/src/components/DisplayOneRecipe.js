@@ -12,9 +12,19 @@ const DisplayRecipeDiv = styled.div`
   border: 1px solid black;
   width: 200px;
   height: 200px;
-  padding: 10px;
+  padding: 15px 10px 10px;
   margin: 10px;
   overflow: hidden;
+
+  h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  h4 {
+    margin-top: 10px;
+    font-weight: bold;
+  }
 `;
 
 const DisplayOneRecipe = props => {
