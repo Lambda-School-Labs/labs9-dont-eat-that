@@ -189,7 +189,7 @@ class SignUpFormBase extends Component {
 }
 
 const SignUpLink = () => (
-  <p>
+  <p style={{ textAlign: 'center' }}>
     Don't have an account? <Link to="/signup">Sign Up</Link>
   </p>
 );

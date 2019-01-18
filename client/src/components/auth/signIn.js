@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Form, Button, Header, Icon } from 'semantic-ui-react';
+import { Form, Button, Header, Icon, Segment } from 'semantic-ui-react';
 
 import { SignUpLink } from './signUp.js';
 import PasswordForgetPage from './passwordForgot.js';
@@ -12,8 +12,10 @@ import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
-  <div>
-    <Header as="h1">Login</Header>
+  <Segment inverted>
+    <Header as="h1" textAlign="center">
+      Login
+    </Header>
     <SignInForm />
     <br />
     <SignInGoogle />
@@ -21,7 +23,7 @@ const SignInPage = () => (
     <SignInFacebook />
     <br />
     <SignUpLink />
-  </div>
+  </Segment>
 );
 
 const INITIAL_STATE = {
@@ -108,12 +110,12 @@ class SignInFormBase extends Component {
               placeholder="Password"
             />
           </Form.Field>
-          <Button disabled={isInvalid} type="submit">
-            Sign In
-          </Button>
-
-          <Button onClick={this.resetPassword}>Forgot Password?</Button>
-
+          <div className="flexCenter">
+            <Button disabled={isInvalid} type="submit">
+              Sign In
+            </Button>
+            <Button onClick={this.resetPassword}>Forgot Password?</Button>
+          </div>
           {error && <p>Signin.js email Signin {error.message}</p>}
         </Form>
 
@@ -155,10 +157,12 @@ class SignInGoogleBase extends Component {
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <Button type="submit" color="green">
-          <Icon name="google" />
-          Sign In with Google
-        </Button>
+        <div className="flexCenter">
+          <Button type="submit" color="green">
+            <Icon name="google" />
+            Sign In with Google
+          </Button>
+        </div>
 
         {error && <p>{error.message}</p>}
       </Form>
@@ -198,10 +202,12 @@ class SignInFacebookBase extends Component {
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <Button type="submit" color="blue">
-          <Icon name="facebook" />
-          Sign In with Facebook
-        </Button>
+        <div className="flexCenter">
+          <Button type="submit" color="blue">
+            <Icon name="facebook" />
+            Sign In with Facebook
+          </Button>
+        </div>
 
         {error && <p>{error.message}</p>}
       </Form>
