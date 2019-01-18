@@ -22,41 +22,51 @@ class SideMenu extends React.Component {
     } else {
       return (
         <Menu pointing vertical inverted className="sideMenu">
-          <Menu.Item
-            name="recipeList"
-            active={item === 'recipeList'}
-            onClick={this.handleItemClick}
-          >
-            <NavLink to="/recipes">Recipes List</NavLink>
-          </Menu.Item>
-          <Menu.Item
-            name="newRecipe"
-            active={item === 'newRecipe'}
-            onClick={this.handleItemClick}
-          >
-            <NavLink to="/recipes/new">New Recipe</NavLink>
-          </Menu.Item>
-          <Menu.Item
-            name="importRecipe"
-            active={item === 'importRecipe'}
-            onClick={this.handleItemClick}
-          >
-            <NavLink to="/recipes/import">Import Recipe</NavLink>
-          </Menu.Item>
-          <Menu.Item
-            name="billing"
-            active={item === 'billing'}
-            onClick={this.handleItemClick}
-          >
-            <NavLink to="/billing">Billing</NavLink>
-          </Menu.Item>
-          <Menu.Item
-            name="settings"
-            active={item === 'settings'}
-            onClick={this.handleItemClick}
-          >
-            <NavLink to="/settings">Settings</NavLink>
-          </Menu.Item>
+          <NavLink to="/recipes">
+            <Menu.Item
+              name="recipeList"
+              active={item === 'recipeList'}
+              onClick={this.handleItemClick}
+            >
+              Recipes List
+            </Menu.Item>
+          </NavLink>
+          <NavLink to="/recipes/new">
+            <Menu.Item
+              name="newRecipe"
+              active={item === 'newRecipe'}
+              onClick={this.handleItemClick}
+            >
+              New Recipe
+            </Menu.Item>
+          </NavLink>
+          <NavLink to="/recipes/import">
+            <Menu.Item
+              name="importRecipe"
+              active={item === 'importRecipe'}
+              onClick={this.handleItemClick}
+            >
+              Import Recipe
+            </Menu.Item>
+          </NavLink>
+          <NavLink to="/billing">
+            <Menu.Item
+              name="billing"
+              active={item === 'billing'}
+              onClick={this.handleItemClick}
+            >
+              Billing
+            </Menu.Item>
+          </NavLink>
+          <NavLink to="/settings">
+            <Menu.Item
+              name="settings"
+              active={item === 'settings'}
+              onClick={this.handleItemClick}
+            >
+              Settings
+            </Menu.Item>
+          </NavLink>
         </Menu>
       );
     }

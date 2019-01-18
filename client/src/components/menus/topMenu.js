@@ -10,28 +10,28 @@ const TopMenu = props => {
 
   if (props.isLoggedIn) {
     displaySignOut = (
-      <Menu.Item>
-        <NavLink to="/signout">Logout</NavLink>
-      </Menu.Item>
+      <NavLink to="/signout">
+        <Menu.Item>Logout</Menu.Item>
+      </NavLink>
     );
   } else {
     displaySignUp = (
-      <Menu.Item>
-        <NavLink to="/signup">Sign Up</NavLink>
-      </Menu.Item>
+      <NavLink to="/signup">
+        <Menu.Item>Sign Up</Menu.Item>
+      </NavLink>
     );
     displaySignIn = (
-      <Menu.Item>
-        <NavLink to="/signin">Login</NavLink>
-      </Menu.Item>
+      <NavLink to="/signin">
+        <Menu.Item>Login</Menu.Item>
+      </NavLink>
     );
   }
 
   return (
     <Menu className="topMenu" size="small" inverted>
-      <Menu.Item>
-        <NavLink to="/">Landing Page</NavLink>
-      </Menu.Item>
+      <NavLink to="/">
+        <Menu.Item>Landing Page</Menu.Item>
+      </NavLink>
       <Menu.Menu position="right">
         {displaySignUp}
         {displaySignIn}
