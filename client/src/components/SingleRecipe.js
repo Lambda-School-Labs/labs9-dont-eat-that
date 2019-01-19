@@ -58,15 +58,15 @@ class SingleRecipe extends React.Component {
     });
   };
 
-  ratingsFunc = () => {
+  ratingsFunc = recipe => {
     // gets all ratings for recipe
-    const ratings = this.props.recipe.ratings;
-    if (!ratings[0]) {
+    console.log(recipe);
+    if (!recipe.ratings[0]) {
       return 0;
     } else {
-      const ratingArr = ratings.map(rating => rating.rating);
+      const ratingArr = recipe.ratings.map(rating => rating.rating);
       const avgRating =
-        ratingArr.reduce((acc, num) => acc + num, 0) / ratings.length;
+        ratingArr.reduce((acc, num) => acc + num, 0) / recipe.ratings.length;
       return Math.round(avgRating);
     }
   };
@@ -102,7 +102,7 @@ class SingleRecipe extends React.Component {
           <div>
             <Rating
               icon="star"
-              rating={this.ratingsFunc()}
+              rating={this.ratingsFunc(recipe)}
               onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
               maxRating={5}
             />

@@ -119,7 +119,7 @@ router.get('/one/:id', async (req, res) => {
     const recipe = await db('recipes')
       .where({ id: id })
       .first();
-    const ratings = await db('ratings').where({ recipe_id: recipe.id });
+    const ratings = await db('ratings').where({ recipe_id: id });
     const ingredients = await db('ingredients')
       .join(
         'recipes-ingredients',
