@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/index';
 const initialState = {
   fetching: false,
   recipes: [],
+  recipe: null,
   error: null
 };
 
@@ -30,6 +31,8 @@ export const recipesReducer = (state = initialState, action) => {
       };
     case actionTypes.DELETE_RECIPE:
       return { ...state, recipes: action.payload };
+    case actionTypes.RATING_CHANGE:
+      return { ...state, recipe: { ...state.recipe, ratings: action.payload } };
     case actionTypes.ERROR:
       return {
         ...state,

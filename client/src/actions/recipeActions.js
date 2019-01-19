@@ -12,6 +12,7 @@ export const GET_FOREIGN_RECIPES = 'GET_FOREIGN_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
 export const GETTING_RECIPE = 'GETTING_RECIPE';
 export const GETTING_RECIPES = 'GETTING_RECIPES';
+export const RATING_CHANGE = 'RATING_CHANGE';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
@@ -38,7 +39,7 @@ export const getOwnRecipes = () => dispatch => {
     .get(`${URL}/api/recipes/${localStorage.getItem('uid')}`)
     .then(res => dispatch({ type: GET_OWN_RECIPES, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
-}
+};
 
 // only foreign (other peoples') recipes
 export const getForeignRecipes = () => dispatch => {
@@ -47,7 +48,7 @@ export const getForeignRecipes = () => dispatch => {
     .get(`${URL}/api/recipes/${localStorage.getItem('uid')}/not`)
     .then(res => dispatch({ type: GET_FOREIGN_RECIPES, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
-}
+};
 
 // single recipe
 export const getRecipe = id => dispatch => {
@@ -166,4 +167,20 @@ export const autoComIng = query => async (dispatch, getState) => {
 
 export const resetAutoCom = () => dispatch => {
   dispatch({ type: RESET_AUTOCOM, payload: null });
+};
+
+export const ratingChange = (recipeid, newRating, ratingid) => (
+  dispatch,
+  getState
+) => {
+  const firebaseid = localStorage.getItem('uid');
+  const ratings = getState().recipesReducer.recipe.ratings.map(rating => {
+    return rating.id === ratingid
+      ? { id: rating.id, rating: newRating }
+      : rating;
+  });
+  axios
+    .post(`${URL}/api/ratings/`, { firebaseid, recipeid, newRating })
+    .then(res => dispatch({ type: RATING_CHANGE, paylaod: ratings }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
 };
