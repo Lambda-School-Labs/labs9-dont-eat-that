@@ -4,6 +4,22 @@ const db = require('../data/dbConfig');
 
 const router = express.Router();
 
+// get rating for single person
+router.get('/one/:firebaseid/:recipeid', async (req, res) => {
+  const { recipeid, firebaseid } = req.params;
+  try {
+    const user = await db('users')
+      .where({ firebaseid })
+      .first();
+    const rating = await db('ratings')
+      .where({ user_id: user.id, recipe_id: recipeid })
+      .first();
+    res.status(200).json(rating);
+  } catch (err) {
+    res.status(500).json({ message: 'Unable to retrive ratings for recipe.' });
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
     const { firebaseid, recipeid, newRating } = req.body;
