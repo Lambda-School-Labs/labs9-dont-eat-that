@@ -203,7 +203,7 @@ export const ratingChange = (recipeid, newRating) => async (
           : rating;
       });
     }
-    dispatch({ type: RATING_CHANGE, paylaod: newRatings });
+    dispatch({ type: RATING_CHANGE, payload: newRatings });
   } catch (err) {
     dispatch({ type: ERROR, payload: err });
   }
