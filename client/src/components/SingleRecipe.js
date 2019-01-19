@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
-import { Button } from 'semantic-ui-react';
+import { Button, Rating } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {
   getRecipe,
@@ -25,12 +25,14 @@ const CopyRecipeSpan = styled.span`
 `;
 
 class SingleRecipe extends React.Component {
-  state = {};
+  state = { rating: 0 };
+
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
     this.props.getUser();
   }
+
   getNutrition = () => {
     const { name, ingredients } = this.props.recipe;
     const ingrArr = ingredients.map(
@@ -41,11 +43,13 @@ class SingleRecipe extends React.Component {
     );
     this.props.getNutrition(name, ingrArr); // gets nutritional value of recipe from Edamam
   };
+
   deleteRecipe = () => {
     const id = this.props.match.params.id;
     this.props.deleteRecipe(id);
     this.props.history.push('/recipes');
   };
+
   copyRecipe = recipe => {
     this.props.addRecipe({
       name: recipe.name,
@@ -54,9 +58,15 @@ class SingleRecipe extends React.Component {
       ingredients: recipe.ingredients
     });
   };
+
+  rateFunc = (e, data) => {
+    this.setState({ rating: data.rating });
+  };
+
   componentWillUnmount() {
     this.props.removeNutrition(); // removes nutrition from state
   }
+
   render() {
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
@@ -76,6 +86,12 @@ class SingleRecipe extends React.Component {
               </CopyRecipeSpan>
             ) : null}
           </h1>
+          <Rating
+            icon="star"
+            rating={this.state.rating}
+            onRate={(e, data) => this.rateFunc(e, data)}
+            maxRating={5}
+          />
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
@@ -122,6 +138,12 @@ class SingleRecipe extends React.Component {
               </Button>
             ) : null}
           </h1>
+          <Rating
+            icon="star"
+            rating={this.state.rating}
+            onRate={(e, data) => this.rateFunc(e, data)}
+            maxRating={5}
+          />
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
