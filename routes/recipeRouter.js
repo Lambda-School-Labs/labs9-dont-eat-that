@@ -11,6 +11,8 @@ router.get('/all', async (req, res) => {
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
+        const ratingsArr = ratings.map(rating => rating.rating);
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -24,7 +26,7 @@ router.get('/all', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratingsArr, ingredients };
       })
     );
     console.log(recipesAndIng);
@@ -48,6 +50,8 @@ router.get('/:firebaseid', async (req, res) => {
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
+        const ratingsArr = ratings.map(rating => rating.rating);
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -61,7 +65,7 @@ router.get('/:firebaseid', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratingsArr, ingredients };
       })
     );
     res.status(200).json(recipesAndIng);
@@ -84,6 +88,8 @@ router.get('/:firebaseid/not', async (req, res) => {
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
+        const ratingsArr = ratings.map(rating => rating.rating);
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -97,7 +103,7 @@ router.get('/:firebaseid/not', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratingsArr, ingredients };
       })
     );
     res.status(200).json(recipesAndIng);
@@ -116,6 +122,8 @@ router.get('/one/:id', async (req, res) => {
     const recipe = await db('recipes')
       .where({ id: id })
       .first();
+    const ratings = await db('ratings').where({ recipe_id: recipe.id });
+    const ratingsArr = ratings.map(rating => rating.rating);
     const ingredients = await db('ingredients')
       .join(
         'recipes-ingredients',
@@ -134,7 +142,7 @@ router.get('/one/:id', async (req, res) => {
         .status(404)
         .json({ message: "The recipe with the specified id doesn't exist." });
     } else {
-      res.status(200).json({ ...recipe, ingredients: ingredients });
+      res.status(200).json({ ...recipe, ratingsArr, ingredients });
     }
   } catch (err) {
     res.status(500).json({
