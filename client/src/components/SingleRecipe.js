@@ -10,7 +10,8 @@ import {
   getNutrition,
   removeNutrition,
   getUser,
-  addRecipe
+  addRecipe,
+  ratingChange
 } from '../actions';
 
 const RecipeDescAndIngDiv = styled.div`
@@ -25,8 +26,6 @@ const CopyRecipeSpan = styled.span`
 `;
 
 class SingleRecipe extends React.Component {
-  state = { rating: 0 };
-
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
@@ -59,8 +58,22 @@ class SingleRecipe extends React.Component {
     });
   };
 
-  rateFunc = (e, data) => {
-    this.setState({ rating: data.rating });
+  ratingsFunc = () => {
+    // gets all ratings for recipe
+    const { ratings } = this.props.recipe;
+    if (!ratings[0]) {
+      return 0;
+    } else {
+      const ratingArr = ratings.map(rating => rating.rating);
+      const avgRating =
+        ratingArr.reduce((acc, num) => acc + num, 0) / ratings.length;
+      return Math.round(avgRating);
+    }
+  };
+
+  rateFunc = (e, data, recipeid) => {
+    // processes rating from user for recipe
+    this.props.ratingChange(recipeid, data.rating);
   };
 
   componentWillUnmount() {
@@ -86,12 +99,15 @@ class SingleRecipe extends React.Component {
               </CopyRecipeSpan>
             ) : null}
           </h1>
-          <Rating
-            icon="star"
-            rating={this.state.rating}
-            onRate={(e, data) => this.rateFunc(e, data)}
-            maxRating={5}
-          />
+          <div>
+            <Rating
+              icon="star"
+              rating={this.ratingsFunc()}
+              onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
+              maxRating={5}
+            />
+            {this.props.recipe.ratings.length}
+          </div>
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
@@ -138,12 +154,15 @@ class SingleRecipe extends React.Component {
               </Button>
             ) : null}
           </h1>
-          <Rating
-            icon="star"
-            rating={this.state.rating}
-            onRate={(e, data) => this.rateFunc(e, data)}
-            maxRating={5}
-          />
+          <div>
+            <Rating
+              icon="star"
+              rating={this.ratingsFunc()}
+              onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
+              maxRating={5}
+            />
+            {this.props.recipe.ratings.length}
+          </div>
           <RecipeDescAndIngDiv>
             <div>
               <h3>Recipe Description</h3>
@@ -216,11 +235,20 @@ const mapStateToProps = state => {
   return {
     recipe: state.recipesReducer.recipe,
     nutrition: state.nutritionReducer.nutrition,
-    user: state.usersReducer.user
+    user: state.usersReducer.user,
+    rating: state.recipesReducer.rating
   };
 };
 
 export default connect(
   mapStateToProps,
-  { getRecipe, deleteRecipe, getNutrition, removeNutrition, getUser, addRecipe }
+  {
+    getRecipe,
+    deleteRecipe,
+    getNutrition,
+    removeNutrition,
+    getUser,
+    addRecipe,
+    ratingChange
+  }
 )(SingleRecipe);
