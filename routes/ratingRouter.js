@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { firebaseid, recipeid, rating } = req.body;
-    if (firebaseid && recipeid && rating) {
+    const { firebaseid, recipeid, newRating } = req.body;
+    if (firebaseid && recipeid && newRating) {
       const user = await db('users') // gets user from db for his/her id later
         .where({ firebaseid })
         .first();
@@ -17,13 +17,13 @@ router.post('/', async (req, res) => {
       if (ratingCheck) {
         const ratingId = await db('ratings') // updating rating is already one
           .where({ user_id: user.id, recipe_id: recipeid })
-          .update({ rating })
+          .update({ rating: newRating })
           .returning('id');
         res.status(201).json(ratingId);
       } else {
         const ratingId = await db('ratings') // creating a rating is there's none
           .insert({
-            rating,
+            rating: newRating,
             user_id: user.id,
             recipe_id: recipeid
           })
