@@ -105,6 +105,7 @@ class SingleRecipe extends React.Component {
               rating={this.ratingsFunc(recipe)}
               onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
               maxRating={5}
+              disabled={!localStorage.getItem('uid')}
             />
             {this.props.recipe.ratings.length}
           </div>
