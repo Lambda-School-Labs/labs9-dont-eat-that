@@ -169,26 +169,37 @@ export const resetAutoCom = () => dispatch => {
   dispatch({ type: RESET_AUTOCOM, payload: null });
 };
 
-export const ratingChange = async (recipeid, newRating) => (
+export const ratingChange = (recipeid, newRating) => async (
   dispatch,
   getState
 ) => {
   try {
     const firebaseid = localStorage.getItem('uid');
-    const response = axios.post(`${URL}/api/ratings/`, {
+    const response = await axios.post(`${URL}/api/ratings/`, {
       firebaseid,
       recipeid,
       newRating
     });
-    console.log('ratingChange response', response);
     const ratings = getState().recipesReducer.recipe.ratings;
     let newRatings;
     if (!ratings[0]) {
-      newRatings = [{ id: response.data.ratingid, rating: newRating, user_id: response.data.userid, recipe_id: recipeid }]
+      newRatings = [
+        {
+          id: response.data.ratingid,
+          rating: newRating,
+          user_id: response.data.userid,
+          recipe_id: recipeid
+        }
+      ];
     } else {
       newRatings = ratings.map(rating => {
         return rating.id === response.data.ratingid
-          ? { id: response.data.ratingid, rating: newRating, user_id: response.data.userid, recipe_id: recipeid }
+          ? {
+              id: response.data.ratingid,
+              rating: newRating,
+              user_id: response.data.userid,
+              recipe_id: recipeid
+            }
           : rating;
       });
     }
