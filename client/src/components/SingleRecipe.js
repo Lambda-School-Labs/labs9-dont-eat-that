@@ -60,7 +60,7 @@ class SingleRecipe extends React.Component {
 
   ratingsFunc = () => {
     // gets all ratings for recipe
-    const { ratings } = this.props.recipe;
+    const ratings = this.props.recipe.ratings;
     if (!ratings[0]) {
       return 0;
     } else {
