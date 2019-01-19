@@ -175,17 +175,24 @@ export const ratingChange = async (recipeid, newRating) => (
 ) => {
   try {
     const firebaseid = localStorage.getItem('uid');
-    const ratingid = axios.post(`${URL}/api/ratings/`, {
+    const response = axios.post(`${URL}/api/ratings/`, {
       firebaseid,
       recipeid,
       newRating
     });
-    const ratings = getState().recipesReducer.recipe.ratings.map(rating => {
-      return rating.id === ratingid
-        ? { id: rating.id, rating: newRating }
-        : rating;
-    });
-    dispatch({ type: RATING_CHANGE, paylaod: ratings });
+    console.log('ratingChange response', response);
+    const ratings = getState().recipesReducer.recipe.ratings;
+    let newRatings;
+    if (!ratings[0]) {
+      newRatings = [{ id: response.data.ratingid, rating: newRating, user_id: response.data.userid, recipe_id: recipeid }]
+    } else {
+      newRatings = ratings.map(rating => {
+        return rating.id === response.data.ratingid
+          ? { id: response.data.ratingid, rating: newRating, user_id: response.data.userid, recipe_id: recipeid }
+          : rating;
+      });
+    }
+    dispatch({ type: RATING_CHANGE, paylaod: newRatings });
   } catch (err) {
     dispatch({ type: ERROR, payload: err });
   }

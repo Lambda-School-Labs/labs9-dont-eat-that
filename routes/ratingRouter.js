@@ -31,20 +31,20 @@ router.post('/', async (req, res) => {
         .where({ user_id: user.id, recipe_id: recipeid })
         .first();
       if (ratingCheck) {
-        const ratingId = await db('ratings') // updating rating is already one
+        const ratingid = await db('ratings') // updating rating is already one
           .where({ user_id: user.id, recipe_id: recipeid })
           .update({ rating: newRating })
           .returning('id');
-        res.status(201).json(ratingId);
+        res.status(200).json({ ratingid, userid: user.id });
       } else {
-        const ratingId = await db('ratings') // creating a rating is there's none
+        const ratingid = await db('ratings') // creating a rating is there's none
           .insert({
             rating: newRating,
             user_id: user.id,
             recipe_id: recipeid
           })
           .returning('id');
-        res.status(201).json(ratingId);
+        res.status(201).json({ ratingid, userid: user.id });
       }
     }
     res.status(400).json({ message: 'Please provide all fields.' });

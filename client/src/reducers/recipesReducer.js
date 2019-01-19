@@ -4,7 +4,8 @@ const initialState = {
   fetching: false,
   recipes: [],
   recipe: null,
-  error: null
+  error: null,
+  rating: null
 };
 
 export const recipesReducer = (state = initialState, action) => {
