@@ -4,13 +4,13 @@
 // and returns matching recipes
 
 import React, { Component } from 'react';
-import { Form } from 'semantic-ui-react';
+import { Form, Input } from 'semantic-ui-react';
 
 class SimpleSearchInput extends Component {
   render() {
     return (
-      <Form.Field style={{ width: '90%' }}>
-        <input
+      <Form.Field style={{ width: '90%' }} className='searchNote'>
+        <Input
           type="input"
           onChange={this.props.handleInputChange}
           value={this.props.query}
