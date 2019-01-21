@@ -159,7 +159,7 @@ table {
 
 .mainDisplaySection {
   text-align: center;
-  flex-grow: 2;
+  flex-grow: 1;
 }
 
 .flexCenter {

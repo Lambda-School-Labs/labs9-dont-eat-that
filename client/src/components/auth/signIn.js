@@ -12,18 +12,20 @@ import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
-  <Segment inverted>
-    <Header as="h1" textAlign="center">
-      Login
-    </Header>
-    <SignInForm />
-    <br />
-    <SignInGoogle />
-    <br />
-    <SignInFacebook />
-    <br />
-    <SignUpLink />
-  </Segment>
+  <div className="flexCenter">
+    <Segment inverted>
+      <Header as="h1" textAlign="center">
+        Login
+      </Header>
+      <SignInForm />
+      <br />
+      <SignInGoogle />
+      <br />
+      <SignInFacebook />
+      <br />
+      <SignUpLink />
+    </Segment>
+  </div>
 );
 
 const INITIAL_STATE = {
