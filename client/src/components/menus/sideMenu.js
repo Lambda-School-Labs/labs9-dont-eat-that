@@ -21,7 +21,7 @@ class SideMenu extends React.Component {
       return null;
     } else {
       return (
-        <Responsive minWidth={751}>
+        <Responsive minWidth={771}>
           <Menu pointing vertical className="sideMenu" color="blue" inverted>
             <NavLink to="/recipes">
               <Menu.Item
