@@ -2,8 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
-import { Button, Rating, Table } from 'semantic-ui-react';
-import styled from 'styled-components';
+import {
+  Button,
+  Rating,
+  Table,
+  Header,
+  Segment,
+  Image
+} from 'semantic-ui-react';
 import {
   getRecipe,
   deleteRecipe,
@@ -13,17 +19,6 @@ import {
   addRecipe,
   ratingChange
 } from '../actions';
-
-const RecipeDescAndIngDiv = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  text-align: left;
-`;
-
-const CopyRecipeSpan = styled.span`
-  cursor: pointer;
-  border: 1px solid black;
-`;
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
@@ -60,7 +55,6 @@ class SingleRecipe extends React.Component {
 
   ratingsFunc = recipe => {
     // gets all ratings for recipe
-    console.log(recipe);
     if (!recipe.ratings[0]) {
       return 0;
     } else {
@@ -83,7 +77,19 @@ class SingleRecipe extends React.Component {
   displayRecipe = recipe => {
     return (
       <React.Fragment>
-        <h1>{recipe.name}</h1>
+        <Header as="h1">{recipe.name}</Header>
+        <div>
+          <Rating
+            icon="star"
+            size="massive"
+            rating={this.ratingsFunc(recipe)}
+            onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
+            maxRating={5}
+            disabled={!localStorage.getItem('uid')}
+          />
+          <Header as="h6">{this.props.recipe.ratings.length} review(s)</Header>
+        </div>
+        <br />
         {localStorage.getItem('uid') && (
           <Button
             onClick={() => {
@@ -104,34 +110,28 @@ class SingleRecipe extends React.Component {
             Delete Recipe
           </Button>
         )}
-        <div>
-          <Rating
-            icon="star"
-            rating={this.ratingsFunc(recipe)}
-            onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
-            maxRating={5}
-            disabled={!localStorage.getItem('uid')}
-          />
-          {this.props.recipe.ratings.length}
-        </div>
-        <div>
-          <h3>
-            <strong>Ingredients</strong>
-          </h3>
-          <ul>
-            {recipe.ingredients.map(ingr => (
-              <li key={ingr.name}>{`${ingr.quantity} ${
-                ingr.unit ? ingr.unit : ''
-              } ${ingr.name}`}</li>
-            ))}
-          </ul>
+        <div style={{ width: '95%', marginLeft: '2.5%', marginTop: '15px' }}>
+          <Header as="h3" attached="top" textAlign="left">
+            Ingredients
+          </Header>
+          <Segment attached textAlign="left">
+            <ul>
+              {recipe.ingredients.map(ingr => (
+                <li key={ingr.name}>{`${ingr.quantity} ${
+                  ingr.unit ? ingr.unit : ''
+                } ${ingr.name}`}</li>
+              ))}
+            </ul>
+          </Segment>
         </div>
         <br />
-        <div>
-          <h3>
-            <strong>Recipe Description</strong>
-          </h3>
-          <p>{Parser(recipe.description)}</p>
+        <div style={{ width: '95%', marginLeft: '2.5%' }}>
+          <Header as="h3" attached="top" textAlign="left">
+            Recipe Description
+          </Header>
+          <Segment attached textAlign="left">
+            {Parser(recipe.description)}
+          </Segment>
         </div>
       </React.Fragment>
     );
@@ -157,9 +157,9 @@ class SingleRecipe extends React.Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>
-                  <h3>Nutrition Facts</h3>
-                  <p>Servings: {nutrition.yield}</p>
-                  <p>Calories: {nutrition.calories}</p>
+                  <Header as="h3">Nutrition Facts</Header>
+                  <Segment vertical>Servings: {nutrition.yield}</Segment>
+                  <Segment vertical>Calories: {nutrition.calories}</Segment>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -223,7 +223,11 @@ class SingleRecipe extends React.Component {
         </div>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <Segment loading>
+          <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
+        </Segment>
+      );
     }
   }
 }
