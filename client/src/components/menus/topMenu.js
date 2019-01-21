@@ -10,7 +10,7 @@ const TopMenu = props => {
 
   if (props.isLoggedIn) {
     displayMenu = (
-      <Responsive maxWidth={500}>
+      <Responsive maxWidth={750}>
         <Dropdown item text="Menu">
           <Dropdown.Menu>
             <NavLink to="/recipes">
