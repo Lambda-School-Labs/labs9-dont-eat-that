@@ -1,14 +1,67 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Dropdown, Responsive } from 'semantic-ui-react';
 
 // TopMenu manages top part of display, showing login related menu
 // Depend on user's login status, active/inactive menu changes.
 
 const TopMenu = props => {
-  let displaySignUp, displaySignIn, displaySignOut;
+  let displaySignUp, displaySignIn, displaySignOut, displayMenu;
 
   if (props.isLoggedIn) {
+    displayMenu = (
+      <Responsive maxWidth={770}>
+        <Dropdown item text="Menu">
+          <Dropdown.Menu>
+            <NavLink to="/recipes">
+              <Dropdown.Item
+                style={{
+                  background: '#2D86D0',
+                  borderBottom: '1px solid black'
+                }}
+              >
+                Recipes List
+              </Dropdown.Item>
+            </NavLink>
+            <NavLink to="/recipes/new">
+              <Dropdown.Item
+                style={{
+                  background: '#2D86D0',
+                  borderBottom: '1px solid black'
+                }}
+              >
+                New Recipe
+              </Dropdown.Item>
+            </NavLink>
+            <NavLink to="/recipes/import">
+              <Dropdown.Item
+                style={{
+                  background: '#2D86D0',
+                  borderBottom: '1px solid black'
+                }}
+              >
+                Import Recipes
+              </Dropdown.Item>
+            </NavLink>
+            <NavLink to="/billing">
+              <Dropdown.Item
+                style={{
+                  background: '#2D86D0',
+                  borderBottom: '1px solid black'
+                }}
+              >
+                Billing
+              </Dropdown.Item>
+            </NavLink>
+            <NavLink to="/settings">
+              <Dropdown.Item style={{ background: '#2D86D0' }}>
+                Settings
+              </Dropdown.Item>
+            </NavLink>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Responsive>
+    );
     displaySignOut = (
       <NavLink to="/signout">
         <Menu.Item>Logout</Menu.Item>
@@ -28,13 +81,14 @@ const TopMenu = props => {
   }
 
   return (
-    <Menu className="topMenu" size="small" inverted>
+    <Menu className="topMenu" size="small" color="blue" inverted>
       <NavLink to="/">
-        <Menu.Item>Landing Page</Menu.Item>
+        <Menu.Item>Home</Menu.Item>
       </NavLink>
       <Menu.Menu position="right">
         {displaySignUp}
         {displaySignIn}
+        {displayMenu}
         {displaySignOut}
       </Menu.Menu>
     </Menu>
