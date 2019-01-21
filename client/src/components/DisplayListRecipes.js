@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Form, Segment } from 'semantic-ui-react';
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -118,32 +119,44 @@ class DisplayListRecipes extends Component {
   };
 
   render() {
-  // in below if's 2nd condition (!this.state.query) checks if search is performed and if so, skip REcipesCheck to save
-  // searched results in this.state.displayedREcipes
+    // in below if's 2nd condition (!this.state.query) checks if search is performed and if so, skip REcipesCheck to save
+    // searched results in this.state.displayedREcipes
 
-    if (this.state.displayedRecipes.length !== this.props.recipes.length && !this.state.query) {
+    if (
+      this.state.displayedRecipes.length !== this.props.recipes.length &&
+      !this.state.query
+    ) {
       this.displayRecipesCheck();
     }
 
     return (
       <RecipeListPage>
-        <SimpleSearch
-          query={this.state.query}
-          handleInputChange={this.handleInputChange}
-        />
-        {localStorage.getItem('uid') && (
-          <form>
-            <input
-              type="checkbox"
-              id="personalCheck"
-              name="personalCheck"
-              onChange={this.checkHandler}
-              checked={this.state.personalCheck}
-            />
-            <label htmlFor="personalCheck">See your own recipes</label>
-          </form>
-        )}
-
+        <Segment
+          inverted
+          color="grey"
+          style={{ width: '95%', marginLeft: '2.5%' }}
+        >
+          <Form inverted>
+            <Form.Field>
+              <SimpleSearch
+                query={this.state.query}
+                handleInputChange={this.handleInputChange}
+              />
+            </Form.Field>
+            {localStorage.getItem('uid') && (
+              <Form.Field inline>
+                <input
+                  type="checkbox"
+                  id="personalCheck"
+                  name="personalCheck"
+                  onChange={this.checkHandler}
+                  checked={this.state.personalCheck}
+                />
+                <label htmlFor="personalCheck">See your own recipes</label>
+              </Form.Field>
+            )}
+          </Form>
+        </Segment>
         <h1>Recipes</h1>
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
