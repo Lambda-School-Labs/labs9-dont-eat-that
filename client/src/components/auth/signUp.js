@@ -118,72 +118,71 @@ class SignUpFormBase extends Component {
       this.state.isReCaptcha === false;
 
     return (
-      <Segment inverted>
-        <Header as="h1" textAlign="center">
-          SignUp
-        </Header>
-        <Form onSubmit={this.onSubmit} inverted>
-          {/* <input
+      <div className="flexCenter">
+        <Segment inverted>
+          <Header as="h1" textAlign="center">
+            SignUp
+          </Header>
+          <Form onSubmit={this.onSubmit} inverted>
+            {/* <input
           name="username"
           value={username}
           onChange={this.onChange}
           type="text"
           placeholder="Full Name"
         /> */}
-          <Form.Field>
-            <label>Email Address</label>
-            <input
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              type="email"
-              placeholder="Email Address"
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Password</label>
-            <input
-              name="passwordOne"
-              value={passwordOne}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Confirm Password</label>
-            <input
-              name="passwordTwo"
-              value={passwordTwo}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Confirm Password"
-            />
-          </Form.Field>
+            <Form.Field>
+              <input
+                name="email"
+                value={email}
+                onChange={this.onChange}
+                type="email"
+                placeholder="Email Address"
+              />
+            </Form.Field>
+            <Form.Field>
+              <input
+                name="passwordOne"
+                value={passwordOne}
+                onChange={this.onChange}
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Field>
+            <Form.Field>
+              <input
+                name="passwordTwo"
+                value={passwordTwo}
+                onChange={this.onChange}
+                type="password"
+                placeholder="Confirm Password"
+              />
+            </Form.Field>
 
-          {error && <p>{error.message}</p>}
+            {error && <p>{error.message}</p>}
 
-          {/* You can replace captchaDemo with any ref word */}
-          <Form.Field className="flexCenter">
-            <ReCaptcha
-              ref={el => {
-                this.captchaDemo = el;
-              }}
-              size="normal"
-              data-theme="dark"
-              render="explicit"
-              sitekey="6Ld1bIoUAAAAAEvgl5ejxRCQWn-QWOmTY5xv0Ybb"
-              onloadCallback={this.onLoadRecaptcha}
-              verifyCallback={this.verifyCallback}
-            />
-          </Form.Field>
-          <div className="flexCenter">
-            <Button disabled={isInvalid} type="submit">
-              Sign Up
-            </Button>
-          </div>
-        </Form>
-      </Segment>
+            {/* You can replace captchaDemo with any ref word */}
+            <Form.Field className="flexCenter">
+              <ReCaptcha
+                ref={el => {
+                  this.captchaDemo = el;
+                }}
+                size="normal"
+                data-theme="dark"
+                render="explicit"
+                sitekey="6Ld1bIoUAAAAAEvgl5ejxRCQWn-QWOmTY5xv0Ybb"
+                onloadCallback={this.onLoadRecaptcha}
+                verifyCallback={this.verifyCallback}
+              />
+            </Form.Field>
+            <div className="flexCenter">
+              <Button disabled={isInvalid} type="submit">
+                Sign Up
+              </Button>
+            </div>
+          </Form>
+        </Segment>
+      </div>
     );
   }
 }

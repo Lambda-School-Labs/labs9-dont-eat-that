@@ -26,7 +26,7 @@ class MainDisplaySection extends Component {
     if (localStorage.uid) {
     }
     return (
-      <div className="MainDisplaySection">
+      <div className="mainDisplaySection">
         <Route exact path="/" component={ConditionalLanding} />
         <Route path="/signup" component={SignUp} />
         <Route path="/signin" component={SignIn} />

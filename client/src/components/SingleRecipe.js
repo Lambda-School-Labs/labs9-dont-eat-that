@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
-import { Button, Rating } from 'semantic-ui-react';
+import { Button, Rating, Table } from 'semantic-ui-react';
 import styled from 'styled-components';
 import {
   getRecipe,
@@ -80,149 +80,146 @@ class SingleRecipe extends React.Component {
     this.props.removeNutrition(); // removes nutrition from state
   }
 
+  displayRecipe = recipe => {
+    return (
+      <React.Fragment>
+        <h1>{recipe.name}</h1>
+        {localStorage.getItem('uid') && (
+          <Button
+            onClick={() => {
+              this.copyRecipe(recipe);
+              this.props.history.push('/recipes');
+            }}
+          >
+            Copy Recipe
+          </Button>
+        )}
+        {recipe.user_id === this.props.user.id && (
+          <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+            <Button color="green">Edit Recipe</Button>
+          </Link>
+        )}
+        {recipe.user_id === this.props.user.id && (
+          <Button color="red" onClick={this.deleteRecipe}>
+            Delete Recipe
+          </Button>
+        )}
+        <div>
+          <Rating
+            icon="star"
+            rating={this.ratingsFunc(recipe)}
+            onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
+            maxRating={5}
+            disabled={!localStorage.getItem('uid')}
+          />
+          {this.props.recipe.ratings.length}
+        </div>
+        <div>
+          <h3>
+            <strong>Ingredients</strong>
+          </h3>
+          <ul>
+            {recipe.ingredients.map(ingr => (
+              <li key={ingr.name}>{`${ingr.quantity} ${
+                ingr.unit ? ingr.unit : ''
+              } ${ingr.name}`}</li>
+            ))}
+          </ul>
+        </div>
+        <br />
+        <div>
+          <h3>
+            <strong>Recipe Description</strong>
+          </h3>
+          <p>{Parser(recipe.description)}</p>
+        </div>
+      </React.Fragment>
+    );
+  };
+
   render() {
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
       this.getNutrition();
-      return (
-        <div>
-          <h1>
-            {recipe.name}{' '}
-            {localStorage.getItem('uid') ? (
-              <CopyRecipeSpan
-                onClick={() => {
-                  this.copyRecipe(recipe);
-                  this.props.history.push('/recipes');
-                }}
-              >
-                Copy Recipe
-              </CopyRecipeSpan>
-            ) : null}
-          </h1>
-          <div>
-            <Rating
-              icon="star"
-              rating={this.ratingsFunc(recipe)}
-              onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
-              maxRating={5}
-            />
-            {this.props.recipe.ratings.length}
-          </div>
-          <RecipeDescAndIngDiv>
-            <div>
-              <h3>Recipe Description</h3>
-              <p>{Parser(recipe.description)}</p>
-            </div>
-            <div>
-              <h3>Ingredients</h3>
-              {}
-              <ul>
-                {recipe.ingredients.map(ingr => (
-                  <li key={ingr.name}>{`${ingr.quantity} ${
-                    ingr.unit ? ingr.unit : ''
-                  } ${ingr.name}`}</li>
-                ))}
-              </ul>
-            </div>
-          </RecipeDescAndIngDiv>
-          {recipe.user_id === this.props.user.id && (
-            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-              <Button color="green">Edit Recipe</Button>
-            </Link>
-          )}
-          {recipe.user_id === this.props.user.id && (
-            <Button color="red" onClick={this.deleteRecipe}>
-              Delete Recipe
-            </Button>
-          )}
-        </div>
-      );
+      return <div>{this.displayRecipe(recipe)}</div>;
     } else if (recipe && nutrition) {
       // copy of the above code except showing nutrition info when they're a subscriber
       return (
         <div>
-          <h1>
-            {recipe.name}{' '}
-            {localStorage.getItem('uid') ? (
-              <Button
-                onClick={() => {
-                  this.copyRecipe(recipe);
-                  this.props.history.push('/recipes');
-                }}
-              >
-                Copy Recipe
-              </Button>
-            ) : null}
-          </h1>
-          <div>
-            <Rating
-              icon="star"
-              rating={this.ratingsFunc()}
-              onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
-              maxRating={5}
-            />
-            {this.props.recipe.ratings.length}
-          </div>
-          <RecipeDescAndIngDiv>
-            <div>
-              <h3>Recipe Description</h3>
-              <p>{Parser(recipe.description)}</p>
-            </div>
-            <div>
-              <h3>Ingredients</h3>
-              {}
-              <ul>
-                {recipe.ingredients.map(ingr => (
-                  <li key={ingr.name}>{`${ingr.quantity ? ingr.quantity : ''} ${
-                    ingr.unit ? ingr.unit : ''
-                  } ${ingr.name}`}</li>
-                ))}
-              </ul>
-            </div>
-          </RecipeDescAndIngDiv>
-          <div>
-            <h3>Nutrition Facts</h3>
-            <p>Calories: {nutrition.calories}</p>
-            <p>Servings: {nutrition.yield}</p>
-            <p> </p>
-            <h5>Macronutrients</h5>
-            <p>
-              Carbohydrates:{' '}
-              {nutrition.totalNutrients.CHOCDF
-                ? `${nutrition.totalNutrients.CHOCDF.quantity} ${
-                    nutrition.totalNutrients.CHOCDF.unit
-                  }`
-                : '0 g'}
-            </p>
-            <p>
-              Protein:{' '}
-              {nutrition.totalNutrients.PROCNT
-                ? `${nutrition.totalNutrients.PROCNT.quantity} ${
-                    nutrition.totalNutrients.PROCNT.unit
-                  }`
-                : '0 g'}
-            </p>
-            <p>
-              Fat:{' '}
-              {nutrition.totalNutrients.FAT
-                ? `${nutrition.totalNutrients.FAT.quantity} ${
-                    nutrition.totalNutrients.FAT.unit
-                  }`
-                : '0 g'}
-            </p>
-          </div>
-          {(recipe.user_id === this.props.user.id ||
-            this.props.user.id === 1) && (
-            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-              <Button color="green">Edit Recipe</Button>
-            </Link>
-          )}
-          {(recipe.user_id === this.props.user.id ||
-            this.props.user.id === 1) && (
-            <Button color="red" onClick={this.deleteRecipe}>
-              Delete Recipe
-            </Button>
-          )}
+          {this.displayRecipe(recipe)}
+          <Table
+            celled
+            structured
+            color="blue"
+            style={{ width: '95%', marginLeft: '2.5%' }}
+            inverted
+          >
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>
+                  <h3>Nutrition Facts</h3>
+                  <p>Servings: {nutrition.yield}</p>
+                  <p>Calories: {nutrition.calories}</p>
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>
+                  Diet Labels:{' '}
+                  {nutrition.dietLabels.map(label => label.toLowerCase() + ' ')}
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  Health Labels:{' '}
+                  {nutrition.healthLabels.map(
+                    label => label.toLowerCase() + ' '
+                  )}
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  Carbohydrates:{' '}
+                  {nutrition.totalNutrients.CHOCDF
+                    ? `${Math.round(
+                        nutrition.totalNutrients.CHOCDF.quantity * 10
+                      ) / 10} ${nutrition.totalNutrients.CHOCDF.unit}`
+                    : '0 g'}
+                  {' | '}
+                  {Math.round(nutrition.totalDaily.CHOCDF.quantity * 10) / 10}%
+                  Daily Value
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  Protein:{' '}
+                  {nutrition.totalNutrients.PROCNT
+                    ? `${Math.round(
+                        nutrition.totalNutrients.PROCNT.quantity * 10
+                      ) / 10} ${nutrition.totalNutrients.PROCNT.unit}`
+                    : '0 g'}
+                  {' | '}
+                  {Math.round(nutrition.totalDaily.PROCNT.quantity * 10) / 10}%
+                  Daily Value
+                </Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>
+                  Fat:{' '}
+                  {nutrition.totalNutrients.FAT
+                    ? `${Math.round(
+                        nutrition.totalNutrients.FAT.quantity * 10
+                      ) / 10} ${nutrition.totalNutrients.FAT.unit}`
+                    : '0 g'}
+                  {' | '}
+                  {Math.round(nutrition.totalDaily.FAT.quantity * 10) / 10}%
+                  Daily Value
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
         </div>
       );
     } else {

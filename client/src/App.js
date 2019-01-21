@@ -46,8 +46,10 @@ class App extends Component {
       <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
         <div className="App">
           <TopMenu isLoggedIn={this.state.isLoggedIn} />
-          <SideMenu />
-          <MainDisplaySection />
+          <div className="mainDisplay">
+            <SideMenu />
+            <MainDisplaySection />
+          </div>
         </div>
       </StripeProvider>
     );
