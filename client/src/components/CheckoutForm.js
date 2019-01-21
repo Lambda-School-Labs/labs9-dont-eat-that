@@ -39,7 +39,6 @@ class CheckoutForm extends React.Component {
           striped
           compact
           size="small"
-          collapsing
           color="violet"
           inverted
           style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}

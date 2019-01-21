@@ -167,3 +167,9 @@ table {
   display: flex;
   justify-content: center;
 }
+
+.flexWrapCenter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}

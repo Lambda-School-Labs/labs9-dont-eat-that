@@ -4,18 +4,21 @@
 // and returns matching recipes
 
 import React, { Component } from 'react';
+import { Form } from 'semantic-ui-react';
 
 class SimpleSearchInput extends Component {
   render() {
     return (
-      <input
-        type="input"
-        onChange={this.props.handleInputChange}
-        value={this.props.query}
-        name="query"
-        placeholder="Search keyword or ingredient"
-        size="30"
-      />
+      <Form.Field style={{ width: '90%' }}>
+        <input
+          type="input"
+          onChange={this.props.handleInputChange}
+          value={this.props.query}
+          name="query"
+          placeholder="Search keyword or ingredient"
+          style={{ width: '100%' }}
+        />
+      </Form.Field>
     );
   }
 }

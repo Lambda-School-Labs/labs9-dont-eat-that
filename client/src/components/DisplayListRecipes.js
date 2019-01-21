@@ -134,27 +134,27 @@ class DisplayListRecipes extends Component {
         <Segment
           inverted
           color="grey"
-          style={{ width: '95%', marginLeft: '2.5%' }}
+          style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
         >
           <Form inverted>
-            <Form.Field>
+            <Form.Group inline className="flexWrapCenter">
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
               />
-            </Form.Field>
-            {localStorage.getItem('uid') && (
-              <Form.Field inline>
-                <input
-                  type="checkbox"
-                  id="personalCheck"
-                  name="personalCheck"
-                  onChange={this.checkHandler}
-                  checked={this.state.personalCheck}
-                />
-                <label htmlFor="personalCheck">See your own recipes</label>
-              </Form.Field>
-            )}
+              {localStorage.getItem('uid') && (
+                <Form.Field inline>
+                  <input
+                    type="checkbox"
+                    id="personalCheck"
+                    name="personalCheck"
+                    onChange={this.checkHandler}
+                    checked={this.state.personalCheck}
+                  />
+                  <label htmlFor="personalCheck">See your own recipes</label>
+                </Form.Field>
+              )}
+            </Form.Group>
           </Form>
         </Segment>
         <h1>Recipes</h1>
