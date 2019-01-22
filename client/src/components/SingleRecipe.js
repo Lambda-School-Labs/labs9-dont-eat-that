@@ -55,7 +55,7 @@ class SingleRecipe extends React.Component {
 
   ratingsFunc = recipe => {
     // gets all ratings for recipe
-    if (!recipe.ratings[0]) {
+    if (!recipe.ratings || !recipe.ratings[0]) {
       return 0;
     } else {
       const ratingArr = recipe.ratings.map(rating => rating.rating);
@@ -87,7 +87,11 @@ class SingleRecipe extends React.Component {
             maxRating={5}
             disabled={!localStorage.getItem('uid')}
           />
-          <Header as="h6">{this.props.recipe.ratings.length} review(s)</Header>
+          <Header as="h6">
+            {this.props.recipe.ratings
+              ? this.props.recipe.ratings.length
+              : 0} review(s)
+          </Header>
         </div>
         <br />
         {localStorage.getItem('uid') && (
