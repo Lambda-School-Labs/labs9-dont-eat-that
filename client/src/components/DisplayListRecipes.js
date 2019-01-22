@@ -161,6 +161,18 @@ class DisplayListRecipes extends Component {
         </Segment>
         <h1>Recipes</h1>
 
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(this.state.displayedRecipes);
+            }}
+          >
+            {' '}
+            Download Recipes{' '}
+          </Button>
+        )}
+
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
@@ -171,15 +183,6 @@ class DisplayListRecipes extends Component {
 
           {this.displayDiv()}
         </DisplayListDiv>
-        <Button
-          color="blue"
-          onClick={() => {
-            downloadRecipeToCSV(this.state.displayedRecipes);
-          }}
-        >
-          {' '}
-          Download Recipes{' '}
-        </Button>
       </RecipeListPage>
     );
   }
@@ -189,7 +192,8 @@ const mapStateToProps = state => {
   return {
     recipes: state.recipesReducer.recipes,
     error: state.recipesReducer.error,
-    allergies: state.usersReducer.user.allergies
+    allergies: state.usersReducer.user.allergies,
+    user: state.usersReducer.user
   };
 };
 

@@ -101,6 +101,17 @@ class SingleRecipe extends React.Component {
             Copy Recipe
           </Button>
         )}
+        {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(recipe);
+            }}
+          >
+            Download Recipe
+          </Button>
+        )}
         {recipe.user_id === this.props.user.id && (
           <Link to={`/recipes/edit/${this.props.match.params.id}`}>
             <Button color="green">Edit Recipe</Button>
@@ -140,22 +151,14 @@ class SingleRecipe extends React.Component {
   };
 
   render() {
+    console.log(
+      'SINGLERECIPE this.props.user = subscriptionid',
+      this.props.user
+    );
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
       this.getNutrition();
-      return (
-        <div>
-          {this.displayRecipe(recipe)}
-          <Button
-            color="blue"
-            onClick={() => {
-              downloadRecipeToCSV(recipe);
-            }}
-          >
-            Download Recipe
-          </Button>
-        </div>
-      );
+      return <div>{this.displayRecipe(recipe)}</div>;
     } else if (recipe && nutrition) {
       // copy of the above code except showing nutrition info when they're a subscriber
       return (
@@ -234,14 +237,6 @@ class SingleRecipe extends React.Component {
               </Table.Row>
             </Table.Body>
           </Table>
-          <Button
-            color="blue"
-            onClick={() => {
-              downloadRecipeToCSV(recipe);
-            }}
-          >
-            Download Recipe
-          </Button>
         </div>
       );
     } else {
