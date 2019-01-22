@@ -33,7 +33,7 @@ const AddNewRecipeFormDiv = styled.div`
   margin-left: 2.5%;
 
   .quill-div {
-    min-height: 196px;
+    min-height: 150px;
   }
 `;
 

@@ -40,7 +40,7 @@ const EditRecipeFormDiv = styled.div`
     margin-bottom: 10px;
   }
   .quill-div {
-    min-height: 196px;
+    min-height: 150px;
   }
 `;
 
