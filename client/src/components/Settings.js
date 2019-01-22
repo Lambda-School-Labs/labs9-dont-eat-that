@@ -6,7 +6,7 @@ import { Button, Header, Form, Segment, Icon } from 'semantic-ui-react';
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
 import PasswordChangeForm from './auth/passwordChange';
-import { downloadRecipesToCSV } from './util';
+// import { downloadRecipesToCSV } from './util';
 
 class Settings extends React.Component {
   state = {
@@ -25,10 +25,10 @@ class Settings extends React.Component {
     this.setState({ allergy: '' });
   };
 
-  downloadCSV = e => {
-    e.preventDefault();
-    downloadRecipesToCSV(this.props.recipes);
-  };
+  // downloadCSV = e => {
+  //   e.preventDefault();
+  //   downloadRecipesToCSV(this.props.recipes);
+  // };
 
   render() {
     if (this.props.allergies) {

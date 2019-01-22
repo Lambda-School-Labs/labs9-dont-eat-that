@@ -19,6 +19,7 @@ import {
   addRecipe,
   ratingChange
 } from '../actions';
+import { downloadRecipeToCSV } from '../components/util';
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
@@ -133,6 +134,14 @@ class SingleRecipe extends React.Component {
             {Parser(recipe.description)}
           </Segment>
         </div>
+        <Button
+          onClick={() => {
+            downloadRecipeToCSV(recipe);
+          }}
+        >
+          Download Recipe
+        </Button>
+        ;
       </React.Fragment>
     );
   };

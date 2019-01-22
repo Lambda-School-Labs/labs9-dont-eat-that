@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment } from 'semantic-ui-react';
+import { Form, Segment, Button } from 'semantic-ui-react';
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -13,6 +13,8 @@ import {
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
+
+import { downloadRecipeToCSV } from '../components/util';
 
 const RecipeListPage = styled.div`
   form {
@@ -158,6 +160,14 @@ class DisplayListRecipes extends Component {
           </Form>
         </Segment>
         <h1>Recipes</h1>
+        <Button
+          onClick={() => {
+            downloadRecipeToCSV(this.state.displayedRecipes);
+          }}
+        >
+          {' '}
+          Download Recipe{' '}
+        </Button>
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
