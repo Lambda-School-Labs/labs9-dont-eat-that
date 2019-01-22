@@ -19,6 +19,7 @@ import {
   addRecipe,
   ratingChange
 } from '../actions';
+import { downloadRecipeToCSV } from '../components/util';
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
@@ -100,6 +101,17 @@ class SingleRecipe extends React.Component {
             Copy Recipe
           </Button>
         )}
+        {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(recipe);
+            }}
+          >
+            Download Recipe
+          </Button>
+        )}
         {recipe.user_id === this.props.user.id && (
           <Link to={`/recipes/edit/${this.props.match.params.id}`}>
             <Button color="green">Edit Recipe</Button>
@@ -140,6 +152,7 @@ class SingleRecipe extends React.Component {
             {Parser(recipe.description)}
           </Segment>
         </div>
+        ;
       </React.Fragment>
     );
   };
