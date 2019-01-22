@@ -256,7 +256,7 @@ class AddNewRecipeForm extends Component {
     for (let i = 0; i < this.state.numIngredients; i++) {
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
-          <Form.Input width="10">
+          <Form.Input width="10" onBlur={this.checkUnits} name={`name${i}`}>
             {/* <AutoComDiv> */}
               <input
                 type="text"
@@ -269,7 +269,7 @@ class AddNewRecipeForm extends Component {
                   this.props.autoComIng(this.state.ingredients[i].name);
                 }}
                 onFocus={() => this.onFocus(i)}
-                onBlur={this.checkUnits}
+                // onBlur={this.checkUnits}
                 style={this.ingAllergyWarning(i)}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (
@@ -343,7 +343,6 @@ class AddNewRecipeForm extends Component {
             onChange={html => this.quillHandler(html)}
             modules={AddNewRecipeForm.modules}
             formats={AddNewRecipeForm.formats}
-            height="100px"
           />
           <br />
           {(!this.state.name || !this.state.description) && (
@@ -353,12 +352,12 @@ class AddNewRecipeForm extends Component {
             </p>
           )}
           {localStorage.getItem('uid') ? (
-            <button type="submit">Save Recipe</button>
+            <Form.Button type="submit">Save Recipe</Form.Button>
           ) : (
             <React.Fragment>
-              <button type="submit" disabled>
-                Save Recipe
-              </button>
+              <Form.Button type="submit" disabled>
+                  Save Recipe
+              </Form.Button>
               <p>Please Log In to Add a Recipe!</p>
             </React.Fragment>
           )}
