@@ -249,10 +249,9 @@ class AddNewRecipeForm extends Component {
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
       const unitOptions = [];
-      this.state.ingredients[i].unitsList.map(unit => {
-        unitOptions.push({ value: unit, text: unit });
-        return null;
-      });
+      this.state.ingredients[i].unitsList.map(unit => (
+        unitOptions.push({ value: unit, text: unit })
+      ));
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
           <Form.Input width="8" onBlur={this.checkUnits} name={`name${i}`}>
@@ -314,11 +313,11 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
+        <Header as="h1" style={{ color: 'white' }}>
+          Upload New Recipe
+        </Header>
         <Segment inverted color="orange">
           <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
-            <Header as="h1" style={{ color: 'white' }}>
-              Upload New Recipe
-            </Header>
             <Form.Group widths="equal">
               <Form.Field width="12">
                 <label htmlFor="recipe-name">Name</label>
@@ -351,7 +350,7 @@ class AddNewRecipeForm extends Component {
                 onChange={html => this.quillHandler(html)}
                 modules={AddNewRecipeForm.modules}
                 formats={AddNewRecipeForm.formats}
-                style={{ minHeight: '150px', background: 'white' }}
+                style={{ minHeight: '150px', background: 'white', color: 'black' }}
               />
             </Form.Field>
             {(!this.state.name || !this.state.description) && (
