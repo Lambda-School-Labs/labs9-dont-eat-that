@@ -358,7 +358,9 @@ class AddNewRecipeForm extends Component {
       }
       return (
         <EditRecipeFormDiv>
-          <h2>Upload New Recipe</h2>
+          <Header as="h1" style={{ color: 'white' }}>
+            Upload New Recipe
+          </Header>
           <Segment inverted color="orange">
             <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
               <Form.Group widths="equal">
