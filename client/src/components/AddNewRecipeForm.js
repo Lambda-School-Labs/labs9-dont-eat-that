@@ -303,7 +303,6 @@ class AddNewRecipeForm extends Component {
     return (
       <form onSubmit={this.submitHandler} autoComplete="off">
         <h2>Upload New Recipe</h2>
-        {/*<MyDropzone />*/}
         <input
           type="text"
           placeholder="Recipe Name"
