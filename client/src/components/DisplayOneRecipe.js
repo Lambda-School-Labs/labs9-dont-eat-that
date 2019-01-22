@@ -5,28 +5,8 @@
 
 import React from 'react';
 import Parser from 'html-react-parser';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Rating } from 'semantic-ui-react';
-
-const DisplayRecipeDiv = styled.div`
-  border: 1px solid black;
-  width: 200px;
-  height: 200px;
-  padding: 15px 10px 10px;
-  margin: 10px;
-  overflow: hidden;
-
-  h3 {
-    font-size: 1.4rem;
-    font-weight: bold;
-  }
-
-  h4 {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-`;
+import { Rating, Card } from 'semantic-ui-react';
 
 const DisplayOneRecipe = props => {
   const ratingsFunc = recipe => {
@@ -45,24 +25,35 @@ const DisplayOneRecipe = props => {
       to={`/recipes/one/${props.recipe.id}`}
       style={{ textDecoration: 'none' }}
     >
-      <DisplayRecipeDiv
-        style={{ border: props.allergy ? `10px solid red` : null }}
+      <Card
+        style={{
+          border: props.allergy ? `10px solid red` : null,
+          width: '200px',
+          height: '200px',
+          margin: '10px',
+          overflow: 'hidden'
+        }}
+        color="olive"
       >
-        <div>
-          <Rating
-            icon="star"
-            rating={ratingsFunc(props.recipe)}
-            maxRating={5}
-            disabled
-          />
-          {props.recipe.ratings
-            ? props.recipe.ratings.length
-            : 0}
-        </div>
-        <h3>{props.recipe.name}</h3>
-        <h4>Description:</h4>
-        <p>{Parser(props.recipe.description)}</p>
-      </DisplayRecipeDiv>
+        <Card.Content>
+          <Card.Header as="h3">{props.recipe.name}</Card.Header>
+          <div>
+            <Rating
+              icon="star"
+              rating={ratingsFunc(props.recipe)}
+              maxRating={5}
+              disabled
+            />
+            {props.recipe.ratings ? props.recipe.ratings.length : 0}
+          </div>
+        </Card.Content>
+        <Card.Content>
+          <Card.Meta as="h4">Description:</Card.Meta>
+          <Card.Description>
+            {Parser(props.recipe.description)}
+          </Card.Description>
+        </Card.Content>
+      </Card>
     </Link>
   );
 };
