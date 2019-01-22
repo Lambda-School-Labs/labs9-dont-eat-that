@@ -184,6 +184,7 @@ class AddNewRecipeForm extends Component {
   };
 
   checkUnits = ev => {
+    console.log("checkUnits is firing");
     if (ev.target.value !== '') {
       const ingNum = Number(ev.target.name.slice(4));
       const encoded = encodeURIComponent(ev.target.value);
@@ -298,15 +299,18 @@ class AddNewRecipeForm extends Component {
               onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
-          <Form.Dropdown width="5">
+          <Form.Select width="5">
             <select name={`unit${i}`} onChange={this.ingHandler}>
+                <option key="A">A</option>
+                <option key="B">B</option>
+                <option key="C">C</option>
               {this.state.ingredients[i].unitsList.map(unit => (
                 <option key={unit} value={unit}>
                   {unit}
                 </option>
               ))}
             </select>
-          </Form.Dropdown>
+          </Form.Select>
         </Form.Group>
       );
     }
@@ -343,6 +347,7 @@ class AddNewRecipeForm extends Component {
             onChange={html => this.quillHandler(html)}
             modules={AddNewRecipeForm.modules}
             formats={AddNewRecipeForm.formats}
+            style={{height: "150px"}}
           />
           <br />
           {(!this.state.name || !this.state.description) && (
