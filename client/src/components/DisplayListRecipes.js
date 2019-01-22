@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment } from 'semantic-ui-react';
+import { Form, Segment, Card, Icon, Button } from 'semantic-ui-react';
+
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -13,6 +14,8 @@ import {
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
+
+import { downloadRecipeToCSV } from '../components/util';
 
 const RecipeListPage = styled.div`
   form {
@@ -29,23 +32,6 @@ const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-`;
-
-const CreateRecipeDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  height: 200px;
-  width: 200px;
-  padding: 10px;
-  margin: 10px;
-
-  h3 {
-    font-size: 1.4rem;
-    font-weight: bold;
-  }
 `;
 
 class DisplayListRecipes extends Component {
@@ -158,12 +144,36 @@ class DisplayListRecipes extends Component {
           </Form>
         </Segment>
         <h1>Recipes</h1>
+
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(this.state.displayedRecipes);
+            }}
+          >
+            {' '}
+            Download Recipes{' '}
+          </Button>
+        )}
+
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
-            <CreateRecipeDiv>
-              <h3>Create a Recipe</h3>
-              <h3>+</h3>
-            </CreateRecipeDiv>
+            <Card style={{ width: '200px', height: '200px', margin: '10px' }}>
+              <Card.Content
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Card.Header>Create a Recipe</Card.Header>
+                <Card.Description>
+                  <Icon name="plus circle" size="big" />
+                </Card.Description>
+              </Card.Content>
+            </Card>
           </Link>
 
           {this.displayDiv()}
@@ -177,7 +187,8 @@ const mapStateToProps = state => {
   return {
     recipes: state.recipesReducer.recipes,
     error: state.recipesReducer.error,
-    allergies: state.usersReducer.user.allergies
+    allergies: state.usersReducer.user.allergies,
+    user: state.usersReducer.user
   };
 };
 

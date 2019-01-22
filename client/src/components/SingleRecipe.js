@@ -19,6 +19,7 @@ import {
   addRecipe,
   ratingChange
 } from '../actions';
+import { downloadRecipeToCSV } from '../components/util';
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
@@ -55,7 +56,7 @@ class SingleRecipe extends React.Component {
 
   ratingsFunc = recipe => {
     // gets all ratings for recipe
-    if (!recipe.ratings[0]) {
+    if (!recipe.ratings || !recipe.ratings[0]) {
       return 0;
     } else {
       const ratingArr = recipe.ratings.map(rating => rating.rating);
@@ -87,7 +88,11 @@ class SingleRecipe extends React.Component {
             maxRating={5}
             disabled={!localStorage.getItem('uid')}
           />
-          <Header as="h6">{this.props.recipe.ratings.length} review(s)</Header>
+          <Header as="h6">
+            {this.props.recipe.ratings
+              ? this.props.recipe.ratings.length
+              : 0} review(s)
+          </Header>
         </div>
         <br />
         {localStorage.getItem('uid') && (
@@ -98,6 +103,17 @@ class SingleRecipe extends React.Component {
             }}
           >
             Copy Recipe
+          </Button>
+        )}
+        {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(recipe);
+            }}
+          >
+            Download Recipe
           </Button>
         )}
         {recipe.user_id === this.props.user.id && (
@@ -140,6 +156,7 @@ class SingleRecipe extends React.Component {
             {Parser(recipe.description)}
           </Segment>
         </div>
+        ;
       </React.Fragment>
     );
   };

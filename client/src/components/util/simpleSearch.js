@@ -9,7 +9,7 @@ import { Form, Input } from 'semantic-ui-react';
 class SimpleSearchInput extends Component {
   render() {
     return (
-      <Form.Field style={{ width: '90%' }} className='searchNote'>
+      <Form.Field style={{ width: '90%' }} className="searchNote">
         <Input
           type="input"
           onChange={this.props.handleInputChange}

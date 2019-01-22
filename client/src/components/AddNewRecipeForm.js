@@ -1,11 +1,13 @@
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from "../actions";
-import { Form, Segment } from "semantic-ui-react";
+import { Form, Segment, Header } from "semantic-ui-react";
 import styled from "styled-components";
 import FileDrop from "./FileDrop";
+
 
 // const AutoComDiv = styled.div`
 //   width: 500px;
@@ -29,16 +31,11 @@ const AutoComItemsDiv = styled.div`
 `;
 
 const AddNewRecipeFormDiv = styled.div`
-  padding: 20px;
+  width: 95%;
+  margin-left: 2.5%;
 
-  h2 {
-    font-size: 1.6rem;
-    margin-top: 15px;
-    margin-bottom: 10px;
-  }
   .quill-div {
-    padding: 1px;
-    height: 196px;
+    min-height: 150px;
   }
 `;
 
@@ -278,12 +275,12 @@ class AddNewRecipeForm extends Component {
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
       const unitOptions = [];
-      this.state.ingredients[i].unitsList.map(unit => {
-        unitOptions.push({ value: unit, text: unit });
-      });
+      this.state.ingredients[i].unitsList.map(unit => (
+        unitOptions.push({ value: unit, text: unit })
+      ));
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
-          <Form.Input width="10" onBlur={this.checkUnits} name={`name${i}`}>
+          <Form.Input width="8" onBlur={this.checkUnits} name={`name${i}`}>
             {/* <AutoComDiv> */}
             <input
               type="text"
@@ -315,7 +312,7 @@ class AddNewRecipeForm extends Component {
             )}
             {/* </AutoComDiv> */}
           </Form.Input>
-          <Form.Input width="4">
+          <Form.Input width="3">
             <input
               type="text"
               placeholder="Quantity"
@@ -342,11 +339,13 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
-        <h2>Upload New Recipe</h2>
-        <Segment inverted color="grey">
+        <Segment inverted color="orange">
+          <Header as="h1" style={{ color: 'white' }}>
+            Upload New Recipe
+          </Header>
           <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
             <Form.Group widths="equal">
-              <Form.Field width="6">
+              <Form.Field width="12">
                 <label htmlFor="recipe-name">Name</label>
                 <input
                   type="text"
@@ -358,7 +357,7 @@ class AddNewRecipeForm extends Component {
                   required
                 />
               </Form.Field>
-              <Form.Field width="1">
+              <Form.Field width="4">
                 <label htmlFor="numIngredients">Number of Ingredients:</label>
                 <input
                   type="number"
@@ -380,15 +379,16 @@ class AddNewRecipeForm extends Component {
               handleInputSelectedFile={this.handleInputSelectedFile}
             />
 
-            <div className="quill-div">
+
+            <Form.Field className="quill-div" width="16">
               <ReactQuill
                 value={this.state.description}
                 onChange={html => this.quillHandler(html)}
                 modules={AddNewRecipeForm.modules}
                 formats={AddNewRecipeForm.formats}
-                style={{ height: "150px" }}
+                style={{ minHeight: '150px', background: 'white', color: 'black' }}
               />
-            </div>
+            </Form.Field>
             {(!this.state.name || !this.state.description) && (
               <p className="please-provide">
                 Please provide a name, description, and ingredients before
