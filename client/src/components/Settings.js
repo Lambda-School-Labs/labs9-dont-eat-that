@@ -97,8 +97,7 @@ class Settings extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    allergies: state.usersReducer.user.allergies,
-    recipes: state.recipesReducer.recipes
+    allergies: state.usersReducer.user.allergies
   };
 };
 
