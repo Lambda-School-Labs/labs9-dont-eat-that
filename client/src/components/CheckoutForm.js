@@ -32,12 +32,11 @@ class CheckoutForm extends React.Component {
         </div>
       );
     return (
-      <div className="checkout">
+      <div>
         <Header>Don't Eat That Subscription Plans</Header>
         <Table
           definition
           striped
-          compact
           size="small"
           color="violet"
           inverted
@@ -45,7 +44,7 @@ class CheckoutForm extends React.Component {
         >
           <Table.Header>
             <Table.Row textAlign="center">
-              <Table.HeaderCell width={4} />
+              <Table.HeaderCell />
               <Table.HeaderCell>Dishwasher</Table.HeaderCell>
               <Table.HeaderCell>Line Cook</Table.HeaderCell>
               <Table.HeaderCell>Executive Chef</Table.HeaderCell>
