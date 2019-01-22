@@ -36,6 +36,10 @@ const AddNewRecipeFormDiv = styled.div`
     margin-top: 15px;
     margin-bottom: 10px;
   }
+  .quill-div {
+    padding: 1px;
+    height: 196px;
+  }
 `;
 
 const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
@@ -164,7 +168,6 @@ class AddNewRecipeForm extends Component {
   onClickAutocomplete = (i, item) => {
     let ingredients = this.state.ingredients.slice();
     ingredients[i].name = item;
-    console.log('here');
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
@@ -184,7 +187,6 @@ class AddNewRecipeForm extends Component {
   };
 
   checkUnits = ev => {
-    console.log("checkUnits is firing");
     if (ev.target.value !== '') {
       const ingNum = Number(ev.target.name.slice(4));
       const encoded = encodeURIComponent(ev.target.value);
@@ -255,6 +257,10 @@ class AddNewRecipeForm extends Component {
     // Build the array of HTML inputs that will get inserted into the form
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
+      const unitOptions = [];
+      this.state.ingredients[i].unitsList.map(unit => {
+        unitOptions.push({ value: unit, text: unit });
+      });
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
           <Form.Input width="10" onBlur={this.checkUnits} name={`name${i}`}>
@@ -292,15 +298,15 @@ class AddNewRecipeForm extends Component {
           <Form.Input width="4">
             <input
               type="text"
-              placeholder="Ingredient Quantity"
+              placeholder="Quantity"
               name={`quty${i}`}
               value={this.state.ingredients[i].quantity}
               onChange={this.ingHandler}
               onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
-          <Form.Select width="5">
-            <select name={`unit${i}`} onChange={this.ingHandler}>
+          <Form.Select width="5" placeholder="Unit" options={unitOptions} />
+            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
                 <option key="A">A</option>
                 <option key="B">B</option>
                 <option key="C">C</option>
@@ -310,7 +316,7 @@ class AddNewRecipeForm extends Component {
                 </option>
               ))}
             </select>
-          </Form.Select>
+          </Form.Select> */}
         </Form.Group>
       );
     }
@@ -320,10 +326,12 @@ class AddNewRecipeForm extends Component {
         <Form onSubmit={this.submitHandler} autoComplete="off">
           <Form.Group widths="equal">
             <Form.Field width="6">
+              <label htmlFor="recipe-name">Name</label>
               <input
                 type="text"
                 placeholder="Recipe Name"
                 name="name"
+                id="recipe-name"
                 value={this.state.name}
                 onChange={this.typingHandler}
                 required
@@ -342,16 +350,17 @@ class AddNewRecipeForm extends Component {
             </Form.Field>
           </Form.Group>
           {ingredientRows}
-          <ReactQuill
-            value={this.state.description}
-            onChange={html => this.quillHandler(html)}
-            modules={AddNewRecipeForm.modules}
-            formats={AddNewRecipeForm.formats}
-            style={{height: "150px"}}
-          />
-          <br />
+          <div className="quill-div">
+            <ReactQuill
+              value={this.state.description}
+              onChange={html => this.quillHandler(html)}
+              modules={AddNewRecipeForm.modules}
+              formats={AddNewRecipeForm.formats}
+              style={{height: "150px"}}
+            />
+          </div>
           {(!this.state.name || !this.state.description) && (
-            <p>
+            <p className="please-provide">
               Please provide a name, description, and ingredients before
               submitting a recipe!
             </p>
