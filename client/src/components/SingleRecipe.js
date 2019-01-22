@@ -158,10 +158,6 @@ class SingleRecipe extends React.Component {
   };
 
   render() {
-    console.log(
-      'SINGLERECIPE this.props.user = subscriptionid',
-      this.props.user
-    );
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
       this.getNutrition();
