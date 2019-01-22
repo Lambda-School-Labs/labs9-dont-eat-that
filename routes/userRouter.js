@@ -45,7 +45,7 @@ router.get('/one/:id', async (req, res) => {
       const recipes = await db('recipes')
         .where({ user_id: user.id })
         .select('id', 'name', 'description');
-      res.status(200).json({ ...user, allergies, recipes });
+        res.status(200).json({ ...user, allergies, recipes });
     } else {
       res.status(400).json({ message: 'User does not exist in the database.' });
     }

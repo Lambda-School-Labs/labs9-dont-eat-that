@@ -1,18 +1,13 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { Button, Header, Form, Segment, Icon } from 'semantic-ui-react';
 
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
 import PasswordChangeForm from './auth/passwordChange';
-import {downloadRecipesToCSV} from './util';
+import { downloadRecipesToCSV } from './util';
 
-
-const DeleteAllergySpan = styled.span`
-  color: red;
-  cursor: pointer;
-`;
 class Settings extends React.Component {
   state = {
     email: '',
@@ -33,69 +28,71 @@ class Settings extends React.Component {
   downloadCSV = e => {
     e.preventDefault();
     downloadRecipesToCSV(this.props.recipes);
-  
-  }
+  };
 
   render() {
     if (this.props.allergies) {
       return (
         <div>
-          
-          <h1>Settings</h1>
-          <div>
-            <h2>User Account</h2>   
-            <br />
-           <PasswordChangeForm />
-          </div>
-
-// below codes is for downloading recipes into excel file
-// it is not done
-
-          {/* <div className="downloadCSV">
-          Download Recipes as Excel File
-            <button onClick={this.downloadCSV}>Download </button>
-          </div> */}
-
-          <div>
-            <h2>Allergies</h2>
-            <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
+          <Header as="h1">Settings</Header>
+          <PasswordChangeForm />
+          <Header
+            as="h3"
+            color="red"
+            inverted
+            attached="top"
+            style={{ width: '95%', marginLeft: '2.5%' }}
+          >
+            Allergies
+          </Header>
+          <Segment attached style={{ width: '95%', marginLeft: '2.5%' }}>
+            <ul>
               {this.props.allergies.map((allergy, i) => {
                 if (typeof allergy === 'object') {
                   return (
                     <li key={i}>
                       {allergy.name}{' '}
-                      <DeleteAllergySpan
+                      <Icon
                         onClick={() => this.props.deleteAllergy(allergy.name)}
-                      >
-                        X
-                      </DeleteAllergySpan>
+                        name="delete"
+                        style={{ color: 'red' }}
+                      />
                     </li>
                   );
                 } else {
                   return (
                     <li key={i}>
                       {allergy}{' '}
-                      <DeleteAllergySpan
+                      <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
-                      >
-                        X
-                      </DeleteAllergySpan>
+                        name="delete"
+                        style={{ color: 'red' }}
+                      />
                     </li>
                   );
                 }
               })}
             </ul>
-            <label htmlFor="allergy" />
-            <input
-              type="text"
-              name="allergy"
-              id="allergy"
-              placeholder="Please enter an allergy..."
-              value={this.state.allergy}
-              onChange={this.onChange}
-            />
-            <button onClick={this.onAddAllergy}>Add Allergy</button>
-          </div>
+          </Segment>
+          <Segment
+            color="red"
+            inverted
+            style={{ width: '95%', marginLeft: '2.5%' }}
+          >
+            <Form inverted>
+              <Form.Field>
+                <input
+                  type="text"
+                  name="allergy"
+                  id="allergy"
+                  placeholder="Please enter an allergy..."
+                  value={this.state.allergy}
+                  onChange={this.onChange}
+                />
+              </Form.Field>
+              <Button onClick={this.onAddAllergy}>Add Allergy</Button>
+            </Form>
+          </Segment>
         </div>
       );
     } else {
@@ -107,7 +104,7 @@ class Settings extends React.Component {
 const mapStateToProps = state => {
   return {
     allergies: state.usersReducer.user.allergies,
-    recipes : state.recipesReducer.recipes
+    recipes: state.recipesReducer.recipes
   };
 };
 
