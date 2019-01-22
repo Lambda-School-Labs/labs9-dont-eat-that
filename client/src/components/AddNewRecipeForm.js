@@ -29,7 +29,8 @@ const AutoComItemsDiv = styled.div`
 `;
 
 const AddNewRecipeFormDiv = styled.div`
-  padding: 20px;
+  width: 95%;
+  margin-left: 2.5%;
 
   .quill-div {
     min-height: 196px;
