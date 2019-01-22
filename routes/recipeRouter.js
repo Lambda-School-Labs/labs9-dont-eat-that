@@ -284,6 +284,9 @@ router.delete('/delete/:id', async (req, res) => {
     await db('recipes-ingredients') // deletes recipe in recipes-ingredients database
       .where({ recipe_id: id })
       .del();
+    await db('ratings')
+      .where({ recipe_id: id })
+      .del();
     const recipe = await db('recipes') // deletes recipe in recipe database
       .where({ id: id })
       .del();
