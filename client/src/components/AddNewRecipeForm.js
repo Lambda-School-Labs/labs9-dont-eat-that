@@ -3,18 +3,21 @@ import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
+import { Form, Segment, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 // import MyDropzone from './FileDrop';
 
-const AutoComDiv = styled.div`
-  position: relative;
-  display: inline-block;
-`;
+// const AutoComDiv = styled.div`
+//   width: 500px;
+//   position: relative;
+//   display: inline-block;
+// `;
 
 const AutoComItemsDiv = styled.div`
   position: absolute;
   left: 0;
   right: 0;
+  top: 40px;
   border: 1px solid #d4d4d4;
   z-index: 10;
 
@@ -22,6 +25,15 @@ const AutoComItemsDiv = styled.div`
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
+  }
+`;
+
+const AddNewRecipeFormDiv = styled.div`
+  width: 95%;
+  margin-left: 2.5%;
+
+  .quill-div {
+    min-height: 196px;
   }
 `;
 
@@ -151,7 +163,6 @@ class AddNewRecipeForm extends Component {
   onClickAutocomplete = (i, item) => {
     let ingredients = this.state.ingredients.slice();
     ingredients[i].name = item;
-    console.log('here');
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
@@ -209,14 +220,10 @@ class AddNewRecipeForm extends Component {
       }&app_key=${this.state.edamamAppKey}`;
       const unitArr = [];
       const res = await axios.get(url);
-      if (res.data.hints.length) {
-        res.data.hints[0].measures.map(measure => {
-          unitArr.push(measure.label);
-          return null;
-        });
-      } else {
-        unitArr.push('Gram');
-      }
+      res.data.hints[0].measures.map(measure => {
+        unitArr.push(measure.label);
+        return null;
+      });
       const ingCopy = this.state.ingredients.slice();
       ingCopy[i].unitsList = unitArr;
       ingCopy[i].unit = unitArr[0];
@@ -241,9 +248,15 @@ class AddNewRecipeForm extends Component {
     // Build the array of HTML inputs that will get inserted into the form
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
+      const unitOptions = [];
+      this.state.ingredients[i].unitsList.map(unit => {
+        unitOptions.push({ value: unit, text: unit });
+        return null;
+      });
       ingredientRows.push(
-        <div key={`row${i}`}>
-          <AutoComDiv>
+        <Form.Group key={`row${i}`}>
+          <Form.Input width="8" onBlur={this.checkUnits} name={`name${i}`}>
+            {/* <AutoComDiv> */}
             <input
               type="text"
               placeholder="Ingredient Name"
@@ -255,7 +268,7 @@ class AddNewRecipeForm extends Component {
                 this.props.autoComIng(this.state.ingredients[i].name);
               }}
               onFocus={() => this.onFocus(i)}
-              onBlur={this.checkUnits}
+              // onBlur={this.checkUnits}
               style={this.ingAllergyWarning(i)}
             />
             {this.props.autoCom && this.state.focuses[i].focus && (
@@ -272,82 +285,94 @@ class AddNewRecipeForm extends Component {
                 })}
               </AutoComItemsDiv>
             )}
-          </AutoComDiv>
-          <input
-            type="text"
-            placeholder="Ingredient Quantity"
-            name={`quty${i}`}
-            value={this.state.ingredients[i].quantity}
-            onChange={this.ingHandler}
-            onFocus={() => this.onBlur(i)}
-          />
-          <select name={`unit${i}`} onChange={this.ingHandler}>
-            {this.state.ingredients[i].unitsList.map(unit => (
-              <option key={unit} value={unit}>
-                {unit}
-              </option>
-            ))}
-          </select>
-          {/* <input
-            type="text"
-            placeholder="Ingredient Unit"
-            name={`unit${i}`}
-            value={this.state.ingredients[i].unit}
-            onChange={this.ingHandler}
-            onFocus={() => this.onBlur(i)}
-          /> */}
-          <br />
-        </div>
+            {/* </AutoComDiv> */}
+          </Form.Input>
+          <Form.Input width="3">
+            <input
+              type="text"
+              placeholder="Quantity"
+              name={`quty${i}`}
+              value={this.state.ingredients[i].quantity}
+              onChange={this.ingHandler}
+              onFocus={() => this.onBlur(i)}
+            />
+          </Form.Input>
+          <Form.Select width="5" placeholder="Unit" options={unitOptions} />
+          {/* <select name={`unit${i}`} onChange={this.ingHandler}>
+                <option key="A">A</option>
+                <option key="B">B</option>
+                <option key="C">C</option>
+              {this.state.ingredients[i].unitsList.map(unit => (
+                <option key={unit} value={unit}>
+                  {unit}
+                </option>
+              ))}
+            </select>
+          </Form.Select> */}
+        </Form.Group>
       );
     }
     return (
-      <form onSubmit={this.submitHandler} autoComplete="off">
-        <h2>Upload New Recipe</h2>
-        {/*<MyDropzone />*/}
-        <input
-          type="text"
-          placeholder="Recipe Name"
-          name="name"
-          value={this.state.name}
-          onChange={this.typingHandler}
-          required
-        />
-        <br />
-        <label htmlFor="numIngredients">Number of Ingredients:</label>
-        <input
-          type="number"
-          placeholder="3"
-          name="numIngredients"
-          id="numIngredients"
-          value={this.state.numIngredients}
-          onChange={this.typingHandler}
-        />
-        <br />
-        {ingredientRows}
-        <ReactQuill
-          value={this.state.description}
-          onChange={html => this.quillHandler(html)}
-          modules={AddNewRecipeForm.modules}
-          formats={AddNewRecipeForm.formats}
-        />
-        <br />
-        {(!this.state.name || !this.state.description) && (
-          <p>
-            Please provide a name, description, and ingredients before
-            submitting a recipe!
-          </p>
-        )}
-        {localStorage.getItem('uid') ? (
-          <button type="submit">Save Recipe</button>
-        ) : (
-          <React.Fragment>
-            <button type="submit" disabled>
-              Save Recipe
-            </button>
-            <p>Please Log In to Add a Recipe!</p>
-          </React.Fragment>
-        )}
-      </form>
+      <AddNewRecipeFormDiv>
+        <Segment inverted color="orange">
+          <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
+            <Header as="h1" style={{ color: 'white' }}>
+              Upload New Recipe
+            </Header>
+            <Form.Group widths="equal">
+              <Form.Field width="12">
+                <label htmlFor="recipe-name">Name</label>
+                <input
+                  type="text"
+                  placeholder="Recipe Name"
+                  name="name"
+                  id="recipe-name"
+                  value={this.state.name}
+                  onChange={this.typingHandler}
+                  required
+                />
+              </Form.Field>
+              <Form.Field width="4">
+                <label htmlFor="numIngredients">Number of Ingredients:</label>
+                <input
+                  type="number"
+                  placeholder="3"
+                  name="numIngredients"
+                  id="numIngredients"
+                  value={this.state.numIngredients}
+                  onChange={this.typingHandler}
+                />
+              </Form.Field>
+            </Form.Group>
+            {ingredientRows}
+            <Form.Field className="quill-div" width="16">
+              <ReactQuill
+                value={this.state.description}
+                onChange={html => this.quillHandler(html)}
+                modules={AddNewRecipeForm.modules}
+                formats={AddNewRecipeForm.formats}
+                style={{ minHeight: '150px', background: 'white' }}
+              />
+            </Form.Field>
+            {(!this.state.name || !this.state.description) && (
+              <p className="please-provide">
+                Please provide a name, description, and ingredients before
+                submitting a recipe!
+              </p>
+            )}
+            {localStorage.getItem('uid') ? (
+              <Form.Button type="submit">Save Recipe</Form.Button>
+            ) : (
+              <React.Fragment>
+                <Form.Button type="submit" disabled>
+                  Save Recipe
+                </Form.Button>
+                <p>Please Log In to Add a Recipe!</p>
+              </React.Fragment>
+            )}
+          </Form>
+        </Segment>
+      </AddNewRecipeFormDiv>
     );
   }
 }

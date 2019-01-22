@@ -122,7 +122,14 @@ class SingleRecipe extends React.Component {
             Delete Recipe
           </Button>
         )}
-        <div style={{ width: '95%', marginLeft: '2.5%', marginTop: '15px' }}>
+        <div
+          style={{
+            width: '95%',
+            marginLeft: '2.5%',
+            marginTop: '15px',
+            fontFamily: 'Roboto'
+          }}
+        >
           <Header as="h3" attached="top" textAlign="left">
             Ingredients
           </Header>
@@ -137,7 +144,7 @@ class SingleRecipe extends React.Component {
           </Segment>
         </div>
         <br />
-        <div style={{ width: '95%', marginLeft: '2.5%' }}>
+        <div style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}>
           <Header as="h3" attached="top" textAlign="left">
             Recipe Description
           </Header>
@@ -168,7 +175,7 @@ class SingleRecipe extends React.Component {
             celled
             structured
             color="blue"
-            style={{ width: '95%', marginLeft: '2.5%' }}
+            style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
             inverted
           >
             <Table.Header>
