@@ -25,6 +25,7 @@ export const searchFunc = (query, recipes) => {
   });
 };
 
+// below function return a content for one recipe for download Excel file
 function getARecipeContent(keys, recipe) {
   let ctr = 0;
 
@@ -55,6 +56,9 @@ function getARecipeContent(keys, recipe) {
   console.log(recipeContent);
   return recipeContent;
 }
+
+// below function download an excel file with recipe contents
+// Argument can be 1 recipe object or array of recipe objects.
 
 export const downloadRecipeToCSV = recipes => {
   let filename, link, csv, keys, columnDelimiter, lineDelimiter;

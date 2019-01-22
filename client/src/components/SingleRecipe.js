@@ -134,13 +134,6 @@ class SingleRecipe extends React.Component {
             {Parser(recipe.description)}
           </Segment>
         </div>
-        <Button
-          onClick={() => {
-            downloadRecipeToCSV(recipe);
-          }}
-        >
-          Download Recipe
-        </Button>
         ;
       </React.Fragment>
     );
@@ -150,7 +143,19 @@ class SingleRecipe extends React.Component {
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
       this.getNutrition();
-      return <div>{this.displayRecipe(recipe)}</div>;
+      return (
+        <div>
+          {this.displayRecipe(recipe)}
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(recipe);
+            }}
+          >
+            Download Recipe
+          </Button>
+        </div>
+      );
     } else if (recipe && nutrition) {
       // copy of the above code except showing nutrition info when they're a subscriber
       return (
@@ -229,6 +234,14 @@ class SingleRecipe extends React.Component {
               </Table.Row>
             </Table.Body>
           </Table>
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(recipe);
+            }}
+          >
+            Download Recipe
+          </Button>
         </div>
       );
     } else {

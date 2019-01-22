@@ -160,14 +160,7 @@ class DisplayListRecipes extends Component {
           </Form>
         </Segment>
         <h1>Recipes</h1>
-        <Button
-          onClick={() => {
-            downloadRecipeToCSV(this.state.displayedRecipes);
-          }}
-        >
-          {' '}
-          Download Recipe{' '}
-        </Button>
+
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <CreateRecipeDiv>
@@ -178,6 +171,15 @@ class DisplayListRecipes extends Component {
 
           {this.displayDiv()}
         </DisplayListDiv>
+        <Button
+          color="blue"
+          onClick={() => {
+            downloadRecipeToCSV(this.state.displayedRecipes);
+          }}
+        >
+          {' '}
+          Download Recipes{' '}
+        </Button>
       </RecipeListPage>
     );
   }
