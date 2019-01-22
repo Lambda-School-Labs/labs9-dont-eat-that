@@ -33,7 +33,7 @@ const AddNewRecipeFormDiv = styled.div`
   margin-left: 2.5%;
 
   .quill-div {
-    min-height: 196px;
+    min-height: 150px;
   }
 `;
 
@@ -313,10 +313,10 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
-        <Header as="h1" style={{ color: 'white' }}>
-          Upload New Recipe
-        </Header>
         <Segment inverted color="orange">
+          <Header as="h1" style={{ color: 'white' }}>
+            Upload New Recipe
+          </Header>
           <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
             <Form.Group widths="equal">
               <Form.Field width="12">
