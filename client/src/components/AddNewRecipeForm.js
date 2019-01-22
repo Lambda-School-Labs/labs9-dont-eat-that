@@ -151,7 +151,6 @@ class AddNewRecipeForm extends Component {
   onClickAutocomplete = (i, item) => {
     let ingredients = this.state.ingredients.slice();
     ingredients[i].name = item;
-    console.log('here');
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
@@ -209,14 +208,10 @@ class AddNewRecipeForm extends Component {
       }&app_key=${this.state.edamamAppKey}`;
       const unitArr = [];
       const res = await axios.get(url);
-      if (res.data.hints.length) {
-        res.data.hints[0].measures.map(measure => {
-          unitArr.push(measure.label);
-          return null;
-        });
-      } else {
-        unitArr.push('Gram');
-      }
+      res.data.hints[0].measures.map(measure => {
+        unitArr.push(measure.label);
+        return null;
+      });
       const ingCopy = this.state.ingredients.slice();
       ingCopy[i].unitsList = unitArr;
       ingCopy[i].unit = unitArr[0];
