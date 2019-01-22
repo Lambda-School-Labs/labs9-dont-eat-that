@@ -2,7 +2,7 @@
 // let Dropzone = require('react-dropzone');
 // let axios = require('axios');
 
-// const URL = 
+// const URL =
 
 // exports = module.exports = React.createClass({
 //     _onDrop: function(files) {
@@ -20,7 +20,7 @@
 // class MyDropzone extends React.Component {
 //    onDrop = (acceptedFiles, rejectedFiles) => {
 //      // Do something with files
-     
+
 //    }
 
 //    render() {
@@ -52,6 +52,47 @@
 
 // export default connect(mapStateToProps)(MyDropzone);
 
-
 // possible link to follow
-// https://spin.atomicobject.com/2018/09/13/file-uploader-react-typescript/
+// https://spin.atomicobject.com/2018/09/13/file-uploader-react-typescript/file
+
+import React, { Component } from "react";
+import axios from "axios";
+
+class FileDrop extends Component {
+  constructor() {
+    super();
+    this.state = {
+      seletedFile: null,
+      loaded: 0
+    };
+  }
+
+inputFile = event => {
+    this.setState({
+        seletedFile: event.target.files[0],
+        loaded: 0,
+    })
+}
+
+  getFile = event => {
+      const fileData = new FormData();
+      fileData.append('file', this.state.seletedFile, this.state.seletedFile.name)
+
+      axios
+        .post()
+
+  };
+
+  render() {
+    return (
+      <div className="file-drop-container">
+        <input type="filetext" onChange={this.inputFile} />
+        <div className="submit" id="" onClick={this.getFile}>
+          SUBMIT
+        </div>
+      </div>
+    );
+  }
+}
+
+export default FileDrop;

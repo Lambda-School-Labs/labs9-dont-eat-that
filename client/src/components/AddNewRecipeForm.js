@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import styled from 'styled-components';
-// import MyDropzone from './FileDrop';
+import FileDrop from './FileDrop';
 
 const AutoComDiv = styled.div`
   position: relative;
@@ -331,6 +331,7 @@ class AddNewRecipeForm extends Component {
           formats={AddNewRecipeForm.formats}
         />
         <br />
+        <FileDrop/>
         {(!this.state.name || !this.state.description) && (
           <p>
             Please provide a name, description, and ingredients before
