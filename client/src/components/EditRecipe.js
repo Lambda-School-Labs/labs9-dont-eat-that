@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import { Form, Segment } from 'semantic-ui-react';
+import { Form, Segment, Header } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
