@@ -51,6 +51,8 @@ class AddNewRecipeForm extends Component {
       name: '',
       description: '',
       numIngredients: 3,
+      selectedFile: null,
+      loaded: 0,
       ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: 'https://api.edamam.com/api/food-database',
@@ -347,6 +349,9 @@ class AddNewRecipeForm extends Component {
               </Form.Field>
             </Form.Group>
             {ingredientRows}
+            
+            <div>Drop Image here</div>
+            <FileDrop/>
             <div className="quill-div">
               <ReactQuill
                 value={this.state.description}

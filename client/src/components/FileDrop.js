@@ -55,44 +55,68 @@
 // possible link to follow
 // https://spin.atomicobject.com/2018/09/13/file-uploader-react-typescript/file
 
-import React, { Component } from "react";
-import axios from "axios";
+// import React, { Component } from "react";
+// import axios from "axios";
 
-class FileDrop extends Component {
-  constructor() {
-    super();
-    this.state = {
-      seletedFile: null,
-      loaded: 0
-    };
-  }
+// class FileDrop extends Component {
+//   constructor() {
+//     super();
+//     this.state = {
+//       seletedFile: null,
+//       loaded: 0
+//     };
+//   }
 
-inputFile = event => {
-    this.setState({
-        seletedFile: event.target.files[0],
-        loaded: 0,
-    })
-}
+// inputFile = event => {
+//     this.setState({
+//         seletedFile: event.target.files[0],
+//         loaded: 0,
+//     })
+// }
 
-  getFile = event => {
-      const fileData = new FormData();
-      fileData.append('file', this.state.seletedFile, this.state.seletedFile.name)
+//   getFile = event => {
+//       const fileData = new FormData();
+//       fileData.append('file', this.state.seletedFile, this.state.seletedFile.name)
 
-      axios
-        .post()
+//       axios
+//         .post()
 
-  };
+//   };
 
-  render() {
-    return (
-      <div className="file-drop-container">
-        <input type="filetext" onChange={this.inputFile} />
-        <div className="submit" id="" onClick={this.getFile}>
-          SUBMIT
-        </div>
+//   render() {
+//     return (
+//       <div className="file-drop-container">
+//         <input type="filetext" onChange={this.inputFile} />
+//         <div className="submit" id="" onClick={this.getFile}>
+//           SUBMIT
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// export default FileDrop;
+
+//Functional Component Route
+import React from "react";
+
+const FileDrop = props => {
+  return (
+    <div className="file-drop-container">
+      <input
+       type="filetext" 
+       onChange={this.inputFile} 
+       />
+      <div 
+        className="submit" 
+        id="" 
+        onClick={this.getFile}
+        >
+        
+        SUBMIT
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default FileDrop;
