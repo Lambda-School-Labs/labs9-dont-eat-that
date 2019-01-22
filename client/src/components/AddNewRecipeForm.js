@@ -52,6 +52,7 @@ class AddNewRecipeForm extends Component {
       description: "",
       numIngredients: 3,
       selectedFile: null,
+      imageUrl: "",
       ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: "https://api.edamam.com/api/food-database",
@@ -254,12 +255,10 @@ class AddNewRecipeForm extends Component {
     const URL = "http://localhost:8000/api/image-upload/";
     const formData = new FormData();
     formData.append('image',this.state.selectedFile[0])
-    console.log(formData);
-    console.log(this.state.selectedFile);
     axios
       .post(URL, formData)
       .then(res => {
-        console.log(res);
+        this.setState({imageUrl: res.data.imageUrl})
       })
       .catch(err => {
         console.log(err)
