@@ -30,7 +30,7 @@ const DisplayRecipeDiv = styled.div`
 
 const DisplayOneRecipe = props => {
   const ratingsFunc = recipe => {
-    if (!recipe.ratings[0]) {
+    if (!recipe.ratings || !recipe.ratings[0]) {
       return 0;
     } else {
       const ratingArr = recipe.ratings.map(rating => rating.rating);
@@ -55,7 +55,9 @@ const DisplayOneRecipe = props => {
             maxRating={5}
             disabled
           />
-          {props.recipe.ratings.length}
+          {props.recipe.ratings
+            ? props.recipe.ratings.length
+            : 0}
         </div>
         <h3>{props.recipe.name}</h3>
         <h4>Description:</h4>
