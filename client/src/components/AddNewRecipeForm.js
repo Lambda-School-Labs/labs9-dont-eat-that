@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
-import { Form } from 'semantic-ui-react';
+import { Form, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
 // import MyDropzone from './FileDrop';
 
@@ -323,59 +323,61 @@ class AddNewRecipeForm extends Component {
     return (
       <AddNewRecipeFormDiv>
         <h2>Upload New Recipe</h2>
-        <Form onSubmit={this.submitHandler} autoComplete="off">
-          <Form.Group widths="equal">
-            <Form.Field width="6">
-              <label htmlFor="recipe-name">Name</label>
-              <input
-                type="text"
-                placeholder="Recipe Name"
-                name="name"
-                id="recipe-name"
-                value={this.state.name}
-                onChange={this.typingHandler}
-                required
+        <Segment inverted color="grey">
+          <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
+            <Form.Group widths="equal">
+              <Form.Field width="6">
+                <label htmlFor="recipe-name">Name</label>
+                <input
+                  type="text"
+                  placeholder="Recipe Name"
+                  name="name"
+                  id="recipe-name"
+                  value={this.state.name}
+                  onChange={this.typingHandler}
+                  required
+                />
+              </Form.Field>
+              <Form.Field width="1">
+                <label htmlFor="numIngredients">Number of Ingredients:</label>
+                <input
+                  type="number"
+                  placeholder="3"
+                  name="numIngredients"
+                  id="numIngredients"
+                  value={this.state.numIngredients}
+                  onChange={this.typingHandler}
+                />
+              </Form.Field>
+            </Form.Group>
+            {ingredientRows}
+            <div className="quill-div">
+              <ReactQuill
+                value={this.state.description}
+                onChange={html => this.quillHandler(html)}
+                modules={AddNewRecipeForm.modules}
+                formats={AddNewRecipeForm.formats}
+                style={{height: "150px"}}
               />
-            </Form.Field>
-            <Form.Field width="1">
-              <label htmlFor="numIngredients">Number of Ingredients:</label>
-              <input
-                type="number"
-                placeholder="3"
-                name="numIngredients"
-                id="numIngredients"
-                value={this.state.numIngredients}
-                onChange={this.typingHandler}
-              />
-            </Form.Field>
-          </Form.Group>
-          {ingredientRows}
-          <div className="quill-div">
-            <ReactQuill
-              value={this.state.description}
-              onChange={html => this.quillHandler(html)}
-              modules={AddNewRecipeForm.modules}
-              formats={AddNewRecipeForm.formats}
-              style={{height: "150px"}}
-            />
-          </div>
-          {(!this.state.name || !this.state.description) && (
-            <p className="please-provide">
-              Please provide a name, description, and ingredients before
-              submitting a recipe!
-            </p>
-          )}
-          {localStorage.getItem('uid') ? (
-            <Form.Button type="submit">Save Recipe</Form.Button>
-          ) : (
-            <React.Fragment>
-              <Form.Button type="submit" disabled>
-                  Save Recipe
-              </Form.Button>
-              <p>Please Log In to Add a Recipe!</p>
-            </React.Fragment>
-          )}
-        </Form>
+            </div>
+            {(!this.state.name || !this.state.description) && (
+              <p className="please-provide">
+                Please provide a name, description, and ingredients before
+                submitting a recipe!
+              </p>
+            )}
+            {localStorage.getItem('uid') ? (
+              <Form.Button type="submit">Save Recipe</Form.Button>
+            ) : (
+              <React.Fragment>
+                <Form.Button type="submit" disabled>
+                    Save Recipe
+                </Form.Button>
+                <p>Please Log In to Add a Recipe!</p>
+              </React.Fragment>
+            )}
+          </Form>
+        </Segment>
       </AddNewRecipeFormDiv>
     );
   }
