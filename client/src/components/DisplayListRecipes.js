@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon } from 'semantic-ui-react';
+import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -140,7 +140,7 @@ class DisplayListRecipes extends Component {
             </Form.Group>
           </Form>
         </Segment>
-        <h1>Recipes</h1>
+        <Header as="h1">Recipes</Header>
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <Card style={{ width: '200px', height: '200px', margin: '10px' }}>

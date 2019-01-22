@@ -315,7 +315,7 @@ class AddNewRecipeForm extends Component {
     return (
       <AddNewRecipeFormDiv>
         <Segment inverted color="orange">
-          <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
+          <Form onSubmit={this.submitHandler} autoComplete="off" size='tiny' inverted>
             <Header as="h1" style={{ color: 'white' }}>
               Upload New Recipe
             </Header>
