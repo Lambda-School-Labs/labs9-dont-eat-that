@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('../data/dbConfig');
+// const db = require('../data/dbConfig');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');

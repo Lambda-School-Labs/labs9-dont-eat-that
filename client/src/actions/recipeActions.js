@@ -94,6 +94,7 @@ export const deleteRecipe = id => (dispatch, getState) => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
+
 export const getAllergies = () => dispatch => {
   const firebaseid = localStorage.getItem('uid');
   axios
@@ -208,3 +209,4 @@ export const ratingChange = (recipeid, newRating) => async (
     dispatch({ type: ERROR, payload: err });
   }
 };
+
