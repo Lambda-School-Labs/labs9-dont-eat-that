@@ -37,8 +37,9 @@ function getARecipeContent(keys, recipe) {
     if (ctr > 0) recipeContent += columnDelimiter;
     if (key === 'ingredients') {
       recipe.ingredients.forEach(ingredient => {
+        let ingName = ingredient.name.toString().replace(/[,\n]/g, '');
         recipeContent +=
-          ingredient.name.toString() +
+          ingName +
           ' ' +
           ingredient.quantity +
           ' ' +

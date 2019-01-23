@@ -56,7 +56,7 @@ class AddNewRecipeForm extends Component {
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
-      edamamAppKey: '37224beb59fbab5b4b81b0e394d8b46e'
+      edamamAppKey: process.env.REACT_APP_EDAMAMAPP_KEY
     };
   }
 
@@ -251,7 +251,8 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-  handleFileUpload = () => {
+  handleFileUpload = ev => {
+    ev.preventDefault();
     const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
     const formData = new FormData();
     formData.append('image', this.state.selectedFile[0]);

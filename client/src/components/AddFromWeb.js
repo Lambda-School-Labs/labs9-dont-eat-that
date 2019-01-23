@@ -10,7 +10,7 @@ class AddFromWeb extends Component {
     this.state = {
       baseUrl:
         'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract',
-      xRapidApiKey: 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy',
+      xRapidApiKey: process.env.REACT_APP_SPOONACULAR_KEY,
       targetUrl: ''
     };
   }

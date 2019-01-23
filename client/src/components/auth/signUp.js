@@ -100,7 +100,7 @@ class SignUpFormBase extends Component {
       this.captchaDemo.reset();
     }
   }
-  
+
   verifyCallback(recaptchaToken) {
     //setting the state to true after the user verifies that they are a person
     // Here you will get the final recaptchaToken!!!
@@ -171,7 +171,7 @@ class SignUpFormBase extends Component {
                 size="normal"
                 data-theme="dark"
                 render="explicit"
-                sitekey="6Ld1bIoUAAAAAEvgl5ejxRCQWn-QWOmTY5xv0Ybb"
+                sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
               />
