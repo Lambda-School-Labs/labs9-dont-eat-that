@@ -216,7 +216,7 @@ router.put('/edit/:id', async (req, res) => {
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, imageUrl:imageUrl, user_id: user.id })
+      .update({ name: name, description: description, imageUrl: imageUrl, user_id: user.id })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
