@@ -162,6 +162,7 @@ class AddNewRecipeForm extends Component {
     this.setState({
       name: '',
       description: '',
+      imageUrl: '',
       ingredients: [emptyIng, emptyIng, emptyIng]
     });
     this.props.history.push('/recipes');
