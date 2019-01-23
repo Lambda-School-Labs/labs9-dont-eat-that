@@ -371,11 +371,12 @@ class AddNewRecipeForm extends Component {
             {ingredientRows}
 
             <div>Drop Image here</div>
+            {/* handleFileUpload={this.props.handleFileUpload} */}
 
-            <FileDrop
+            <FileDrop 
               selectedFile={this.state.selectedFile}
               handleFileUpload={this.handleFileUpload}
-              handleInputSelectedFile={this.handleInputSelectedFile}
+              handleInputSelectedFile={this.handleInputSelectedFile}  
             />
 
             <Form.Field className='quill-div' width='16'>
