@@ -87,10 +87,11 @@ video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
+  font-size: 62.5%;
   font: inherit;
   vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -105,17 +106,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -123,30 +128,48 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
 .App {
-  text-align: center;
   display: flex;
-  flex-flow: wrap;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .topMenu {
   width: 100%;
-  margin: 10px 0;
-  border: 1px solid black;
 }
+
 .sideMenu {
-  width: 20%;
-  margin: 10px;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
+  margin: 0 10px;
 }
-.MainDisplaySection {
+
+.mainDisplay {
+  display: flex;
+  width: 100%;
+}
+
+.mainDisplaySection {
   text-align: center;
-  width: 75%;
+  flex-grow: 1;
+}
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.flexWrapCenter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

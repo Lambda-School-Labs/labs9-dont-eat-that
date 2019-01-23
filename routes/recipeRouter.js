@@ -4,13 +4,14 @@ const db = require('../data/dbConfig');
 
 const router = express.Router();
 
-// get all recipes including others
+// get all recipes
 router.get('/all', async (req, res) => {
   try {
     const recipes = await db('recipes'); // getting all recipes
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -24,7 +25,7 @@ router.get('/all', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratings, ingredients };
       })
     );
     console.log(recipesAndIng);
@@ -48,6 +49,7 @@ router.get('/:firebaseid', async (req, res) => {
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -61,7 +63,7 @@ router.get('/:firebaseid', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratings, ingredients };
       })
     );
     res.status(200).json(recipesAndIng);
@@ -84,6 +86,7 @@ router.get('/:firebaseid/not', async (req, res) => {
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -97,7 +100,7 @@ router.get('/:firebaseid/not', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratings, ingredients };
       })
     );
     res.status(200).json(recipesAndIng);
@@ -116,6 +119,7 @@ router.get('/one/:id', async (req, res) => {
     const recipe = await db('recipes')
       .where({ id: id })
       .first();
+    const ratings = await db('ratings').where({ recipe_id: id });
     const ingredients = await db('ingredients')
       .join(
         'recipes-ingredients',
@@ -134,7 +138,7 @@ router.get('/one/:id', async (req, res) => {
         .status(404)
         .json({ message: "The recipe with the specified id doesn't exist." });
     } else {
-      res.status(200).json({ ...recipe, ingredients: ingredients });
+      res.status(200).json({ ...recipe, ratings, ingredients });
     }
   } catch (err) {
     res.status(500).json({
@@ -145,7 +149,7 @@ router.get('/one/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const { name, description, firebaseid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
+  const { name, description, firebaseid, imageUrl, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
   if (name && description && firebaseid && ingredients) {
     try {
       const user = await db('users')
@@ -156,6 +160,7 @@ router.post('/create', async (req, res) => {
           // inserting into recipes database
           name: name,
           description: description,
+          imageUrl: imageUrl,
           user_id: user.id
         })
         .returning('id');
@@ -202,7 +207,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.put('/edit/:id', async (req, res) => {
-  const { name, description, firebaseid, ingredients } = req.body;
+  const { name, description, firebaseid, imageUrl, ingredients } = req.body;
   const id = req.params.id;
   if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
@@ -211,7 +216,7 @@ router.put('/edit/:id', async (req, res) => {
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: user.id })
+      .update({ name: name, description: description, imageUrl:imageUrl, user_id: user.id })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
@@ -278,6 +283,9 @@ router.delete('/delete/:id', async (req, res) => {
   const id = req.params.id;
   try {
     await db('recipes-ingredients') // deletes recipe in recipes-ingredients database
+      .where({ recipe_id: id })
+      .del();
+    await db('ratings')
       .where({ recipe_id: id })
       .del();
     const recipe = await db('recipes') // deletes recipe in recipe database

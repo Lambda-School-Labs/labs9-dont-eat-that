@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addRecipe } from '../actions';
+import { Form, Button } from 'semantic-ui-react';
 import axios from 'axios';
 
 class AddFromWeb extends Component {
@@ -9,7 +10,7 @@ class AddFromWeb extends Component {
     this.state = {
       baseUrl:
         'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract',
-      xRapidApiKey: 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy',
+      xRapidApiKey: process.env.REACT_APP_SPOONACULAR_KEY,
       targetUrl: ''
     };
   }
@@ -63,25 +64,30 @@ class AddFromWeb extends Component {
 
   render() {
     return (
-      <form onSubmit={this.submitHandler}>
-        <input
-          type="text"
-          name="targetUrl"
-          placeholder="Enter URL of desired recipe to import"
-          value={this.state.targetUrl}
-          onChange={this.typingHandler}
-        />
+      <Form
+        onSubmit={this.submitHandler}
+        style={{ width: '95%', marginLeft: '2.5%' }}
+      >
+        <Form.Field>
+          <input
+            type="text"
+            name="targetUrl"
+            placeholder="Enter URL of desired recipe to import"
+            value={this.state.targetUrl}
+            onChange={this.typingHandler}
+          />
+        </Form.Field>
         {localStorage.getItem('uid') ? (
-          <button type="submit">Import Recipe</button>
+          <Button type="submit">Import Recipe</Button>
         ) : (
           <React.Fragment>
-            <button type="submit" disabled>
+            <Button type="submit" disabled>
               Import Recipe
-            </button>
+            </Button>
             <p>Please Log In to Import a Recipe!</p>
           </React.Fragment>
         )}
-      </form>
+      </Form>
     );
   }
 }

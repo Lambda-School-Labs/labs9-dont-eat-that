@@ -12,6 +12,7 @@ export const GET_FOREIGN_RECIPES = 'GET_FOREIGN_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
 export const GETTING_RECIPE = 'GETTING_RECIPE';
 export const GETTING_RECIPES = 'GETTING_RECIPES';
+export const RATING_CHANGE = 'RATING_CHANGE';
 export const RECIPE_SUCCESS = 'RECIPE_SUCCESS';
 export const RECIPE_FAILURE = 'RECIPE_FAILURE';
 export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
@@ -38,7 +39,7 @@ export const getOwnRecipes = () => dispatch => {
     .get(`${URL}/api/recipes/${localStorage.getItem('uid')}`)
     .then(res => dispatch({ type: GET_OWN_RECIPES, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
-}
+};
 
 // only foreign (other peoples') recipes
 export const getForeignRecipes = () => dispatch => {
@@ -47,7 +48,7 @@ export const getForeignRecipes = () => dispatch => {
     .get(`${URL}/api/recipes/${localStorage.getItem('uid')}/not`)
     .then(res => dispatch({ type: GET_FOREIGN_RECIPES, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
-}
+};
 
 // single recipe
 export const getRecipe = id => dispatch => {
@@ -127,7 +128,9 @@ export const getNutrition = (title, ingr) => (dispatch, getState) => {
   if (subscriptionid) {
     axios
       .post(
-        'https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=e766d0318dfa0deb2000552f4e149af0',
+        `https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=${
+          process.env.REACT_APP_EDAMAM_KEY
+        }`,
         { title, ingr }
       )
       .then(res => dispatch({ type: GET_NUTRITION, payload: res.data }))
@@ -153,7 +156,7 @@ export const autoComIng = query => async (dispatch, getState) => {
       `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&intolerances=${allergyQuery}&query=${query}`,
       {
         headers: {
-          'X-RapidAPI-Key': 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy'
+          'X-RapidAPI-Key': process.env.REACT_APP_SPOONACULAR_KEY
         }
       }
     );
@@ -166,4 +169,44 @@ export const autoComIng = query => async (dispatch, getState) => {
 
 export const resetAutoCom = () => dispatch => {
   dispatch({ type: RESET_AUTOCOM, payload: null });
+};
+
+export const ratingChange = (recipeid, newRating) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const firebaseid = localStorage.getItem('uid');
+    const response = await axios.post(`${URL}/api/ratings/`, {
+      firebaseid,
+      recipeid,
+      newRating
+    });
+    const ratings = getState().recipesReducer.recipe.ratings;
+    let newRatings;
+    if (!ratings[0]) {
+      newRatings = [
+        {
+          id: response.data.ratingid,
+          rating: newRating,
+          user_id: response.data.userid,
+          recipe_id: recipeid
+        }
+      ];
+    } else {
+      newRatings = ratings.map(rating => {
+        return rating.id === response.data.ratingid
+          ? {
+              id: response.data.ratingid,
+              rating: newRating,
+              user_id: response.data.userid,
+              recipe_id: recipeid
+            }
+          : rating;
+      });
+    }
+    dispatch({ type: RATING_CHANGE, payload: newRatings });
+  } catch (err) {
+    dispatch({ type: ERROR, payload: err });
+  }
 };

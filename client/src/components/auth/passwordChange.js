@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form, Button, Header, Segment } from 'semantic-ui-react';
 
 import { withFirebase } from '../firebase';
 
@@ -6,7 +7,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   error: null,
-  successMessage: null,
+  successMessage: null
 };
 
 class PasswordChangeForm extends Component {
@@ -22,10 +23,13 @@ class PasswordChangeForm extends Component {
     this.props.firebase
       .doPasswordUpdate(passwordOne)
       .then(() => {
-        this.setState({ ...INITIAL_STATE, successMessage : "Password reset success! " });
+        this.setState({
+          ...INITIAL_STATE,
+          successMessage: 'Password reset success! '
+        });
       })
       .catch(error => {
-        this.setState({...INITIAL_STATE, error });
+        this.setState({ ...INITIAL_STATE, error });
       });
 
     event.preventDefault();
@@ -38,33 +42,42 @@ class PasswordChangeForm extends Component {
   render() {
     const { passwordOne, passwordTwo, error } = this.state;
 
-    const isInvalid =
-      passwordOne !== passwordTwo || passwordOne === '';
-
+    const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="New Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm New Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+      <Segment
+        color="grey"
+        inverted
+        style={{ width: '95%', marginLeft: '2.5%' }}
+      >
+        <Form inverted onSubmit={this.onSubmit}>
+          <Header as="h3">Password Reset</Header>
+          <Form.Field>
+            <input
+              name="passwordOne"
+              value={passwordOne}
+              onChange={this.onChange}
+              type="password"
+              placeholder="New Password"
+            />
+          </Form.Field>
+          <Form.Field>
+            <input
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Confirm New Password"
+            />
+          </Form.Field>
+          <Button disabled={isInvalid} type="submit">
+            Reset My Password
+          </Button>
 
-        {this.state.successMessage}
-        {error && <p>{error.message}</p>}
-      </form>
+          {this.state.successMessage}
+          {error && <p>{error.message}</p>}
+        </Form>
+      </Segment>
     );
   }
 }

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Form, Segment, Card, Icon, Button, Header } from 'semantic-ui-react';
+
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -13,22 +15,23 @@ import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
 
+import { downloadRecipeToCSV } from '../components/util';
+
+const RecipeListPage = styled.div`
+  form {
+    margin-top: 4px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+`;
+
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-`;
-
-const CreateRecipeDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  height: 200px;
-  width: 200px;
-  padding: 10px;
-  margin: 10px;
 `;
 
 class DisplayListRecipes extends Component {
@@ -40,8 +43,6 @@ class DisplayListRecipes extends Component {
       personalCheck: true,
       displayedRecipes: []
     };
-
-    this.finalDisplayedRecipes = [];
   }
 
   componentDidMount() {
@@ -57,7 +58,7 @@ class DisplayListRecipes extends Component {
 
   // maybe filter the array?
   displayDiv = () => {
-    return this.finalDisplayedRecipes.map(recipe => {
+    return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
@@ -104,53 +105,79 @@ class DisplayListRecipes extends Component {
   };
 
   render() {
-    if (this.state.displayedRecipes.length !== this.props.recipes.length) {
+    // in below if's 2nd condition (!this.state.query) checks if search is performed and if so, skip REcipesCheck to save
+    // searched results in this.state.displayedREcipes
+
+    if (
+      this.state.displayedRecipes.length !== this.props.recipes.length &&
+      !this.state.query
+    ) {
       this.displayRecipesCheck();
     }
 
-  // below if-else is for search functionalities 
-  // if there is query, invoke searchFunc and assign matched recipes array for this.finalDisplayedRecipes
-  //
-
-  if (this.state.query){ 
-    this.finalDisplayedRecipes = searchFunc(this.state.query, this.state.displayedRecipes);
-  }  
-  else{
-  this.finalDisplayedRecipes = this.state.displayedRecipes;
-  }
-
-
     return (
-      <div className="recipe-list">
-        <SimpleSearch
-          query={this.state.query}
-          handleInputChange={this.handleInputChange}
-        />
-        {localStorage.getItem('uid') && (
-          <form>
-            <input
-              type="checkbox"
-              id="personalCheck"
-              name="personalCheck"
-              onChange={this.checkHandler}
-              checked={this.state.personalCheck}
-            />
-            <label htmlFor="personalCheck">See your own recipes</label>
-          </form>
-        )}
+      <RecipeListPage>
+        <Segment
+          inverted
+          color="grey"
+          style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
+        >
+          <Form inverted>
+            <Form.Group inline className="flexWrapCenter">
+              <SimpleSearch
+                query={this.state.query}
+                handleInputChange={this.handleInputChange}
+              />
+              {localStorage.getItem('uid') && (
+                <Form.Field inline>
+                  <input
+                    type="checkbox"
+                    id="personalCheck"
+                    name="personalCheck"
+                    onChange={this.checkHandler}
+                    checked={this.state.personalCheck}
+                  />
+                  <label htmlFor="personalCheck">See your own recipes</label>
+                </Form.Field>
+              )}
+            </Form.Group>
+          </Form>
+        </Segment>
+        <Header as="h1">Recipes</Header>
 
-        <h1>Recipes</h1>
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(this.state.displayedRecipes);
+            }}
+          >
+            {' '}
+            Download Recipes{' '}
+          </Button>
+        )}
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
-            <CreateRecipeDiv>
-              <h3>Create a Recipe</h3>
-              <h3>+</h3>
-            </CreateRecipeDiv>
+            <Card style={{ width: '200px', height: '200px', margin: '10px' }} color='olive'>
+              <Card.Content
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Card.Header>Create a Recipe</Card.Header>
+                <Card.Description>
+                  <Icon name="plus circle" size="big" />
+                </Card.Description>
+              </Card.Content>
+            </Card>
           </Link>
 
           {this.displayDiv()}
         </DisplayListDiv>
-      </div>
+      </RecipeListPage>
     );
   }
 }
@@ -159,7 +186,8 @@ const mapStateToProps = state => {
   return {
     recipes: state.recipesReducer.recipes,
     error: state.recipesReducer.error,
-    allergies: state.usersReducer.user.allergies
+    allergies: state.usersReducer.user.allergies,
+    user: state.usersReducer.user
   };
 };
 

@@ -1,35 +1,82 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import styled from 'styled-components';
+import { Menu, Responsive } from 'semantic-ui-react';
 
-// const NavDiv = styled.div`
-//   justify-content: space-evenly;
-// `;
+class SideMenu extends React.Component {
+  // side menu should be hidden when landing page is shown
+  // Landing page is displayed when user is not loggedin and path is '/'
 
-const SideMenu = () => {
+  state = { activeItem: window.location.pathname };
 
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name });
+  };
 
-// side menu should be hidden when landing page is shown
-// Landing page is displayed when user is not loggedin and path is '/'
+  renderSideMenu = item => {
+    if (
+      window.location.pathname === '/' ||
+      window.location.pathname === '/signin' ||
+      window.location.pathname === '/signup'
+    ) {
+      return null;
+    } else {
+      return (
+        <Responsive minWidth={771}>
+          <Menu pointing vertical className="sideMenu" color="blue" inverted>
+            <NavLink to="/recipes">
+              <Menu.Item
+                name="/recipes"
+                active={item === '/recipes'}
+                onClick={this.handleItemClick}
+              >
+                Recipes List
+              </Menu.Item>
+            </NavLink>
+            <NavLink to="/recipes/new">
+              <Menu.Item
+                name="/recipes/new"
+                active={item === '/recipes/new'}
+                onClick={this.handleItemClick}
+              >
+                New Recipe
+              </Menu.Item>
+            </NavLink>
+            <NavLink to="/recipes/import">
+              <Menu.Item
+                name="/recipes/import"
+                active={item === '/recipes/import'}
+                onClick={this.handleItemClick}
+              >
+                Import Recipe
+              </Menu.Item>
+            </NavLink>
+            <NavLink to="/billing">
+              <Menu.Item
+                name="/billing"
+                active={item === '/billing'}
+                onClick={this.handleItemClick}
+              >
+                Billing
+              </Menu.Item>
+            </NavLink>
+            <NavLink to="/settings">
+              <Menu.Item
+                name="/settings"
+                active={item === '/settings'}
+                onClick={this.handleItemClick}
+              >
+                Settings
+              </Menu.Item>
+            </NavLink>
+          </Menu>
+        </Responsive>
+      );
+    }
+  };
 
-if ( window.location.pathname !== '/') {
-    return (
-       <div className="sideMenu"> 
-      <NavLink to="/recipes">Recipes List</NavLink>
-      <NavLink to="/recipes/new">New Recipe</NavLink>
-      <NavLink to="/recipes/import">Import Recipe</NavLink>
- 
-      <NavLink to="/billing">Billing</NavLink>
-      <NavLink to="/settings">Settings</NavLink>
-  
-    </div>
-    );
-  }
-
-  else {
-    return(
-      <div></div>
-    );
+  render() {
+    const { activeItem } = this.state;
+    return this.renderSideMenu(activeItem);
   }
 }
-  export default SideMenu;
+export default SideMenu;
