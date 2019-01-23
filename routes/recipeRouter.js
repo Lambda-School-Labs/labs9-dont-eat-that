@@ -193,7 +193,26 @@ router.post('/create', async (req, res) => {
           }
         })
       );
-      res.status(201).json(recipe[0]);
+      const newRecipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
+        .where({ id: id })
+        .first();
+      const ratings = await db('ratings').where({ recipe_id: newRecipe.id });
+      const ingredientList = await db('ingredients')
+        .join(
+          'recipes-ingredients',
+          'ingredients.id',
+          'recipes-ingredients.ingredient_id'
+        )
+        .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+        .where({ 'recipes.id': id })
+        .select(
+          'ingredients.name',
+          'recipes-ingredients.quantity',
+          'ingredients.unit'
+        );
+      res
+        .status(201)
+        .json({ ...newRecipe, ratings, ingredients: ingredientList });
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -216,7 +235,12 @@ router.put('/edit/:id', async (req, res) => {
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, imageUrl:imageUrl, user_id: user.id })
+      .update({
+        name: name,
+        description: description,
+        imageUrl: imageUrl,
+        user_id: user.id
+      })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
@@ -255,6 +279,7 @@ router.put('/edit/:id', async (req, res) => {
       const recipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
         .where({ id: id })
         .first();
+      const ratings = await db('ratings').where({ recipe_id: recipe.id });
       const ingredientList = await db('ingredients')
         .join(
           'recipes-ingredients',
@@ -268,7 +293,7 @@ router.put('/edit/:id', async (req, res) => {
           'recipes-ingredients.quantity',
           'ingredients.unit'
         );
-      res.status(200).json({ ...recipe, ingredients: ingredientList });
+      res.status(200).json({ ...recipe, ratings, ingredients: ingredientList });
     } else {
       res
         .status(404)

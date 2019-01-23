@@ -63,13 +63,13 @@ export const getRecipe = id => dispatch => {
 export const addRecipe = recipe => dispatch => {
   axios
     .post(`${URL}/api/recipes/create`, recipe)
-    .then(res => dispatch({ type: ADD_RECIPE, payload: recipe }))
+    .then(res => dispatch({ type: ADD_RECIPE, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
 export const editRecipe = (id, recipe) => (dispatch, getState) => {
   const firebaseid = localStorage.getItem('uid');
-  const { name, description, ingredients } = recipe;
+  const { name, description, imageUrl, ingredients } = recipe;
   const recipes = getState().recipesReducer.recipes.map(oldRecipe => {
     return oldRecipe.id === id ? recipe : oldRecipe;
   });
@@ -77,6 +77,7 @@ export const editRecipe = (id, recipe) => (dispatch, getState) => {
     .put(`${URL}/api/recipes/edit/${id}`, {
       name,
       description,
+      imageUrl,
       firebaseid,
       ingredients
     })
