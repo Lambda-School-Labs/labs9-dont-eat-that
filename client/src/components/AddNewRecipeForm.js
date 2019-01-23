@@ -247,7 +247,8 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-  handleFileUpload = () => {
+  handleFileUpload = ev => {
+    ev.preventDefault();
     const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
     const formData = new FormData();
     formData.append("image", this.state.selectedFile[0]);
