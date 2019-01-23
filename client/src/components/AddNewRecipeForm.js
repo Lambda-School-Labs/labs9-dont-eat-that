@@ -251,19 +251,26 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+
   handleFileUpload = ev => {
     ev.preventDefault();
-    const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
-    const formData = new FormData();
-    formData.append('image', this.state.selectedFile[0]);
-    axios
-      .post(URL, formData)
-      .then(res => {
-        this.setState({ imageUrl: res.data.imageUrl });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+     //if user clicks upload with no image this will catch that and not break the code
+    if(!this.state.selectedFile[0]){
+      this.setState({imageUrl: ''});
+    }else{
+      const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
+      const formData = new FormData();
+      formData.append("image", this.state.selectedFile[0]);
+      axios
+        .post(URL, formData)
+        .then(res => {
+          this.setState({ imageUrl: res.data.imageUrl });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+    }
   };
 
   handleInputSelectedFile = ev => {

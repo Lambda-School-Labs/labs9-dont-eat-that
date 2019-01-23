@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import ReactQuill from "react-quill";
-import FileDrop from './FileDrop';
+import FileDrop from "./FileDrop";
 import { Form, Segment, Header } from "semantic-ui-react";
 import {
   editRecipe,
@@ -12,7 +12,6 @@ import {
   getAllergies
 } from "../actions";
 import styled from "styled-components";
-
 
 // const AutoComDiv = styled.div`
 //   position: relative;
@@ -46,9 +45,9 @@ const EditRecipeFormDiv = styled.div`
   }
 `;
 
-const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
-const edamam = 'https://api.edamam.com/api/food-database';
-const edamamAppId = '4747cfb2';
+const emptyIng = { name: "", quantity: "", unit: "", unitsList: [] };
+const edamam = "https://api.edamam.com/api/food-database";
+const edamamAppId = "4747cfb2";
 const edamamAppKey = process.env.REACT_APP_EDAMAMAPP_KEY;
 
 class AddNewRecipeForm extends Component {
@@ -57,7 +56,8 @@ class AddNewRecipeForm extends Component {
     this.state = {
       name: this.props.recipe ? this.props.recipe.name : "",
       description: this.props.recipe ? this.props.recipe.description : "",
-      
+      selectedFile: null,
+      imageUrl: "",
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
@@ -204,12 +204,13 @@ class AddNewRecipeForm extends Component {
     let recipeObj = {
       name: this.state.name,
       description: this.state.description,
+      imageUrl:this.state.imageUrl,
       firebaseid,
       ingredients: ingArray
     };
     // Call the action to send this object to POST a recipe
     this.props.editRecipe(this.props.match.params.id, recipeObj);
-    this.setState({ name: "", description: "", ingredients: [] });
+    this.setState({ name: "", description: "", imageUrl: "", ingredients: [] });
     this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
   };
 
@@ -297,17 +298,24 @@ class AddNewRecipeForm extends Component {
 
   handleFileUpload = ev => {
     ev.preventDefault();
-    const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
-    const formData = new FormData();
-    formData.append('image', this.state.selectedFile[0]);
-    axios
-      .post(URL, formData)
-      .then(res => {
-        this.setState({ imageUrl: res.data.imageUrl });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+     //if user clicks upload with no image this will catch that and not break the code
+    if(!this.state.selectedFile[0]){
+      this.setState({imageUrl: ''});
+      console.log("not setting image");
+    }else{
+      const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
+      const formData = new FormData();
+      formData.append("image", this.state.selectedFile[0]);
+      axios
+        .post(URL, formData)
+        .then(res => {
+          this.setState({ imageUrl: res.data.imageUrl });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+    }
   };
 
   handleInputSelectedFile = ev => {
@@ -316,8 +324,6 @@ class AddNewRecipeForm extends Component {
       selectedFile: ev.target.files
     });
   };
-
-
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
@@ -385,19 +391,19 @@ class AddNewRecipeForm extends Component {
       }
       return (
         <EditRecipeFormDiv>
-          <Segment inverted color="orange">
-            <Header as="h1" style={{ color: 'white' }}>
+          <Segment inverted color='orange'>
+            <Header as='h1' style={{ color: "white" }}>
               Edit Recipe
             </Header>
             <Form
               onSubmit={this.submitHandler}
-              autoComplete="off"
-              size="tiny"
+              autoComplete='off'
+              size='tiny'
               inverted
             >
-              <Form.Group widths="equal">
-                <Form.Field width="6">
-                  <label htmlFor="recipe-name">Name</label>
+              <Form.Group widths='equal'>
+                <Form.Field width='6'>
+                  <label htmlFor='recipe-name'>Name</label>
                   <input
                     type='text'
                     placeholder='Recipe Name'
@@ -437,9 +443,9 @@ class AddNewRecipeForm extends Component {
                   modules={AddNewRecipeForm.modules}
                   formats={AddNewRecipeForm.formats}
                   style={{
-                    minHeight: '150px',
-                    background: 'white',
-                    color: 'black'
+                    minHeight: "150px",
+                    background: "white",
+                    color: "black"
                   }}
                 />
               </div>
@@ -449,7 +455,7 @@ class AddNewRecipeForm extends Component {
                   submitting a recipe!
                 </p>
               )}
-              <Form.Button type="submit" style={{ marginTop: '20px' }}>
+              <Form.Button type='submit' style={{ marginTop: "20px" }}>
                 Save Recipe
               </Form.Button>
             </Form>
@@ -464,17 +470,17 @@ class AddNewRecipeForm extends Component {
 
 AddNewRecipeForm.modules = {
   toolbar: [
-    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    ["bold", "italic", "underline", "strike", "blockquote"],
     [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' }
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" }
     ],
-    ['link'],
-    ['clean']
+    ["link"],
+    ["clean"]
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -482,18 +488,18 @@ AddNewRecipeForm.modules = {
   }
 };
 AddNewRecipeForm.formats = [
-  'header',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'indent',
-  'link'
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link"
 ];
 
 const mapStateToProps = state => {
