@@ -7,6 +7,7 @@ import { withFirebase } from './components/firebase';
 import MainDisplaySection from './mainDisplaySection';
 import TopMenu from './components/menus/topMenu.js';
 import SideMenu from './components/menus/sideMenu.js';
+import cake from './images/cake.jpeg';
 
 class App extends Component {
   // componentDidMount and componentWillUnmout is used to check if user is loggedin
@@ -36,6 +37,16 @@ class App extends Component {
       // : this.setState({ authUser: null });
     });
   }
+  appStyles = () => {
+    if (window.location.pathname === '/') {
+      return {
+        backgroundImage: `url(${cake})`,
+        backgroundSize: 'cover'
+      };
+    } else {
+      return {};
+    }
+  };
   componentWillUnmount() {
     this.listener();
   }
@@ -44,8 +55,11 @@ class App extends Component {
     }
     console.log('App.js Str Api = ', process.env.REACT_APP_STRIPE_KEY);
     return (
+
       <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
-        <div className="App">
+
+        <div className="App" style={this.appStyles()}>
+
           <TopMenu isLoggedIn={this.state.isLoggedIn} />
           <div className="mainDisplay">
             <SideMenu />

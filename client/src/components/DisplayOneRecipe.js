@@ -31,7 +31,8 @@ const DisplayOneRecipe = props => {
           width: '200px',
           height: '200px',
           margin: '10px',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          fontFamily: 'Roboto'
         }}
         color="olive"
       >

@@ -42,5 +42,5 @@ export const recipesReducer = (state = initialState, action) => {
       };
     default:
       return state;
-  }
+  } 
 };
