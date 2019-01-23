@@ -47,7 +47,7 @@ const EditRecipeFormDiv = styled.div`
 const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
 const edamam = 'https://api.edamam.com/api/food-database';
 const edamamAppId = '4747cfb2';
-const edamamAppKey = process.env.REACT_APP_EDAMANAPP_KEY;
+const edamamAppKey = process.env.REACT_APP_EDAMAMAPP_KEY;
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
@@ -298,9 +298,9 @@ class AddNewRecipeForm extends Component {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
-        this.state.ingredients[i].unitsList.map(unit => (
+        this.state.ingredients[i].unitsList.map(unit =>
           unitOptions.push({ value: unit, text: unit })
-        ));
+        );
         ingredientRows.push(
           <Form.Group key={`row${i}`}>
             {/* <AutoComDiv> */}
@@ -333,7 +333,7 @@ class AddNewRecipeForm extends Component {
                   })}
                 </AutoComItemsDiv>
               )}
-            {/* </AutoComDiv> */}
+              {/* </AutoComDiv> */}
             </Form.Input>
             <Form.Input width="4">
               <input
@@ -395,7 +395,11 @@ class AddNewRecipeForm extends Component {
                   onChange={html => this.quillHandler(html)}
                   modules={AddNewRecipeForm.modules}
                   formats={AddNewRecipeForm.formats}
-                  style={{ minHeight: '150px', background: 'white', color: 'black' }}
+                  style={{
+                    minHeight: '150px',
+                    background: 'white',
+                    color: 'black'
+                  }}
                 />
               </div>
               {(!this.state.name || !this.state.description) && (

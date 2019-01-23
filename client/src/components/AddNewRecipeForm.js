@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ReactQuill from "react-quill";
-import axios from "axios";
-import { addRecipe, autoComIng, resetAutoCom, getAllergies } from "../actions";
-import { Form, Segment, Header } from "semantic-ui-react";
-import styled from "styled-components";
-import FileDrop from "./FileDrop";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ReactQuill from 'react-quill';
+import axios from 'axios';
+import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
+import { Form, Segment, Header } from 'semantic-ui-react';
+import styled from 'styled-components';
+import FileDrop from './FileDrop';
 
 // const AutoComDiv = styled.div`
 //   width: 500px;
@@ -37,24 +37,23 @@ const AddNewRecipeFormDiv = styled.div`
   }
 `;
 
-const emptyIng = { name: "", quantity: "", unit: "", unitsList: [] };
+const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       numIngredients: 3,
       selectedFile: null,
-      imageUrl: "",
+      imageUrl: '',
       ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
 
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
-      edamamAppKey: process.env.REACT_APP_EDAMANAPP_KEY
-
+      edamamAppKey: process.env.REACT_APP_EDAMAMAPP_KEY
     };
   }
 
@@ -67,7 +66,7 @@ class AddNewRecipeForm extends Component {
   };
 
   typingHandler = e => {
-    if (e.target.name === "numIngredients") {
+    if (e.target.name === 'numIngredients') {
       // numIngredients needs certain logic
       let prevNumIng;
       const value = e.target.value; // declared since lost in async setState
@@ -104,8 +103,8 @@ class AddNewRecipeForm extends Component {
   ingHandler = ev => {
     // Get which ingredient form field type is being handled: name, quty, or unit
     let rowType = ev.target.name.slice(0, 4);
-    if (rowType === "quty") {
-      rowType = "quantity";
+    if (rowType === 'quty') {
+      rowType = 'quantity';
     }
     // Get what number of row on the form is being handled
     let rowNum = Number(ev.target.name.slice(4));
@@ -147,7 +146,7 @@ class AddNewRecipeForm extends Component {
 
     // Package up the recipe object to be sent to the API
     // eslint-disable-next-line
-    const firebaseid = localStorage.getItem("uid");
+    const firebaseid = localStorage.getItem('uid');
     let recipeObj = {
       name: this.state.name,
       description: this.state.description,
@@ -158,11 +157,11 @@ class AddNewRecipeForm extends Component {
     // Call the action to send this object to POST a recipe
     this.props.addRecipe(recipeObj);
     this.setState({
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       ingredients: [emptyIng, emptyIng, emptyIng]
     });
-    this.props.history.push("/recipes");
+    this.props.history.push('/recipes');
   };
 
   onClickAutocomplete = (i, item) => {
@@ -187,7 +186,7 @@ class AddNewRecipeForm extends Component {
   };
 
   checkUnits = ev => {
-    if (ev.target.value !== "") {
+    if (ev.target.value !== '') {
       const ingNum = Number(ev.target.name.slice(4));
       const encoded = encodeURIComponent(ev.target.value);
       const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${
@@ -204,7 +203,7 @@ class AddNewRecipeForm extends Component {
               return null;
             });
           } else {
-            unitArr.push("Gram");
+            unitArr.push('Gram');
           }
           const ingCopy = this.state.ingredients.slice();
           ingCopy[ingNum].unitsList = unitArr;
@@ -243,7 +242,7 @@ class AddNewRecipeForm extends Component {
       allergy => allergy === this.state.ingredients[index].name
     );
     if (boolArr.includes(true)) {
-      return { background: "red" };
+      return { background: 'red' };
     } else {
       return {};
     }
@@ -251,9 +250,9 @@ class AddNewRecipeForm extends Component {
 
   handleFileUpload = ev => {
     ev.preventDefault();
-    const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
+    const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
     const formData = new FormData();
-    formData.append("image", this.state.selectedFile[0]);
+    formData.append('image', this.state.selectedFile[0]);
     axios
       .post(URL, formData)
       .then(res => {
@@ -281,14 +280,14 @@ class AddNewRecipeForm extends Component {
       );
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
-          <Form.Input width='8' onBlur={this.checkUnits} name={`name${i}`}>
+          <Form.Input width="8" onBlur={this.checkUnits} name={`name${i}`}>
             {/* <AutoComDiv> */}
             <input
-              type='text'
-              placeholder='Ingredient Name'
+              type="text"
+              placeholder="Ingredient Name"
               name={`name${i}`}
               value={this.state.ingredients[i].name}
-              autoComplete='new-password'
+              autoComplete="new-password"
               onChange={e => {
                 this.ingHandler(e);
                 this.props.autoComIng(this.state.ingredients[i].name);
@@ -313,17 +312,17 @@ class AddNewRecipeForm extends Component {
             )}
             {/* </AutoComDiv> */}
           </Form.Input>
-          <Form.Input width='3'>
+          <Form.Input width="3">
             <input
-              type='text'
-              placeholder='Quantity'
+              type="text"
+              placeholder="Quantity"
               name={`quty${i}`}
               value={this.state.ingredients[i].quantity}
               onChange={this.ingHandler}
               onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
-          <Form.Select width='5' placeholder='Unit' options={unitOptions} />
+          <Form.Select width="5" placeholder="Unit" options={unitOptions} />
           {/* <select name={`unit${i}`} onChange={this.ingHandler}>
                 <option key="A">A</option>
                 <option key="B">B</option>
@@ -340,31 +339,36 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
-        <Segment inverted color='orange'>
-          <Header as='h1' style={{ color: "white" }}>
+        <Segment inverted color="orange">
+          <Header as="h1" style={{ color: 'white' }}>
             Upload New Recipe
           </Header>
-          <Form onSubmit={this.submitHandler} autoComplete='off' size='tiny' inverted>
-            <Form.Group widths='equal'>
-              <Form.Field width='12'>
-                <label htmlFor='recipe-name'>Name</label>
+          <Form
+            onSubmit={this.submitHandler}
+            autoComplete="off"
+            size="tiny"
+            inverted
+          >
+            <Form.Group widths="equal">
+              <Form.Field width="12">
+                <label htmlFor="recipe-name">Name</label>
                 <input
-                  type='text'
-                  placeholder='Recipe Name'
-                  name='name'
-                  id='recipe-name'
+                  type="text"
+                  placeholder="Recipe Name"
+                  name="name"
+                  id="recipe-name"
                   value={this.state.name}
                   onChange={this.typingHandler}
                   required
                 />
               </Form.Field>
-              <Form.Field width='4'>
-                <label htmlFor='numIngredients'>Number of Ingredients:</label>
+              <Form.Field width="4">
+                <label htmlFor="numIngredients">Number of Ingredients:</label>
                 <input
-                  type='number'
-                  placeholder='3'
-                  name='numIngredients'
-                  id='numIngredients'
+                  type="number"
+                  placeholder="3"
+                  name="numIngredients"
+                  id="numIngredients"
                   value={this.state.numIngredients}
                   onChange={this.typingHandler}
                 />
@@ -380,30 +384,30 @@ class AddNewRecipeForm extends Component {
               handleInputSelectedFile={this.handleInputSelectedFile}
             />
 
-            <Form.Field className='quill-div' width='16'>
+            <Form.Field className="quill-div" width="16">
               <ReactQuill
                 value={this.state.description}
                 onChange={html => this.quillHandler(html)}
                 modules={AddNewRecipeForm.modules}
                 formats={AddNewRecipeForm.formats}
                 style={{
-                  minHeight: "150px",
-                  background: "white",
-                  color: "black"
+                  minHeight: '150px',
+                  background: 'white',
+                  color: 'black'
                 }}
               />
             </Form.Field>
             {(!this.state.name || !this.state.description) && (
-              <p className='please-provide'>
+              <p className="please-provide">
                 Please provide a name, description, and ingredients before
                 submitting a recipe!
               </p>
             )}
-            {localStorage.getItem("uid") ? (
-              <Form.Button type='submit'>Save Recipe</Form.Button>
+            {localStorage.getItem('uid') ? (
+              <Form.Button type="submit">Save Recipe</Form.Button>
             ) : (
               <React.Fragment>
-                <Form.Button type='submit' disabled>
+                <Form.Button type="submit" disabled>
                   Save Recipe
                 </Form.Button>
                 <p>Please Log In to Add a Recipe!</p>
@@ -418,17 +422,17 @@ class AddNewRecipeForm extends Component {
 
 AddNewRecipeForm.modules = {
   toolbar: [
-    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ header: '1' }, { header: '2' }, { font: [] }],
     [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
     [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" }
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' }
     ],
-    ["link"],
-    ["clean"]
+    ['link'],
+    ['clean']
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -436,18 +440,18 @@ AddNewRecipeForm.modules = {
   }
 };
 AddNewRecipeForm.formats = [
-  "header",
-  "font",
-  "size",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link"
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link'
 ];
 
 const mapStateToProps = state => {

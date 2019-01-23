@@ -94,7 +94,6 @@ export const deleteRecipe = id => (dispatch, getState) => {
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
-
 export const getAllergies = () => dispatch => {
   const firebaseid = localStorage.getItem('uid');
   axios
@@ -130,7 +129,7 @@ export const getNutrition = (title, ingr) => (dispatch, getState) => {
     axios
       .post(
         `https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=${
-          process.env.REACT_APP_EDAMAN_KEY
+          process.env.REACT_APP_EDAMAM_KEY
         }`,
         { title, ingr }
       )
@@ -211,4 +210,3 @@ export const ratingChange = (recipeid, newRating) => async (
     dispatch({ type: ERROR, payload: err });
   }
 };
-
