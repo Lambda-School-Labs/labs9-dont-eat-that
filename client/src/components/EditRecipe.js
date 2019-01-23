@@ -33,7 +33,7 @@ const AutoComItemsDiv = styled.div`
 const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
 const edamam = 'https://api.edamam.com/api/food-database';
 const edamamAppId = '4747cfb2';
-const edamamAppKey = '37224beb59fbab5b4b81b0e394d8b46e';
+const edamamAppKey = preocess.env.REACT_APP_EDAMANAPP_KEY;
 
 class AddNewRecipeForm extends Component {
   constructor(props) {

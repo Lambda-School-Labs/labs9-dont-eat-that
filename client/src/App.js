@@ -43,7 +43,7 @@ class App extends Component {
     if (localStorage.uid) {
     }
     return (
-      <StripeProvider apiKey="pk_test_Alg5oAZ6fNYUyT65GQtla9et">
+      <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
         <div className="App">
           <TopMenu isLoggedIn={this.state.isLoggedIn} />
           <div className="mainDisplay">

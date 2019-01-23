@@ -128,7 +128,9 @@ export const getNutrition = (title, ingr) => (dispatch, getState) => {
   if (subscriptionid) {
     axios
       .post(
-        'https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=e766d0318dfa0deb2000552f4e149af0',
+        `https://api.edamam.com/api/nutrition-details?app_id=cd055d66&app_key=${
+          process.env.REACT_APP_EDAMAN_KEY
+        }`,
         { title, ingr }
       )
       .then(res => dispatch({ type: GET_NUTRITION, payload: res.data }))
