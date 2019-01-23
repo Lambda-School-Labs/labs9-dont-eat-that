@@ -53,13 +53,10 @@ class App extends Component {
   render() {
     if (localStorage.uid) {
     }
-    console.log('App.js Str Api = ', process.env.REACT_APP_STRIPE_KEY);
+
     return (
-
       <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
-
         <div className="App" style={this.appStyles()}>
-
           <TopMenu isLoggedIn={this.state.isLoggedIn} />
           <div className="mainDisplay">
             <SideMenu />
