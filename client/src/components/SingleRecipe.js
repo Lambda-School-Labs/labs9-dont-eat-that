@@ -45,10 +45,11 @@ class SingleRecipe extends React.Component {
     this.props.history.push('/recipes');
   };
 
-  copyRecipe = recipe => {
-    this.props.addRecipe({
+  copyRecipe = async recipe => {
+    await this.props.addRecipe({
       name: recipe.name,
       description: recipe.description,
+      imageUrl: recipe.imageUrl,
       firebaseid: localStorage.getItem('uid'),
       ingredients: recipe.ingredients
     });
@@ -96,8 +97,8 @@ class SingleRecipe extends React.Component {
         <br />
         {recipe.user_id !== this.props.user.id && localStorage.getItem('uid') && (
           <Button
-            onClick={() => {
-              this.copyRecipe(recipe);
+            onClick={async () => {
+              await this.copyRecipe(recipe);
               this.props.history.push('/recipes');
             }}
           >

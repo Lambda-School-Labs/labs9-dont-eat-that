@@ -27,7 +27,7 @@ export const recipesReducer = (state = initialState, action) => {
     case actionTypes.EDIT_RECIPE:
       return {
         ...state,
-        recipe: {...state.recipe, ...action.payload.recipe},
+        recipe: { ...state.recipe, ...action.payload.recipe },
         recipes: action.payload.recipes
       };
     case actionTypes.DELETE_RECIPE:
@@ -42,5 +42,5 @@ export const recipesReducer = (state = initialState, action) => {
       };
     default:
       return state;
-  } 
+  }
 };

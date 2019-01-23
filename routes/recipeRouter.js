@@ -193,7 +193,23 @@ router.post('/create', async (req, res) => {
           }
         })
       );
-      res.status(201).json(recipe[0]);
+      const newRecipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
+        .where({ id: id })
+        .first();
+      const ingredientList = await db('ingredients')
+        .join(
+          'recipes-ingredients',
+          'ingredients.id',
+          'recipes-ingredients.ingredient_id'
+        )
+        .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+        .where({ 'recipes.id': id })
+        .select(
+          'ingredients.name',
+          'recipes-ingredients.quantity',
+          'ingredients.unit'
+        );
+      res.status(201).json({ ...newRecipe, ingredients: ingredientList });
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -216,7 +232,12 @@ router.put('/edit/:id', async (req, res) => {
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, imageUrl: imageUrl, user_id: user.id })
+      .update({
+        name: name,
+        description: description,
+        imageUrl: imageUrl,
+        user_id: user.id
+      })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists

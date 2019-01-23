@@ -63,7 +63,7 @@ export const getRecipe = id => dispatch => {
 export const addRecipe = recipe => dispatch => {
   axios
     .post(`${URL}/api/recipes/create`, recipe)
-    .then(res => dispatch({ type: ADD_RECIPE, payload: recipe }))
+    .then(res => dispatch({ type: ADD_RECIPE, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
