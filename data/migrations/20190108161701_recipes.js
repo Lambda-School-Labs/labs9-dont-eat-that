@@ -9,6 +9,8 @@ exports.up = function(knex, Promise) {
         .text('description')
         .notNullable();
     tbl
+        .string('imageUrl')
+    tbl
         .integer('user_id')
         .references('users.id');
   });

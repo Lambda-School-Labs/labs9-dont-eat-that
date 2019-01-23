@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
+import { Form, Segment, Card, Icon, Button, Header } from 'semantic-ui-react';
+
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -13,6 +14,8 @@ import {
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
+
+import { downloadRecipeToCSV } from '../components/util';
 
 const RecipeListPage = styled.div`
   form {
@@ -141,6 +144,18 @@ class DisplayListRecipes extends Component {
           </Form>
         </Segment>
         <Header as="h1">Recipes</Header>
+
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(this.state.displayedRecipes);
+            }}
+          >
+            {' '}
+            Download Recipes{' '}
+          </Button>
+        )}
         <DisplayListDiv>
           <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <Card style={{ width: '200px', height: '200px', margin: '10px' }}>
@@ -171,7 +186,8 @@ const mapStateToProps = state => {
   return {
     recipes: state.recipesReducer.recipes,
     error: state.recipesReducer.error,
-    allergies: state.usersReducer.user.allergies
+    allergies: state.usersReducer.user.allergies,
+    user: state.usersReducer.user
   };
 };
 
