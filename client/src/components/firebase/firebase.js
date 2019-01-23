@@ -5,7 +5,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 
 const config = {
-  apiKey: 'AIzaSyB7ecoiT8cBV9IRX1n9Kt0UJZXvkpwfCSs',
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: 'don-t-eat-that-97fbd.firebaseapp.com',
   databaseURL: 'https://don-t-eat-that-97fbd.firebaseio.com',
   projectId: 'don-t-eat-that-97fbd',
@@ -22,7 +22,6 @@ class Firebase {
     // for 3rd party OAuth
     this.googleProvider = new app.auth.GoogleAuthProvider();
     this.facebookProvider = new app.auth.FacebookAuthProvider();
-
   }
 
   doCreateUserWithEmailAndPassword = (email, password) =>
@@ -31,13 +30,11 @@ class Firebase {
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
-  doSignInWithGoogle = () =>
-    this.auth.signInWithPopup(this.googleProvider);
-    
-  doSignInWithFacebook = () =>
-    this.auth.signInWithPopup(this.facebookProvider);
+  doSignInWithGoogle = () => this.auth.signInWithPopup(this.googleProvider);
 
-    doSignOut = () => this.auth.signOut();
+  doSignInWithFacebook = () => this.auth.signInWithPopup(this.facebookProvider);
+
+  doSignOut = () => this.auth.signOut();
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
