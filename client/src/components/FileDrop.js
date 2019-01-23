@@ -1,18 +1,17 @@
 //Functional Component Route
 import React from "react";
+import { Button, Form } from "semantic-ui-react";
 
 const FileDrop = props => {
   return (
-    <div className="file-drop-container">
+    <Form.Field>
       <input
-        type="file"
-        name="myFile"
+        type='file'
+        name='myFile'
         onChange={props.handleInputSelectedFile}
       />
-      <div className="submit" id="" onClick={props.handleFileUpload}>
-        SUBMIT
-      </div>
-    </div>
+      <Button onClick={props.handleFileUpload}>Upload Image</Button>
+    </Form.Field>
   );
 };
 

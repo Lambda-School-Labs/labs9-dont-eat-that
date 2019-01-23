@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ReactQuill from "react-quill";
@@ -7,7 +6,6 @@ import { addRecipe, autoComIng, resetAutoCom, getAllergies } from "../actions";
 import { Form, Segment, Header } from "semantic-ui-react";
 import styled from "styled-components";
 import FileDrop from "./FileDrop";
-
 
 // const AutoComDiv = styled.div`
 //   width: 500px;
@@ -151,6 +149,7 @@ class AddNewRecipeForm extends Component {
     let recipeObj = {
       name: this.state.name,
       description: this.state.description,
+      imageUrl: this.state.imageUrl,
       firebaseid,
       ingredients: ingArray
     };
@@ -249,18 +248,17 @@ class AddNewRecipeForm extends Component {
   };
 
   handleFileUpload = () => {
-    const URL = "http://localhost:8000/api/image-upload/";
+    const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
     const formData = new FormData();
-    formData.append('image',this.state.selectedFile[0])
+    formData.append("image", this.state.selectedFile[0]);
     axios
       .post(URL, formData)
       .then(res => {
-        this.setState({imageUrl: res.data.imageUrl})
+        this.setState({ imageUrl: res.data.imageUrl });
       })
       .catch(err => {
-        console.log(err)
-      })
-
+        console.log(err);
+      });
   };
 
   handleInputSelectedFile = ev => {
@@ -275,19 +273,19 @@ class AddNewRecipeForm extends Component {
     let ingredientRows = [];
     for (let i = 0; i < this.state.numIngredients; i++) {
       const unitOptions = [];
-      this.state.ingredients[i].unitsList.map(unit => (
+      this.state.ingredients[i].unitsList.map(unit =>
         unitOptions.push({ value: unit, text: unit })
-      ));
+      );
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
-          <Form.Input width="8" onBlur={this.checkUnits} name={`name${i}`}>
+          <Form.Input width='8' onBlur={this.checkUnits} name={`name${i}`}>
             {/* <AutoComDiv> */}
             <input
-              type="text"
-              placeholder="Ingredient Name"
+              type='text'
+              placeholder='Ingredient Name'
               name={`name${i}`}
               value={this.state.ingredients[i].name}
-              autoComplete="new-password"
+              autoComplete='new-password'
               onChange={e => {
                 this.ingHandler(e);
                 this.props.autoComIng(this.state.ingredients[i].name);
@@ -312,17 +310,17 @@ class AddNewRecipeForm extends Component {
             )}
             {/* </AutoComDiv> */}
           </Form.Input>
-          <Form.Input width="3">
+          <Form.Input width='3'>
             <input
-              type="text"
-              placeholder="Quantity"
+              type='text'
+              placeholder='Quantity'
               name={`quty${i}`}
               value={this.state.ingredients[i].quantity}
               onChange={this.ingHandler}
               onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
-          <Form.Select width="5" placeholder="Unit" options={unitOptions} />
+          <Form.Select width='5' placeholder='Unit' options={unitOptions} />
           {/* <select name={`unit${i}`} onChange={this.ingHandler}>
                 <option key="A">A</option>
                 <option key="B">B</option>
@@ -339,31 +337,31 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
-        <Segment inverted color="orange">
-          <Header as="h1" style={{ color: 'white' }}>
+        <Segment inverted color='orange'>
+          <Header as='h1' style={{ color: "white" }}>
             Upload New Recipe
           </Header>
-          <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
-            <Form.Group widths="equal">
-              <Form.Field width="12">
-                <label htmlFor="recipe-name">Name</label>
+          <Form onSubmit={this.submitHandler} autoComplete='off' inverted>
+            <Form.Group widths='equal'>
+              <Form.Field width='12'>
+                <label htmlFor='recipe-name'>Name</label>
                 <input
-                  type="text"
-                  placeholder="Recipe Name"
-                  name="name"
-                  id="recipe-name"
+                  type='text'
+                  placeholder='Recipe Name'
+                  name='name'
+                  id='recipe-name'
                   value={this.state.name}
                   onChange={this.typingHandler}
                   required
                 />
               </Form.Field>
-              <Form.Field width="4">
-                <label htmlFor="numIngredients">Number of Ingredients:</label>
+              <Form.Field width='4'>
+                <label htmlFor='numIngredients'>Number of Ingredients:</label>
                 <input
-                  type="number"
-                  placeholder="3"
-                  name="numIngredients"
-                  id="numIngredients"
+                  type='number'
+                  placeholder='3'
+                  name='numIngredients'
+                  id='numIngredients'
                   value={this.state.numIngredients}
                   onChange={this.typingHandler}
                 />
@@ -379,27 +377,30 @@ class AddNewRecipeForm extends Component {
               handleInputSelectedFile={this.handleInputSelectedFile}
             />
 
-
-            <Form.Field className="quill-div" width="16">
+            <Form.Field className='quill-div' width='16'>
               <ReactQuill
                 value={this.state.description}
                 onChange={html => this.quillHandler(html)}
                 modules={AddNewRecipeForm.modules}
                 formats={AddNewRecipeForm.formats}
-                style={{ minHeight: '150px', background: 'white', color: 'black' }}
+                style={{
+                  minHeight: "150px",
+                  background: "white",
+                  color: "black"
+                }}
               />
             </Form.Field>
             {(!this.state.name || !this.state.description) && (
-              <p className="please-provide">
+              <p className='please-provide'>
                 Please provide a name, description, and ingredients before
                 submitting a recipe!
               </p>
             )}
             {localStorage.getItem("uid") ? (
-              <Form.Button type="submit">Save Recipe</Form.Button>
+              <Form.Button type='submit'>Save Recipe</Form.Button>
             ) : (
               <React.Fragment>
-                <Form.Button type="submit" disabled>
+                <Form.Button type='submit' disabled>
                   Save Recipe
                 </Form.Button>
                 <p>Please Log In to Add a Recipe!</p>
