@@ -201,6 +201,7 @@ class AddNewRecipeForm extends Component {
     let recipeObj = {
       name: this.state.name,
       description: this.state.description,
+      imageUrl: this.state.imageUrl,
       firebaseid,
       ingredients: ingArray
     };
