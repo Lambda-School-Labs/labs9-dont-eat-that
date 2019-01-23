@@ -131,7 +131,7 @@ class SingleRecipe extends React.Component {
             size="medium"
             rounded
             centered
-            style={{ marginTop: '10px' }}
+            style={{ marginTop: '10px', maxHeight: '239.52px' }}
           />
         )}
         <div
