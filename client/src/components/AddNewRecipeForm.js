@@ -17,14 +17,18 @@ const AutoComItemsDiv = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  top: 40px;
+  top: 35px;
   border: 1px solid #d4d4d4;
   z-index: 10;
 
   div {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
+    height: 25px;
+    padding-left: 13.7px;
   }
 `;
 
@@ -50,7 +54,6 @@ class AddNewRecipeForm extends Component {
       imageUrl: '',
       ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
-
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
       edamamAppKey: process.env.REACT_APP_EDAMAMAPP_KEY
