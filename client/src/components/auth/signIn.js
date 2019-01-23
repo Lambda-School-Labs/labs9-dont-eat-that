@@ -118,7 +118,12 @@ class SignInFormBase extends Component {
             </Button>
             <Button onClick={this.resetPassword}>Forgot Password?</Button>
           </div>
-          {error && <p>Signin.js email Signin {error.message}</p>}
+          {error && (
+            <p>
+              {' '}
+              Sorry, the credentials you entered do not match. Please try again.
+            </p>
+          )}
         </Form>
 
         {resetPasswordComponent}

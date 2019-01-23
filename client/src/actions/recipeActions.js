@@ -19,6 +19,7 @@ export const REMOVE_NUTRITION = 'REMOVE_NUTRITION';
 export const AUTOCOM_ING = 'AUTOCOM_ING';
 export const RESET_AUTOCOM = 'RESET_AUTOCOM';
 export const DELETE_ALLERGY = 'DELETE_ALLERGY';
+// export const FILE_UPLOAD = "FILE_UPLOAD";
 export const ERROR = 'ERROR';
 
 const URL = 'https://donteatthat.herokuapp.com';
@@ -212,3 +213,24 @@ export const ratingChange = (recipeid, newRating) => async (
     dispatch({ type: ERROR, payload: err });
   }
 };
+
+// Image Drop Actions
+
+// export const handleFileUpload = ev => (dispatch, getState) => {
+//   ev.preventDefault();
+//   // const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
+//   const selectedFile = getState().recipesReducer.recipe.selectedFile[0];
+//   const formData = new FormData();
+//   console.log(selectedFile);
+//   formData.append("image", selectedFile);
+//   dispatch({ type: FILE_UPLOAD });
+//   axios
+//     .post(`${URL}/api/image-upload/`, formData)
+//     .then(res => {
+//       dispatch({ type: FILE_UPLOAD, payload: res.data.imageUrl });
+//       // this.setState({ imageUrl: res.data.imageUrl });
+//     })
+//     .catch(err => {
+//       console.log(err);
+//     });
+// };
