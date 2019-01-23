@@ -58,6 +58,7 @@ class SignUpFormBase extends Component {
 
     if (email === 'test@test.com' && passwordOne === '1234') {
       this.props.addUser('1234');
+      this.props.getUser();
       this.setState({ ...INITIAL_STATE });
     } else {
       this.props.firebase
