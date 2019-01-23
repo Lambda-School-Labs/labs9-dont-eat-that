@@ -196,6 +196,7 @@ router.post('/create', async (req, res) => {
       const newRecipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
         .where({ id: id })
         .first();
+      const ratings = await db('ratings').where({ recipe_id: newRecipe.id });
       const ingredientList = await db('ingredients')
         .join(
           'recipes-ingredients',
@@ -209,7 +210,9 @@ router.post('/create', async (req, res) => {
           'recipes-ingredients.quantity',
           'ingredients.unit'
         );
-      res.status(201).json({ ...newRecipe, ingredients: ingredientList });
+      res
+        .status(201)
+        .json({ ...newRecipe, ratings, ingredients: ingredientList });
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -276,6 +279,7 @@ router.put('/edit/:id', async (req, res) => {
       const recipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
         .where({ id: id })
         .first();
+      const ratings = await db('ratings').where({ recipe_id: recipe.id });
       const ingredientList = await db('ingredients')
         .join(
           'recipes-ingredients',
@@ -289,7 +293,7 @@ router.put('/edit/:id', async (req, res) => {
           'recipes-ingredients.quantity',
           'ingredients.unit'
         );
-      res.status(200).json({ ...recipe, ingredients: ingredientList });
+      res.status(200).json({ ...recipe, ratings, ingredients: ingredientList });
     } else {
       res
         .status(404)
