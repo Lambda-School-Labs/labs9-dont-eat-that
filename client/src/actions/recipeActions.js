@@ -156,7 +156,7 @@ export const autoComIng = query => async (dispatch, getState) => {
       `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?number=5&intolerances=${allergyQuery}&query=${query}`,
       {
         headers: {
-          'X-RapidAPI-Key': 'gEsgyEGaQRmshWrmWzdHhRQUDBgqp1ZTHJtjsnFPTKZkph0cjy'
+          'X-RapidAPI-Key': process.env.REACT_APP_SPOONACULAR_KEY
         }
       }
     );
