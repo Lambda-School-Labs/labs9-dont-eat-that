@@ -89,9 +89,8 @@ class SingleRecipe extends React.Component {
             disabled={!localStorage.getItem('uid')}
           />
           <Header as="h6">
-            {this.props.recipe.ratings
-              ? this.props.recipe.ratings.length
-              : 0} review(s)
+            {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
+            review(s)
           </Header>
         </div>
         <br />
@@ -125,6 +124,15 @@ class SingleRecipe extends React.Component {
           <Button color="red" onClick={this.deleteRecipe}>
             Delete Recipe
           </Button>
+        )}
+        {recipe.imageUrl && (
+          <Image
+            src={recipe.imageUrl}
+            size="medium"
+            rounded
+            centered
+            style={{ marginTop: '10px' }}
+          />
         )}
         <div
           style={{
