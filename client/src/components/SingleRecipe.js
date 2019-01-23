@@ -94,7 +94,7 @@ class SingleRecipe extends React.Component {
           </Header>
         </div>
         <br />
-        {localStorage.getItem('uid') && (
+        {recipe.user_id !== this.props.user.id && localStorage.getItem('uid') && (
           <Button
             onClick={() => {
               this.copyRecipe(recipe);
