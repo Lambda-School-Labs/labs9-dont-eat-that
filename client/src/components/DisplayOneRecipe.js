@@ -4,9 +4,10 @@
 // Display two buttons - edit and delete.  Both buttons will be linked to a props methods
 
 import React from 'react';
-import Parser from 'html-react-parser';
 import { Link } from 'react-router-dom';
-import { Rating, Card } from 'semantic-ui-react';
+import { Rating, Card, Image } from 'semantic-ui-react';
+
+import defaultImage from '../images/defaultimage.jpeg';
 
 const DisplayOneRecipe = props => {
   const ratingsFunc = recipe => {
@@ -31,10 +32,16 @@ const DisplayOneRecipe = props => {
           width: '200px',
           height: '200px',
           margin: '10px',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          fontFamily: 'Roboto'
         }}
-        color="olive"
+        color="blue"
       >
+        {props.recipe.imageUrl ? (
+          <Image src={props.recipe.imageUrl} />
+        ) : (
+          <Image src={defaultImage} />
+        )}
         <Card.Content>
           <Card.Header as="h3">{props.recipe.name}</Card.Header>
           <div>
@@ -46,12 +53,6 @@ const DisplayOneRecipe = props => {
             />
             {props.recipe.ratings ? props.recipe.ratings.length : 0}
           </div>
-        </Card.Content>
-        <Card.Content>
-          <Card.Meta as="h4">Description:</Card.Meta>
-          <Card.Description>
-            {Parser(props.recipe.description)}
-          </Card.Description>
         </Card.Content>
       </Card>
     </Link>
