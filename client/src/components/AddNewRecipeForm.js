@@ -341,7 +341,7 @@ class AddNewRecipeForm extends Component {
           <Header as='h1' style={{ color: "white" }}>
             Upload New Recipe
           </Header>
-          <Form onSubmit={this.submitHandler} autoComplete='off' inverted>
+          <Form onSubmit={this.submitHandler} autoComplete='off' size='tiny' inverted>
             <Form.Group widths='equal'>
               <Form.Field width='12'>
                 <label htmlFor='recipe-name'>Name</label>
