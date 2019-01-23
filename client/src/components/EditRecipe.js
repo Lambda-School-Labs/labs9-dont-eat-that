@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import ReactQuill from "react-quill";
-import FileDrop from "./FileDrop";
-import { Form, Segment, Header } from "semantic-ui-react";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import ReactQuill from 'react-quill';
+import FileDrop from './FileDrop';
+import { Form, Segment, Header } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
   resetAutoCom,
   getRecipe,
   getAllergies
-} from "../actions";
-import styled from "styled-components";
+} from '../actions';
+import styled from 'styled-components';
 
 // const AutoComDiv = styled.div`
 //   position: relative;
@@ -45,19 +45,19 @@ const EditRecipeFormDiv = styled.div`
   }
 `;
 
-const emptyIng = { name: "", quantity: "", unit: "", unitsList: [] };
-const edamam = "https://api.edamam.com/api/food-database";
-const edamamAppId = "4747cfb2";
+const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
+const edamam = 'https://api.edamam.com/api/food-database';
+const edamamAppId = '4747cfb2';
 const edamamAppKey = process.env.REACT_APP_EDAMAMAPP_KEY;
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.recipe ? this.props.recipe.name : "",
-      description: this.props.recipe ? this.props.recipe.description : "",
+      name: this.props.recipe ? this.props.recipe.name : '',
+      description: this.props.recipe ? this.props.recipe.description : '',
       selectedFile: null,
-      imageUrl: "",
+      imageUrl: '',
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
@@ -76,7 +76,7 @@ class AddNewRecipeForm extends Component {
     // Populate the unitsList property of each ingredient
     const ingArr = this.props.recipe.ingredients.slice(); // Copy ingredients from the db without unitsLists
     for (let i = 0; i < ingArr.length; i++) {
-      if (ingArr[i].name !== "") {
+      if (ingArr[i].name !== '') {
         // To avoid pinging the API with empty string queries
         ingArr[i].unitsList = []; // Make sure there is a unitsList to add to
         const encoded = encodeURIComponent(ingArr[i].name); // Ready the ingredient name to be part of a URI
@@ -93,14 +93,14 @@ class AddNewRecipeForm extends Component {
                 return null;
               });
             } else {
-              ingArr[i].unitsList.push("Gram");
+              ingArr[i].unitsList.push('Gram');
             }
           })
           .catch(err => {
             console.log({ error: err });
           });
       } else {
-        ingArr[i].unitsList = ["Gram"];
+        ingArr[i].unitsList = ['Gram'];
       }
     }
     return ingArr;
@@ -120,7 +120,7 @@ class AddNewRecipeForm extends Component {
   };
 
   typingHandler = e => {
-    if (e.target.name === "numIngredients") {
+    if (e.target.name === 'numIngredients') {
       // numIngredients needs certain logic
       let prevNumIng;
       const value = e.target.value; // declared since lost in async setState
@@ -137,7 +137,7 @@ class AddNewRecipeForm extends Component {
           let otherFoc = [];
           for (let i = 0; i < value - prevNumIng; i++) {
             // getting extra rows for ing and foc
-            otherIng.push({ name: "", quantity: "", unit: "" });
+            otherIng.push({ name: '', quantity: '', unit: '' });
             otherFoc.push({ focus: false });
           }
           return {
@@ -157,8 +157,8 @@ class AddNewRecipeForm extends Component {
   ingHandler = ev => {
     // Get which ingredient form field type is being handled: name, quty, or unit
     let rowType = ev.target.name.slice(0, 4);
-    if (rowType === "quty") {
-      rowType = "quantity";
+    if (rowType === 'quty') {
+      rowType = 'quantity';
     }
     // Get what number of row on the form is being handled
     let rowNum = Number(ev.target.name.slice(4));
@@ -200,17 +200,17 @@ class AddNewRecipeForm extends Component {
 
     // Package up the recipe object to be sent to the API
     // eslint-disable-next-line
-    const firebaseid = localStorage.getItem("uid");
+    const firebaseid = localStorage.getItem('uid');
     let recipeObj = {
       name: this.state.name,
       description: this.state.description,
-      imageUrl:this.state.imageUrl,
+      imageUrl: this.state.imageUrl,
       firebaseid,
       ingredients: ingArray
     };
     // Call the action to send this object to POST a recipe
     this.props.editRecipe(this.props.match.params.id, recipeObj);
-    this.setState({ name: "", description: "", imageUrl: "", ingredients: [] });
+    this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
     this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
   };
 
@@ -236,7 +236,7 @@ class AddNewRecipeForm extends Component {
   };
 
   checkUnits = ev => {
-    if (ev.target.value !== "") {
+    if (ev.target.value !== '') {
       const ingNum = Number(ev.target.name.slice(4));
       const encoded = encodeURIComponent(ev.target.value);
       const url = `${edamam}/parser?ingr=${encoded}&app_id=${edamamAppId}&app_key=${edamamAppKey}`;
@@ -251,7 +251,7 @@ class AddNewRecipeForm extends Component {
               return null;
             });
           } else {
-            unitArr.push("Gram");
+            unitArr.push('Gram');
           }
           const ingCopy = this.state.ingredients.slice();
           ingCopy[ingNum].unitsList = unitArr;
@@ -290,7 +290,7 @@ class AddNewRecipeForm extends Component {
       allergy => allergy === this.state.ingredients[index].name
     );
     if (boolArr.includes(true)) {
-      return { background: "red" };
+      return { background: 'red' };
     } else {
       return {};
     }
@@ -298,14 +298,14 @@ class AddNewRecipeForm extends Component {
 
   handleFileUpload = ev => {
     ev.preventDefault();
-     //if user clicks upload with no image this will catch that and not break the code
-    if(!this.state.selectedFile[0]){
-      this.setState({imageUrl: ''});
-      console.log("not setting image");
-    }else{
-      const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
+    //if user clicks upload with no image this will catch that and not break the code
+    if (!this.state.selectedFile[0]) {
+      this.setState({ imageUrl: '' });
+      console.log('not setting image');
+    } else {
+      const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
-      formData.append("image", this.state.selectedFile[0]);
+      formData.append('image', this.state.selectedFile[0]);
       axios
         .post(URL, formData)
         .then(res => {
@@ -314,7 +314,6 @@ class AddNewRecipeForm extends Component {
         .catch(err => {
           console.log(err);
         });
-
     }
   };
 
@@ -392,7 +391,7 @@ class AddNewRecipeForm extends Component {
       return (
         <EditRecipeFormDiv>
           <Segment inverted color='orange'>
-            <Header as='h1' style={{ color: "white" }}>
+            <Header as='h1' style={{ color: 'white' }}>
               Edit Recipe
             </Header>
             <Form
@@ -443,9 +442,9 @@ class AddNewRecipeForm extends Component {
                   modules={AddNewRecipeForm.modules}
                   formats={AddNewRecipeForm.formats}
                   style={{
-                    minHeight: "150px",
-                    background: "white",
-                    color: "black"
+                    minHeight: '150px',
+                    background: 'white',
+                    color: 'black'
                   }}
                 />
               </div>
@@ -455,7 +454,7 @@ class AddNewRecipeForm extends Component {
                   submitting a recipe!
                 </p>
               )}
-              <Form.Button type='submit' style={{ marginTop: "20px" }}>
+              <Form.Button type='submit' style={{ marginTop: '20px' }}>
                 Save Recipe
               </Form.Button>
             </Form>
@@ -470,17 +469,17 @@ class AddNewRecipeForm extends Component {
 
 AddNewRecipeForm.modules = {
   toolbar: [
-    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ header: '1' }, { header: '2' }, { font: [] }],
     [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
     [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" }
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' }
     ],
-    ["link"],
-    ["clean"]
+    ['link'],
+    ['clean']
   ],
   clipboard: {
     // toggle to add extra line breaks when pasting HTML:
@@ -488,18 +487,18 @@ AddNewRecipeForm.modules = {
   }
 };
 AddNewRecipeForm.formats = [
-  "header",
-  "font",
-  "size",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link"
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link'
 ];
 
 const mapStateToProps = state => {
