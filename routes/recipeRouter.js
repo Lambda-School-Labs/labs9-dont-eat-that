@@ -149,7 +149,7 @@ router.get('/one/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const { name, description, firebaseid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
+  const { name, description, firebaseid, imageUrl, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
   if (name && description && firebaseid && ingredients) {
     try {
       const user = await db('users')
@@ -160,6 +160,7 @@ router.post('/create', async (req, res) => {
           // inserting into recipes database
           name: name,
           description: description,
+          imageUrl: imageUrl,
           user_id: user.id
         })
         .returning('id');
@@ -206,7 +207,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.put('/edit/:id', async (req, res) => {
-  const { name, description, firebaseid, ingredients } = req.body;
+  const { name, description, firebaseid, imageUrl, ingredients } = req.body;
   const id = req.params.id;
   if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
@@ -215,7 +216,7 @@ router.put('/edit/:id', async (req, res) => {
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: user.id })
+      .update({ name: name, description: description, imageUrl:imageUrl, user_id: user.id })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists

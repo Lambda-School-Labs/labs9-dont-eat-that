@@ -249,7 +249,7 @@ class AddNewRecipeForm extends Component {
   };
 
   handleFileUpload = () => {
-    const URL = "http://localhost:8000/api/image-upload/";
+    const URL = "https://donteatthat.herokuapp.com/api/image-upload/";
     const formData = new FormData();
     formData.append('image',this.state.selectedFile[0])
     axios
