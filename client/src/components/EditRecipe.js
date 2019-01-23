@@ -25,20 +25,20 @@ const AutoComItemsDiv = styled.div`
   z-index: 10;
 
   div {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
+    height: 25px;
+    padding-left: 13.7px;
   }
 `;
 
 const EditRecipeFormDiv = styled.div`
-  padding: 20px;
+  width: 95%;
+  margin-left: 2.5%;
 
-  h2 {
-    font-size: 1.6rem;
-    margin-top: 15px;
-    margin-bottom: 10px;
-  }
   .quill-div {
     min-height: 150px;
   }
@@ -298,9 +298,9 @@ class AddNewRecipeForm extends Component {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
-        this.state.ingredients[i].unitsList.map(unit => (
+        this.state.ingredients[i].unitsList.map(unit =>
           unitOptions.push({ value: unit, text: unit })
-        ));
+        );
         ingredientRows.push(
           <Form.Group key={`row${i}`}>
             {/* <AutoComDiv> */}
@@ -333,7 +333,7 @@ class AddNewRecipeForm extends Component {
                   })}
                 </AutoComItemsDiv>
               )}
-            {/* </AutoComDiv> */}
+              {/* </AutoComDiv> */}
             </Form.Input>
             <Form.Input width="4">
               <input
@@ -360,9 +360,14 @@ class AddNewRecipeForm extends Component {
         <EditRecipeFormDiv>
           <Segment inverted color="orange">
             <Header as="h1" style={{ color: 'white' }}>
-              Upload New Recipe
+              Edit Recipe
             </Header>
-            <Form onSubmit={this.submitHandler} autoComplete="off" inverted>
+            <Form
+              onSubmit={this.submitHandler}
+              autoComplete="off"
+              size="tiny"
+              inverted
+            >
               <Form.Group widths="equal">
                 <Form.Field width="6">
                   <label htmlFor="recipe-name">Name</label>
@@ -395,7 +400,11 @@ class AddNewRecipeForm extends Component {
                   onChange={html => this.quillHandler(html)}
                   modules={AddNewRecipeForm.modules}
                   formats={AddNewRecipeForm.formats}
-                  style={{ minHeight: '150px', background: 'white', color: 'black' }}
+                  style={{
+                    minHeight: '150px',
+                    background: 'white',
+                    color: 'black'
+                  }}
                 />
               </div>
               {(!this.state.name || !this.state.description) && (
@@ -404,7 +413,9 @@ class AddNewRecipeForm extends Component {
                   submitting a recipe!
                 </p>
               )}
-              <Form.Button type="submit">Save Recipe</Form.Button>
+              <Form.Button type="submit" style={{ marginTop: '20px' }}>
+                Save Recipe
+              </Form.Button>
             </Form>
           </Segment>
         </EditRecipeFormDiv>
@@ -415,39 +426,39 @@ class AddNewRecipeForm extends Component {
   }
 }
 
-// AddNewRecipeForm.modules = {
-//   toolbar: [
-//     [{ header: '1' }, { header: '2' }, { font: [] }],
-//     [{ size: [] }],
-//     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-//     [
-//       { list: 'ordered' },
-//       { list: 'bullet' },
-//       { indent: '-1' },
-//       { indent: '+1' }
-//     ],
-//     ['link'],
-//     ['clean']
-//   ],
-//   clipboard: {
-//     // toggle to add extra line breaks when pasting HTML:
-//     matchVisual: false
-//   }
-// };
-// AddNewRecipeForm.formats = [
-//   'header',
-//   'font',
-//   'size',
-//   'bold',
-//   'italic',
-//   'underline',
-//   'strike',
-//   'blockquote',
-//   'list',
-//   'bullet',
-//   'indent',
-//   'link'
-// ];
+AddNewRecipeForm.modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' }
+    ],
+    ['link'],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false
+  }
+};
+AddNewRecipeForm.formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link'
+];
 
 const mapStateToProps = state => {
   return {
