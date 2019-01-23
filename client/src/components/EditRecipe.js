@@ -57,6 +57,7 @@ class AddNewRecipeForm extends Component {
     this.state = {
       name: this.props.recipe ? this.props.recipe.name : "",
       description: this.props.recipe ? this.props.recipe.description : "",
+      
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
@@ -293,6 +294,30 @@ class AddNewRecipeForm extends Component {
       return {};
     }
   };
+
+  handleFileUpload = ev => {
+    ev.preventDefault();
+    const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
+    const formData = new FormData();
+    formData.append('image', this.state.selectedFile[0]);
+    axios
+      .post(URL, formData)
+      .then(res => {
+        this.setState({ imageUrl: res.data.imageUrl });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  handleInputSelectedFile = ev => {
+    ev.preventDefault();
+    this.setState({
+      selectedFile: ev.target.files
+    });
+  };
+
+
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
