@@ -21,16 +21,17 @@ const RecipeListPage = styled.div`
   form {
     margin-top: 4px;
   }
+  h1 {
+    font-size: 2rem;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
 `;
 
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-`;
-
-const CheckboxElement = styled.div`
-  margin-top: 20px;
 `;
 
 class DisplayListRecipes extends Component {
@@ -128,19 +129,16 @@ class DisplayListRecipes extends Component {
                 handleInputChange={this.handleInputChange}
               />
               {localStorage.getItem('uid') && (
-                <CheckboxElement>
-                  <Form.Field inline>
-                    <input
-                      type='checkbox'
-                      id='personalCheck'
-                      name='personalCheck'
-                      className='checkbox'
-                      onChange={this.checkHandler}
-                      checked={this.state.personalCheck}
-                    />
-                    <label htmlFor='personalCheck'>See your own recipes</label>
-                  </Form.Field>
-                </CheckboxElement>
+                <Form.Field inline>
+                  <input
+                    type='checkbox'
+                    id='personalCheck'
+                    name='personalCheck'
+                    onChange={this.checkHandler}
+                    checked={this.state.personalCheck}
+                  />
+                  <label htmlFor='personalCheck'>See your own recipes</label>
+                </Form.Field>
               )}
             </Form.Group>
           </Form>
