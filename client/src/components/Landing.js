@@ -9,6 +9,7 @@ const LandingDiv = styled.div`
   height: 100%;
   p {
     margin: 15px auto;
+    width: 80%;
     max-width: 500px;
     text-align: left;
   }
