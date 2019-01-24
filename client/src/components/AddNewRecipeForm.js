@@ -255,7 +255,7 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    if (!this.state.selectedFile[0]) {
+    if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
     } else {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
