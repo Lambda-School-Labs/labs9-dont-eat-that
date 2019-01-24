@@ -90,7 +90,7 @@ const TopMenu = props => {
         <Menu.Item style={
           window.location.pathname === '/'
           ? {}
-          : {padding: '5px', display: 'flex', alignItems: 'center'}}
+          : {padding: '5px', paddingRight: '15px', display: 'flex', alignItems: 'center'}}
         >
           {SiteIcon}
           Home
