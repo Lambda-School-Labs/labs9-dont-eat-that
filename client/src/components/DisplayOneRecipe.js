@@ -46,7 +46,7 @@ const DisplayOneRecipe = props => {
           <Image src={defaultImage} />
         )}
         <Card.Content>
-          <Card.Header as="h3">{props.recipe.name}</Card.Header>
+          <Card.Header as="h3" style={{ maxHeight: '28px', overflow: 'hidden' }}>{props.recipe.name}</Card.Header>
           <div>
             <Rating
               icon="star"
