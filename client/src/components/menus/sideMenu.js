@@ -7,12 +7,6 @@ class SideMenu extends React.Component {
   // Landing page is displayed when user is not loggedin and path is '/'
   state = { activeItem: window.location.pathname };
 
-  componentDidUpdate() {
-    if (window.location.pathname !== this.state.activeItem) {
-      this.setState({ activeItem: window.location.pathname })
-    }
-  }
-
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
   };
