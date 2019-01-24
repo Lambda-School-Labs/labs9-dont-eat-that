@@ -71,7 +71,14 @@ export const editRecipe = (id, recipe) => (dispatch, getState) => {
   const firebaseid = localStorage.getItem('uid');
   const { name, description, imageUrl, ingredients } = recipe;
   const recipes = getState().recipesReducer.recipes.map(oldRecipe => {
-    return oldRecipe.id === id ? recipe : oldRecipe;
+    return `${oldRecipe.id}` === id
+      ? {
+          ...recipe,
+          id: oldRecipe.id,
+          ratings: oldRecipe.ratings,
+          user_id: oldRecipe.user_id
+        }
+      : oldRecipe;
   });
   axios
     .put(`${URL}/api/recipes/edit/${id}`, {

@@ -57,7 +57,7 @@ class AddNewRecipeForm extends Component {
       name: this.props.recipe ? this.props.recipe.name : '',
       description: this.props.recipe ? this.props.recipe.description : '',
       selectedFile: null,
-      imageUrl: '',
+      imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
