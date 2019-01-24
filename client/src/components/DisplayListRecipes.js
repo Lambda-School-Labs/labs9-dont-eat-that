@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon, Button, Header } from 'semantic-ui-react';
+import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
 
 import {
   getAllRecipes,
   getOwnRecipes,
   getForeignRecipes,
+  getUser,
   getAllergies
 } from '../actions';
 
@@ -52,6 +53,7 @@ class DisplayListRecipes extends Component {
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getUser();
     this.props.getAllergies();
   }
 
@@ -117,18 +119,20 @@ class DisplayListRecipes extends Component {
     return (
       <RecipeListPage>
         <Segment
-          inverted
-          color="grey"
-          style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
+          style={{
+            width: '95%',
+            marginLeft: '2.5%',
+            fontFamily: 'Roboto',
+            padding: '10px 0 0 0'
+          }}
         >
-          <Form inverted>
-            <Form.Group inline className="flexWrapCenter">
+          <Form>
+            <Form.Group inline className='flexWrapCenter'>
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
               />
               {localStorage.getItem('uid') && (
-
                 <CheckboxElement>
                   <Form.Field inline>
                     <input
@@ -141,29 +145,34 @@ class DisplayListRecipes extends Component {
                     <label htmlFor='personalCheck'>See your own recipes</label>
                   </Form.Field>
                 </CheckboxElement>
-
               )}
             </Form.Group>
           </Form>
         </Segment>
-        <Header as="h1">Recipes</Header>
-
-        {this.props.user.subscriptionid && (
-          <Button
-            color="blue"
-            onClick={() => {
-              downloadRecipeToCSV(this.state.displayedRecipes);
-            }}
-          >
-            {' '}
-            Download Recipes{' '}
-          </Button>
-        )}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
+            Recipes
+          </Header>
+          {this.props.user.subscriptionid && (
+            <Icon
+              name='download'
+              size='large'
+              onClick={() => downloadRecipeToCSV(this.state.displayedRecipes)}
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+        </div>
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
               style={{ width: '200px', height: '200px', margin: '10px' }}
-              color="olive"
+              color='olive'
             >
               <Card.Content
                 style={{
@@ -175,7 +184,7 @@ class DisplayListRecipes extends Component {
               >
                 <Card.Header>Create a Recipe</Card.Header>
                 <Card.Description>
-                  <Icon name="plus circle" size="big" />
+                  <Icon name='plus circle' size='big' />
                 </Card.Description>
               </Card.Content>
             </Card>
@@ -199,5 +208,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies }
+  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
 )(DisplayListRecipes);

@@ -93,7 +93,7 @@ const TopMenu = props => {
           : {padding: '5px', paddingRight: '15px', display: 'flex', alignItems: 'center'}}
         >
           {SiteIcon}
-          Home
+          Don't Eat That
         </Menu.Item>
       </NavLink>
       <Menu.Menu position="right">
