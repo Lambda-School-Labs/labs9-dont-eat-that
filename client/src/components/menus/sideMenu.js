@@ -14,6 +14,10 @@ class SideMenu extends React.Component {
   };
 
   componentDidMount() {
+    // below setInterval is to detect URL changes and make sure the side menu focus is
+    // on right menu.
+    // without this, URL changes from create/delete recipe won't change the focus of side menu
+    // so the focus would be in wrong menu
     setInterval(() => {
       if (this.state.activeItem !== window.location.pathname) {
         this.setState({ activeItem: window.location.pathname });
