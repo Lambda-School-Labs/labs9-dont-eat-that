@@ -5,9 +5,7 @@ import { Menu, Responsive } from 'semantic-ui-react';
 class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
   // Landing page is displayed when user is not loggedin and path is '/'
-  state = {
-    activeItem: window.location.pathname
-  };
+  state = { activeItem: window.location.pathname };
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
