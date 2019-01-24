@@ -40,6 +40,8 @@ const EditRecipeFormDiv = styled.div`
   width: 95%;
   margin-left: 2.5%;
 
+  font-family: Roboto;
+
   .quill-div {
     min-height: 150px;
   }
@@ -57,7 +59,7 @@ class AddNewRecipeForm extends Component {
       name: this.props.recipe ? this.props.recipe.name : '',
       description: this.props.recipe ? this.props.recipe.description : '',
       selectedFile: null,
-      imageUrl: '',
+      imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
@@ -391,7 +393,7 @@ class AddNewRecipeForm extends Component {
       return (
         <EditRecipeFormDiv>
           <Segment inverted color='orange'>
-            <Header as='h1' style={{ color: 'white' }}>
+            <Header as='h1' color='white'>
               Edit Recipe
             </Header>
             <Form
@@ -400,9 +402,8 @@ class AddNewRecipeForm extends Component {
               size='tiny'
               inverted
             >
-              <Form.Group widths='equal'>
+              <Form.Group widths='equal' style={{ display: 'flex', alignItems: 'flex-end' }}>
                 <Form.Field width='6'>
-                  <label htmlFor='recipe-name'>Name</label>
                   <input
                     type='text'
                     placeholder='Recipe Name'
@@ -427,15 +428,13 @@ class AddNewRecipeForm extends Component {
               </Form.Group>
               {ingredientRows}
 
-              <div>Drop Image here</div>
-
               <FileDrop
                 selectedFile={this.state.selectedFile}
                 handleFileUpload={this.handleFileUpload}
                 handleInputSelectedFile={this.handleInputSelectedFile}
               />
 
-              <div className='quill-div'>
+              <div className='quill-div' style={{ marginTop: '14px', marginBottom: '14px' }}>
                 <ReactQuill
                   value={this.state.description}
                   onChange={html => this.quillHandler(html)}
@@ -454,9 +453,22 @@ class AddNewRecipeForm extends Component {
                   submitting a recipe!
                 </p>
               )}
-              <Form.Button type='submit' style={{ marginTop: '20px' }}>
-                Save Recipe
-              </Form.Button>
+              {localStorage.getItem('uid') ? (
+                !this.state.name || !this.state.description || !this.state.ingredients[0].name || !this.state.ingredients[0].quantity ? (
+                  <Form.Button type="submit" disabled>
+                    Save Recipe
+                  </Form.Button>
+                ) : (
+                  <Form.Button type="submit">Save Recipe</Form.Button>
+                )
+              ) : (
+                <React.Fragment>
+                  <Form.Button type="submit" disabled>
+                    Save Recipe
+                  </Form.Button>
+                  <p>Please Log In to Add a Recipe!</p>
+                </React.Fragment>
+              )}
             </Form>
           </Segment>
         </EditRecipeFormDiv>
