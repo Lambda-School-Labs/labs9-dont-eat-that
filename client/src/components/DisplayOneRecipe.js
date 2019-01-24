@@ -28,7 +28,7 @@ const DisplayOneRecipe = props => {
     >
       <Card
         style={{
-          border: props.allergy ? `10px solid red` : null,
+          boxShadow: props.allergy ? `0 0 3px 5px red` : null,
           width: '200px',
           height: '200px',
           margin: '10px',
