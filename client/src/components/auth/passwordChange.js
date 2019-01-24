@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Header, Segment } from 'semantic-ui-react';
+import { Form, Button, Header, Segment, Input } from 'semantic-ui-react';
 
 import { withFirebase } from '../firebase';
 
@@ -43,17 +43,20 @@ class PasswordChangeForm extends Component {
     const { passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
-
+    // disabled for inactive
     return (
       <Segment
-        color="grey"
-        inverted
+        basic
+        color="black"
+        // inverted
         style={{ width: '95%', marginLeft: '2.5%' }}
       >
-        <Form inverted onSubmit={this.onSubmit}>
+        <Form onSubmit={this.onSubmit}>
           <Header as="h3">Password Reset</Header>
           <Form.Field>
-            <input
+            <Input
+              focus
+              color="black"
               name="passwordOne"
               value={passwordOne}
               onChange={this.onChange}
@@ -62,7 +65,9 @@ class PasswordChangeForm extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <input
+            <Input
+              focus
+              color="black"
               name="passwordTwo"
               value={passwordTwo}
               onChange={this.onChange}
