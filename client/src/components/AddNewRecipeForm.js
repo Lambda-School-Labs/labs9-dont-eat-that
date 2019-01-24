@@ -36,6 +36,8 @@ const AddNewRecipeFormDiv = styled.div`
   width: 95%;
   margin-left: 2.5%;
 
+  font-family: Roboto;
+
   .quill-div {
     min-height: 150px;
   }
@@ -349,7 +351,7 @@ class AddNewRecipeForm extends Component {
     return (
       <AddNewRecipeFormDiv>
         <Segment inverted color="orange">
-          <Header as="h1" style={{ color: 'white' }}>
+          <Header as="h1" color="white">
             Upload New Recipe
           </Header>
           <Form
@@ -358,9 +360,8 @@ class AddNewRecipeForm extends Component {
             size="tiny"
             inverted
           >
-            <Form.Group widths="equal">
+            <Form.Group widths="equal" style={{ display: 'flex', alignItems: 'flex-end' }}>
               <Form.Field width="12">
-                <label htmlFor="recipe-name">Name</label>
                 <input
                   type="text"
                   placeholder="Recipe Name"
@@ -385,16 +386,13 @@ class AddNewRecipeForm extends Component {
             </Form.Group>
             {ingredientRows}
 
-            <div>Drop Image here</div>
-            {/* handleFileUpload={this.props.handleFileUpload} */}
-
             <FileDrop
               selectedFile={this.state.selectedFile}
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
             />
 
-            <Form.Field className="quill-div" width="16">
+            <Form.Field className="quill-div" width="16" style={{ marginTop: '14px', marginBottom: '14px' }}>
               <ReactQuill
                 value={this.state.description}
                 onChange={html => this.quillHandler(html)}
