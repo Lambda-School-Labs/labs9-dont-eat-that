@@ -434,7 +434,7 @@ class AddNewRecipeForm extends Component {
                 handleInputSelectedFile={this.handleInputSelectedFile}
               />
 
-              <div className='quill-div' style={{ marginTop: '14px' }}>
+              <div className='quill-div' style={{ marginTop: '14px', marginBottom: '14px' }}>
                 <ReactQuill
                   value={this.state.description}
                   onChange={html => this.quillHandler(html)}
