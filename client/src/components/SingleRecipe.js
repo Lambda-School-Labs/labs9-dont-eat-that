@@ -156,7 +156,10 @@ class SingleRecipe extends React.Component {
                 console.log('boolarr', boolArr);
                 if (boolArr.includes(true)) {
                   return (
-                    <li key={ingr.name} style={{ background: 'red' }}>{`${
+                    <li key={ingr.name} style={{ 
+                        background: 'rgba(255,0,0,0.75)',
+                        boxShadow: '0 0 3px rgba(255,0,0,0.75)' 
+                      }}>{`${
                       ingr.quantity
                     } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
                   );
