@@ -6,33 +6,29 @@ import { Button, Form, Popup } from 'semantic-ui-react';
 
 const FileDrop = props => {
   return (
-    <Form.Group widths='equal' style={{ display: 'flex', justifyContent: 'space-between', marginTop: '14px' }}>
-      {/* <Form.Field> */}
-        <input
-          type="file"
-          name="myFile"
-          onChange={props.handleInputSelectedFile}
-          style={{ marginLeft: '7px', marginRight: '7px', width: '78%' }}
-        />
-        <Popup
-          trigger={
-            <Button
-              onClick={props.handleFileUpload}
-              style={{ marginRight: '8px', marginLeft: '7px', width: '20%', minWidth: '100px' }}
-            >
-              Upload Image
-            </Button>
-          }
-          content={
-            props.selectedFile
-              ? 'Image Upload completed!'
-              : 'No image was uploaded.'
-          }
-          on="click"
-          // style={{ width: '25%' }}
-        />
-      {/* </Form.Field> */}
-    </Form.Group>
+    <Form.Field>
+      <input
+        type="file"
+        name="myFile"
+        onChange={props.handleInputSelectedFile}
+      />
+      <Popup
+        trigger={
+          <Button
+            onClick={props.handleFileUpload}
+            style={{ marginTop: '15px' }}
+          >
+            Upload Image
+          </Button>
+        }
+        content={
+          props.selectedFile
+            ? 'Image Upload completed!'
+            : 'No image was uploaded.'
+        }
+        on="click"
+      />
+    </Form.Field>
   );
 };
 
