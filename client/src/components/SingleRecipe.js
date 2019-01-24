@@ -152,8 +152,6 @@ class SingleRecipe extends React.Component {
                 const boolArr = this.props.user.allergies.map(allergy =>
                   ingr.name.includes(allergy.name)
                 );
-                console.log(this.props.user.allergies);
-                console.log('boolarr', boolArr);
                 if (boolArr.includes(true)) {
                   return (
                     <li key={ingr.name} style={{ background: 'red' }}>{`${
@@ -180,7 +178,6 @@ class SingleRecipe extends React.Component {
             {Parser(recipe.description)}
           </Segment>
         </div>
-        ;
       </React.Fragment>
     );
   };
