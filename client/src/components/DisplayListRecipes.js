@@ -21,17 +21,16 @@ const RecipeListPage = styled.div`
   form {
     margin-top: 4px;
   }
-  h1 {
-    font-size: 2rem;
-    margin-top: 15px;
-    margin-bottom: 5px;
-  }
 `;
 
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+`;
+
+const CheckboxElement = styled.div`
+  margin-top: 15px;
 `;
 
 class DisplayListRecipes extends Component {
@@ -62,7 +61,7 @@ class DisplayListRecipes extends Component {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
-          allergy => allergy === ingredient.name // seeing if any allergies in one ingredient
+          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
         );
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
@@ -129,16 +128,20 @@ class DisplayListRecipes extends Component {
                 handleInputChange={this.handleInputChange}
               />
               {localStorage.getItem('uid') && (
-                <Form.Field inline>
-                  <input
-                    type="checkbox"
-                    id="personalCheck"
-                    name="personalCheck"
-                    onChange={this.checkHandler}
-                    checked={this.state.personalCheck}
-                  />
-                  <label htmlFor="personalCheck">See your own recipes</label>
-                </Form.Field>
+
+                <CheckboxElement>
+                  <Form.Field inline>
+                    <input
+                      type='checkbox'
+                      id='personalCheck'
+                      name='personalCheck'
+                      onChange={this.checkHandler}
+                      checked={this.state.personalCheck}
+                    />
+                    <label htmlFor='personalCheck'>See your own recipes</label>
+                  </Form.Field>
+                </CheckboxElement>
+
               )}
             </Form.Group>
           </Form>
@@ -157,8 +160,11 @@ class DisplayListRecipes extends Component {
           </Button>
         )}
         <DisplayListDiv>
-          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
-            <Card style={{ width: '200px', height: '200px', margin: '10px' }} color='olive'>
+          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+            <Card
+              style={{ width: '200px', height: '200px', margin: '10px' }}
+              color="olive"
+            >
               <Card.Content
                 style={{
                   display: 'flex',

@@ -27,13 +27,15 @@ export const recipesReducer = (state = initialState, action) => {
     case actionTypes.EDIT_RECIPE:
       return {
         ...state,
-        recipe: action.payload.recipe,
+        recipe: { ...state.recipe, ...action.payload.recipe },
         recipes: action.payload.recipes
       };
     case actionTypes.DELETE_RECIPE:
       return { ...state, recipes: action.payload };
     case actionTypes.RATING_CHANGE:
       return { ...state, recipe: { ...state.recipe, ratings: action.payload } };
+    case actionTypes.REMOVE_USER:
+      return initialState;
     case actionTypes.ERROR:
       return {
         ...state,
@@ -42,5 +44,5 @@ export const recipesReducer = (state = initialState, action) => {
       };
     default:
       return state;
-  } 
+  }
 };

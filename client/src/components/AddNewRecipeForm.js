@@ -162,6 +162,7 @@ class AddNewRecipeForm extends Component {
     this.setState({
       name: '',
       description: '',
+      imageUrl: '',
       ingredients: [emptyIng, emptyIng, emptyIng]
     });
     this.props.history.push('/recipes');
@@ -253,17 +254,22 @@ class AddNewRecipeForm extends Component {
 
   handleFileUpload = ev => {
     ev.preventDefault();
-    const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
-    const formData = new FormData();
-    formData.append('image', this.state.selectedFile[0]);
-    axios
-      .post(URL, formData)
-      .then(res => {
-        this.setState({ imageUrl: res.data.imageUrl });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    //if user clicks upload with no image this will catch that and not break the code
+    if (!this.state.selectedFile || !this.state.selectedFile[0]) {
+      this.setState({ imageUrl: '' });
+    } else {
+      const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
+      const formData = new FormData();
+      formData.append('image', this.state.selectedFile[0]);
+      axios
+        .post(URL, formData)
+        .then(res => {
+          this.setState({ imageUrl: res.data.imageUrl });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   };
 
   handleInputSelectedFile = ev => {
@@ -380,6 +386,7 @@ class AddNewRecipeForm extends Component {
             {ingredientRows}
 
             <div>Drop Image here</div>
+            {/* handleFileUpload={this.props.handleFileUpload} */}
 
             <FileDrop
               selectedFile={this.state.selectedFile}
@@ -407,7 +414,13 @@ class AddNewRecipeForm extends Component {
               </p>
             )}
             {localStorage.getItem('uid') ? (
-              <Form.Button type="submit">Save Recipe</Form.Button>
+              !this.state.name || !this.state.description || !this.state.ingredients[0].name || !this.state.ingredients[0].quantity ? (
+                <Form.Button type="submit" disabled>
+                  Save Recipe
+                </Form.Button>
+              ) : (
+                <Form.Button type="submit">Save Recipe</Form.Button>
+              )
             ) : (
               <React.Fragment>
                 <Form.Button type="submit" disabled>
