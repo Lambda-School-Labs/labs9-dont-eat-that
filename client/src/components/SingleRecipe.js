@@ -148,11 +148,26 @@ class SingleRecipe extends React.Component {
           </Header>
           <Segment attached textAlign="left">
             <ul>
-              {recipe.ingredients.map(ingr => (
-                <li key={ingr.name}>{`${ingr.quantity} ${
-                  ingr.unit ? ingr.unit : ''
-                } ${ingr.name}`}</li>
-              ))}
+              {recipe.ingredients.map(ingr => {
+                const boolArr = this.props.user.allergies.map(allergy =>
+                  ingr.name.includes(allergy.name)
+                );
+                console.log(this.props.user.allergies);
+                console.log('boolarr', boolArr);
+                if (boolArr.includes(true)) {
+                  return (
+                    <li key={ingr.name} style={{ background: 'red' }}>{`${
+                      ingr.quantity
+                    } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
+                  );
+                } else {
+                  return (
+                    <li key={ingr.name}>{`${ingr.quantity} ${
+                      ingr.unit ? ingr.unit : ''
+                    } ${ingr.name}`}</li>
+                  );
+                }
+              })}
             </ul>
           </Segment>
         </div>

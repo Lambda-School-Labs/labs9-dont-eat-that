@@ -194,7 +194,7 @@ router.post('/create', async (req, res) => {
         })
       );
       const newRecipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
-        .where({ id: id })
+        .where({ id: recipe[0] })
         .first();
       const ratings = await db('ratings').where({ recipe_id: newRecipe.id });
       const ingredientList = await db('ingredients')
@@ -204,7 +204,7 @@ router.post('/create', async (req, res) => {
           'recipes-ingredients.ingredient_id'
         )
         .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
-        .where({ 'recipes.id': id })
+        .where({ 'recipes.id': recipe[0] })
         .select(
           'ingredients.name',
           'recipes-ingredients.quantity',

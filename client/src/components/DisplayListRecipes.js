@@ -61,7 +61,7 @@ class DisplayListRecipes extends Component {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
-          allergy => allergy === ingredient.name // seeing if any allergies in one ingredient
+          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
         );
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
@@ -118,16 +118,17 @@ class DisplayListRecipes extends Component {
       <RecipeListPage>
         <Segment
           inverted
-          color='grey'
+          color="grey"
           style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
         >
           <Form inverted>
-            <Form.Group inline className='flexWrapCenter'>
+            <Form.Group inline className="flexWrapCenter">
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
               />
               {localStorage.getItem('uid') && (
+
                 <CheckboxElement>
                   <Form.Field inline>
                     <input
@@ -140,15 +141,16 @@ class DisplayListRecipes extends Component {
                     <label htmlFor='personalCheck'>See your own recipes</label>
                   </Form.Field>
                 </CheckboxElement>
+
               )}
             </Form.Group>
           </Form>
         </Segment>
-        <Header as='h1'>Recipes</Header>
+        <Header as="h1">Recipes</Header>
 
         {this.props.user.subscriptionid && (
           <Button
-            color='blue'
+            color="blue"
             onClick={() => {
               downloadRecipeToCSV(this.state.displayedRecipes);
             }}
@@ -158,11 +160,10 @@ class DisplayListRecipes extends Component {
           </Button>
         )}
         <DisplayListDiv>
-
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
               style={{ width: '200px', height: '200px', margin: '10px' }}
-              color='olive'
+              color="olive"
             >
               <Card.Content
                 style={{
@@ -174,7 +175,7 @@ class DisplayListRecipes extends Component {
               >
                 <Card.Header>Create a Recipe</Card.Header>
                 <Card.Description>
-                  <Icon name='plus circle' size='big' />
+                  <Icon name="plus circle" size="big" />
                 </Card.Description>
               </Card.Content>
             </Card>
