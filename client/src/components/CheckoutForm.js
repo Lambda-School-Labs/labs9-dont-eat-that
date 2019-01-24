@@ -136,6 +136,18 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
+            <Table.Cell>Export Recipes to Spreadsheet</Table.Cell>
+            <Table.Cell textAlign="center">
+              <Icon name="close" />
+            </Table.Cell>
+            <Table.Cell textAlign="center">
+              <Icon name="checkmark" />
+            </Table.Cell>
+            <Table.Cell textAlign="center">
+              <Icon name="checkmark" />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
             <Table.Cell>Select Plan</Table.Cell>
             <Table.Cell textAlign="center">
               <Icon name="close" />
@@ -266,6 +278,18 @@ class CheckoutForm extends React.Component {
           </Table.Row>
           <Table.Row>
             <Table.Cell>Nutritional Analysis</Table.Cell>
+            <Table.Cell textAlign="center">
+              Dishwasher: <Icon name="close" />
+            </Table.Cell>
+            <Table.Cell textAlign="center">
+              Line Cook: <Icon name="checkmark" />
+            </Table.Cell>
+            <Table.Cell textAlign="center">
+              Executive Chef: <Icon name="checkmark" />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>Export Recipes to Spreadsheet</Table.Cell>
             <Table.Cell textAlign="center">
               Dishwasher: <Icon name="close" />
             </Table.Cell>
