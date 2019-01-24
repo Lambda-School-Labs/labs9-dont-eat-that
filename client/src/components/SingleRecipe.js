@@ -82,6 +82,7 @@ class SingleRecipe extends React.Component {
                   this.props.history.push('/recipes');
                 }}
                 size='large'
+                style={{ cursor: 'pointer' }}
               />
             )}
           {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
@@ -90,11 +91,17 @@ class SingleRecipe extends React.Component {
               name='download'
               size='large'
               onClick={() => downloadRecipeToCSV(recipe)}
+              style={{ cursor: 'pointer' }}
             />
           )}
           {recipe.user_id === this.props.user.id && (
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-              <Icon name='edit' color='green' size='large' />
+              <Icon
+                name='edit'
+                color='green'
+                size='large'
+                style={{ cursor: 'pointer' }}
+              />
             </Link>
           )}
           {recipe.user_id === this.props.user.id && (
@@ -103,6 +110,7 @@ class SingleRecipe extends React.Component {
               color='red'
               size='large'
               onClick={this.deleteRecipe}
+              style={{ cursor: 'pointer' }}
             />
           )}
         </Segment>
