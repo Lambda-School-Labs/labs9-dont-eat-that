@@ -20,7 +20,7 @@ class Settings extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   onAddAllergy = e => {
-    this.props.addAllergy(this.state.allergy);
+    this.props.addAllergy(this.state.allergy.toLowerCase());
     this.setState({ allergy: '' });
   };
 

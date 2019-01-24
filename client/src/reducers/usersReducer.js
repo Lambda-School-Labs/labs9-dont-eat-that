@@ -47,6 +47,8 @@ export const usersReducer = (state = initialState, action) => {
           allergies: action.payload
         }
       };
+    case actionTypes.CANCEL_SUB:
+      return { ...state, user: { ...state.user, subscriptionid: null } };
     case actionTypes.ERROR:
       return { ...state, error: action.payload };
     default:

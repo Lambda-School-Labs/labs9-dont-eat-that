@@ -34,6 +34,8 @@ export const recipesReducer = (state = initialState, action) => {
       return { ...state, recipes: action.payload };
     case actionTypes.RATING_CHANGE:
       return { ...state, recipe: { ...state.recipe, ratings: action.payload } };
+    case actionTypes.REMOVE_USER:
+      return initialState;
     case actionTypes.ERROR:
       return {
         ...state,
