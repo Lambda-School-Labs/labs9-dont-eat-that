@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, Header, Icon, Responsive, Segment } from 'semantic-ui-react';
+import { Button, Header, Icon, Responsive } from 'semantic-ui-react';
 // import { url } from 'inspector';
 
 const LandingDiv = styled.div`
@@ -27,8 +27,7 @@ const Landing = props => {
       textAlign: 'left',
       fontWeight: 'bold',
       fontSize: '9rem',
-      margin: '10px 0 0 5%',
-      lineHeight: '1.2'
+      margin: '10px 0 0 5%'
     };
   };
   const headerStyles2 = () => {
@@ -41,7 +40,6 @@ const Landing = props => {
     };
   };
   return (
-    // <LandingDiv style={{ border: '1px solid red' }}>
     <LandingDiv>
       <Responsive style={{ height: '90vh' }} minWidth={501}>
         <Header as="h1" style={headerStyles1()}>
@@ -67,7 +65,7 @@ const Landing = props => {
           <Icon name="long arrow alternate down" size="huge" />
         </ArrowDiv>
       </Responsive>
-      <Segment inverted color='blue' style={{ paddingBottom: '100px', fontFamily: 'Roboto' }}>
+      <div style={{ background: 'white', width: '100%', fontFamily: 'Roboto' }}>
         <p>
           Do you have trouble finding recipes that meet your dietary needs and
           avoid your allergens? Don't Eat That is the app for you! Here you can
@@ -77,7 +75,7 @@ const Landing = props => {
         <Button onClick={e => props.history.push('/recipes')}>
           Enter the Site!
         </Button>
-      </Segment>
+      </div>
     </LandingDiv>
   );
 };
