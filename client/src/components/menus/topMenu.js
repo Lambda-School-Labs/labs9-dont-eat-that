@@ -80,10 +80,21 @@ const TopMenu = props => {
     );
   }
 
+  const SiteIcon = window.location.pathname === '/' 
+    ? null 
+    : <img src={require('../../images/forbidden-cake.png')} alt='site icon' style={{marginRight: '10px'}} />
+
   return (
     <Menu className="topMenu" size="small" color="blue" inverted>
       <NavLink to="/">
-        <Menu.Item>Home</Menu.Item>
+        <Menu.Item style={
+          window.location.pathname === '/'
+          ? {}
+          : {padding: '5px', paddingRight: '15px', display: 'flex', alignItems: 'center'}}
+        >
+          {SiteIcon}
+          Home
+        </Menu.Item>
       </NavLink>
       <Menu.Menu position="right">
         {displaySignUp}
