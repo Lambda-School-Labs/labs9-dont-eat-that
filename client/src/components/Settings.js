@@ -20,7 +20,7 @@ class Settings extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   onAddAllergy = e => {
-    this.props.addAllergy(this.state.allergy);
+    this.props.addAllergy(this.state.allergy.toLowerCase());
     this.setState({ allergy: '' });
   };
 
@@ -29,7 +29,7 @@ class Settings extends React.Component {
       return (
         <div>
           <Header as="h1">Settings</Header>
-          <PasswordChangeForm />
+          {localStorage.getItem('uid') && <PasswordChangeForm />}
           <Header
             as="h3"
             color="red"
@@ -84,7 +84,16 @@ class Settings extends React.Component {
                   onChange={this.onChange}
                 />
               </Form.Field>
-              <Button onClick={this.onAddAllergy}>Add Allergy</Button>
+              {localStorage.getItem('uid') ? (
+                <Button onClick={this.onAddAllergy}>Add Allergy</Button>
+              ) : (
+                <React.Fragment>
+                  <Button onClick={this.onAddAllergy} disabled>
+                    Add Allergy
+                  </Button>
+                  <p>Please Login to Add an Allergy!</p>
+                </React.Fragment>
+              )}
             </Form>
           </Segment>
         </div>
