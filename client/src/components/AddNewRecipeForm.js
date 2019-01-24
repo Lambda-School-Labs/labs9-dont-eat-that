@@ -362,7 +362,6 @@ class AddNewRecipeForm extends Component {
           >
             <Form.Group widths="equal" style={{ display: 'flex', alignItems: 'flex-end' }}>
               <Form.Field width="12">
-                {/* <label htmlFor="recipe-name">Name</label> */}
                 <input
                   type="text"
                   placeholder="Recipe Name"
