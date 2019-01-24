@@ -60,6 +60,7 @@ class AddNewRecipeForm extends Component {
       description: this.props.recipe ? this.props.recipe.description : '',
       selectedFile: null,
       imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
+      imageReady: false,
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
@@ -311,7 +312,8 @@ class AddNewRecipeForm extends Component {
       axios
         .post(URL, formData)
         .then(res => {
-          this.setState({ imageUrl: res.data.imageUrl });
+          this.setState({ imageUrl: res.data.imageUrl, imageReady: true });
+          alert('Image ready to upload!');
         })
         .catch(err => {
           console.log(err);
@@ -402,7 +404,10 @@ class AddNewRecipeForm extends Component {
               size='tiny'
               inverted
             >
-              <Form.Group widths='equal' style={{ display: 'flex', alignItems: 'flex-end' }}>
+              <Form.Group
+                widths='equal'
+                style={{ display: 'flex', alignItems: 'flex-end' }}
+              >
                 <Form.Field width='6'>
                   <input
                     type='text'
@@ -434,7 +439,10 @@ class AddNewRecipeForm extends Component {
                 handleInputSelectedFile={this.handleInputSelectedFile}
               />
 
-              <div className='quill-div' style={{ marginTop: '14px', marginBottom: '14px' }}>
+              <div
+                className='quill-div'
+                style={{ marginTop: '14px', marginBottom: '14px' }}
+              >
                 <ReactQuill
                   value={this.state.description}
                   onChange={html => this.quillHandler(html)}
@@ -454,16 +462,19 @@ class AddNewRecipeForm extends Component {
                 </p>
               )}
               {localStorage.getItem('uid') ? (
-                !this.state.name || !this.state.description || !this.state.ingredients[0].name || !this.state.ingredients[0].quantity ? (
-                  <Form.Button type="submit" disabled>
+                !this.state.name ||
+                !this.state.description ||
+                !this.state.ingredients[0].name ||
+                !this.state.ingredients[0].quantity ? (
+                  <Form.Button type='submit' disabled>
                     Save Recipe
                   </Form.Button>
                 ) : (
-                  <Form.Button type="submit">Save Recipe</Form.Button>
+                  <Form.Button type='submit'>Save Recipe</Form.Button>
                 )
               ) : (
                 <React.Fragment>
-                  <Form.Button type="submit" disabled>
+                  <Form.Button type='submit' disabled>
                     Save Recipe
                   </Form.Button>
                   <p>Please Log In to Add a Recipe!</p>
