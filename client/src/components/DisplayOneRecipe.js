@@ -6,10 +6,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating, Card, Image } from 'semantic-ui-react';
+
 import ourColors from '../ColorScheme.js';
 
 import defaultImage from '../images/defaultimage.jpeg';
-import ourColors from '../ColorScheme';
 
 const DisplayOneRecipe = props => {
   const ratingsFunc = recipe => {
