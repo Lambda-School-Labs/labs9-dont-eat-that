@@ -45,14 +45,58 @@ import React, { Component } from 'react';
 import { Button, Form, Popup } from 'semantic-ui-react';
 import { Component } from 'react';
 
-class DragAndDropFile extends Component {
+class DragAndDropFile extends Component{
   constructor() {
     super();
     this.state = {
       dragging: false,
       file: null,
     };
-  }
-
   
+  
+  }
+  
+dragLeaveListener = ev => {
+  this.overRideEventDefaults(ev);
+  this.dragEventCounter--;
+
+  if(this.dragEventCounter === 0) {
+    this.setState({dragging: false});
+  }
+};
+
+dropListener = ev => {
+  this.overRideEventDefaults(ev);
+  this.dragEventCounter = 0;
+  this.setState({dragging:false});
+
+  if(ev.dataTransfer.files && ev.dataTransfer.files[0]) {
+    this.setState({file: ev.dataTransfer.files[0]});
+
+  }
+};
+
+overRideEventDefaults = ev => {
+  ev.preventDefault();
+  ev.stopPropagation();
+
+};
+
+onSelectFileClick = () => {
+  this.fileUploaderInput && this.fileUploaderInput.click();
+};
+  
+onFileChanged = ev => {
+  if (ev.target.files && ev.target.files[0]) {
+    this.setState({file:ev.target.files[0]});
+  }
+};
+
+componentDidMount() {
+  
+}
+
+
+
+
 }
