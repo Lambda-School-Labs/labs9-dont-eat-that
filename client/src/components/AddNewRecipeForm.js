@@ -59,6 +59,7 @@ class AddNewRecipeForm extends Component {
       edamamAppId: '4747cfb2',
       edamamAppKey: process.env.REACT_APP_EDAMAMAPP_KEY
     };
+    
   }
 
   componentDidMount() {
@@ -395,6 +396,7 @@ class AddNewRecipeForm extends Component {
               handleInputSelectedFile={this.handleInputSelectedFile}
             /> */}
             <DragAndDropFile
+              selectedFile={this.state.selectedFile}
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
             />

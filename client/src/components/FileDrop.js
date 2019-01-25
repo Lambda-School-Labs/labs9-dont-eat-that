@@ -52,6 +52,7 @@ class DragAndDropFile extends Component{
       dragging: false,
       file: null,
     };
+ 
   
   
   }
@@ -87,6 +88,8 @@ onSelectFileClick = () => {
 };
   
 onFileChange = ev => {
+  
+  
   if (ev.target.files && ev.target.files[0]) {
     this.setState({file:ev.target.files[0]});
   }

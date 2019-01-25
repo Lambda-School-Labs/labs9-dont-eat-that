@@ -30,7 +30,7 @@ const FileDropFunc = props => {
             </span><br></br>
             <span>Drag & Drop File</span><br></br>
             <span>or</span><br></br>
-            <span onClick={props.onSelectFileClick}>Select File</span>
+            <div onClick={props.onSelectFileClick}>Select File</div>
         </div>
         {props.children}
 
