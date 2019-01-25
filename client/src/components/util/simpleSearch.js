@@ -4,7 +4,7 @@
 // and returns matching recipes
 
 import React, { Component } from 'react';
-import { Form, Input } from 'semantic-ui-react';
+import { Form, Input, Icon } from 'semantic-ui-react';
 
 class SimpleSearchInput extends Component {
   render() {
@@ -16,6 +16,7 @@ class SimpleSearchInput extends Component {
           value={this.props.query}
           name="query"
           placeholder="Search keyword or ingredient"
+          icon="search"
           style={{ width: '100%' }}
         />
       </Form.Field>
