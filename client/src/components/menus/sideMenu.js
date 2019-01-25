@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Responsive } from 'semantic-ui-react';
 
+import ourColors from '../../ColorScheme';
+
 class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
   // Landing page is displayed when user is not loggedin and path is '/'
@@ -37,7 +39,7 @@ class SideMenu extends React.Component {
             pointing
             vertical
             className='sideMenu'
-            style={{ background: '#AAA5A1' }}
+            style={{ background: ourColors.menuColor }}
           >
             <NavLink to='/recipes'>
               <Menu.Item

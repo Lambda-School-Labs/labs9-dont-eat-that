@@ -11,6 +11,7 @@ import {
 } from 'semantic-ui-react';
 
 import { chargeUser, cancelSubscription, getUser } from '../actions';
+import ourColors from '../ColorScheme';
 
 class CheckoutForm extends React.Component {
   state = {
@@ -32,19 +33,19 @@ class CheckoutForm extends React.Component {
           marginLeft: '2.5%',
           marginBottom: '15px',
           fontFamily: 'Roboto',
-          background: '#ffdf8b'
+          background: ourColors.formColor
         }}
       >
         <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell style={{ background: 'white' }} />
-            <Table.HeaderCell style={{ background: '#ffdf8b' }}>
+            <Table.HeaderCell style={{ background: ourColors.formColor }}>
               Dishwasher
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: '#ffdf8b' }}>
+            <Table.HeaderCell style={{ background: ourColors.formColor }}>
               Line Cook
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: '#ffdf8b' }}>
+            <Table.HeaderCell style={{ background: ourColors.formColor }}>
               Executive Chef
             </Table.HeaderCell>
           </Table.Row>
@@ -190,19 +191,19 @@ class CheckoutForm extends React.Component {
           marginLeft: '2.5%',
           marginBottom: '15px',
           fontFamily: 'Roboto',
-          background: '#ffdf8b'
+          background: ourColors.formColor
         }}
       >
         <Table.Header>
           <Table.Row textAlign='center'>
-            <Table.HeaderCell style={{ background: '#ffdf8b' }} />
-            <Table.HeaderCell style={{ background: '#ffdf8b' }}>
+            <Table.HeaderCell style={{ background: ourColors.formColor }} />
+            <Table.HeaderCell style={{ background: ourColors.formColor }}>
               Dishwasher
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: '#ffdf8b' }}>
+            <Table.HeaderCell style={{ background: ourColors.formColor }}>
               Line Cook
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: '#ffdf8b' }}>
+            <Table.HeaderCell style={{ background: ourColors.formColor }}>
               Executive Chef
             </Table.HeaderCell>
           </Table.Row>
@@ -362,7 +363,12 @@ class CheckoutForm extends React.Component {
         <Responsive minWidth={768}>{this.desktopTable()}</Responsive>
         <Responsive maxWidth={767}>{this.mobileTable()}</Responsive>
         <div style={{ width: '70%', marginLeft: '15%' }}>
-          <Header as='h3' attached='top' inverted style={{ color: '#ffdf8b' }}>
+          <Header
+            as='h3'
+            attached='top'
+            inverted
+            style={{ color: ourColors.formColor }}
+          >
             Pay with Card
           </Header>
           <Segment attached>
@@ -370,7 +376,10 @@ class CheckoutForm extends React.Component {
           </Segment>
         </div>
         <br />
-        <Button onClick={this.submit} style={{ background: '#ff7b6e' }}>
+        <Button
+          onClick={this.submit}
+          style={{ background: ourColors.buttonColor }}
+        >
           Subscribe
         </Button>
         <Button

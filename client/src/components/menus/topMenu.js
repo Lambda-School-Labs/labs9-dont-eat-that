@@ -2,6 +2,8 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Responsive } from 'semantic-ui-react';
 
+import ourColors from '../../ColorScheme';
+
 // TopMenu manages top part of display, showing login related menu
 // Depend on user's login status, active/inactive menu changes.
 
@@ -16,7 +18,7 @@ const TopMenu = props => {
             <NavLink to='/recipes'>
               <Dropdown.Item
                 style={{
-                  background: '#AAA5A1',
+                  background: ourColors.menuColor,
                   borderBottom: '1px solid black'
                 }}
               >
@@ -26,7 +28,7 @@ const TopMenu = props => {
             <NavLink to='/recipes/new'>
               <Dropdown.Item
                 style={{
-                  background: '#AAA5A1',
+                  background: ourColors.menuColor,
                   borderBottom: '1px solid black'
                 }}
               >
@@ -36,7 +38,7 @@ const TopMenu = props => {
             <NavLink to='/recipes/import'>
               <Dropdown.Item
                 style={{
-                  background: '#AAA5A1',
+                  background: ourColors.menuColor,
                   borderBottom: '1px solid black'
                 }}
               >
@@ -46,7 +48,7 @@ const TopMenu = props => {
             <NavLink to='/billing'>
               <Dropdown.Item
                 style={{
-                  background: '#AAA5A1',
+                  background: ourColors.menuColor,
                   borderBottom: '1px solid black'
                 }}
               >
@@ -54,7 +56,7 @@ const TopMenu = props => {
               </Dropdown.Item>
             </NavLink>
             <NavLink to='/settings'>
-              <Dropdown.Item style={{ background: '#AAA5A1' }}>
+              <Dropdown.Item style={{ background: ourColors.menuColor }}>
                 Settings
               </Dropdown.Item>
             </NavLink>
@@ -90,7 +92,11 @@ const TopMenu = props => {
     );
 
   return (
-    <Menu className='topMenu' size='small' style={{ background: '#AAA5A1' }}>
+    <Menu
+      className='topMenu'
+      size='small'
+      style={{ background: ourColors.menuColor }}
+    >
       <NavLink to='/'>
         <Menu.Item
           style={

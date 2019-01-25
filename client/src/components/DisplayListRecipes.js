@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
 
+import ourColors from '../ColorScheme';
+
 import {
   getAllRecipes,
   getOwnRecipes,
@@ -138,7 +140,7 @@ class DisplayListRecipes extends Component {
             marginLeft: '2.5%',
             fontFamily: 'Roboto',
             padding: '10px 0 0 0',
-            background: '#ffdf8b'
+            background: ourColors.formColor
           }}
         >
           <Form>
@@ -165,7 +167,7 @@ class DisplayListRecipes extends Component {
           </Form>
         </Segment>
         <div className='header-icons'>
-          <div className='dummy-for-flexbox'></div>
+          <div className='dummy-for-flexbox' />
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
