@@ -151,7 +151,7 @@ class DisplayListRecipes extends Component {
           }}
         >
           <Form>
-            <Form.Group className="topBarOptions">
+            <Form.Group className='topBarOptions'>
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
@@ -160,38 +160,38 @@ class DisplayListRecipes extends Component {
                 <CheckboxElement>
                   <Form.Field inline>
                     <input
-                      type="checkbox"
-                      id="personalCheck"
-                      name="personalCheck"
+                      type='checkbox'
+                      id='personalCheck'
+                      name='personalCheck'
                       onChange={this.checkHandler}
                       checked={this.state.personalCheck}
                     />
-                    <label htmlFor="personalCheck">See your own recipes</label>
+                    <label htmlFor='personalCheck'>See your own recipes</label>
                   </Form.Field>
                 </CheckboxElement>
               )}
             </Form.Group>
           </Form>
         </Segment>
-        <div className="header-icons">
-          <div className="dummy-for-flexbox" />
-          <Header as="h1" style={{ marginTop: '0', display: 'inline' }}>
+        <div className='header-icons'>
+          <div className='dummy-for-flexbox' />
+          <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
           {this.props.user.subscriptionid && (
             <Icon
-              name="download"
-              size="large"
+              name='download'
+              size='large'
               onClick={() => downloadRecipeToCSV(this.state.displayedRecipes)}
               style={{ cursor: 'pointer' }}
             />
           )}
         </div>
         <DisplayListDiv>
-          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
+          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
               style={{ width: '200px', height: '200px', margin: '10px' }}
-              color="blue"
+              color='blue'
             >
               <Card.Content
                 style={{
@@ -203,7 +203,7 @@ class DisplayListRecipes extends Component {
               >
                 <Card.Header>Create a Recipe</Card.Header>
                 <Card.Description>
-                  <Icon name="plus circle" size="big" />
+                  <Icon name='plus circle' size='big' />
                 </Card.Description>
               </Card.Content>
             </Card>
