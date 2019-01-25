@@ -43,15 +43,15 @@ const DisplayOneRecipe = props => {
         {props.recipe.imageUrl ? (
           <Image
             src={props.recipe.imageUrl}
-            style={{ maxHeight: '133.13px' }}
+            style={{ height: '133px' }}
           />
         ) : (
           <Image src={defaultImage} />
         )}
-        <Card.Content>
+        <Card.Content style={{ paddingTop: '4px' }}>
           <Card.Header
             as='h3'
-            style={{ maxHeight: '28px', overflow: 'hidden' }}
+            style={{ height: '45px', overflow: 'hidden', fontSize: '1.1rem' }}
           >
             {props.recipe.name}
           </Card.Header>
