@@ -4,7 +4,7 @@
 // and returns matching recipes
 
 import React, { Component } from 'react';
-import { Form, Input, Icon } from 'semantic-ui-react';
+import { Form, Input } from 'semantic-ui-react';
 
 class SimpleSearchInput extends Component {
   render() {

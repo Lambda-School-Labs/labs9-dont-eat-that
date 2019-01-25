@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
 import { Rating, Table, Header, Segment, Image, Icon } from 'semantic-ui-react';
+import styled from 'styled-components';
+
+import ourColors from '../ColorScheme';
 import {
   getRecipe,
   deleteRecipe,
@@ -13,6 +16,13 @@ import {
   ratingChange
 } from '../actions';
 import { downloadRecipeToCSV } from '../components/util';
+
+const ImageIngrDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin-left: 2.5%;
+`;
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
@@ -114,81 +124,74 @@ class SingleRecipe extends React.Component {
             />
           )}
         </Segment>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
-          <Header as='h1' style={{ marginBottom: '5px' }}>
-            {recipe.name}
+        <Header as='h1' style={{ marginBottom: '5px' }}>
+          {recipe.name}
+        </Header>
+        <div>
+          <Rating
+            icon='star'
+            size='huge'
+            rating={this.ratingsFunc(recipe)}
+            onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
+            maxRating={5}
+            disabled={!localStorage.getItem('uid')}
+          />
+          <Header as='h6' style={{ marginTop: '0px' }}>
+            {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
+            review(s)
           </Header>
-          <div>
-            <Rating
-              icon='star'
-              size='huge'
-              rating={this.ratingsFunc(recipe)}
-              onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
-              maxRating={5}
-              disabled={!localStorage.getItem('uid')}
-            />
-            <Header as='h6' style={{ marginTop: '0px' }}>
-              {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
-              review(s)
-            </Header>
-          </div>
+        </div>
+        <ImageIngrDiv>
           {recipe.imageUrl && (
             <Image
               src={recipe.imageUrl}
               size='medium'
               rounded
-              centered
               style={{ marginTop: '10px', maxHeight: '239.52px' }}
             />
           )}
-        </div>
-        <div
-          style={{
-            width: '95%',
-            marginLeft: '2.5%',
-            marginTop: '15px',
-            fontFamily: 'Roboto'
-          }}
-        >
-          <Header as='h3' attached='top' textAlign='left'>
-            Ingredients
-          </Header>
-          <Segment attached textAlign='left'>
-            <ul>
-              {recipe.ingredients.map(ingr => {
-                const boolArr = this.props.user.allergies.map(allergy =>
-                  ingr.name.includes(allergy.name)
-                );
-                if (boolArr.includes(true)) {
-                  return (
-                    <li
-                      key={ingr.name}
-                      style={{
-                        background: 'rgba(255,0,0,0.75)',
-                        boxShadow: '0 0 3px rgba(255,0,0,0.75)'
-                      }}
-                    >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
-                      ingr.name
-                    }`}</li>
+          <div
+            style={{
+              fontFamily: 'Roboto',
+              marginTop: '10px',
+              marginLeft: '10px',
+              flexGrow: 1,
+              alignSelf: 'stretch'
+            }}
+          >
+            <Header as='h3' attached='top' textAlign='left'>
+              Ingredients
+            </Header>
+            <Segment attached textAlign='left'>
+              <ul>
+                {recipe.ingredients.map(ingr => {
+                  const boolArr = this.props.user.allergies.map(allergy =>
+                    ingr.name.includes(allergy.name)
                   );
-                } else {
-                  return (
-                    <li key={ingr.name}>{`${ingr.quantity} ${
-                      ingr.unit ? ingr.unit : ''
-                    } ${ingr.name}`}</li>
-                  );
-                }
-              })}
-            </ul>
-          </Segment>
-        </div>
+                  if (boolArr.includes(true)) {
+                    return (
+                      <li
+                        key={ingr.name}
+                        style={{
+                          background: 'rgba(255,0,0,0.75)',
+                          boxShadow: '0 0 3px rgba(255,0,0,0.75)'
+                        }}
+                      >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
+                        ingr.name
+                      }`}</li>
+                    );
+                  } else {
+                    return (
+                      <li key={ingr.name}>{`${ingr.quantity} ${
+                        ingr.unit ? ingr.unit : ''
+                      } ${ingr.name}`}</li>
+                    );
+                  }
+                })}
+              </ul>
+            </Segment>
+          </div>
+        </ImageIngrDiv>
         <br />
         <div style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}>
           <Header as='h3' attached='top' textAlign='left'>
@@ -215,21 +218,28 @@ class SingleRecipe extends React.Component {
           <Table
             celled
             structured
-            color='blue'
-            style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
-            inverted
+            style={{
+              width: '95%',
+              marginLeft: '2.5%',
+              fontFamily: 'Roboto',
+              background: ourColors.formColor
+            }}
           >
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>
+                <Table.HeaderCell style={{ background: ourColors.formColor }}>
                   <Header as='h3'>Nutrition Facts</Header>
-                  <Segment vertical>Servings: {nutrition.yield}</Segment>
-                  <Segment vertical>Calories: {nutrition.calories}</Segment>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
+              <Table.Row>
+                <Table.Cell>Servings: {nutrition.yield}</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Calories: {nutrition.calories}</Table.Cell>
+              </Table.Row>
               <Table.Row>
                 <Table.Cell>
                   Diet Labels:{' '}
@@ -289,7 +299,7 @@ class SingleRecipe extends React.Component {
       );
     } else {
       return (
-        <Segment loading>
+        <Segment loading style={{ width: '95%', marginLeft: '2.5%' }}>
           <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
         </Segment>
       );

@@ -5,18 +5,16 @@ import { Form, Button, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import ourColors from '../ColorScheme.js';
+import ourColors from '../ColorScheme';
 
 const ImportRecipeDiv = styled.div`
   width: 95%;
   margin: 0 auto;
-
   p {
     font-family: Roboto;
     text-align: left;
-    width: 80%;
     max-width: 500px;
-    padding: 10px 27px 20px;
+    padding: 10px 27px 10px;
   }
 `;
 
@@ -89,7 +87,7 @@ class AddFromWeb extends Component {
             style={{ width: '95%', marginLeft: '2.5%' }}
           >
             <Form.Group>
-              <Form.Field width='10'>
+              <Form.Field width='12'>
                 <input
                   type="text"
                   name="targetUrl"
@@ -99,12 +97,12 @@ class AddFromWeb extends Component {
                 />
               </Form.Field>
               {localStorage.getItem('uid') ? (
-                <Button type="submit" width='2' style={{ background: ourColors.buttonColor, color: 'white' }}>
+                <Button type="submit" width='4' style={{ background: ourColors.buttonColor, color: 'white' }}>
                   Import Recipe
                 </Button>
               ) : (
                 <React.Fragment>
-                  <Button type="submit" disabled width='2' style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                  <Button type="submit" disabled width='4' style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
                     Import Recipe
                   </Button>
                   <p>Please Log In to Import a Recipe!</p>

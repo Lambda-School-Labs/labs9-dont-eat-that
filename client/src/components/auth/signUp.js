@@ -136,43 +136,43 @@ class SignUpFormBase extends Component {
         /> */}
             <Form.Field>
               <input
-                name="email"
+                name='email'
                 value={email}
                 onChange={this.onChange}
-                type="email"
-                placeholder="Email Address"
+                type='email'
+                placeholder='Email Address'
               />
             </Form.Field>
             <Form.Field>
               <input
-                name="passwordOne"
+                name='passwordOne'
                 value={passwordOne}
                 onChange={this.onChange}
-                type="password"
-                placeholder="Password"
+                type='password'
+                placeholder='Password'
               />
             </Form.Field>
             <Form.Field>
               <input
-                name="passwordTwo"
+                name='passwordTwo'
                 value={passwordTwo}
                 onChange={this.onChange}
-                type="password"
-                placeholder="Confirm Password"
+                type='password'
+                placeholder='Confirm Password'
               />
             </Form.Field>
 
             {error && <p>{error.message}</p>}
 
             {/* You can replace captchaDemo with any ref word */}
-            <Form.Field className="flexCenter">
+            <Form.Field className='flexCenter'>
               <ReCaptcha
                 ref={el => {
                   this.captchaDemo = el;
                 }}
-                size="normal"
-                data-theme="dark"
-                render="explicit"
+                size='normal'
+                data-theme='dark'
+                render='explicit'
                 sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
@@ -192,7 +192,7 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
   <p style={{ textAlign: 'center' }}>
-    Don't have an account? <Link to="/signup">Sign Up</Link>
+    Don't have an account? <Link to='/signup'>Sign Up</Link>
   </p>
 );
 

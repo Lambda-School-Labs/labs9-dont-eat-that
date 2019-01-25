@@ -39,38 +39,34 @@ class CheckoutForm extends React.Component {
         <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell style={{ background: 'white' }} />
-            <Table.HeaderCell style={{ background: ourColors.formColor }}>
+            <Table.HeaderCell
+              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+            >
               Dishwasher
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: ourColors.formColor }}>
+            <Table.HeaderCell
+              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+            >
               Line Cook
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: ourColors.formColor }}>
+            <Table.HeaderCell
+              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+            >
               Executive Chef
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           <Table.Row>
-            <Table.Cell>Cost</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>Cost</Table.Cell>
             <Table.Cell textAlign='center'>Free</Table.Cell>
             <Table.Cell textAlign='center'>$2/month</Table.Cell>
             <Table.Cell textAlign='center'>$10/year</Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Display Recipes</Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Display Recipes
             </Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
-            </Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Create/Edit Recipes</Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='checkmark' />
             </Table.Cell>
@@ -82,19 +78,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Copy Recipes</Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Create/Edit Recipes
             </Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
-            </Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Import Recipes</Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='checkmark' />
             </Table.Cell>
@@ -106,19 +92,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Recipe Reviews</Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Copy Recipes
             </Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
-            </Table.Cell>
-            <Table.Cell textAlign='center'>
-              <Icon name='checkmark' />
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Allergy Notifications</Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='checkmark' />
             </Table.Cell>
@@ -130,7 +106,51 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Nutritional Analysis</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Import Recipes
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Recipe Reviews
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Allergy Notifications
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+            <Table.Cell textAlign='center'>
+              <Icon name='checkmark' />
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Nutritional Analysis
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='close' />
             </Table.Cell>
@@ -142,7 +162,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Export Recipes to Spreadsheet</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Download Recipes
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='close' />
             </Table.Cell>
@@ -154,7 +176,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Select Plan</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Select Plan
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='close' />
             </Table.Cell>
@@ -197,26 +221,34 @@ class CheckoutForm extends React.Component {
         <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell style={{ background: ourColors.formColor }} />
-            <Table.HeaderCell style={{ background: ourColors.formColor }}>
+            <Table.HeaderCell
+              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+            >
               Dishwasher
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: ourColors.formColor }}>
+            <Table.HeaderCell
+              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+            >
               Line Cook
             </Table.HeaderCell>
-            <Table.HeaderCell style={{ background: ourColors.formColor }}>
+            <Table.HeaderCell
+              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+            >
               Executive Chef
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           <Table.Row>
-            <Table.Cell>Cost</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>Cost</Table.Cell>
             <Table.Cell textAlign='center'>Dishwasher: Free</Table.Cell>
             <Table.Cell textAlign='center'>Line Cook: $2/month</Table.Cell>
             <Table.Cell textAlign='center'>Executive Chef: $10/year</Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Display Recipes</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Display Recipes
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='checkmark' />
             </Table.Cell>
@@ -228,7 +260,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Create/Edit Recipes</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Create/Edit Recipes
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='checkmark' />
             </Table.Cell>
@@ -240,7 +274,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Copy Recipes</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Copy Recipes
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='checkmark' />
             </Table.Cell>
@@ -252,7 +288,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Import Recipes</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Import Recipes
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='checkmark' />
             </Table.Cell>
@@ -264,7 +302,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Recipe Reviews</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Recipe Reviews
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='checkmark' />
             </Table.Cell>
@@ -276,7 +316,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Allergy Notifications</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Allergy Notifications
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='checkmark' />
             </Table.Cell>
@@ -288,7 +330,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Nutritional Analysis</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Nutritional Analysis
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='close' />
             </Table.Cell>
@@ -300,7 +344,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Export Recipes to Spreadsheet</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Download Recipes
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='close' />
             </Table.Cell>
@@ -312,7 +358,9 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell>Select Plan</Table.Cell>
+            <Table.Cell style={{ fontWeight: 'normal' }}>
+              Select Plan
+            </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='close' />
             </Table.Cell>
