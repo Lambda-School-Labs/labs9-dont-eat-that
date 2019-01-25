@@ -217,7 +217,7 @@ class SignInFacebookBase extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <div className="flexCenter">
-          <Button type="submit" style={{ background: '#4267B2' }}>
+          <Button type="submit" style={{ background: '#4267B2', color: 'white' }}>
             <Icon name="facebook" />
             Sign In with Facebook
           </Button>
