@@ -44,7 +44,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Popup } from 'semantic-ui-react';
 import { Component } from 'react';
-
+import FileDropFunc from './FileDropFunc';s
 class DragAndDropFile extends Component{
   constructor() {
     super();
@@ -93,10 +93,26 @@ onFileChanged = ev => {
 };
 
 componentDidMount() {
-  
+  window.addEventListener("dragover", ev  => {
+    this.overRideEventDefaults(ev);
+  });
+  window.addEventListener('drop', ev => {
+    this.overRideEventDefaults(ev);
+  });
+}
+
+componentWillMount() {
+  window.removeEventListener('dragover', this.overRideEventDefaults);
+  window.removeEventListener('drop', this.overRideEventDefaults);
+
 }
 
 
+render() {
+  return (
+    <FileDropFunc/>
+  )
+}
 
 
 }
