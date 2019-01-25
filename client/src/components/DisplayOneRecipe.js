@@ -29,14 +29,13 @@ const DisplayOneRecipe = props => {
     >
       <Card
         style={{
-          boxShadow: props.allergy ? (`0 0 3px 5px red`) : null,
+          boxShadow: props.allergy ? (`0 0 3px 5px ${ourColors.warningColor}`) : (`0 0 3px 1px ${ourColors.buttonColor}`),
           width: '200px',
           height: '200px',
           margin: '10px',
           overflow: 'hidden',
           fontFamily: 'Roboto'
         }}
-        color={ourColors.buttonColor}
       >
         {props.recipe.imageUrl ? (
           <Image
