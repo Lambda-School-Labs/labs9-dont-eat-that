@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addRecipe } from '../actions';
-import { Form, Button, Responsive } from 'semantic-ui-react';
+import { Form, Button, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import ourColors from '../ColorScheme';
 
 const ImportRecipeDiv = styled.div`
-  .contentDiv {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
+  width: 95%;
+  margin: 0 auto;
   p {
     font-family: Roboto;
     text-align: left;
@@ -83,66 +80,37 @@ class AddFromWeb extends Component {
   render() {
     return (
       <ImportRecipeDiv>
-        <Form
-          onSubmit={this.submitHandler}
-          style={{ width: '95%', marginLeft: '2.5%' }}
-        >
-          <Form.Group>
-            <Form.Field width='12'>
-              <input
-                type='text'
-                name='targetUrl'
-                placeholder='Enter URL of desired recipe to import'
-                value={this.state.targetUrl}
-                onChange={this.typingHandler}
-              />
-            </Form.Field>
-            {localStorage.getItem('uid') ? (
-              <React.Fragment>
-                <Responsive minWidth='768'>
-                  <Button
-                    type='submit'
-                    width='4'
-                    style={{ background: ourColors.buttonColor }}
-                  >
-                    Import Recipe
-                  </Button>
-                </Responsive>
-                <Responsive
-                  maxWidth='767'
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    marginTop: '7.5px'
-                  }}
-                >
-                  <Button
-                    type='submit'
-                    width='4'
-                    style={{ background: ourColors.buttonColor }}
-                  >
-                    Import Recipe
-                  </Button>
-                </Responsive>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Button type='submit' disabled width='2'>
+        <Segment style={{ background: ourColors.formColor }}>
+          <p>Found a recipe you really like on another site, like a recipes blog? Go ahead and try importing it to your collection here! Warning, this is finicky and may not work.</p>
+          <Form
+            onSubmit={this.submitHandler}
+            style={{ width: '95%', marginLeft: '2.5%' }}
+          >
+            <Form.Group>
+              <Form.Field width='12'>
+                <input
+                  type="text"
+                  name="targetUrl"
+                  placeholder="Enter URL of desired recipe to import"
+                  value={this.state.targetUrl}
+                  onChange={this.typingHandler}
+                />
+              </Form.Field>
+              {localStorage.getItem('uid') ? (
+                <Button type="submit" width='4' style={{ background: ourColors.buttonColor, color: 'white' }}>
                   Import Recipe
                 </Button>
-                <p>Please Log In to Import a Recipe!</p>
-              </React.Fragment>
-            )}
-          </Form.Group>
-        </Form>
-        <div className='contentDiv'>
-          <p>
-            Found a recipe you really like on another site like a recipes blog?
-            Go ahead and try importing it to your collection here! Warning, not
-            all sites are compatible with this feature.
-          </p>
-        </div>
+              ) : (
+                <React.Fragment>
+                  <Button type="submit" disabled width='4' style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                    Import Recipe
+                  </Button>
+                  <p>Please Log In to Import a Recipe!</p>
+                </React.Fragment>
+              )}
+            </Form.Group>
+          </Form>
+        </Segment>
       </ImportRecipeDiv>
     );
   }

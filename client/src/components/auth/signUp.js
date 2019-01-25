@@ -121,9 +121,9 @@ class SignUpFormBase extends Component {
       this.state.isReCaptcha === false;
 
     return (
-      <div className='flexCenter'>
+      <div className="flexCenter">
         <Segment style={{ background: ourColors.formColor }}>
-          <Header as='h1' textAlign='center'>
+          <Header as="h1" textAlign="center">
             SignUp
           </Header>
           <Form onSubmit={this.onSubmit} inverted>
@@ -178,12 +178,8 @@ class SignUpFormBase extends Component {
                 verifyCallback={this.verifyCallback}
               />
             </Form.Field>
-            <div className='flexCenter'>
-              <Button
-                disabled={isInvalid}
-                type='submit'
-                style={{ background: ourColors.buttonColor }}
-              >
+            <div className="flexCenter">
+              <Button disabled={isInvalid} type="submit" style={{ background: ourColors.buttonColor, color: 'white' }}>
                 Sign Up
               </Button>
             </div>

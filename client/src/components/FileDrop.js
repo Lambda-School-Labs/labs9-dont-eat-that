@@ -32,7 +32,8 @@ const FileDrop = props => {
               marginLeft: '7px',
               width: '20%',
               minWidth: '100px',
-              background: ourColors.buttonColor
+              background: ourColors.buttonColor,
+              color: 'white'
             }}
           >
             Upload Image
