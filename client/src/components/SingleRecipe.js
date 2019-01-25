@@ -173,8 +173,8 @@ class SingleRecipe extends React.Component {
                       <li
                         key={ingr.name}
                         style={{
-                          background: 'rgba(255,0,0,0.75)',
-                          boxShadow: '0 0 3px rgba(255,0,0,0.75)'
+                          background: ourColors.warningTranslucent,
+                          boxShadow: `0 0 3px ${ourColors.warningTranslucent}`
                         }}
                       >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
                         ingr.name

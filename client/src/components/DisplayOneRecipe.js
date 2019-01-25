@@ -48,10 +48,10 @@ const DisplayOneRecipe = props => {
         ) : (
           <Image src={defaultImage} />
         )}
-        <Card.Content>
+        <Card.Content style={{ paddingTop: '4px' }}>
           <Card.Header
             as='h3'
-            style={{ maxHeight: '28px', overflow: 'hidden' }}
+            style={{ height: '45px', overflow: 'hidden', fontSize: '1.1rem' }}
           >
             {props.recipe.name}
           </Card.Header>
