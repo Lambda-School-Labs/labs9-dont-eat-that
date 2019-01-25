@@ -22,6 +22,18 @@ const RecipeListPage = styled.div`
   form {
     margin-top: 4px;
   }
+  .header-icons {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topBarOptions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start;
+    padding: 0 15px;
+  }
 `;
 
 const DisplayListDiv = styled.div`
@@ -31,7 +43,9 @@ const DisplayListDiv = styled.div`
 `;
 
 const CheckboxElement = styled.div`
-  margin-top: 15px;
+  margin: 15px 0 0 12px;
+  font-weight: normal;
+  font-family: Roboto;
 `;
 
 class DisplayListRecipes extends Component {
@@ -128,7 +142,7 @@ class DisplayListRecipes extends Component {
           }}
         >
           <Form>
-            <Form.Group inline className='flexWrapCenter'>
+            <Form.Group className='topBarOptions'>
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
@@ -150,13 +164,8 @@ class DisplayListRecipes extends Component {
             </Form.Group>
           </Form>
         </Segment>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
-        >
+        <div className='header-icons'>
+          <div className='dummy-for-flexbox'></div>
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
@@ -173,7 +182,7 @@ class DisplayListRecipes extends Component {
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
               style={{ width: '200px', height: '200px', margin: '10px' }}
-              color='olive'
+              color='blue'
             >
               <Card.Content
                 style={{
