@@ -80,7 +80,7 @@ class DisplayListRecipes extends Component {
 
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(allergy => {
-          // allergy sometime has array of string and sometimes has array of "name:allergy"
+          // allergy sometime has array of string and sometimes has array of 'name:allergy'
           // so check the type and compare correct value
           if (typeof allergy === 'string')
             return ingredient.name.includes(allergy);
