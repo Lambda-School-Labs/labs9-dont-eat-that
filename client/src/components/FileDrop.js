@@ -42,13 +42,12 @@
 // // )(FileDrop);
 
 import React, { Component } from 'react';
-import { Button, Form, Popup } from 'semantic-ui-react';
-// import { Component } from 'react';
+// import { Button, Form, Popup } from 'semantic-ui-react';
 import FileDropFunc from './FileDropFunc';
 
 class DragAndDropFile extends Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       dragging: false,
       file: null,
@@ -109,7 +108,7 @@ componentWillMount() {
 }
 
 
-render() {
+render(props) {
   return (
     <FileDropFunc
       dragging={this.state.dragging}
@@ -122,7 +121,8 @@ render() {
       onDragEnter={this.onDragEnter}
       onDragLeave={this.onDragLeave}
       onDrop={this.dropListener}
-
+      handleFileUpload={this.props.handleFileUpload}
+      handleInputSelectedFile={this.props.handleInputSelectedFile}
     >
     <input
       ref={el => (this.fileUploaderInput = el)}

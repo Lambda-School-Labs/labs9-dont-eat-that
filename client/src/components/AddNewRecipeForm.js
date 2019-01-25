@@ -394,7 +394,10 @@ class AddNewRecipeForm extends Component {
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
             /> */}
-            <DragAndDropFile/>
+            <DragAndDropFile
+              handleFileUpload={this.handleFileUpload}
+              handleInputSelectedFile={this.handleInputSelectedFile}
+            />
 
             <Form.Field className="quill-div" width="16">
               <ReactQuill

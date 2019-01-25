@@ -1,4 +1,6 @@
 import React from 'react';
+import { Button, Form, Popup } from 'semantic-ui-react';
+
 
 const FileDropFunc = props => {
   let uploaderClasses = 'file-uploader';
@@ -9,8 +11,8 @@ const FileDropFunc = props => {
   const fileName = props.file ? props.file.name : 'No File Uploaded';
 
   return (
-    <div 
-        className='uploaderClasse' 
+    <Form.Field 
+        className={props.uploaderClasses} 
         onDrag={props.onDrag} 
         onDragStart={props.onDragStart}
         onDragEnd={props.onDragEnd}
@@ -18,18 +20,64 @@ const FileDropFunc = props => {
         onDragEnter={props.onDragEnter}
         onDragLeave={props.onDragLeave}
         onDrop={props.onDrop}
+        onSubmit={props.handleFileUpload}
     >
-        <div className="file-uploader-contents">
-            <span className="file-uploader-file-name">
+        <div className="file-uploader-contents"
+        onChange={props.handleInputSelectedFile}
+        >
+            <span className="file-uploader-file-name" >
                 {fileName}
-            </span>
-            <span>Drag & Drop File</span>
-            <span>or</span>
+            </span><br></br>
+            <span>Drag & Drop File</span><br></br>
+            <span>or</span><br></br>
             <span onClick={props.onSelectFileClick}>Select File</span>
         </div>
         {props.children}
 
-    </div>
+        <Popup
+        trigger={
+          <Button
+            onClick={props.handleFileUpload}
+            style={{ marginTop: '15px' }}
+          >
+            Upload Image
+          </Button>
+        }
+        content={
+          props.selectedFile
+            ? 'Image Upload completed!'
+            : 'No image was uploaded.'
+        }
+        on="click"
+      /> 
+    </Form.Field>
+
+    // <Form.Field>
+    //   <input
+    //     type="file"
+    //     name="myFile"
+    //     onChange={props.handleInputSelectedFile}
+    //   />
+    //   <Popup
+    //     trigger={
+    //       <Button
+    //         onClick={props.handleFileUpload}
+    //         style={{ marginTop: '15px' }}
+    //       >
+    //         Upload Image
+    //       </Button>
+    //     }
+    //     content={
+    //       props.selectedFile
+    //         ? 'Image Upload completed!'
+    //         : 'No image was uploaded.'
+    //     }
+    //     on="click"
+    //   /> 
+    // </Form.Field>
+
+
+
 
   );
 };
