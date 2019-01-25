@@ -400,7 +400,10 @@ class CheckoutForm extends React.Component {
       return (
         <div>
           <Header as='h1'>Purchase Complete</Header>
-          <Button onClick={this.props.cancelSubscription} style={{ background: ourColors.buttonColor, color: 'white' }}>
+          <Button
+            onClick={this.props.cancelSubscription}
+            style={{ background: ourColors.buttonColor, color: 'white' }}
+          >
             Cancel Subscription
           </Button>
         </div>
@@ -419,7 +422,7 @@ class CheckoutForm extends React.Component {
           >
             Pay with Card
           </Header>
-          <Segment attached style={{ background: ourColors.formColor }}>
+          <Segment attached>
             <CardElement />
           </Segment>
         </div>
