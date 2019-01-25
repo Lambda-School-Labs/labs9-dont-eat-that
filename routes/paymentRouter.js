@@ -63,16 +63,19 @@ router.post('/cancel', async (req, res) => {
 
 router.get('/plan/:firebaseid', async (req, res) => {
   const { firebaseid } = req.params;
+  console.log('firebaseid', firebaseid);
   try {
     const user = await db('users')
       .where({ firebaseid })
       .first();
+    console.log('user', user)
     const subscriptionInfo = await stripe.subscriptions.retrieve(
-      user.subscriptionid,
-      function(err, subscription) {
+      user.subscriptionid
+      // function(err, subscription) {
         // res.status(400).json({ message: "Bad subscription request", err });
-      }
+      // }
     )
+    console.log(subscriptionInfo);
     let planName = "";
     if (subscriptionInfo.items.data.plan.id === silverCode) {
       planName = "silver";

@@ -29,8 +29,11 @@ export const getPlan = () => dispatch => {
   const firebaseid = localStorage.getItem('uid');
   axios
     .get(`${URL}/api/payments/plan/${firebaseid}`)
-    .then(res => dispatch({ type: GET_PLAN, payload: res.data.planName }))
-    .catch(err => dispatch({ type: ERROR, payload: err }));
+    .then(res => {
+      console.log("then block of getPlan", res);
+      dispatch({ type: GET_PLAN, payload: res.data.planName });
+    })
+    .catch(err => dispatch({ type: ERROR, payload: err.message }));
 };
   
 export const cancelSubscription = () => dispatch => {
