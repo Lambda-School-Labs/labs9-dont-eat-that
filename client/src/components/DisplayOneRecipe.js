@@ -43,7 +43,7 @@ const DisplayOneRecipe = props => {
         {props.recipe.imageUrl ? (
           <Image
             src={props.recipe.imageUrl}
-            style={{ maxHeight: '133.13px' }}
+            style={{ height: '133px' }}
           />
         ) : (
           <Image src={defaultImage} />
