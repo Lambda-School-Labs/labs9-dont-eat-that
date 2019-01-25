@@ -9,6 +9,7 @@ import { Rating, Card, Image } from 'semantic-ui-react';
 import ourColors from '../ColorScheme.js';
 
 import defaultImage from '../images/defaultimage.jpeg';
+import ourColors from '../ColorScheme';
 
 const DisplayOneRecipe = props => {
   const ratingsFunc = recipe => {
@@ -29,7 +30,9 @@ const DisplayOneRecipe = props => {
     >
       <Card
         style={{
-          boxShadow: props.allergy ? (`0 0 3px 5px ${ourColors.warningColor}`) : (`0 0 3px 1px ${ourColors.buttonColor}`),
+          boxShadow: props.allergy
+            ? (`0 0 3px 5px ${ourColors.warningColor}`)
+            : (`0 0 3px 1px ${ourColors.buttonColor}`),
           width: '200px',
           height: '200px',
           margin: '10px',
@@ -46,10 +49,15 @@ const DisplayOneRecipe = props => {
           <Image src={defaultImage} />
         )}
         <Card.Content>
-          <Card.Header as="h3" style={{ maxHeight: '28px', overflow: 'hidden' }}>{props.recipe.name}</Card.Header>
+          <Card.Header
+            as='h3'
+            style={{ maxHeight: '28px', overflow: 'hidden' }}
+          >
+            {props.recipe.name}
+          </Card.Header>
           <div>
             <Rating
-              icon="star"
+              icon='star'
               rating={ratingsFunc(props.recipe)}
               maxRating={5}
               disabled
