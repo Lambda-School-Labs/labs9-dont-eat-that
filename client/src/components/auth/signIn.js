@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form, Button, Header, Icon, Segment } from 'semantic-ui-react';
+import ourColors from '../../ColorScheme.js';
 
 import { SignUpLink } from './signUp.js';
 import PasswordForgetPage from './passwordForgot.js';
@@ -13,7 +14,7 @@ import { getUser, addUser } from '../../actions';
 
 const SignInPage = () => (
   <div className="flexCenter">
-    <Segment inverted>
+    <Segment style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
       <Header as="h1" textAlign="center">
         Login
       </Header>
@@ -113,10 +114,14 @@ class SignInFormBase extends Component {
             />
           </Form.Field>
           <div className="flexCenter">
-            <Button disabled={isInvalid} type="submit">
+            <Button
+              disabled={isInvalid}
+              type="submit"
+              style={ isInvalid ? { background: ourColors.inactiveButtonColor } : { background: ourColors.buttonColor }}
+            >
               Sign In
             </Button>
-            <Button onClick={this.resetPassword}>Forgot Password?</Button>
+            <Button onClick={this.resetPassword} style={{ background: ourColors.buttonColor }}>Forgot Password?</Button>
           </div>
           {error && (
             <p>
@@ -165,7 +170,7 @@ class SignInGoogleBase extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <div className="flexCenter">
-          <Button type="submit" color="green">
+          <Button type="submit" style={{ background: ourColors.buttonColor }}>
             <Icon name="google" />
             Sign In with Google
           </Button>
@@ -210,7 +215,7 @@ class SignInFacebookBase extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <div className="flexCenter">
-          <Button type="submit" color="blue">
+          <Button type="submit" style={{ background: '#4267B2' }}>
             <Icon name="facebook" />
             Sign In with Facebook
           </Button>
