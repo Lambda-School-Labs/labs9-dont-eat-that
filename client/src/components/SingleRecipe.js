@@ -124,7 +124,7 @@ class SingleRecipe extends React.Component {
             />
           )}
         </Segment>
-        <Header as='h1' style={{ marginBottom: '5px' }}>
+        <Header as='h1' style={{ marginBottom: '5px', marginTop: 0 }}>
           {recipe.name}
         </Header>
         <div>
@@ -263,8 +263,10 @@ class SingleRecipe extends React.Component {
                       ) / 10} ${nutrition.totalNutrients.CHOCDF.unit}`
                     : '0 g'}
                   {' | '}
-                  {Math.round(nutrition.totalDaily.CHOCDF.quantity * 10) / 10}%
-                  Daily Value
+                  {nutrition.totalNutrients.CHOCDF
+                    ? Math.round(nutrition.totalDaily.CHOCDF.quantity * 10) / 10
+                    : 0}
+                  % Daily Value
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
@@ -276,8 +278,10 @@ class SingleRecipe extends React.Component {
                       ) / 10} ${nutrition.totalNutrients.PROCNT.unit}`
                     : '0 g'}
                   {' | '}
-                  {Math.round(nutrition.totalDaily.PROCNT.quantity * 10) / 10}%
-                  Daily Value
+                  {nutrition.totalNutrients.PROCNT
+                    ? Math.round(nutrition.totalDaily.PROCNT.quantity * 10) / 10
+                    : 0}
+                  % Daily Value
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
@@ -289,8 +293,10 @@ class SingleRecipe extends React.Component {
                       ) / 10} ${nutrition.totalNutrients.FAT.unit}`
                     : '0 g'}
                   {' | '}
-                  {Math.round(nutrition.totalDaily.FAT.quantity * 10) / 10}%
-                  Daily Value
+                  {nutrition.totalNutrients.FAT
+                    ? Math.round(nutrition.totalDaily.FAT.quantity * 10) / 10
+                    : 0}
+                  % Daily Value
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
