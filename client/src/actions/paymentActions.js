@@ -18,7 +18,7 @@ export const chargeUser = (token, plan) => dispatch => {
   axios
     .post(`${URL}/api/payments/charge`, {
       token: token.id,
-      customerPlan: plan,
+      customerPlan: planName,
       firebaseid
     })
     .then(res => dispatch({ type: CHARGE_USER, payload: planName }))
@@ -26,12 +26,14 @@ export const chargeUser = (token, plan) => dispatch => {
 };
 
 export const getPlan = () => dispatch => {
-  console.log("Got to getPlan action");
   const firebaseid = localStorage.getItem('uid');
   axios
     .get(`${URL}/api/payments/plan/${firebaseid}`)
-    .then(res => dispatch({ type: GET_PLAN, payload: res.data.planName }))
-    .catch(err => dispatch({ type: ERROR, payload: err }));
+    .then(res => {
+      console.log("then block of getPlan", res);
+      dispatch({ type: GET_PLAN, payload: res.data.planName });
+    })
+    .catch(err => dispatch({ type: ERROR, payload: err.message }));
 };
   
 export const cancelSubscription = () => dispatch => {
