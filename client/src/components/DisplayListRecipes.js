@@ -77,14 +77,21 @@ class DisplayListRecipes extends Component {
   displayDiv = () => {
     return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
+
       const outerBoolArr = recipe.ingredients.map(ingredient => {
-        const innerBoolArr = this.props.allergies.map(
-          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
-        );
+        const innerBoolArr = this.props.allergies.map(allergy => {
+          // allergy sometime has array of string and sometimes has array of 'name:allergy'
+          // so check the type and compare correct value
+          if (typeof allergy === 'string')
+            return ingredient.name.includes(allergy);
+          // seeing if any allergies in one ingredient
+          else return ingredient.name.includes(allergy.name);
+        });
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
       if (outerBoolArr.includes(true)) {
         // seeing if any allergies in all ingredients
+
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
       } else {
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
