@@ -10,13 +10,17 @@ import {
   Responsive
 } from 'semantic-ui-react';
 
-import { chargeUser, cancelSubscription, getUser } from '../actions';
+import { chargeUser, cancelSubscription, getUser, getPlan } from '../actions';
 import ourColors from '../ColorScheme';
 
 class CheckoutForm extends React.Component {
   state = {
     plan: 'silver'
   };
+
+  componentDidMount() {
+    this.props.getPlan();
+  }
 
   onRadioButton = value => {
     this.setState({ plan: value });
@@ -30,8 +34,10 @@ class CheckoutForm extends React.Component {
         size='small'
         style={{
           width: '95%',
-          marginLeft: '2.5%',
-          marginBottom: '15px',
+          maxWidth: '600px',
+          margin: '0 auto 15px',
+          // marginLeft: '2.5%',
+          // marginBottom: '15px',
           fontFamily: 'Roboto',
           background: ourColors.formColor
         }}
@@ -176,8 +182,8 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell style={{ fontWeight: 'normal' }}>
-              Select Plan
+            <Table.Cell style={{ fontWeight: 'bold' }}>
+              Select Plan:
             </Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='close' />
@@ -358,8 +364,8 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell style={{ fontWeight: 'normal' }}>
-              Select Plan
+            <Table.Cell style={{ fontWeight: 'bold' }}>
+              Select Plan:
             </Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='close' />
@@ -396,10 +402,25 @@ class CheckoutForm extends React.Component {
   };
 
   render() {
+    let planName = 'Dishwasher';
+    if (this.props.userPlan) {
+      switch (this.props.userPlan) {
+        case 'silver':
+          planName = 'Line Cook';
+          break;
+        case 'gold':
+          planName = 'Executive Chef';
+          break;
+        default:
+          planName = 'Dishwasher';
+      }
+    }
+
     if (this.props.complete)
       return (
         <div>
           <Header as='h1'>Purchase Complete</Header>
+          <Header as='h2'>Currently Selected Plan: {planName}</Header>
           <Button
             onClick={this.props.cancelSubscription}
             style={{ background: ourColors.buttonColor, color: 'white' }}
@@ -410,7 +431,8 @@ class CheckoutForm extends React.Component {
       );
     return (
       <div>
-        <Header>Don't Eat That Subscription Plans</Header>
+        <Header as='h1'>Don't Eat That Subscription Plans</Header>
+        <Header as='h2'>Currently Selected Plan: {planName}</Header>
         <Responsive minWidth={768}>{this.desktopTable()}</Responsive>
         <Responsive maxWidth={767}>{this.mobileTable()}</Responsive>
         <div style={{ width: '70%', marginLeft: '15%' }}>
@@ -467,11 +489,12 @@ class CheckoutForm extends React.Component {
 const mapStateToProps = state => {
   return {
     complete: state.paymentReducer.paymentComplete,
-    user: state.usersReducer.user
+    user: state.usersReducer.user,
+    userPlan: state.paymentReducer.plan
   };
 };
 
 export default connect(
   mapStateToProps,
-  { chargeUser, cancelSubscription, getUser }
+  { chargeUser, cancelSubscription, getUser, getPlan }
 )(injectStripe(CheckoutForm));
