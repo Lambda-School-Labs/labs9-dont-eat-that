@@ -428,12 +428,12 @@ class AddNewRecipeForm extends Component {
               {ingredientRows}
 
               <div>Drop Image here</div>
-
+{/* 
               <FileDrop
                 selectedFile={this.state.selectedFile}
                 handleFileUpload={this.handleFileUpload}
                 handleInputSelectedFile={this.handleInputSelectedFile}
-              />
+              /> */}
 
               <div className='quill-div'>
                 <ReactQuill

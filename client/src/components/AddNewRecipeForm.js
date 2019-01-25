@@ -5,7 +5,8 @@ import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import { Form, Segment, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
-import FileDrop from './FileDrop';
+// import FileDrop from './FileDrop';
+import DragAndDropFile from './FileDrop';
 
 // const AutoComDiv = styled.div`
 //   width: 500px;
@@ -388,11 +389,12 @@ class AddNewRecipeForm extends Component {
             <div>Drop Image here</div>
             {/* handleFileUpload={this.props.handleFileUpload} */}
 
-            <FileDrop
+            {/* <FileDrop
               selectedFile={this.state.selectedFile}
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
-            />
+            /> */}
+            <DragAndDropFile/>
 
             <Form.Field className="quill-div" width="16">
               <ReactQuill

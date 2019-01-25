@@ -43,8 +43,9 @@
 
 import React, { Component } from 'react';
 import { Button, Form, Popup } from 'semantic-ui-react';
-import { Component } from 'react';
-import FileDropFunc from './FileDropFunc';s
+// import { Component } from 'react';
+import FileDropFunc from './FileDropFunc';
+
 class DragAndDropFile extends Component{
   constructor() {
     super();
@@ -86,7 +87,7 @@ onSelectFileClick = () => {
   this.fileUploaderInput && this.fileUploaderInput.click();
 };
   
-onFileChanged = ev => {
+onFileChange = ev => {
   if (ev.target.files && ev.target.files[0]) {
     this.setState({file:ev.target.files[0]});
   }
@@ -110,9 +111,30 @@ componentWillMount() {
 
 render() {
   return (
-    <FileDropFunc/>
+    <FileDropFunc
+      dragging={this.state.dragging}
+      file={this.state.file}
+      onSelectFileClick={this.onSelectFileClick}
+      onDrag={this.overRideEventDefaults}
+      onDragStart={this.overRideEventDefaults}
+      onDragEnd={this.overRideEventDefaults}
+      onDragOver={this.overRideEventDefaults}
+      onDragEnter={this.onDragEnter}
+      onDragLeave={this.onDragLeave}
+      onDrop={this.dropListener}
+
+    >
+    <input
+      ref={el => (this.fileUploaderInput = el)}
+      type='file'
+      className='file-uploader-input'
+      onChange={this.onFileChange}
+    />
+  </FileDropFunc>
   )
 }
 
 
 }
+
+export default DragAndDropFile;
