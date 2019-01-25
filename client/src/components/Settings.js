@@ -50,7 +50,7 @@ class Settings extends React.Component {
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy.name)}
                         name="delete"
-                        style={{ color: 'red' }}
+                        style={{ color: ourColors.warningColor }}
                       />
                     </li>
                   );
@@ -61,7 +61,7 @@ class Settings extends React.Component {
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
                         name="delete"
-                        style={{ color: 'red' }}
+                        style={{ color: ourColors.warningColor }}
                       />
                     </li>
                   );
@@ -70,9 +70,7 @@ class Settings extends React.Component {
             </ul>
           </Segment>
           <Segment
-            color="black"
-            // inverted
-            style={{ width: '95%', marginLeft: '2.5%' }}
+            style={{ width: '95%', marginLeft: '2.5%', background: ourColors.formColor }}
           >
             <Form>
               <Form.Field>

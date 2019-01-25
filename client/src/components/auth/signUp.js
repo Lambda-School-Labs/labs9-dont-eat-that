@@ -11,6 +11,7 @@ import { getUser, addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
 import { ReCaptcha, loadReCaptcha } from 'react-recaptcha-google';
+import ourColors from '../../ColorScheme';
 
 const SignUpPage = () => (
   <div>
@@ -121,7 +122,7 @@ class SignUpFormBase extends Component {
 
     return (
       <div className="flexCenter">
-        <Segment inverted>
+        <Segment style={{ background: ourColors.formColor }}>
           <Header as="h1" textAlign="center">
             SignUp
           </Header>
@@ -178,7 +179,7 @@ class SignUpFormBase extends Component {
               />
             </Form.Field>
             <div className="flexCenter">
-              <Button disabled={isInvalid} type="submit">
+              <Button disabled={isInvalid} type="submit" style={{ background: ourColors.buttonColor, color: 'white' }}>
                 Sign Up
               </Button>
             </div>
