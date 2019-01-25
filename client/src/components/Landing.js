@@ -76,7 +76,7 @@ const Landing = props => {
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
-        <Button onClick={e => props.history.push('/recipes')}>
+        <Button onClick={e => props.history.push('/recipes')} style={{ background: ourColors.buttonColor, color: 'white' }}>
           Enter the Site!
         </Button>
       </Segment>

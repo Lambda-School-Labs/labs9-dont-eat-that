@@ -337,17 +337,6 @@ class AddNewRecipeForm extends Component {
             />
           </Form.Input>
           <Form.Select width='5' placeholder='Unit' options={unitOptions} />
-          {/* <select name={`unit${i}`} onChange={this.ingHandler}>
-                <option key="A">A</option>
-                <option key="B">B</option>
-                <option key="C">C</option>
-              {this.state.ingredients[i].unitsList.map(unit => (
-                <option key={unit} value={unit}>
-                  {unit}
-                </option>
-              ))}
-            </select>
-          </Form.Select> */}
         </Form.Group>
       );
     }
@@ -419,20 +408,20 @@ class AddNewRecipeForm extends Component {
               !this.state.description ||
               !this.state.ingredients[0].name ||
               !this.state.ingredients[0].quantity ? (
-                <Form.Button type='submit' disabled>
+                <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
                   Save Recipe
                 </Form.Button>
               ) : (
                 <Form.Button
                   type='submit'
-                  style={{ background: ourColors.buttonColor }}
+                  style={{ background: ourColors.buttonColor, color: 'white' }}
                 >
                   Save Recipe
                 </Form.Button>
               )
             ) : (
               <React.Fragment>
-                <Form.Button type='submit' disabled>
+                <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
                   Save Recipe
                 </Form.Button>
                 <p>Please Log In to Add a Recipe!</p>

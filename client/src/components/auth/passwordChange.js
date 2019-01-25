@@ -48,9 +48,7 @@ class PasswordChangeForm extends Component {
     return (
       <Segment
         basic
-        color="black"
-        // inverted
-        style={{ width: '95%', marginLeft: '2.5%' }}
+        style={{ width: '95%', marginLeft: '2.5%', background: ourColors.formColor }}
       >
         <Form onSubmit={this.onSubmit}>
           <Header as="h3">Password Reset</Header>
@@ -79,8 +77,8 @@ class PasswordChangeForm extends Component {
           <Button
             style={
               isInvalid
-                ? { background: ourColors.inactiveButtonColor }
-                : { background: ourColors.buttonColor }
+                ? { background: ourColors.inactiveButtonColor, color: 'white' }
+                : { background: ourColors.buttonColor, color: 'white' }
             }
             disabled={isInvalid}
             type="submit"

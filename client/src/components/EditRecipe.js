@@ -461,13 +461,13 @@ class AddNewRecipeForm extends Component {
                 !this.state.description ||
                 !this.state.ingredients[0].name ||
                 !this.state.ingredients[0].quantity ? (
-                  <Form.Button type='submit' disabled>
+                  <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
                     Save Recipe
                   </Form.Button>
                 ) : (
                   <Form.Button
                     type='submit'
-                    style={{ background: ourColors.buttonColor }}
+                    style={{ background: ourColors.buttonColor, color: 'white' }}
                   >
                     Save Recipe
                   </Form.Button>

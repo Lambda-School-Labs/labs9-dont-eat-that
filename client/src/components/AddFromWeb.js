@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addRecipe } from '../actions';
-import { Form, Button } from 'semantic-ui-react';
+import { Form, Button, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import ourColors from '../ColorScheme.js';
+
 const ImportRecipeDiv = styled.div`
+  width: 95%;
+  margin: 0 auto;
+
   p {
     font-family: Roboto;
     text-align: left;
@@ -77,31 +82,37 @@ class AddFromWeb extends Component {
   render() {
     return (
       <ImportRecipeDiv>
-        <p>Found a recipe you really like on another site, like a recipes blog? Go ahead and try importing it to your collection here! Warning, this is finicky and may not work.</p>
-        <Form
-          onSubmit={this.submitHandler}
-          style={{ width: '95%', marginLeft: '2.5%' }}
-        >
-          <Form.Group>
-            <Form.Field width='10'>
-              <input
-                type="text"
-                name="targetUrl"
-                placeholder="Enter URL of desired recipe to import"
-                value={this.state.targetUrl}
-                onChange={this.typingHandler}
-              />
-            </Form.Field>
-            {localStorage.getItem('uid') ? (
-              <Button type="submit" width='2'>Import Recipe</Button>
-            ) : (
-              <React.Fragment>
-                <Button type="submit" disabled width='2'>Import Recipe</Button>
-                <p>Please Log In to Import a Recipe!</p>
-              </React.Fragment>
-            )}
-          </Form.Group>
-        </Form>
+        <Segment style={{ background: ourColors.formColor }}>
+          <p>Found a recipe you really like on another site, like a recipes blog? Go ahead and try importing it to your collection here! Warning, this is finicky and may not work.</p>
+          <Form
+            onSubmit={this.submitHandler}
+            style={{ width: '95%', marginLeft: '2.5%' }}
+          >
+            <Form.Group>
+              <Form.Field width='10'>
+                <input
+                  type="text"
+                  name="targetUrl"
+                  placeholder="Enter URL of desired recipe to import"
+                  value={this.state.targetUrl}
+                  onChange={this.typingHandler}
+                />
+              </Form.Field>
+              {localStorage.getItem('uid') ? (
+                <Button type="submit" width='2' style={{ background: ourColors.buttonColor, color: 'white' }}>
+                  Import Recipe
+                </Button>
+              ) : (
+                <React.Fragment>
+                  <Button type="submit" disabled width='2' style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                    Import Recipe
+                  </Button>
+                  <p>Please Log In to Import a Recipe!</p>
+                </React.Fragment>
+              )}
+            </Form.Group>
+          </Form>
+        </Segment>
       </ImportRecipeDiv>
     );
   }
