@@ -427,18 +427,38 @@ class CheckoutForm extends React.Component {
           </Segment>
         </div>
         <br />
-        <Button
-          onClick={this.submit}
-          style={{ background: ourColors.buttonColor, color: 'white' }}
-        >
-          Subscribe
-        </Button>
-        <Button
-          onClick={this.props.cancelSubscription}
-          style={{ background: ourColors.warningColor, color: 'white' }}
-        >
-          Cancel Subscription
-        </Button>
+        { this.props.user.subscriptionid
+          ? <React.Fragment>
+              <Button
+                onClick={this.submit}
+                style={{ background: ourColors.inactiveButtonColor, color: 'white' }}
+                disabled
+              >
+                Subscribe
+              </Button>
+              <Button
+                onClick={this.props.cancelSubscription}
+                style={{ background: ourColors.warningColor, color: 'white' }}
+              >
+                Cancel Subscription
+              </Button>
+            </React.Fragment>
+          : <React.Fragment>
+              <Button
+                onClick={this.submit}
+                style={{ background: ourColors.buttonColor, color: 'white' }}
+              >
+                Subscribe
+              </Button>
+              <Button
+                onClick={this.props.cancelSubscription}
+                style={{ background: ourColors.warningColor, color: 'white' }}
+                disabled
+              >
+                Cancel Subscription
+              </Button>
+            </React.Fragment>
+        }
       </div>
     );
   }
@@ -446,7 +466,8 @@ class CheckoutForm extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    complete: state.paymentReducer.paymentComplete
+    complete: state.paymentReducer.paymentComplete,
+    user: state.usersReducer.user
   };
 };
 
