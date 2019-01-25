@@ -44,6 +44,8 @@ const DisplayListDiv = styled.div`
 
 const CheckboxElement = styled.div`
   margin: 15px 0 0 12px;
+  font-weight: normal;
+  font-family: Roboto;
 `;
 
 class DisplayListRecipes extends Component {
