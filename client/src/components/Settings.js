@@ -61,7 +61,7 @@ class Settings extends React.Component {
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
                         name='delete'
-                        style={{ color: 'red' }}
+                        style={{ color: 'red', cursor: 'pointer' }}
                       />
                     </li>
                   );
