@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Button, Header, Form, Segment, Icon } from 'semantic-ui-react';
+import { Button, Header, Form, Segment, Icon, Input } from 'semantic-ui-react';
 
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
@@ -32,8 +32,8 @@ class Settings extends React.Component {
           {localStorage.getItem('uid') && <PasswordChangeForm />}
           <Header
             as="h3"
-            color="red"
-            inverted
+            color="black"
+            // inverted
             attached="top"
             style={{ width: '95%', marginLeft: '2.5%' }}
           >
@@ -69,22 +69,42 @@ class Settings extends React.Component {
             </ul>
           </Segment>
           <Segment
-            color="red"
-            inverted
+            color="black"
+            // inverted
             style={{ width: '95%', marginLeft: '2.5%' }}
           >
-            <Form inverted>
+            <Form>
               <Form.Field>
-                <input
+                <Input
+                  size="mini"
                   type="text"
                   name="allergy"
                   id="allergy"
                   placeholder="Please enter an allergy..."
                   value={this.state.allergy}
                   onChange={this.onChange}
+                  action={
+                    <Icon
+                      name="add circle"
+                      onClick={this.onAddAllergy}
+                      disabled={!localStorage.getItem('uid')}
+                      size="large"
+                      style={{ cursor: 'pointer' }}
+                    />
+                  }
+                  actionPosition="right"
+                  placeholder="Add a allergy"
                 />
               </Form.Field>
-              {localStorage.getItem('uid') ? (
+
+              {/* <Button
+                onClick={this.onAddAllergy}
+                disabled={!localStorage.getItem('uid')}
+              >
+                Add Allergy
+              </Button> */}
+
+              {/* {localStorage.getItem('uid') ? (
                 <Button onClick={this.onAddAllergy}>Add Allergy</Button>
               ) : (
                 <React.Fragment>
@@ -93,7 +113,7 @@ class Settings extends React.Component {
                   </Button>
                   <p>Please Login to Add an Allergy!</p>
                 </React.Fragment>
-              )}
+              )} */}
             </Form>
           </Segment>
         </div>
