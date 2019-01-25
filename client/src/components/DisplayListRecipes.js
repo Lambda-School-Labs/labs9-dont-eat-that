@@ -123,7 +123,8 @@ class DisplayListRecipes extends Component {
             width: '95%',
             marginLeft: '2.5%',
             fontFamily: 'Roboto',
-            padding: '10px 0 0 0'
+            padding: '10px 0 0 0',
+            background: '#ffdf8b'
           }}
         >
           <Form>
