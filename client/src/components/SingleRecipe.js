@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
 import { Rating, Table, Header, Segment, Image, Icon } from 'semantic-ui-react';
+
+import ourColors from '../ColorScheme';
 import {
   getRecipe,
   deleteRecipe,
@@ -160,7 +162,11 @@ class SingleRecipe extends React.Component {
           <Header as='h3' attached='top' textAlign='left'>
             Ingredients
           </Header>
-          <Segment attached textAlign='left'>
+          <Segment
+            attached
+            textAlign='left'
+            style={{ background: ourColors.formColor }}
+          >
             <ul>
               {recipe.ingredients.map(ingr => {
                 const boolArr = this.props.user.allergies.map(allergy =>
@@ -194,7 +200,11 @@ class SingleRecipe extends React.Component {
           <Header as='h3' attached='top' textAlign='left'>
             Recipe Description
           </Header>
-          <Segment attached textAlign='left'>
+          <Segment
+            attached
+            textAlign='left'
+            style={{ background: ourColors.formColor }}
+          >
             {Parser(recipe.description)}
           </Segment>
         </div>
@@ -215,21 +225,28 @@ class SingleRecipe extends React.Component {
           <Table
             celled
             structured
-            color='blue'
-            style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
-            inverted
+            style={{
+              width: '95%',
+              marginLeft: '2.5%',
+              fontFamily: 'Roboto',
+              background: ourColors.formColor
+            }}
           >
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>
+                <Table.HeaderCell style={{ background: 'white' }}>
                   <Header as='h3'>Nutrition Facts</Header>
-                  <Segment vertical>Servings: {nutrition.yield}</Segment>
-                  <Segment vertical>Calories: {nutrition.calories}</Segment>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
+              <Table.Row>
+                <Table.Cell>Servings: {nutrition.yield}</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Calories: {nutrition.calories}</Table.Cell>
+              </Table.Row>
               <Table.Row>
                 <Table.Cell>
                   Diet Labels:{' '}

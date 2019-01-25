@@ -48,32 +48,32 @@ class PasswordChangeForm extends Component {
     return (
       <Segment
         basic
-        color="black"
+        color='black'
         // inverted
-        style={{ width: '95%', marginLeft: '2.5%' }}
+        style={{ width: '70%', marginLeft: '15%' }}
       >
         <Form onSubmit={this.onSubmit}>
-          <Header as="h3">Password Reset</Header>
+          <Header as='h3'>Password Reset</Header>
           <Form.Field>
             <Input
               focus
-              color="black"
-              name="passwordOne"
+              color='black'
+              name='passwordOne'
               value={passwordOne}
               onChange={this.onChange}
-              type="password"
-              placeholder="New Password"
+              type='password'
+              placeholder='New Password'
             />
           </Form.Field>
           <Form.Field>
             <Input
               focus
-              color="black"
-              name="passwordTwo"
+              color='black'
+              name='passwordTwo'
               value={passwordTwo}
               onChange={this.onChange}
-              type="password"
-              placeholder="Confirm New Password"
+              type='password'
+              placeholder='Confirm New Password'
             />
           </Form.Field>
           <Button
@@ -83,7 +83,7 @@ class PasswordChangeForm extends Component {
                 : { background: ourColors.buttonColor }
             }
             disabled={isInvalid}
-            type="submit"
+            type='submit'
           >
             Reset My Password
           </Button>

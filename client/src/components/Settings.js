@@ -29,18 +29,18 @@ class Settings extends React.Component {
     if (this.props.allergies) {
       return (
         <div>
-          <Header as="h1">Settings</Header>
+          <Header as='h1'>Settings</Header>
           {localStorage.getItem('uid') && <PasswordChangeForm />}
           <Header
-            as="h3"
-            color="black"
+            as='h3'
+            color='black'
             // inverted
-            attached="top"
-            style={{ width: '95%', marginLeft: '2.5%' }}
+            attached='top'
+            style={{ width: '70%', marginLeft: '15%' }}
           >
             Allergies
           </Header>
-          <Segment attached style={{ width: '95%', marginLeft: '2.5%' }}>
+          <Segment attached style={{ width: '70%', marginLeft: '15%' }}>
             <ul>
               {this.props.allergies.map((allergy, i) => {
                 if (typeof allergy === 'object') {
@@ -49,7 +49,7 @@ class Settings extends React.Component {
                       {allergy.name}{' '}
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy.name)}
-                        name="delete"
+                        name='delete'
                         style={{ color: 'red' }}
                       />
                     </li>
@@ -60,7 +60,7 @@ class Settings extends React.Component {
                       {allergy}{' '}
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
-                        name="delete"
+                        name='delete'
                         style={{ color: 'red' }}
                       />
                     </li>
@@ -70,9 +70,9 @@ class Settings extends React.Component {
             </ul>
           </Segment>
           <Segment
-            color="black"
+            color='black'
             // inverted
-            style={{ width: '95%', marginLeft: '2.5%' }}
+            style={{ width: '70%', marginLeft: '15%' }}
           >
             <Form>
               <Form.Field>
@@ -80,16 +80,16 @@ class Settings extends React.Component {
           also put Icon inside of Input as action */}
 
                 <Input
-                  size="mini"
-                  type="text"
-                  name="allergy"
-                  id="allergy"
-                  placeholder="Please enter an allergy..."
+                  size='mini'
+                  type='text'
+                  name='allergy'
+                  id='allergy'
+                  placeholder='Please enter an allergy...'
                   value={this.state.allergy}
                   onChange={this.onChange}
                   action={
                     <Icon
-                      name="add circle"
+                      name='add circle'
                       onClick={this.onAddAllergy}
                       style={
                         !localStorage.getItem('uid')
@@ -100,11 +100,11 @@ class Settings extends React.Component {
                           : { color: ourColors.buttonColor, cursor: 'pointer' }
                       }
                       disabled={!localStorage.getItem('uid')}
-                      size="big"
+                      size='big'
                       // style={{ cursor: 'pointer' }}
                     />
                   }
-                  actionPosition="right"
+                  actionPosition='right'
                 />
               </Form.Field>
             </Form>
