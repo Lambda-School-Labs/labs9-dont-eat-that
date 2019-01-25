@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions";
+import * as actionTypes from '../actions';
 
 const initialState = {
   users: [],
@@ -17,6 +17,11 @@ export const usersReducer = (state = initialState, action) => {
           ...state.users,
           { id: action.payload.id, firebaseid: action.payload.firebaseid }
         ]
+      };
+    case actionTypes.REMOVE_USER:
+      return {
+        ...state,
+        user: { allergies: [] }
       };
     case actionTypes.GET_UALLERGIES:
       return {
@@ -42,6 +47,8 @@ export const usersReducer = (state = initialState, action) => {
           allergies: action.payload
         }
       };
+    case actionTypes.CANCEL_SUB:
+      return { ...state, user: { ...state.user, subscriptionid: null } };
     case actionTypes.ERROR:
       return { ...state, error: action.payload };
     default:

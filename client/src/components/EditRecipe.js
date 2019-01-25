@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import ReactQuill from 'react-quill';
+import FileDrop from './FileDrop';
+import { Form, Segment, Header } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
@@ -9,10 +13,10 @@ import {
 } from '../actions';
 import styled from 'styled-components';
 
-const AutoComDiv = styled.div`
-  position: relative;
-  display: inline-block;
-`;
+// const AutoComDiv = styled.div`
+//   position: relative;
+//   display: inline-block;
+// `;
 
 const AutoComItemsDiv = styled.div`
   position: absolute;
@@ -22,31 +26,98 @@ const AutoComItemsDiv = styled.div`
   z-index: 10;
 
   div {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     background-color: #fff;
     border-bottom: 1px solid #d4d4d4;
+    height: 25px;
+    padding-left: 13.7px;
   }
 `;
+
+const EditRecipeFormDiv = styled.div`
+  width: 95%;
+  margin-left: 2.5%;
+
+  .quill-div {
+    min-height: 150px;
+  }
+`;
+
+const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
+const edamam = 'https://api.edamam.com/api/food-database';
+const edamamAppId = '4747cfb2';
+const edamamAppKey = process.env.REACT_APP_EDAMAMAPP_KEY;
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.recipe.name || '',
-      description: this.props.recipe.description || '',
-      numIngredients: this.props.recipe.ingredients.length || 3,
-      ingredients: this.props.recipe.ingredients,
-      focuses: this.props.recipe.ingredients.map(ingredient => ({
-        focus: false
-      }))
+      name: this.props.recipe ? this.props.recipe.name : '',
+      description: this.props.recipe ? this.props.recipe.description : '',
+      selectedFile: null,
+      imageUrl: '',
+      numIngredients: this.props.recipe
+        ? this.props.recipe.ingredients.length
+        : 3,
+      ingredients: this.props.recipe
+        ? this.populateUnitsLists()
+        : [emptyIng, emptyIng, emptyIng],
+      focuses: this.props.recipe
+        ? this.props.recipe.ingredients.map(ingredient => ({
+            focus: false
+          }))
+        : [{ focus: false }, { focus: false }, { focus: false }]
     };
   }
+
+  populateUnitsLists = () => {
+    // Populate the unitsList property of each ingredient
+    const ingArr = this.props.recipe.ingredients.slice(); // Copy ingredients from the db without unitsLists
+    for (let i = 0; i < ingArr.length; i++) {
+      if (ingArr[i].name !== '') {
+        // To avoid pinging the API with empty string queries
+        ingArr[i].unitsList = []; // Make sure there is a unitsList to add to
+        const encoded = encodeURIComponent(ingArr[i].name); // Ready the ingredient name to be part of a URI
+        const url = `${edamam}/parser?ingr=${encoded}&app_id=${edamamAppId}&app_key=${edamamAppKey}`;
+        axios
+          .get(url)
+          .then(res => {
+            const hints = res.data.hints;
+            if (hints.length) {
+              // If the API returned any results for our search
+              hints[0].measures.map(measure => {
+                // res.data.hints[0].measures[0].label is where the Units suggestions are
+                ingArr[i].unitsList.push(measure.label);
+                return null;
+              });
+            } else {
+              ingArr[i].unitsList.push('Gram');
+            }
+          })
+          .catch(err => {
+            console.log({ error: err });
+          });
+      } else {
+        ingArr[i].unitsList = ['Gram'];
+      }
+    }
+    return ingArr;
+  };
 
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
     this.props.getAllergies();
+    this.setState({
+      ingredients: this.populateUnitsLists()
+    });
   }
+
+  quillHandler = html => {
+    this.setState({ description: html });
+  };
 
   typingHandler = e => {
     if (e.target.name === 'numIngredients') {
@@ -133,12 +204,13 @@ class AddNewRecipeForm extends Component {
     let recipeObj = {
       name: this.state.name,
       description: this.state.description,
+      imageUrl: this.state.imageUrl,
       firebaseid,
       ingredients: ingArray
     };
     // Call the action to send this object to POST a recipe
     this.props.editRecipe(this.props.match.params.id, recipeObj);
-    this.setState({ name: '', description: '', ingredients: [] });
+    this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
     this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
   };
 
@@ -148,6 +220,7 @@ class AddNewRecipeForm extends Component {
     this.setState({ ingredients }); // changing ingredient in state
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.onBlur(i); // changes focus to false
+    this.checkAutoComUnits(i, item);
   };
 
   onFocus = index => {
@@ -162,6 +235,56 @@ class AddNewRecipeForm extends Component {
     this.setState({ focuses });
   };
 
+  checkUnits = ev => {
+    if (ev.target.value !== '') {
+      const ingNum = Number(ev.target.name.slice(4));
+      const encoded = encodeURIComponent(ev.target.value);
+      const url = `${edamam}/parser?ingr=${encoded}&app_id=${edamamAppId}&app_key=${edamamAppKey}`;
+      const unitArr = [];
+      axios
+        .get(url)
+        .then(res => {
+          const hints = res.data.hints;
+          if (hints.length) {
+            hints[0].measures.map(measure => {
+              unitArr.push(measure.label);
+              return null;
+            });
+          } else {
+            unitArr.push('Gram');
+          }
+          const ingCopy = this.state.ingredients.slice();
+          ingCopy[ingNum].unitsList = unitArr;
+          ingCopy[ingNum].unit = unitArr[0];
+          this.setState({ ingredients: ingCopy });
+        })
+        .catch(err => {
+          console.log({ error: err });
+        });
+    }
+  };
+
+  checkAutoComUnits = async (i, item) => {
+    try {
+      const encoded = encodeURIComponent(item);
+      const url = `${this.state.edamam}/parser?ingr=${encoded}&app_id=${
+        this.state.edamamAppId
+      }&app_key=${this.state.edamamAppKey}`;
+      const unitArr = [];
+      const res = await axios.get(url);
+      res.data.hints[0].measures.map(measure => {
+        unitArr.push(measure.label);
+        return null;
+      });
+      const ingCopy = this.state.ingredients.slice();
+      ingCopy[i].unitsList = unitArr;
+      ingCopy[i].unit = unitArr[0];
+      this.setState({ ingredients: ingCopy });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   ingAllergyWarning = index => {
     const boolArr = this.props.allergies.map(
       allergy => allergy === this.state.ingredients[index].name
@@ -173,25 +296,59 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+  handleFileUpload = ev => {
+    ev.preventDefault();
+    //if user clicks upload with no image this will catch that and not break the code
+    if (!this.state.selectedFile[0]) {
+      this.setState({ imageUrl: '' });
+      console.log('not setting image');
+    } else {
+      const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
+      const formData = new FormData();
+      formData.append('image', this.state.selectedFile[0]);
+      axios
+        .post(URL, formData)
+        .then(res => {
+          this.setState({ imageUrl: res.data.imageUrl });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  };
+
+  handleInputSelectedFile = ev => {
+    ev.preventDefault();
+    this.setState({
+      selectedFile: ev.target.files
+    });
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     if (this.props.recipe) {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
+        const unitOptions = [];
+        this.state.ingredients[i].unitsList.map(unit =>
+          unitOptions.push({ value: unit, text: unit })
+        );
         ingredientRows.push(
-          <div key={`row${i}`}>
-            <AutoComDiv>
+          <Form.Group key={`row${i}`}>
+            {/* <AutoComDiv> */}
+            <Form.Input width='10' onBlur={this.checkUnits} name={`name${i}`}>
               <input
-                type="text"
-                placeholder="Ingredient Name"
+                type='text'
+                placeholder='Ingredient Name'
                 name={`name${i}`}
                 value={this.state.ingredients[i].name}
-                autoComplete="new-password"
+                autoComplete='new-password'
                 onFocus={() => this.onFocus(i)}
                 onChange={e => {
                   this.ingHandler(e);
                   this.props.autoComIng(this.state.ingredients[i].name);
                 }}
+                // onBlur={this.checkUnits}
                 style={this.ingAllergyWarning(i)}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (
@@ -208,64 +365,141 @@ class AddNewRecipeForm extends Component {
                   })}
                 </AutoComItemsDiv>
               )}
-            </AutoComDiv>
-            <input
-              type="text"
-              placeholder="Ingredient Quantity"
-              name={`quty${i}`}
-              value={this.state.ingredients[i].quantity}
-              onChange={this.ingHandler}
-            />
-            <input
-              type="text"
-              placeholder="Ingredient Unit"
-              name={`unit${i}`}
-              value={this.state.ingredients[i].unit}
-              onChange={this.ingHandler}
-            />
-            <br />
-          </div>
+              {/* </AutoComDiv> */}
+            </Form.Input>
+            <Form.Input width='4'>
+              <input
+                type='text'
+                placeholder='Quantity'
+                name={`quty${i}`}
+                value={this.state.ingredients[i].quantity}
+                onChange={this.ingHandler}
+                onFocus={() => this.onBlur(i)}
+              />
+            </Form.Input>
+            <Form.Select width='5' options={unitOptions} />
+            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
+              {this.state.ingredients[i].unitsList &&
+                this.state.ingredients[i].unitsList.map(unit => (
+                  <option value={unit}>{unit}</option>
+                ))}
+            </select>
+            <br /> */}
+          </Form.Group>
         );
       }
       return (
-        <form onSubmit={this.submitHandler} autoComplete="off">
-          <h2>Upload New Recipe</h2>
-          <input
-            type="text"
-            placeholder="Recipe Name"
-            name="name"
-            value={this.state.name}
-            onChange={this.typingHandler}
-            required
-          />
-          <br />
-          <textarea
-            placeholder="Recipe Description"
-            name="description"
-            value={this.state.description}
-            onChange={this.typingHandler}
-            required
-          />
-          <br />
-          <label htmlFor="numIngredients">Number of Ingredients:</label>
-          <input
-            type="number"
-            placeholder="3"
-            name="numIngredients"
-            id="numIngredients"
-            value={this.state.numIngredients}
-            onChange={this.typingHandler}
-          />
-          <br />
-          {ingredientRows}
-          <button type="submit">Save Recipe</button>
-        </form>
+        <EditRecipeFormDiv>
+          <Segment inverted color='orange'>
+            <Header as='h1' style={{ color: 'white' }}>
+              Edit Recipe
+            </Header>
+            <Form
+              onSubmit={this.submitHandler}
+              autoComplete='off'
+              size='tiny'
+              inverted
+            >
+              <Form.Group widths='equal'>
+                <Form.Field width='6'>
+                  <label htmlFor='recipe-name'>Name</label>
+                  <input
+                    type='text'
+                    placeholder='Recipe Name'
+                    name='name'
+                    id='recipe-name'
+                    value={this.state.name}
+                    onChange={this.typingHandler}
+                    required
+                  />
+                </Form.Field>
+                <Form.Field width='1'>
+                  <label htmlFor='numIngredients'>Number of Ingredients:</label>
+                  <input
+                    type='number'
+                    placeholder='3'
+                    name='numIngredients'
+                    id='numIngredients'
+                    value={this.state.numIngredients}
+                    onChange={this.typingHandler}
+                  />
+                </Form.Field>
+              </Form.Group>
+              {ingredientRows}
+
+              <div>Drop Image here</div>
+{/* 
+              <FileDrop
+                selectedFile={this.state.selectedFile}
+                handleFileUpload={this.handleFileUpload}
+                handleInputSelectedFile={this.handleInputSelectedFile}
+              /> */}
+
+              <div className='quill-div'>
+                <ReactQuill
+                  value={this.state.description}
+                  onChange={html => this.quillHandler(html)}
+                  modules={AddNewRecipeForm.modules}
+                  formats={AddNewRecipeForm.formats}
+                  style={{
+                    minHeight: '150px',
+                    background: 'white',
+                    color: 'black'
+                  }}
+                />
+              </div>
+              {(!this.state.name || !this.state.description) && (
+                <p className='please-provide'>
+                  Please provide a name, description, and ingredients before
+                  submitting a recipe!
+                </p>
+              )}
+              <Form.Button type='submit' style={{ marginTop: '20px' }}>
+                Save Recipe
+              </Form.Button>
+            </Form>
+          </Segment>
+        </EditRecipeFormDiv>
       );
     } else {
       return <div>Loading...</div>;
     }
   }
 }
+
+AddNewRecipeForm.modules = {
+  toolbar: [
+    [{ header: '1' }, { header: '2' }, { font: [] }],
+    [{ size: [] }],
+    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { indent: '-1' },
+      { indent: '+1' }
+    ],
+    ['link'],
+    ['clean']
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false
+  }
+};
+AddNewRecipeForm.formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link'
+];
 
 const mapStateToProps = state => {
   return {

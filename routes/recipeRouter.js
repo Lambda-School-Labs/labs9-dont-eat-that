@@ -4,13 +4,14 @@ const db = require('../data/dbConfig');
 
 const router = express.Router();
 
-// get all recipes including others
+// get all recipes
 router.get('/all', async (req, res) => {
   try {
     const recipes = await db('recipes'); // getting all recipes
     const recipesAndIng = await Promise.all(
       recipes.map(async recipe => {
         // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
         const ingredients = await db('ingredients')
           .join(
             'recipes-ingredients',
@@ -24,7 +25,7 @@ router.get('/all', async (req, res) => {
             'recipes-ingredients.quantity',
             'ingredients.unit'
           );
-        return { ...recipe, ingredients };
+        return { ...recipe, ratings, ingredients };
       })
     );
     console.log(recipesAndIng);
@@ -38,17 +39,77 @@ router.get('/all', async (req, res) => {
 });
 
 // get recipes for just the user
-router.get('/:userid', (req, res) => {
-  const id = req.params.userid; // need to somehow get user_id
-  db('recipes')
-    .where({ user_id: id })
-    .then(recipes => res.status(200).json(recipes))
-    .catch(err =>
-      res.status(500).json({
-        message: 'The recipes information could not be retrieved',
-        err
+router.get('/:firebaseid', async (req, res) => {
+  const id = req.params.firebaseid; // need to somehow get user_id
+  try {
+    const user = await db('users')
+      .where({ firebaseid: id })
+      .first();
+    const recipes = await db('recipes').where({ user_id: user.id });
+    const recipesAndIng = await Promise.all(
+      recipes.map(async recipe => {
+        // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
+        const ingredients = await db('ingredients')
+          .join(
+            'recipes-ingredients',
+            'ingredients.id',
+            'recipes-ingredients.ingredient_id'
+          )
+          .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+          .where({ 'recipes.id': recipe.id })
+          .select(
+            'ingredients.name',
+            'recipes-ingredients.quantity',
+            'ingredients.unit'
+          );
+        return { ...recipe, ratings, ingredients };
       })
     );
+    res.status(200).json(recipesAndIng);
+  } catch (err) {
+    res.status(500).json({
+      message: 'The recipes information could not be retrieved',
+      err
+    });
+  }
+});
+
+// get recipes for just other users
+router.get('/:firebaseid/not', async (req, res) => {
+  const id = req.params.firebaseid;
+  try {
+    const user = await db('users')
+      .where({ firebaseid: id })
+      .first();
+    const recipes = await db('recipes').whereNot({ user_id: user.id });
+    const recipesAndIng = await Promise.all(
+      recipes.map(async recipe => {
+        // mapping over recipes and adding ingredients
+        const ratings = await db('ratings').where({ recipe_id: recipe.id });
+        const ingredients = await db('ingredients')
+          .join(
+            'recipes-ingredients',
+            'ingredients.id',
+            'recipes-ingredients.ingredient_id'
+          )
+          .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+          .where({ 'recipes.id': recipe.id })
+          .select(
+            'ingredients.name',
+            'recipes-ingredients.quantity',
+            'ingredients.unit'
+          );
+        return { ...recipe, ratings, ingredients };
+      })
+    );
+    res.status(200).json(recipesAndIng);
+  } catch (err) {
+    res.status(500).json({
+      message: 'The recipes information could not be retrieved',
+      err
+    });
+  }
 });
 
 // getting single recipe details
@@ -58,6 +119,7 @@ router.get('/one/:id', async (req, res) => {
     const recipe = await db('recipes')
       .where({ id: id })
       .first();
+    const ratings = await db('ratings').where({ recipe_id: id });
     const ingredients = await db('ingredients')
       .join(
         'recipes-ingredients',
@@ -76,7 +138,7 @@ router.get('/one/:id', async (req, res) => {
         .status(404)
         .json({ message: "The recipe with the specified id doesn't exist." });
     } else {
-      res.status(200).json({ ...recipe, ingredients: ingredients });
+      res.status(200).json({ ...recipe, ratings, ingredients });
     }
   } catch (err) {
     res.status(500).json({
@@ -87,7 +149,7 @@ router.get('/one/:id', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const { name, description, firebaseid, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
+  const { name, description, firebaseid, imageUrl, ingredients } = req.body; // ingredients should be an array with each ingredient an object with a name, quantity, and unit
   if (name && description && firebaseid && ingredients) {
     try {
       const user = await db('users')
@@ -98,6 +160,7 @@ router.post('/create', async (req, res) => {
           // inserting into recipes database
           name: name,
           description: description,
+          imageUrl: imageUrl,
           user_id: user.id
         })
         .returning('id');
@@ -130,7 +193,26 @@ router.post('/create', async (req, res) => {
           }
         })
       );
-      res.status(201).json(recipe[0]);
+      const newRecipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
+        .where({ id: recipe[0] })
+        .first();
+      const ratings = await db('ratings').where({ recipe_id: newRecipe.id });
+      const ingredientList = await db('ingredients')
+        .join(
+          'recipes-ingredients',
+          'ingredients.id',
+          'recipes-ingredients.ingredient_id'
+        )
+        .join('recipes', 'recipes.id', 'recipes-ingredients.recipe_id')
+        .where({ 'recipes.id': recipe[0] })
+        .select(
+          'ingredients.name',
+          'recipes-ingredients.quantity',
+          'ingredients.unit'
+        );
+      res
+        .status(201)
+        .json({ ...newRecipe, ratings, ingredients: ingredientList });
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -144,7 +226,7 @@ router.post('/create', async (req, res) => {
 });
 
 router.put('/edit/:id', async (req, res) => {
-  const { name, description, firebaseid, ingredients } = req.body;
+  const { name, description, firebaseid, imageUrl, ingredients } = req.body;
   const id = req.params.id;
   if (name && description && firebaseid && ingredients) {
     // checks if all fields in req.body
@@ -153,7 +235,12 @@ router.put('/edit/:id', async (req, res) => {
       .first();
     const recipeUpdate = await db('recipes') // updates the recipe database
       .where({ id: id })
-      .update({ name: name, description: description, user_id: user.id })
+      .update({
+        name: name,
+        description: description,
+        imageUrl: imageUrl,
+        user_id: user.id
+      })
       .returning('id');
     if (recipeUpdate) {
       // checks if recipeid actually exists
@@ -192,6 +279,7 @@ router.put('/edit/:id', async (req, res) => {
       const recipe = await db('recipes') // rest is just formatting to return the recipe and ingredients
         .where({ id: id })
         .first();
+      const ratings = await db('ratings').where({ recipe_id: recipe.id });
       const ingredientList = await db('ingredients')
         .join(
           'recipes-ingredients',
@@ -205,7 +293,7 @@ router.put('/edit/:id', async (req, res) => {
           'recipes-ingredients.quantity',
           'ingredients.unit'
         );
-      res.status(200).json({ ...recipe, ingredients: ingredientList });
+      res.status(200).json({ ...recipe, ratings, ingredients: ingredientList });
     } else {
       res
         .status(404)
@@ -220,6 +308,9 @@ router.delete('/delete/:id', async (req, res) => {
   const id = req.params.id;
   try {
     await db('recipes-ingredients') // deletes recipe in recipes-ingredients database
+      .where({ recipe_id: id })
+      .del();
+    await db('ratings')
       .where({ recipe_id: id })
       .del();
     const recipe = await db('recipes') // deletes recipe in recipe database

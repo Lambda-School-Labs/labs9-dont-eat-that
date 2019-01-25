@@ -2,7 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Form, Segment, Card, Icon, Button, Header } from 'semantic-ui-react';
+
+import {
+  getAllRecipes,
+  getOwnRecipes,
+  getForeignRecipes,
+  getAllergies
+} from '../actions';
+
 import DisplayOneRecipe from './DisplayOneRecipe';
+import SimpleSearch from './util/simpleSearch.js';
+import { searchFunc } from './util';
+
+import { downloadRecipeToCSV } from '../components/util';
+
+const RecipeListPage = styled.div`
+  form {
+    margin-top: 4px;
+  }
+`;
 
 const DisplayListDiv = styled.div`
   display: flex;
@@ -10,25 +29,39 @@ const DisplayListDiv = styled.div`
   justify-content: space-evenly;
 `;
 
-const CreateRecipeDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  height: 200px;
-  width: 200px;
-  padding: 10px;
-  margin: 10px;
+const CheckboxElement = styled.div`
+  margin-top: 15px;
 `;
 
 class DisplayListRecipes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: '',
+      isSearched: false,
+      personalCheck: true,
+      displayedRecipes: []
+    };
+  }
+
+  componentDidMount() {
+    if (!localStorage.getItem('uid')) {
+      this.props.getAllRecipes();
+    } else if (this.state.personalCheck) {
+      this.props.getOwnRecipes();
+    } else {
+      this.props.getForeignRecipes();
+    }
+    this.props.getAllergies();
+  }
+
+  // maybe filter the array?
   displayDiv = () => {
-    return this.props.recipes.map(recipe => {
+    return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
       const outerBoolArr = recipe.ingredients.map(ingredient => {
         const innerBoolArr = this.props.allergies.map(
-          allergy => allergy === ingredient.name // seeing if any allergies in one ingredient
+          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
         );
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
@@ -40,31 +73,131 @@ class DisplayListRecipes extends Component {
       }
     });
   };
+
+  handleInputChange = async e => {
+    await this.setState({
+      [e.target.name]: e.target.value
+    });
+    if (this.state.query) {
+      this.setState({
+        displayedRecipes: searchFunc(this.state.query, this.props.recipes)
+      });
+    } else {
+      this.setState({ displayedRecipes: this.props.recipes });
+    }
+  };
+  // edge case for spacing, for later
+
+  checkHandler = async ev => {
+    await this.setState({
+      personalCheck: ev.target.checked
+    });
+    if (this.state.personalCheck) {
+      this.props.getOwnRecipes();
+    } else {
+      this.props.getForeignRecipes();
+    }
+  };
+
+  displayRecipesCheck = async () => {
+    await this.setState({ displayedRecipes: this.props.recipes });
+  };
+
   render() {
+    // in below if's 2nd condition (!this.state.query) checks if search is performed and if so, skip REcipesCheck to save
+    // searched results in this.state.displayedREcipes
+
+    if (
+      this.state.displayedRecipes.length !== this.props.recipes.length &&
+      !this.state.query
+    ) {
+      this.displayRecipesCheck();
+    }
+
     return (
-      <div className="recipe-list">
-        <h1>Recipes</h1>
+      <RecipeListPage>
+        <Segment
+          inverted
+          color="grey"
+          style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
+        >
+          <Form inverted>
+            <Form.Group inline className="flexWrapCenter">
+              <SimpleSearch
+                query={this.state.query}
+                handleInputChange={this.handleInputChange}
+              />
+              {localStorage.getItem('uid') && (
+
+                <CheckboxElement>
+                  <Form.Field inline>
+                    <input
+                      type='checkbox'
+                      id='personalCheck'
+                      name='personalCheck'
+                      onChange={this.checkHandler}
+                      checked={this.state.personalCheck}
+                    />
+                    <label htmlFor='personalCheck'>See your own recipes</label>
+                  </Form.Field>
+                </CheckboxElement>
+
+              )}
+            </Form.Group>
+          </Form>
+        </Segment>
+        <Header as="h1">Recipes</Header>
+
+        {this.props.user.subscriptionid && (
+          <Button
+            color="blue"
+            onClick={() => {
+              downloadRecipeToCSV(this.state.displayedRecipes);
+            }}
+          >
+            {' '}
+            Download Recipes{' '}
+          </Button>
+        )}
         <DisplayListDiv>
-          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
-            <CreateRecipeDiv>
-              <h3>Create a Recipe</h3>
-              <h3>+</h3>
-            </CreateRecipeDiv>
+          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+            <Card
+              style={{ width: '200px', height: '200px', margin: '10px' }}
+              color="olive"
+            >
+              <Card.Content
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Card.Header>Create a Recipe</Card.Header>
+                <Card.Description>
+                  <Icon name="plus circle" size="big" />
+                </Card.Description>
+              </Card.Content>
+            </Card>
           </Link>
+
           {this.displayDiv()}
         </DisplayListDiv>
-      </div>
+      </RecipeListPage>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { recipesReducer } = state;
   return {
-    recipes: recipesReducer.recipes,
-    error: recipesReducer.error,
-    allergies: state.usersReducer.user.allergies
+    recipes: state.recipesReducer.recipes,
+    error: state.recipesReducer.error,
+    allergies: state.usersReducer.user.allergies,
+    user: state.usersReducer.user
   };
 };
 
-export default connect(mapStateToProps)(DisplayListRecipes);
+export default connect(
+  mapStateToProps,
+  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies }
+)(DisplayListRecipes);

@@ -4,31 +4,60 @@
 // Display two buttons - edit and delete.  Both buttons will be linked to a props methods
 
 import React from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Rating, Card, Image } from 'semantic-ui-react';
 
-const DisplayRecipeDiv = styled.div`
-  border: 1px solid black;
-  width: 200px;
-  height: 200px;
-  padding: 10px;
-  margin: 10px;
-  overflow: hidden;
-`;
+import defaultImage from '../images/defaultimage.jpeg';
 
 const DisplayOneRecipe = props => {
+  const ratingsFunc = recipe => {
+    if (!recipe.ratings || !recipe.ratings[0]) {
+      return 0;
+    } else {
+      const ratingArr = recipe.ratings.map(rating => rating.rating);
+      const avgRating =
+        ratingArr.reduce((acc, num) => acc + num, 0) / recipe.ratings.length;
+      return Math.round(avgRating);
+    }
+  };
+
   return (
     <Link
       to={`/recipes/one/${props.recipe.id}`}
       style={{ textDecoration: 'none' }}
     >
-      <DisplayRecipeDiv
-        style={{ border: props.allergy ? `10px solid red` : null }}
+      <Card
+        style={{
+          boxShadow: props.allergy ? `0 0 3px 5px red` : null,
+          width: '200px',
+          height: '200px',
+          margin: '10px',
+          overflow: 'hidden',
+          fontFamily: 'Roboto'
+        }}
+        color="blue"
       >
-        <h3>{props.recipe.name}</h3>
-        <h4>Description:</h4>
-        <p>{props.recipe.description}</p>
-      </DisplayRecipeDiv>
+        {props.recipe.imageUrl ? (
+          <Image
+            src={props.recipe.imageUrl}
+            style={{ maxHeight: '133.13px' }}
+          />
+        ) : (
+          <Image src={defaultImage} />
+        )}
+        <Card.Content>
+          <Card.Header as="h3" style={{ maxHeight: '28px', overflow: 'hidden' }}>{props.recipe.name}</Card.Header>
+          <div>
+            <Rating
+              icon="star"
+              rating={ratingsFunc(props.recipe)}
+              maxRating={5}
+              disabled
+            />
+            {props.recipe.ratings ? props.recipe.ratings.length : 0}
+          </div>
+        </Card.Content>
+      </Card>
     </Link>
   );
 };

@@ -1,5 +1,5 @@
 const express = require('express');
-const stripe = require('stripe')('sk_test_gkVUpZdQd5USCZLsKCjdal9R');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const db = require('../data/dbConfig');
 

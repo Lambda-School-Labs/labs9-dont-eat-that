@@ -1,15 +1,12 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { Button, Header, Form, Segment, Icon } from 'semantic-ui-react';
 
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
+import PasswordChangeForm from './auth/passwordChange';
 
-const DeleteAllergySpan = styled.span`
-  color: red;
-  cursor: pointer;
-`;
 class Settings extends React.Component {
   state = {
     email: '',
@@ -23,7 +20,7 @@ class Settings extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   };
   onAddAllergy = e => {
-    this.props.addAllergy(this.state.allergy);
+    this.props.addAllergy(this.state.allergy.toLowerCase());
     this.setState({ allergy: '' });
   };
 
@@ -31,86 +28,74 @@ class Settings extends React.Component {
     if (this.props.allergies) {
       return (
         <div>
-          <h1>Settings</h1>
-          <div>
-            <h2>User Account</h2>
-            <form
-              onSubmit={() =>
-                this.props.firebase.doPasswordReset(this.state.email)
-              }
-            >
-              <label htmlFor="email">Password Reset</label>
-              <br />
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value={this.state.email}
-                onChange={this.onChange}
-              />
-              <br />
-              <button type="submit">Submit</button>
-            </form>
-            <br />
-            <form
-              onSubmit={() =>
-                this.props.firebase.doPasswordUpdate(this.state.password)
-              }
-            >
-              <label htmlFor="password">Password Change</label>
-              <br />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.onChange}
-              />
-              <br />
-              <button type="submit">Submit</button>
-            </form>
-          </div>
-          <div>
-            <h2>Allergies</h2>
-            <ul style={{ paddingLeft: 0, listStyle: 'none' }}>
+          <Header as="h1">Settings</Header>
+          {localStorage.getItem('uid') && <PasswordChangeForm />}
+          <Header
+            as="h3"
+            color="red"
+            inverted
+            attached="top"
+            style={{ width: '95%', marginLeft: '2.5%' }}
+          >
+            Allergies
+          </Header>
+          <Segment attached style={{ width: '95%', marginLeft: '2.5%' }}>
+            <ul>
               {this.props.allergies.map((allergy, i) => {
                 if (typeof allergy === 'object') {
                   return (
                     <li key={i}>
                       {allergy.name}{' '}
-                      <DeleteAllergySpan
+                      <Icon
                         onClick={() => this.props.deleteAllergy(allergy.name)}
-                      >
-                        X
-                      </DeleteAllergySpan>
+                        name="delete"
+                        style={{ color: 'red' }}
+                      />
                     </li>
                   );
                 } else {
                   return (
                     <li key={i}>
                       {allergy}{' '}
-                      <DeleteAllergySpan
+                      <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
-                      >
-                        X
-                      </DeleteAllergySpan>
+                        name="delete"
+                        style={{ color: 'red' }}
+                      />
                     </li>
                   );
                 }
               })}
             </ul>
-            <label htmlFor="allergy" />
-            <input
-              type="text"
-              name="allergy"
-              id="allergy"
-              placeholder="Please enter an allergy..."
-              value={this.state.allergy}
-              onChange={this.onChange}
-            />
-            <button onClick={this.onAddAllergy}>Add Allergy</button>
-          </div>
+          </Segment>
+          <Segment
+            color="red"
+            inverted
+            style={{ width: '95%', marginLeft: '2.5%' }}
+          >
+            <Form inverted>
+              <Form.Field>
+                <input
+                  type="text"
+                  name="allergy"
+                  id="allergy"
+                  placeholder="Please enter an allergy..."
+                  value={this.state.allergy}
+                  onChange={this.onChange}
+                />
+              </Form.Field>
+              {localStorage.getItem('uid') ? (
+                <Button onClick={this.onAddAllergy}>Add Allergy</Button>
+              ) : (
+                <React.Fragment>
+                  <Button onClick={this.onAddAllergy} disabled>
+                    Add Allergy
+                  </Button>
+                  <p>Please Login to Add an Allergy!</p>
+                </React.Fragment>
+              )}
+            </Form>
+          </Segment>
         </div>
       );
     } else {
