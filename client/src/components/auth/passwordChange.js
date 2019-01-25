@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, Header, Segment, Input } from 'semantic-ui-react';
 
 import { withFirebase } from '../firebase';
+import ourColors from '../../ColorScheme.js';
 
 const INITIAL_STATE = {
   passwordOne: '',
@@ -75,7 +76,15 @@ class PasswordChangeForm extends Component {
               placeholder="Confirm New Password"
             />
           </Form.Field>
-          <Button style="color:ff7b6e" disabled={isInvalid} type="submit">
+          <Button
+            style={
+              isInvalid
+                ? { background: ourColors.inactiveButtonColor }
+                : { background: ourColors.buttonColor }
+            }
+            disabled={isInvalid}
+            type="submit"
+          >
             Reset My Password
           </Button>
 
