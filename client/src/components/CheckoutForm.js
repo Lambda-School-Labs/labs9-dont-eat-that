@@ -19,6 +19,7 @@ class CheckoutForm extends React.Component {
   };
 
   componentDidMount() {
+    console.log("Got to componentDidMount");
     this.props.getPlan();
   }
 

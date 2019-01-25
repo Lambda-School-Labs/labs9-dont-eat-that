@@ -70,7 +70,7 @@ router.get('/plan/:firebaseid', async (req, res) => {
     const subscriptionInfo = await stripe.subscriptions.retrieve(
       user.subscriptionid,
       function(err, subscription) {
-        res.status(400).json({ message: "Bad subscription request", err });
+        // res.status(400).json({ message: "Bad subscription request", err });
       }
     )
     let planName = "";

@@ -26,6 +26,7 @@ export const chargeUser = (token, plan) => dispatch => {
 };
 
 export const getPlan = () => dispatch => {
+  console.log("Got to getPlan action");
   const firebaseid = localStorage.getItem('uid');
   axios
     .get(`${URL}/api/payments/plan/${firebaseid}`)
