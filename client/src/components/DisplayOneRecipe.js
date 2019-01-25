@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Rating, Card, Image } from 'semantic-ui-react';
 
 import defaultImage from '../images/defaultimage.jpeg';
+import ourColors from '../ColorScheme';
 
 const DisplayOneRecipe = props => {
   const ratingsFunc = recipe => {
@@ -28,14 +29,16 @@ const DisplayOneRecipe = props => {
     >
       <Card
         style={{
-          boxShadow: props.allergy ? `0 0 3px 5px #c94617` : null,
+          boxShadow: props.allergy
+            ? `0 0 3px 5px ${ourColors.warningColor}`
+            : null,
           width: '200px',
           height: '200px',
           margin: '10px',
           overflow: 'hidden',
           fontFamily: 'Roboto'
         }}
-        color="blue"
+        color='blue'
       >
         {props.recipe.imageUrl ? (
           <Image
@@ -46,10 +49,15 @@ const DisplayOneRecipe = props => {
           <Image src={defaultImage} />
         )}
         <Card.Content>
-          <Card.Header as="h3" style={{ maxHeight: '28px', overflow: 'hidden' }}>{props.recipe.name}</Card.Header>
+          <Card.Header
+            as='h3'
+            style={{ maxHeight: '28px', overflow: 'hidden' }}
+          >
+            {props.recipe.name}
+          </Card.Header>
           <div>
             <Rating
-              icon="star"
+              icon='star'
               rating={ratingsFunc(props.recipe)}
               maxRating={5}
               disabled
