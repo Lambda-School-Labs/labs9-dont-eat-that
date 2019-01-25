@@ -13,6 +13,8 @@ import {
 } from '../actions';
 import styled from 'styled-components';
 
+import ourColors from '../ColorScheme';
+
 // const AutoComDiv = styled.div`
 //   position: relative;
 //   display: inline-block;
@@ -394,16 +396,9 @@ class AddNewRecipeForm extends Component {
       }
       return (
         <EditRecipeFormDiv>
-          <Segment inverted color='orange'>
-            <Header as='h1' color='white'>
-              Edit Recipe
-            </Header>
-            <Form
-              onSubmit={this.submitHandler}
-              autoComplete='off'
-              size='tiny'
-              inverted
-            >
+          <Segment style={{ background: ourColors.formColor }}>
+            <Header as='h1'>Edit Recipe</Header>
+            <Form onSubmit={this.submitHandler} autoComplete='off' size='tiny'>
               <Form.Group
                 widths='equal'
                 style={{ display: 'flex', alignItems: 'flex-end' }}
@@ -470,14 +465,19 @@ class AddNewRecipeForm extends Component {
                     Save Recipe
                   </Form.Button>
                 ) : (
-                  <Form.Button type='submit'>Save Recipe</Form.Button>
+                  <Form.Button
+                    type='submit'
+                    style={{ background: ourColors.buttonColor }}
+                  >
+                    Save Recipe
+                  </Form.Button>
                 )
               ) : (
                 <React.Fragment>
                   <Form.Button type='submit' disabled>
                     Save Recipe
                   </Form.Button>
-                  <p>Please Log In to Add a Recipe!</p>
+                  <p>Please Log In to Edit a Recipe!</p>
                 </React.Fragment>
               )}
             </Form>

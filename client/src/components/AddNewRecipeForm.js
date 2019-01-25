@@ -5,6 +5,8 @@ import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
 import { Form, Segment, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
+
+import ourColors from '../ColorScheme';
 import FileDrop from './FileDrop';
 
 // const AutoComDiv = styled.div`
@@ -351,16 +353,9 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
-        <Segment inverted color='orange' style={{ background: 'blue' }}>
-          <Header as='h1' color='white'>
-            Upload New Recipe
-          </Header>
-          <Form
-            onSubmit={this.submitHandler}
-            autoComplete='off'
-            size='tiny'
-            inverted
-          >
+        <Segment style={{ background: ourColors.formColor }}>
+          <Header as='h1'>Upload New Recipe</Header>
+          <Form onSubmit={this.submitHandler} autoComplete='off' size='tiny'>
             <Form.Group
               widths='equal'
               style={{ display: 'flex', alignItems: 'flex-end' }}
@@ -428,7 +423,12 @@ class AddNewRecipeForm extends Component {
                   Save Recipe
                 </Form.Button>
               ) : (
-                <Form.Button type='submit'>Save Recipe</Form.Button>
+                <Form.Button
+                  type='submit'
+                  style={{ background: ourColors.buttonColor }}
+                >
+                  Save Recipe
+                </Form.Button>
               )
             ) : (
               <React.Fragment>

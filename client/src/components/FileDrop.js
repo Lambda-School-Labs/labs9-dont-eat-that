@@ -2,6 +2,8 @@
 import React from 'react';
 import { Button, Form, Popup } from 'semantic-ui-react';
 // import { connect } from "react-redux";
+
+import ourColors from '../ColorScheme';
 // import { handleFileUpload } from "../actions";
 
 const FileDrop = props => {
@@ -29,7 +31,8 @@ const FileDrop = props => {
               marginRight: '8px',
               marginLeft: '7px',
               width: '20%',
-              minWidth: '100px'
+              minWidth: '100px',
+              background: ourColors.buttonColor
             }}
           >
             Upload Image
