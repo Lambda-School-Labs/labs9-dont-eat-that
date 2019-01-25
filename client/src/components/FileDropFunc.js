@@ -34,6 +34,12 @@ const FileDropFunc = props => {
         </div>
         {props.children}
 
+    {/* <input this is the reason why the input field was there
+      ref={el => (props.fileUploaderInput = el)}
+      type='file'
+      className='file-uploader-input'
+      onChange={props.onFileChange}
+    /> */}
         <Popup
         trigger={
           <Button

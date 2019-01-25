@@ -123,14 +123,8 @@ render(props) {
       onDrop={this.dropListener}
       handleFileUpload={this.props.handleFileUpload}
       handleInputSelectedFile={this.props.handleInputSelectedFile}
-    >
-    <input
-      ref={el => (this.fileUploaderInput = el)}
-      type='file'
-      className='file-uploader-input'
-      onChange={this.onFileChange}
+      onFileChange={this.onFileChange}
     />
-  </FileDropFunc>
   )
 }
 
