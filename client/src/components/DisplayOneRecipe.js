@@ -6,6 +6,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating, Card, Image } from 'semantic-ui-react';
+import ourColors from '../ColorScheme.js';
 
 import defaultImage from '../images/defaultimage.jpeg';
 
@@ -28,14 +29,14 @@ const DisplayOneRecipe = props => {
     >
       <Card
         style={{
-          boxShadow: props.allergy ? `0 0 3px 5px #c94617` : null,
+          boxShadow: props.allergy ? (`0 0 3px 5px red`) : null,
           width: '200px',
           height: '200px',
           margin: '10px',
           overflow: 'hidden',
           fontFamily: 'Roboto'
         }}
-        color="blue"
+        color={ourColors.buttonColor}
       >
         {props.recipe.imageUrl ? (
           <Image
