@@ -5,10 +5,13 @@ const db = require('../data/dbConfig');
 
 const router = express.Router();
 
+const silverCode = 'plan_EKIEXJhyKqBTFd';
+const goldCode = 'plan_EKIFbngvwjejux';
+
 router.post('/charge', async (req, res) => {
   const { token, customerPlan, firebaseid } = req.body;
   const plan = // getting actually stripe plan id for silver or gold plan
-    customerPlan === 'silver' ? 'plan_EKIEXJhyKqBTFd' : 'plan_EKIFbngvwjejux';
+    customerPlan === 'silver' ? silverCode : goldCode;
   try {
     const user = db('users')
       .where({ firebaseid })
@@ -55,6 +58,30 @@ router.post('/cancel', async (req, res) => {
     res
       .status(500)
       .json({ message: 'There was an error canceling your subscription.' });
+  }
+});
+
+router.get('/plan/:firebaseid', async (req, res) => {
+  const { firebaseid } = req.params;
+  try {
+    const user = await db('users')
+      .where({ firebaseid })
+      .first();
+    const subscriptionInfo = await stripe.subscriptions.retrieve(
+      user.subscriptionid,
+      function(err, subscription) {
+        res.status(400).json({ message: "Bad subscription request", err });
+      }
+    )
+    let planName = "";
+    if (subscriptionInfo.items.data.plan.id === silverCode) {
+      planName = "silver";
+    } else if (subscriptionInfo.items.data.plan.id === goldCode) {
+      planName = "gold";
+    }
+    res.status(200).json({ planName });
+  } catch (err) {
+    res.status(500).json({ message: 'Error retrieving user\'s plan info.', err });
   }
 });
 
