@@ -351,16 +351,9 @@ class AddNewRecipeForm extends Component {
     }
     return (
       <AddNewRecipeFormDiv>
-        <Segment inverted color='orange' style={{ background: 'blue' }}>
-          <Header as='h1' color='white'>
-            Upload New Recipe
-          </Header>
-          <Form
-            onSubmit={this.submitHandler}
-            autoComplete='off'
-            size='tiny'
-            inverted
-          >
+        <Segment style={{ background: '#ffdf8b' }}>
+          <Header as='h1'>Upload New Recipe</Header>
+          <Form onSubmit={this.submitHandler} autoComplete='off' size='tiny'>
             <Form.Group
               widths='equal'
               style={{ display: 'flex', alignItems: 'flex-end' }}
@@ -428,7 +421,9 @@ class AddNewRecipeForm extends Component {
                   Save Recipe
                 </Form.Button>
               ) : (
-                <Form.Button type='submit'>Save Recipe</Form.Button>
+                <Form.Button type='submit' style={{ background: '#ff7b6e' }}>
+                  Save Recipe
+                </Form.Button>
               )
             ) : (
               <React.Fragment>

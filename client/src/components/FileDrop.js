@@ -29,7 +29,8 @@ const FileDrop = props => {
               marginRight: '8px',
               marginLeft: '7px',
               width: '20%',
-              minWidth: '100px'
+              minWidth: '100px',
+              background: '#ff7b6e'
             }}
           >
             Upload Image
