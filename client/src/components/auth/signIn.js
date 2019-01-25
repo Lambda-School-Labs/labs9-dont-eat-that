@@ -117,11 +117,13 @@ class SignInFormBase extends Component {
             <Button
               disabled={isInvalid}
               type="submit"
-              style={ isInvalid ? { background: ourColors.inactiveButtonColor } : { background: ourColors.buttonColor }}
+              style={ isInvalid
+                ? { background: ourColors.inactiveButtonColor, color: 'white' }
+                : { background: ourColors.buttonColor, color: 'white' }}
             >
               Sign In
             </Button>
-            <Button onClick={this.resetPassword} style={{ background: ourColors.buttonColor }}>Forgot Password?</Button>
+            <Button onClick={this.resetPassword} style={{ background: ourColors.buttonColor, color: 'white' }}>Forgot Password?</Button>
           </div>
           {error && (
             <p>
@@ -170,7 +172,7 @@ class SignInGoogleBase extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <div className="flexCenter">
-          <Button type="submit" style={{ background: ourColors.buttonColor }}>
+          <Button type="submit" style={{ background: ourColors.buttonColor, color: 'white' }}>
             <Icon name="google" />
             Sign In with Google
           </Button>
@@ -215,7 +217,7 @@ class SignInFacebookBase extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <div className="flexCenter">
-          <Button type="submit" style={{ background: '#4267B2' }}>
+          <Button type="submit" style={{ background: '#4267B2', color: 'white' }}>
             <Icon name="facebook" />
             Sign In with Facebook
           </Button>

@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
+import ourColors from '../ColorScheme.js';
+
 import { Button, Header, Icon, Responsive, Segment } from 'semantic-ui-react';
 // import { url } from 'inspector';
 
@@ -67,7 +69,7 @@ const Landing = props => {
           <Icon name="long arrow alternate down" size="huge" />
         </ArrowDiv>
       </Responsive>
-      <Segment inverted color='blue' style={{ paddingBottom: '100px', fontFamily: 'Roboto' }}>
+      <Segment style={{ background: ourColors.formColor, paddingBottom: '100px', fontFamily: 'Roboto' }}>
         <p>
           Do you have trouble finding recipes that meet your dietary needs and
           avoid your allergens? Don't Eat That is the app for you! Here you can
