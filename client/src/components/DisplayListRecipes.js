@@ -77,14 +77,21 @@ class DisplayListRecipes extends Component {
   displayDiv = () => {
     return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
+
       const outerBoolArr = recipe.ingredients.map(ingredient => {
-        const innerBoolArr = this.props.allergies.map(
-          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
-        );
+        const innerBoolArr = this.props.allergies.map(allergy => {
+          // allergy sometime has array of string and sometimes has array of "name:allergy"
+          // so check the type and compare correct value
+          if (typeof allergy === 'string')
+            return ingredient.name.includes(allergy);
+          // seeing if any allergies in one ingredient
+          else return ingredient.name.includes(allergy.name);
+        });
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
       if (outerBoolArr.includes(true)) {
         // seeing if any allergies in all ingredients
+
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
       } else {
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
@@ -144,7 +151,7 @@ class DisplayListRecipes extends Component {
           }}
         >
           <Form>
-            <Form.Group className='topBarOptions'>
+            <Form.Group className="topBarOptions">
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
@@ -153,38 +160,38 @@ class DisplayListRecipes extends Component {
                 <CheckboxElement>
                   <Form.Field inline>
                     <input
-                      type='checkbox'
-                      id='personalCheck'
-                      name='personalCheck'
+                      type="checkbox"
+                      id="personalCheck"
+                      name="personalCheck"
                       onChange={this.checkHandler}
                       checked={this.state.personalCheck}
                     />
-                    <label htmlFor='personalCheck'>See your own recipes</label>
+                    <label htmlFor="personalCheck">See your own recipes</label>
                   </Form.Field>
                 </CheckboxElement>
               )}
             </Form.Group>
           </Form>
         </Segment>
-        <div className='header-icons'>
-          <div className='dummy-for-flexbox' />
-          <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
+        <div className="header-icons">
+          <div className="dummy-for-flexbox" />
+          <Header as="h1" style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
           {this.props.user.subscriptionid && (
             <Icon
-              name='download'
-              size='large'
+              name="download"
+              size="large"
               onClick={() => downloadRecipeToCSV(this.state.displayedRecipes)}
               style={{ cursor: 'pointer' }}
             />
           )}
         </div>
         <DisplayListDiv>
-          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+          <Link to="/recipes/new" style={{ textDecoration: 'none' }}>
             <Card
               style={{ width: '200px', height: '200px', margin: '10px' }}
-              color='blue'
+              color="blue"
             >
               <Card.Content
                 style={{
@@ -196,7 +203,7 @@ class DisplayListRecipes extends Component {
               >
                 <Card.Header>Create a Recipe</Card.Header>
                 <Card.Description>
-                  <Icon name='plus circle' size='big' />
+                  <Icon name="plus circle" size="big" />
                 </Card.Description>
               </Card.Content>
             </Card>
