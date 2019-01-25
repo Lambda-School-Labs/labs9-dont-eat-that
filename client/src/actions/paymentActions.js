@@ -3,25 +3,19 @@ import axios from 'axios';
 export const CANCEL_SUB = 'CANCEL_SUB';
 export const CHARGE_USER = 'CHARGE_USER';
 export const GET_PLAN = 'GET_PLAN';
-export const ERROR = "ERROR";
+export const ERROR = 'ERROR';
 
 const URL = 'https://donteatthat.herokuapp.com';
 
 export const chargeUser = (token, plan) => dispatch => {
   const firebaseid = localStorage.getItem('uid');
-  let planName = '';
-  if (plan === 'plan_EKIEXJhyKqBTFd') {
-    planName = "silver";
-  } else if (plan === 'plan_EKIFbngvwjejux') {
-    planName = "gold";
-  }
   axios
     .post(`${URL}/api/payments/charge`, {
       token: token.id,
-      customerPlan: planName,
+      customerPlan: plan,
       firebaseid
     })
-    .then(res => dispatch({ type: CHARGE_USER, payload: planName }))
+    .then(res => dispatch({ type: CHARGE_USER, payload: plan }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
@@ -30,12 +24,12 @@ export const getPlan = () => dispatch => {
   axios
     .get(`${URL}/api/payments/plan/${firebaseid}`)
     .then(res => {
-      console.log("then block of getPlan", res);
+      console.log('then block of getPlan', res);
       dispatch({ type: GET_PLAN, payload: res.data.planName });
     })
     .catch(err => dispatch({ type: ERROR, payload: err.message }));
 };
-  
+
 export const cancelSubscription = () => dispatch => {
   const firebaseid = localStorage.getItem('uid');
   axios
@@ -43,5 +37,3 @@ export const cancelSubscription = () => dispatch => {
     .then(res => dispatch({ type: CANCEL_SUB, payload: true }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
-  
-  

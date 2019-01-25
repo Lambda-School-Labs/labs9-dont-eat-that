@@ -38,7 +38,7 @@ There are a number of recipe sites online already, and a number of nutrition tra
 
 ##### User Story
 
-Shelly is allergic to shellfish and wants to compile a list of recipes that are suitable for her dietary needs. Luckily, she just downloaded Don’t Eat That! She opens the app and sets she allergy to shellfish in the settings. Then she views a list of recipes already created by other users that don’t include shellfish. Although impressed, she doesn’t find what she’s looking for and wants to add her own. Fortunately, she sees at the bottom of her screen a button to create recipes. So she clicks it, bringing her to a modal asking her what ingredients she wants to add. First off she marks off allergies, and then she adds ingredients. She saves it and now can view the recipe anything she needs when she cooks it again!
+Shelly is allergic to shellfish and wants to compile a list of recipes that are suitable for her dietary needs. Luckily, she just downloaded Don’t Eat That! She opens the app and sets she allergy to shellfish in the settings. Then she views a list of recipes already created by other users where recipes with shellfish are highlighted in red so she avoids them. Although impressed by the recipes, she doesn’t find what she’s looking for and wants to add her own. Fortunately, she sees at the bottom of her screen a button to create recipes. So she clicks it, bringing her to a form asking her for a name, description, image, and ingredients. She saves it and now can view the recipe with its nutritional value when she cooks it again!
 
 #### Who are your competitors and how do they solve this problem? List at least three.
 
@@ -56,16 +56,22 @@ A user with dietary restrictions or allergies that wants to save recipes suitary
 
 Account Type: Standard
 Description: Free-subscription accounts for users with limited functionalities
-Needs:.  
-Create recipes, all CRUD operations (MVP)
-Upload pictures of recipe?
-Nutritional breakdown (total calories) (MVP)
-Search Recipes
+Features:
+
+- All CRUD operations with recipes
+- Upload pictures of recipe
+- Copy Recipes
+- Import Recipes
+- Recipe Reviews
+- Allergy Notifications
+- Search Recipes
 
 Account Type: Premium
 Description: With the paid subscription you get all the benefits of the free subscription plus some extra functionalities listed below.
-Needs:
-Dietary/Allergy awareness (MVP) unlimited
+Features:
+
+- Nutritional Analysis of Recipes
+- Download Recipes
 
 ### Tech Stack Rationale
 
@@ -122,8 +128,9 @@ Dietary/Allergy awareness (MVP) unlimited
 
 **Recipes table (many-to-one with users)**
 
-- Recipe name (non-nullable)
+- Name of recipe (non-nullable)
 - Descriptions (or steps) (non-nullable)
+- Imageurl
 - User_id (non-nullable)
 
 **Recipes-Ingredients table (many-to-many)**
@@ -136,6 +143,21 @@ Dietary/Allergy awareness (MVP) unlimited
 
 - Name of ingredient
 - Unit of ingredient measurement
+
+**Allergies Table**
+
+- Name of allergy
+
+**Users-Allergies Table**
+
+- User_id
+- Allergy_id
+
+**Ratings Table**
+
+- Rating
+- User_id
+  -Allergy_id
 
 #### Deployment
 
@@ -161,14 +183,14 @@ Dietary/Allergy awareness (MVP) unlimited
 
 #### Food API
 
-**Solution:** Edamam Nutritional Analysis API, Spoonacular API
+**Solution:** Edamam Nutritional Analysis and Food Database API, Spoonacular API
 
 **Why did you choose this API over others?**
 
 - Great parsing through ingredients with NLP to get nutrient analysis of a recipe (Edamam)
 - Ease of use and ok documentation (both)
 - Had the specific features needed to implement for app (e.g. Spoonacular: auto-completion of ingredient names and Extract Recipes endpoint)
-- Free tier very limited, applied for developer tier (Edamam) and student tier (Spoonacular)
+- Free tier very limited though good enough for our needs
 
 **What other APIs could you have used and why not?**
 
@@ -183,36 +205,42 @@ Dietary/Allergy awareness (MVP) unlimited
 
 Returns an array of all the recipes of all users.
 
-##### GET https://donteatthat.herokuapp.com/api/recipes/:userid
+##### GET https://donteatthat.herokuapp.com/api/recipes/:firebaseid
 
-Returns an array of all the recipes of a single user.
+Returns an array of all the recipes of the current user.
+
+##### GET https://donteatthat.herokuapp.com/api/recipes/:firebaseid/not
+
+Returuns an array of all the recipes of other users excluding the current user.
 
 ##### GET https://donteatthat.herokuapp.com/api/recipes/one/:id
 
-Returns a json of a recipe and it's details and ingredients.
+Returns a json of a recipe and it's details.
 
 ##### POST https://donteatthat.herokuapp.com/api/recipes/create
 
-Returns an id of the recipe created. Needs a recipe name, description, firebaseid, and an ingredient array with each ingredient having a name, quanitity and unit as follows:
+Returns the created recipe object. Needs a recipe name, description, firebaseid, and an ingredient array with each ingredient having a name, quanitity and unit with an optional imageUrl as follows:
 
 ```
 {
 	"name": "avocado smoothie",
 	"description": "Delicious simple avocado smoothie.",
 	"firebaseid": "123asdf23fasdf",
+	"imageUrl": "",
 	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
 }
 ```
 
 ##### EDIT https://donteatthat.herokuapp.com/api/recipes/edit/:id
 
-Returns the edited object like the one above. Needs **one** of the following: recipe name, description, userid, or an ingredient array with each ingredient having a name, quanitity and unit as follows:
+Returns the edited object. Needs **one** of the following: recipe name, description, userid, or an ingredient array with each ingredient having a name, quanitity and unit with an optional imageUrl as follows:
 
 ```
 {
 	"name": "avocado smoothie",
 	"description": "Delicious simple avocado smoothie.",
 	"firebaseid": "123asdf23fasdf",
+	"imageUrl": "",
 	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
 }
 ```
@@ -229,7 +257,7 @@ Returns an array of all the users.
 
 ##### GET https://donteatthat.herokuapp.com/api/users/one/:id
 
-Returns specified user.
+Returns object of specified user.
 
 ##### POST https://donteatthat.herokuapp.com/api/users/create
 
@@ -243,14 +271,18 @@ Returns the id of the user. Needs a firebase id object sent to create one as fol
 
 #### Payments
 
+##### GET https://donteatthat.herokuapp.com/api/payments/plan/:firebaseid
+
+Returns the plan name that the user is subscribed to based off of the subscriptionid of the user, which is found with the firebaseid in the url.
+
 ##### POST https://donteatthat.herokuapp.com/api/payments/charge
 
-Charges a user for a subscription to Don't Eat That and returns a subscription object. Needs a token from stripe, a plan that's either 'silver' or 'gold', and a firebase id as follows:
+Charges a user for a subscription to Don't Eat That and returns a subscription object. Needs a token from stripe, a plan that's either 'plan_EKIEXJhyKqBTFd' or 'plan_EKIFbngvwjejux', and a firebase id as follows:
 
 ```
 {
 	"token": "123asafd331adasf",
-	"customerPlan": 'silver',
+	"customerPlan": 'plan_EKIEXJhyKqBTFd',
 	"firebaseid": "123asdf23fasdf"
 }
 ```
@@ -264,6 +296,12 @@ Cancels a subscription and returns a subscription object. Requires a firebaseid 
 	"firebaseid": "123asdf23fasdf"
 }
 ```
+
+#### Ratings
+
+##### POST https://donteatthat.herokuapp.com/api/ratings/
+
+Returns the rating id and user id. Requires,
 
 #### External Endpoints
 

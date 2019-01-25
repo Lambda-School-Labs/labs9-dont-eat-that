@@ -69,17 +69,12 @@ router.get('/plan/:firebaseid', async (req, res) => {
       .where({ firebaseid })
       .first();
     console.log('user', user)
-    const subscriptionInfo = await stripe.subscriptions.retrieve(
-      user.subscriptionid
-      // function(err, subscription) {
-        // res.status(400).json({ message: "Bad subscription request", err });
-      // }
-    )
-    console.log(subscriptionInfo);
+    const subscriptionInfo = await stripe.subscriptions.retrieve(user.subscriptionid)
+    console.log(subscriptionInfo.items.data);
     let planName = "";
-    if (subscriptionInfo.items.data.plan.id === silverCode) {
+    if (subscriptionInfo.items.data[0].plan.id === silverCode) {
       planName = "silver";
-    } else if (subscriptionInfo.items.data.plan.id === goldCode) {
+    } else if (subscriptionInfo.items.data[0].plan.id === goldCode) {
       planName = "gold";
     }
     res.status(200).json({ planName });
