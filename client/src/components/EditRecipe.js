@@ -427,7 +427,7 @@ class AddNewRecipeForm extends Component {
                 </Form.Field>
               </Form.Group>
               {ingredientRows}
-              <FileDrop
+              {/*<FileDropFunc
                 selectedFile={this.state.selectedFile}
                 handleFileUpload={this.handleFileUpload}
                 handleInputSelectedFile={this.handleInputSelectedFile}

@@ -11,15 +11,15 @@ const FileDropFunc = props => {
 
   const fileName = props.file ? props.file.name : 'No File Uploaded';
 
-  return (
-    {/*<Form.Group
+    {/* <Form.Group
       widths='equal'
       style={{
         display: 'flex',
         justifyContent: 'space-between',
         marginTop: '14px'
       }}
-    >*/}
+    > */}
+  return (
     <Form.Field
       className={props.uploaderClasses}
       onDrag={props.onDrag}
@@ -67,13 +67,13 @@ const FileDropFunc = props => {
         trigger={
           <Button
             onClick={props.handleFileUpload}
-            style={{ marginTop: '15px' }}
+            style={{ marginTop: '15px', 
             marginRight: '8px',
             marginLeft: '7px',
             width: '20%',
             minWidth: '100px',
             background: ourColors.buttonColor,
-            color: 'white'
+            color: 'white'}}
           >
             Upload Image
           </Button>
