@@ -7,7 +7,7 @@ import { Form, Segment, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ourColors from '../ColorScheme';
-import FileDrop from './FileDrop';
+import FileDropFunc from './FileDrop';
 
 // const AutoComDiv = styled.div`
 //   width: 500px;
@@ -56,17 +56,36 @@ class AddNewRecipeForm extends Component {
       numIngredients: 3,
       selectedFile: null,
       imageUrl: '',
+      dragging: false,
       ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
       edamamAppKey: process.env.REACT_APP_EDAMAMAPP_KEY
     };
+
   }
+
+  dragEventCounter = 0;
 
   componentDidMount() {
     this.props.getAllergies();
+    // image upload lifecycle
+    window.addEventListener("dragover", ev  => {
+      this.overRideEventDefaults(ev);
+    });
+    window.addEventListener('drop', ev => {
+      this.overRideEventDefaults(ev);
+    });
+
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('dragover', this.overRideEventDefaults);
+    window.removeEventListener('drop', this.overRideEventDefaults);
+  
+  }
+  
 
   quillHandler = html => {
     this.setState({ description: html });
@@ -259,9 +278,11 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
+  
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
     } else {
+      // console.log("selected File",this.state.selectedFile);
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
@@ -283,6 +304,48 @@ class AddNewRecipeForm extends Component {
       selectedFile: ev.target.files
     });
   };
+
+
+  dragLeaveListener = ev => {
+    this.overRideEventDefaults(ev);
+    this.dragEventCounter--;
+    console.log("Leaving", this.dragEventCounter);
+    if(this.dragEventCounter === 0) {
+      this.setState({dragging: false});
+    }
+  };
+  
+  dropListener = ev => {
+    this.overRideEventDefaults(ev);
+    this.dragEventCounter = 0;
+    this.setState({dragging:false});
+    if(ev.dataTransfer.files) {  
+      this.setState({selectedFile: ev.dataTransfer.files})
+      
+      // console.log("dropListener",this.state.selectedFile);
+    }
+  };
+  
+  overRideEventDefaults = ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
+  
+  onSelectFileClick = (ev) => {
+    this.overRideEventDefaults(ev)
+    this.fileUploaderInput() && this.fileUploaderInput.click();
+  };
+    
+  onFileChange = ev => {  
+    console.log("file change", ev.target.files);
+    if (ev.target.files && ev.target.files[0]) {
+      this.setState({selectedFile:ev.target.files[0]});
+    }
+  };
+
+
+
+
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
@@ -373,11 +436,21 @@ class AddNewRecipeForm extends Component {
               </Form.Field>
             </Form.Group>
             {ingredientRows}
-
-            <FileDrop
+            <FileDropFunc
+              dragging={this.state.dragging}
+              file={this.state.selectedFile}
               selectedFile={this.state.selectedFile}
+              onSelectFileClick={this.onSelectFileClick}
+              onDrag={this.overRideEventDefaults}
+              onDragStart={this.overRideEventDefaults}
+              onDragEnd={this.overRideEventDefaults}
+              onDragOver={this.overRideEventDefaults}
+              onDragEnter={this.onDragEnter}
+              onDragLeave={this.onDragLeave}
+              onDrop={this.dropListener}
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
+              onFileChange={this.onFileChange}
             />
 
             <Form.Field

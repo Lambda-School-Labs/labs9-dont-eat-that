@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import FileDrop from './FileDrop';
+// import FileDrop from './FileDrop';
 import { Form, Segment, Header } from 'semantic-ui-react';
 import {
   editRecipe,
@@ -427,12 +427,11 @@ class AddNewRecipeForm extends Component {
                 </Form.Field>
               </Form.Group>
               {ingredientRows}
-
               <FileDrop
                 selectedFile={this.state.selectedFile}
                 handleFileUpload={this.handleFileUpload}
                 handleInputSelectedFile={this.handleInputSelectedFile}
-              />
+              /> */}
 
               <div
                 className='quill-div'
