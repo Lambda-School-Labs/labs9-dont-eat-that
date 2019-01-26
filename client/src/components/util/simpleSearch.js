@@ -9,13 +9,14 @@ import { Form, Input } from 'semantic-ui-react';
 class SimpleSearchInput extends Component {
   render() {
     return (
-      <Form.Field style={{ width: '90%' }} className="searchNote">
+      <Form.Field style={{ width: '100%' }} className='searchNote'>
         <Input
-          type="input"
+          type='input'
           onChange={this.props.handleInputChange}
           value={this.props.query}
-          name="query"
-          placeholder="Search keyword or ingredient"
+          name='query'
+          placeholder='Search keyword or ingredient'
+          icon='search'
           style={{ width: '100%' }}
         />
       </Form.Field>

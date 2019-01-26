@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Button, Header, Segment } from 'semantic-ui-react';
+import { Form, Button, Header, Segment, Input } from 'semantic-ui-react';
 
 import { withFirebase } from '../firebase';
+import ourColors from '../../ColorScheme.js';
 
 const INITIAL_STATE = {
   passwordOne: '',
@@ -43,34 +44,45 @@ class PasswordChangeForm extends Component {
     const { passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid = passwordOne !== passwordTwo || passwordOne === '';
-
+    // disabled for inactive
     return (
       <Segment
-        color="grey"
-        inverted
-        style={{ width: '95%', marginLeft: '2.5%' }}
+        basic
+        style={{ width: '70%', marginLeft: '15%', background: ourColors.formColor }}
       >
-        <Form inverted onSubmit={this.onSubmit}>
-          <Header as="h3">Password Reset</Header>
+        <Form onSubmit={this.onSubmit}>
+          <Header as='h3'>Password Reset</Header>
           <Form.Field>
-            <input
-              name="passwordOne"
+            <Input
+              focus
+              color='black'
+              name='passwordOne'
               value={passwordOne}
               onChange={this.onChange}
-              type="password"
-              placeholder="New Password"
+              type='password'
+              placeholder='New Password'
             />
           </Form.Field>
           <Form.Field>
-            <input
-              name="passwordTwo"
+            <Input
+              focus
+              color='black'
+              name='passwordTwo'
               value={passwordTwo}
               onChange={this.onChange}
-              type="password"
-              placeholder="Confirm New Password"
+              type='password'
+              placeholder='Confirm New Password'
             />
           </Form.Field>
-          <Button disabled={isInvalid} type="submit">
+          <Button
+            style={
+              isInvalid
+                ? { background: ourColors.inactiveButtonColor, color: 'white' }
+                : { background: ourColors.buttonColor, color: 'white' }
+            }
+            disabled={isInvalid}
+            type='submit'
+          >
             Reset My Password
           </Button>
 

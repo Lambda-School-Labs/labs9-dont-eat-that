@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon, Button, Header } from 'semantic-ui-react';
+import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
+
+import ourColors from '../ColorScheme';
 
 import {
   getAllRecipes,
   getOwnRecipes,
   getForeignRecipes,
+  getUser,
   getAllergies
 } from '../actions';
 
@@ -21,6 +24,18 @@ const RecipeListPage = styled.div`
   form {
     margin-top: 4px;
   }
+  .header-icons {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topBarOptions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start;
+    padding: 0 15px;
+  }
 `;
 
 const DisplayListDiv = styled.div`
@@ -30,7 +45,9 @@ const DisplayListDiv = styled.div`
 `;
 
 const CheckboxElement = styled.div`
-  margin-top: 15px;
+  margin: 15px 0 0 12px;
+  font-weight: normal;
+  font-family: Roboto;
 `;
 
 class DisplayListRecipes extends Component {
@@ -52,6 +69,7 @@ class DisplayListRecipes extends Component {
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getUser();
     this.props.getAllergies();
   }
 
@@ -59,14 +77,21 @@ class DisplayListRecipes extends Component {
   displayDiv = () => {
     return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
+
       const outerBoolArr = recipe.ingredients.map(ingredient => {
-        const innerBoolArr = this.props.allergies.map(
-          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
-        );
+        const innerBoolArr = this.props.allergies.map(allergy => {
+          // allergy sometime has array of string and sometimes has array of 'name:allergy'
+          // so check the type and compare correct value
+          if (typeof allergy === 'string')
+            return ingredient.name.includes(allergy);
+          // seeing if any allergies in one ingredient
+          else return ingredient.name.includes(allergy.name);
+        });
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
       if (outerBoolArr.includes(true)) {
         // seeing if any allergies in all ingredients
+
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
       } else {
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
@@ -117,18 +142,21 @@ class DisplayListRecipes extends Component {
     return (
       <RecipeListPage>
         <Segment
-          inverted
-          color="grey"
-          style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
+          style={{
+            width: '95%',
+            marginLeft: '2.5%',
+            fontFamily: 'Roboto',
+            padding: '10px 0 0 0',
+            background: ourColors.formColor
+          }}
         >
-          <Form inverted>
-            <Form.Group inline className="flexWrapCenter">
+          <Form>
+            <Form.Group className='topBarOptions'>
               <SimpleSearch
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
               />
               {localStorage.getItem('uid') && (
-
                 <CheckboxElement>
                   <Form.Field inline>
                     <input
@@ -141,29 +169,28 @@ class DisplayListRecipes extends Component {
                     <label htmlFor='personalCheck'>See your own recipes</label>
                   </Form.Field>
                 </CheckboxElement>
-
               )}
             </Form.Group>
           </Form>
         </Segment>
-        <Header as="h1">Recipes</Header>
-
-        {this.props.user.subscriptionid && (
-          <Button
-            color="blue"
-            onClick={() => {
-              downloadRecipeToCSV(this.state.displayedRecipes);
-            }}
-          >
-            {' '}
-            Download Recipes{' '}
-          </Button>
-        )}
+        <div className='header-icons'>
+          <div className='dummy-for-flexbox' />
+          <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
+            Recipes
+          </Header>
+          {this.props.user.subscriptionid && (
+            <Icon
+              name='download'
+              size='large'
+              onClick={() => downloadRecipeToCSV(this.state.displayedRecipes)}
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+        </div>
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
-              style={{ width: '200px', height: '200px', margin: '10px' }}
-              color="olive"
+              style={{ width: '200px', height: '200px', margin: '10px', boxShadow: `0 0 3px 1px ${ourColors.buttonColor}` }}
             >
               <Card.Content
                 style={{
@@ -175,7 +202,7 @@ class DisplayListRecipes extends Component {
               >
                 <Card.Header>Create a Recipe</Card.Header>
                 <Card.Description>
-                  <Icon name="plus circle" size="big" />
+                  <Icon name='plus circle' size='big' />
                 </Card.Description>
               </Card.Content>
             </Card>
@@ -199,5 +226,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies }
+  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
 )(DisplayListRecipes);

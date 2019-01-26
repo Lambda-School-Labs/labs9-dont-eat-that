@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
+import ourColors from '../ColorScheme.js';
+
 import { Button, Header, Icon, Responsive, Segment } from 'semantic-ui-react';
 // import { url } from 'inspector';
 
@@ -67,14 +69,14 @@ const Landing = props => {
           <Icon name="long arrow alternate down" size="huge" />
         </ArrowDiv>
       </Responsive>
-      <Segment inverted color='blue' style={{ paddingBottom: '100px', fontFamily: 'Roboto' }}>
+      <Segment style={{ background: ourColors.formColor, paddingBottom: '100px', fontFamily: 'Roboto' }}>
         <p>
           Do you have trouble finding recipes that meet your dietary needs and
           avoid your allergens? Don't Eat That is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
-        <Button onClick={e => props.history.push('/recipes')}>
+        <Button onClick={e => props.history.push('/recipes')} style={{ background: ourColors.buttonColor, color: 'white' }}>
           Enter the Site!
         </Button>
       </Segment>
