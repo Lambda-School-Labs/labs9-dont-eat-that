@@ -12,6 +12,7 @@ Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 - Installation
 - FAQs
 - Tech Stack Rationale
+- Security
 - Back-end API
 - Contributing
 
@@ -28,7 +29,16 @@ To install the application in a local dev environment, run `yarn install` in the
 
 Know that the local front-end hits our deployed back-end, not the local back-end.
 
-When testing the local back-end, the POST and PUT recipe endpoints aren't functional since they have `returning()` statements that aren't used in the local SQLite3 database but are required for the Heroku PostgreSQL server.
+When testing the local back-end, the POST and PUT recipe, user, allergy, and rating endpoints aren't functional since they have `returning()` statements that aren't used in the local SQLite3 database but are required for the Heroku PostgreSQL server. To make a local PostgreSQL server, look at these instructions: https://github.com/Lambda-School-Labs/Labs8-OfflineReader/wiki/Setting-up-a-PostgreSQL-database-for-local-testing.
+
+The app will break without the proper API keys put into the app. We hid them in order for our app to have security. Below are the following API keys needed and where to put them along with links to the sites where we got them:
+- The firebase API key is required in `client/src/components/firebase/firebase.js` in line 8 for authentication to function. (https://firebase.google.com/)
+- The Edamam Food Database API key and id is required in `client/src/components/AddNewRecipeForm.js` in lines 62-63 and in `client/src/components/EditRecipe.js` in lines 54-55 for the ingredient units autocomplete to function. (https://developer.edamam.com/food-database-api)
+- The Edamam Nutrition Analysis API key and id is required in `client/src/actions/recipeActions.js` in lines 140-141 for nutrition analysis to function. (https://developer.edamam.com/edamam-nutrition-api)
+- The Stripe API primary key is required in `client/src/App.js` in line 57 and the secret key in `routes/paymentRouter.js` in line 2 for the payments to function. (https://stripe.com/)
+- The Spoonacular API key is required in `client/src/components/AddFromWeb.js` in line 32 for recipe imports to function and in `client/src/actions/recipeActions.js` in line 168 for ingredients autocomplete to function. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
+- The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
+
 
 ### FAQs
 
@@ -197,6 +207,14 @@ Features:
 - USDA: Bad ingredients returned on search, limited API
 - Nutritionix: Very limited API
 
+### Security
+
+For authentication we went through Google's Firebase for registering, logging in, and logging out. The registering includes a recaptcha for extra authentication. The log in also allows for third party authorization with Google or Facebook. 
+
+Most of our routes utilize the firebaseid given from Firebase after you register or login. We place it in localStorage until the user logs out and send it along to the majority of our backend endpoints that require it in order for the application to function. That way, when the user isn't logged in or registered through our firebase system, they can't access the data on our backend. There is a security risk if a user happens to steal/chance upon someone else's firebaseid and then can manually `localStorage.setItem('uid')` that firebaseid to access the other person's recipes, allergies, etc., though the likelihood of that isn't great. More probable is if the user forgets to log out, there is no reauthentication after a period of time or token expiration so anyone can just use that person's account without consent.
+
+In terms of our API keys, we hid all of them using a shared .env file we gitignored on the project and posted them on Netlify and Heroku as environmental variables. This way, no one and can through our code and notoriously ping APIs to their limits or charge payments with the Stripe key to ruin our account.
+
 ### Back-end API
 
 #### Recipes
@@ -301,7 +319,21 @@ Cancels a subscription and returns a subscription object. Requires a firebaseid 
 
 ##### POST https://donteatthat.herokuapp.com/api/ratings/
 
-Returns the rating id and user id. Requires,
+Returns the ratingid and userid. Requires, a firebaseid, recipeid, and the new rating as follows:
+
+```
+{
+	"firebaseid": "123asdf23fasdf",
+	"recipeid": 4,
+	"newRating": 5
+}
+```
+
+#### File Upload
+
+##### POST https://donteatthat.herokuapp.com/api/image-upload/
+
+Returns an imageurl from the AWS database. Requres an image file.
 
 #### External Endpoints
 
