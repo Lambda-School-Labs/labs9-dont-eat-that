@@ -20,6 +20,7 @@ const ImportRecipeDiv = styled.div`
     text-align: left;
     max-width: 500px;
     padding: 10px 27px 10px;
+    line-height: 1.5;
   }
 `;
 
