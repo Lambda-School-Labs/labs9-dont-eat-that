@@ -24,6 +24,7 @@ const Landing = props => {
       fontFamily: `Roboto`,
       textAlign: 'left',
       fontSize: '7rem',
+      fontWeight: 'normal',
       margin: '10px 0 0 5%',
       lineHeight: 1.2
     };
@@ -32,6 +33,7 @@ const Landing = props => {
     return {
       fontFamily: `Roboto`,
       textAlign: 'center',
+      fontWeight: 'normal',
       fontSize: '6rem',
       margin: '0 0 30px'
     };
