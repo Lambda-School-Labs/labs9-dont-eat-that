@@ -1,9 +1,32 @@
 import styled from 'styled-components';
+import ourColors from '../../ColorScheme';
+
 
 export const DropCard = styled.main`
-  display: flex;
+  display: block;
   width: 80%;
+  height: 200px;
+  margin: 100px auto;
+  background-color: white;
 `;
+
+export const DropInputField = styled.main`
+  width: 100%;
+  display: block;
+`
+
+
+// export const UploadButton = styled.div`
+//   height: 20px;
+//   marginTop: '15px',
+//   marginRight: '8px',
+//   marginLeft: '7px',
+//   width: '20%',
+//   minWidth: '100px',
+//   background: ${ourColors.buttonColor},
+//   color: 'white'
+// `;
+
 
 // export DropButton = styled.main `
     
