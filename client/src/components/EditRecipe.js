@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-// import FileDrop from './FileDrop';
+import FileDropFunc from './FileDrop';
 import { Form, Segment, Header } from 'semantic-ui-react';
 import {
   editRecipe,
@@ -62,6 +62,7 @@ class AddNewRecipeForm extends Component {
       description: this.props.recipe ? this.props.recipe.description : '',
       selectedFile: null,
       imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
+      dragging: false,
       imageReady: false,
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
@@ -330,6 +331,43 @@ class AddNewRecipeForm extends Component {
     });
   };
 
+  dragLeaveListener = ev => {
+    this.overRideEventDefaults(ev);
+    this.dragEventCounter--;
+    console.log('Leaving', this.dragEventCounter);
+    if (this.dragEventCounter === 0) {
+      this.setState({ dragging: false });
+    }
+  };
+
+  dropListener = ev => {
+    this.overRideEventDefaults(ev);
+    this.dragEventCounter = 0;
+    this.setState({ dragging: false });
+    if (ev.dataTransfer.files) {
+      this.setState({ selectedFile: ev.dataTransfer.files });
+
+      // console.log("dropListener",this.state.selectedFile);
+    }
+  };
+
+  overRideEventDefaults = ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
+
+  onSelectFileClick = ev => {
+    this.overRideEventDefaults(ev);
+    this.fileUploaderInput() && this.fileUploaderInput.click();
+  };
+
+  onFileChange = ev => {
+    console.log('file change', ev.target.files);
+    if (ev.target.files && ev.target.files[0]) {
+      this.setState({ selectedFile: ev.target.files[0] });
+    }
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     if (this.props.recipe) {
@@ -427,11 +465,22 @@ class AddNewRecipeForm extends Component {
                 </Form.Field>
               </Form.Group>
               {ingredientRows}
-              {/*<FileDropFunc
+              <FileDropFunc
+                dragging={this.state.dragging}
+                file={this.state.selectedFile}
                 selectedFile={this.state.selectedFile}
+                onSelectFileClick={this.onSelectFileClick}
+                onDrag={this.overRideEventDefaults}
+                onDragStart={this.overRideEventDefaults}
+                onDragEnd={this.overRideEventDefaults}
+                onDragOver={this.overRideEventDefaults}
+                onDragEnter={this.onDragEnter}
+                onDragLeave={this.onDragLeave}
+                onDrop={this.dropListener}
                 handleFileUpload={this.handleFileUpload}
                 handleInputSelectedFile={this.handleInputSelectedFile}
-              /> */}
+                onFileChange={this.onFileChange}
+              />
 
               <div
                 className='quill-div'
@@ -460,13 +509,23 @@ class AddNewRecipeForm extends Component {
                 !this.state.description ||
                 !this.state.ingredients[0].name ||
                 !this.state.ingredients[0].quantity ? (
-                  <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                  <Form.Button
+                    type='submit'
+                    disabled
+                    style={{
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white'
+                    }}
+                  >
                     Save Recipe
                   </Form.Button>
                 ) : (
                   <Form.Button
                     type='submit'
-                    style={{ background: ourColors.buttonColor, color: 'white' }}
+                    style={{
+                      background: ourColors.buttonColor,
+                      color: 'white'
+                    }}
                   >
                     Save Recipe
                   </Form.Button>
