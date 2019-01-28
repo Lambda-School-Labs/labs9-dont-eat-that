@@ -19,7 +19,7 @@ class CheckoutForm extends React.Component {
   };
 
   componentDidMount() {
-    console.log("reached componentDidMount");
+    console.log('reached componentDidMount');
     this.props.getPlan();
   }
 
@@ -183,9 +183,7 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell style={{ fontWeight: 'bold' }}>
-              Select Plan:
-            </Table.Cell>
+            <Table.Cell style={{ fontWeight: 'bold' }}>Select Plan:</Table.Cell>
             <Table.Cell textAlign='center'>
               <Icon name='close' />
             </Table.Cell>
@@ -218,9 +216,11 @@ class CheckoutForm extends React.Component {
         striped
         size='small'
         style={{
+          maxWidth: '500px',
           width: '95%',
-          marginLeft: '2.5%',
-          marginBottom: '15px',
+          margin: '0 auto 15px',
+          // marginLeft: '2.5%',
+          // marginBottom: '15px',
           fontFamily: 'Roboto',
           background: ourColors.formColor
         }}
@@ -365,9 +365,7 @@ class CheckoutForm extends React.Component {
             </Table.Cell>
           </Table.Row>
           <Table.Row>
-            <Table.Cell style={{ fontWeight: 'bold' }}>
-              Select Plan:
-            </Table.Cell>
+            <Table.Cell style={{ fontWeight: 'bold' }}>Select Plan:</Table.Cell>
             <Table.Cell textAlign='center'>
               Dishwasher: <Icon name='close' />
             </Table.Cell>
@@ -432,11 +430,15 @@ class CheckoutForm extends React.Component {
       );
     return (
       <div>
-        <Header as='h1'>Don't Eat That Subscription Plans</Header>
-        <Header as='h2'>Currently Selected Plan: {planName}</Header>
+        <Header as='h1' style={{ marginBottom: 0 }}>
+          Don't Eat That Subscription Plans
+        </Header>
+        <Header as='h5' style={{ marginTop: 0, marginBottom: '5px' }}>
+          Currently Selected Plan: {planName}
+        </Header>
         <Responsive minWidth={768}>{this.desktopTable()}</Responsive>
         <Responsive maxWidth={767}>{this.mobileTable()}</Responsive>
-        <div style={{ width: '70%', marginLeft: '15%' }}>
+        <div style={{ width: '70%', margin: '0 auto', maxWidth: '500px' }}>
           <Header
             as='h3'
             attached='top'
@@ -450,38 +452,42 @@ class CheckoutForm extends React.Component {
           </Segment>
         </div>
         <br />
-        { this.props.user.subscriptionid
-          ? <React.Fragment>
-              <Button
-                onClick={this.submit}
-                style={{ background: ourColors.inactiveButtonColor, color: 'white' }}
-                disabled
-              >
-                Subscribe
-              </Button>
-              <Button
-                onClick={this.props.cancelSubscription}
-                style={{ background: ourColors.warningColor, color: 'white' }}
-              >
-                Cancel Subscription
-              </Button>
-            </React.Fragment>
-          : <React.Fragment>
-              <Button
-                onClick={this.submit}
-                style={{ background: ourColors.buttonColor, color: 'white' }}
-              >
-                Subscribe
-              </Button>
-              <Button
-                onClick={this.props.cancelSubscription}
-                style={{ background: ourColors.warningColor, color: 'white' }}
-                disabled
-              >
-                Cancel Subscription
-              </Button>
-            </React.Fragment>
-        }
+        {this.props.user.subscriptionid ? (
+          <React.Fragment>
+            <Button
+              onClick={this.submit}
+              style={{
+                background: ourColors.inactiveButtonColor,
+                color: 'white'
+              }}
+              disabled
+            >
+              Subscribe
+            </Button>
+            <Button
+              onClick={this.props.cancelSubscription}
+              style={{ background: ourColors.warningColor, color: 'white' }}
+            >
+              Cancel Subscription
+            </Button>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Button
+              onClick={this.submit}
+              style={{ background: ourColors.buttonColor, color: 'white' }}
+            >
+              Subscribe
+            </Button>
+            <Button
+              onClick={this.props.cancelSubscription}
+              style={{ background: ourColors.warningColor, color: 'white' }}
+              disabled
+            >
+              Cancel Subscription
+            </Button>
+          </React.Fragment>
+        )}
       </div>
     );
   }
