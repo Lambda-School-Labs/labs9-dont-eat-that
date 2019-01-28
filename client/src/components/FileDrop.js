@@ -5,8 +5,8 @@ import ourColors from '../ColorScheme';
 
 import {
   DropCard,
-  DropInputField
-  // UploadButton
+  DropInputField,
+  DropTextStyle
 } from './styleComponents/FileDropStyles';
 
 const UploadButton = styled.div`
@@ -43,41 +43,56 @@ const FileDropFunc = props => {
         className='file-uploader-contents'
         onChange={props.handleInputSelectedFile}
       >
-        <span className='file-uploader-file-name'>{props.imageName}</span>
-        <br />
-        <span>{props.imageName ? props.imageName : 'Drop File Here'}</span>
+        <DropTextStyle>
+          {props.imageName ? props.imageName : 'Drop File Here'}
+        </DropTextStyle>
         <br />
         <span>or</span>
-        <br/>
-        <Button onClick={props.onSelectFileClick}>Browse for File</Button>
+        <br />
+        
+        
+        <Button
+          style={{
+            margin: '15px',
+            height: '80px',
+            width: '35%',
+            minWidth: '100px',
+            background: ourColors.buttonColor,
+            color: 'white',
+            padding: '20px'
+          }}
+          onClick={props.onSelectFileClick}
+        >
+          Browse for File
+        </Button>
 
         {/* <UploadButton onClick={console.log("i was clicked")}>
           Upload Image
         </UploadButton> */}
-      <Popup
-        trigger={
-          <Button
-            onClick={props.handleFileUpload}
-            style={{
-              margin: '15px',
-              height: '80px',
-              width: '35%',
-              minWidth: '100px',
-              background: ourColors.buttonColor,
-              color: 'white',
-              padding: '20px'
-            }}
-          >
-            Upload Image
-          </Button>
-        }
-        content={
-          props.selectedFile
-            ? 'Image Upload completed!'
-            : 'No image was uploaded.'
-        }
-        on='click'
-      />
+        <Popup
+          trigger={
+            <Button
+              onClick={props.handleFileUpload}
+              style={{
+                margin: '15px',
+                height: '80px',
+                width: '35%',
+                minWidth: '100px',
+                background: ourColors.buttonColor,
+                color: 'white',
+                padding: '20px'
+              }}
+            >
+              Upload Image
+            </Button>
+          }
+          content={
+            props.selectedFile
+              ? 'Image Upload completed!'
+              : 'No image was uploaded.'
+          }
+          on='click'
+        />
       </DropInputField>
     </DropCard>
   );
