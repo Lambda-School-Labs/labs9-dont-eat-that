@@ -519,7 +519,10 @@ class AddNewRecipeForm extends Component {
                     type='submit'
                     style={{
                       background: ourColors.buttonColor,
-                      color: 'white'
+                      color: 'white',
+                      height: '80px',
+                      width: '40%',
+                      'font-size': '25px'
                     }}
                   >
                     Save Recipe
