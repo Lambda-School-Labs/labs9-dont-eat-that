@@ -93,9 +93,10 @@ class Settings extends React.Component {
                         !localStorage.getItem('uid')
                           ? {
                               color: ourColors.inactiveButtonColor,
-                              cursor: 'pointer'
+                              cursor: 'pointer',
+                              margin: '4.5px 5px 0'
                             }
-                          : { color: ourColors.buttonColor, cursor: 'pointer' }
+                          : { color: ourColors.buttonColor, cursor: 'pointer', margin: '4.5px 5px 0' }
                       }
                       disabled={!localStorage.getItem('uid')}
                       size='big'
