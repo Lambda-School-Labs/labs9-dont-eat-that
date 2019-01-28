@@ -470,9 +470,10 @@ class AddNewRecipeForm extends Component {
                 }}
               />
             </Form.Field>
-            {(!this.state.name || !this.state.description) && (
+            {(!this.state.name || !this.state.description || !this.state.ingredients[0].name ||
+              !this.state.ingredients[0].quantity) && (
               <p className='please-provide'>
-                Please provide a name, description, and ingredients before
+                Please provide a name, description, and an ingredient before
                 submitting a recipe!
               </p>
             )}
@@ -481,22 +482,58 @@ class AddNewRecipeForm extends Component {
               !this.state.description ||
               !this.state.ingredients[0].name ||
               !this.state.ingredients[0].quantity ? (
-                <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
-                  Save Recipe
-                </Form.Button>
+                <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                    Save Recipe
+                  </Form.Button>
+                  <Form.Button
+                      onClick={() => this.props.history.push('/recipes')}
+                      style={{
+                        background: ourColors.inactiveButtonColor,
+                        color: 'white',
+                        width: '133px'
+                      }}
+                    >
+                      Cancel
+                    </Form.Button>
+                </Form.Group>
               ) : (
-                <Form.Button
-                  type='submit'
-                  style={{ background: ourColors.buttonColor, color: 'white' }}
-                >
-                  Save Recipe
-                </Form.Button>
+                <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Form.Button
+                    type='submit'
+                    style={{ background: ourColors.buttonColor, color: 'white' }}
+                  >
+                    Save Recipe
+                  </Form.Button>
+                  <Form.Button
+                      onClick={() => this.props.history.push('/recipes')}
+                      style={{
+                        background: ourColors.inactiveButtonColor,
+                        color: 'white',
+                        width: '133px'
+                      }}
+                    >
+                      Cancel
+                    </Form.Button>
+                </Form.Group>
               )
             ) : (
               <React.Fragment>
-                <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
-                  Save Recipe
-                </Form.Button>
+                <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                    Save Recipe
+                  </Form.Button>
+                  <Form.Button
+                      onClick={() => this.props.history.push('/recipes')}
+                      style={{
+                        background: ourColors.inactiveButtonColor,
+                        color: 'white',
+                        width: '133px'
+                      }}
+                    >
+                      Cancel
+                    </Form.Button>
+                </Form.Group>
                 <p>Please Log In to Add a Recipe!</p>
               </React.Fragment>
             )}
