@@ -30,7 +30,7 @@ const FileDropFunc = props => {
             </span><br></br>
             <span>Drag & Drop File</span><br></br>
             <span>or</span><br></br>
-            <div onClick={props.onSelectFileClick}>Select File</div>
+           
         </div>
         {props.children}
 
@@ -40,22 +40,7 @@ const FileDropFunc = props => {
       className='file-uploader-input'
       onChange={props.onFileChange}
     /> */}
-        <Popup
-        trigger={
-          <Button
-            onClick={props.handleFileUpload}
-            style={{ marginTop: '15px' }}
-          >
-            Upload Image
-          </Button>
-        }
-        content={
-          props.selectedFile
-            ? 'Image Upload completed!'
-            : 'No image was uploaded.'
-        }
-        on="click"
-      /> 
+
     </Form.Field>
 
     // <Form.Field>

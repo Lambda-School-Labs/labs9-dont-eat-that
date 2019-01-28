@@ -37,9 +37,7 @@ const AutoComItemsDiv = styled.div`
 const AddNewRecipeFormDiv = styled.div`
   width: 95%;
   margin-left: 2.5%;
-
   font-family: Roboto;
-
   .quill-div {
     min-height: 150px;
   }
@@ -56,6 +54,7 @@ class AddNewRecipeForm extends Component {
       numIngredients: 3,
       selectedFile: null,
       imageUrl: '',
+      imageName: '',
       dragging: false,
       ingredients: [emptyIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
@@ -286,6 +285,7 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
+      console.log("name of Image", this.state.selectedFile[0].name);
       axios
         .post(URL, formData)
         .then(res => {
@@ -302,7 +302,9 @@ class AddNewRecipeForm extends Component {
     ev.preventDefault();
     this.setState({
       selectedFile: ev.target.files
+
     });
+    // console.log("upload image name",ev.target.files.name);
   };
 
 
@@ -320,10 +322,12 @@ class AddNewRecipeForm extends Component {
     this.dragEventCounter = 0;
     this.setState({dragging:false});
     if(ev.dataTransfer.files) {  
-      this.setState({selectedFile: ev.dataTransfer.files})
+      this.setState({selectedFile: ev.dataTransfer.files,
+      imageName: ev.dataTransfer.files[0].name})
       
       // console.log("dropListener",this.state.selectedFile);
     }
+    // console.log("upload image name",ev.dataTransfer.files[0].name);
   };
   
   overRideEventDefaults = ev => {
@@ -451,6 +455,7 @@ class AddNewRecipeForm extends Component {
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
               onFileChange={this.onFileChange}
+              imageName={this.state.imageName}
             />
 
             <Form.Field

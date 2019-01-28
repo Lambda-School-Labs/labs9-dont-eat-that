@@ -1,7 +1,24 @@
 import React from 'react';
 import { Button, Form, Popup } from 'semantic-ui-react';
-
+import styled from 'styled-components';
 import ourColors from '../ColorScheme';
+
+import {
+  DropCard,
+  DropInputField,
+  DropTextStyle
+} from './styleComponents/FileDropStyles';
+
+const UploadButton = styled.div`
+  height: 20px;
+  marginTop: '15px',
+  marginRight: '8px',
+  marginLeft: '7px',
+  width: '20%',
+  minWidth: '100px',
+  background: ${ourColors.buttonColor},
+  color: 'white'
+`;
 
 const FileDropFunc = props => {
   let uploaderClasses = 'file-uploader';
@@ -12,8 +29,7 @@ const FileDropFunc = props => {
   const fileName = props.file ? props.file.name : 'No File Uploaded';
 
   return (
-    <Form.Field
-      className={props.uploaderClasses}
+    <DropCard
       onDrag={props.onDrag}
       onDragStart={props.onDragStart}
       onDragEnd={props.onDragEnd}
@@ -23,61 +39,62 @@ const FileDropFunc = props => {
       onDrop={props.onDrop}
       onSubmit={props.handleFileUpload}
     >
-      <div
+      <DropInputField
         className='file-uploader-contents'
         onChange={props.handleInputSelectedFile}
       >
-        <span className='file-uploader-file-name'>{fileName}</span>
-        <br />
-        <span>Drag & Drop File</span>
+        <DropTextStyle>
+          {props.imageName ? props.imageName : 'Drop File Here'}
+        </DropTextStyle>
         <br />
         <span>or</span>
         <br />
-        {/* <input
-         type="file"
-         name="myFile"
-         onChange={props.handleInputSelectedFile}
-       /> */}
-        <input
-          type='file'
-          name='myfile'
-          onChange={props.handleInputSelectedFile}
-          placeholder={"Select File"}
-          style={{ marginLeft: '7px', marginRight: '7px', width: '78%' }}
-        />
-          
-      </div>
-      {props.children}
-
-      {/* <input this is the reason why the input field was there
-      ref={el => (props.fileUploaderInput = el)}
-      type='file'
-      className='file-uploader-input'
-      onChange={props.onFileChange}
-    /> */}
-      <Popup
-        trigger={
-          <Button
-            onClick={props.handleFileUpload}
-            style={{ marginTop: '15px', 
-            marginRight: '8px',
-            marginLeft: '7px',
-            width: '20%',
+        
+        
+        <Button
+          style={{
+            margin: '15px',
+            height: '80px',
+            width: '35%',
             minWidth: '100px',
             background: ourColors.buttonColor,
-            color: 'white'}}
-          >
-            Upload Image
-          </Button>
-        }
-        content={
-          props.selectedFile
-            ? 'Wait until alert pops up.'
-            : 'No image was uploaded.'
-        }
-        on='click'
-      />
-    </Form.Field>
+            color: 'white',
+            padding: '20px'
+          }}
+          onClick={props.onSelectFileClick}
+        >
+          Browse for File
+        </Button>
+
+        {/* <UploadButton onClick={console.log("i was clicked")}>
+          Upload Image
+        </UploadButton> */}
+        <Popup
+          trigger={
+            <Button
+              onClick={props.handleFileUpload}
+              style={{
+                margin: '15px',
+                height: '80px',
+                width: '35%',
+                minWidth: '100px',
+                background: ourColors.buttonColor,
+                color: 'white',
+                padding: '20px'
+              }}
+            >
+              Upload Image
+            </Button>
+          }
+          content={
+            props.selectedFile
+              ? 'Image Upload completed!'
+              : 'No image was uploaded.'
+          }
+          on='click'
+        />
+      </DropInputField>
+    </DropCard>
   );
 };
 
