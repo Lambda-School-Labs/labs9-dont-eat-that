@@ -504,32 +504,90 @@ class AddNewRecipeForm extends Component {
                 !this.state.description ||
                 !this.state.ingredients[0].name ||
                 !this.state.ingredients[0].quantity ? (
-                  <Form.Button
-                    type='submit'
-                    disabled
-                    style={{
-                      background: ourColors.inactiveButtonColor,
-                      color: 'white'
-                    }}
-                  >
-                    Save Recipe
-                  </Form.Button>
+                  <React.Fragment>
+                    <Form.Group
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Form.Button
+                        type='submit'
+                        disabled
+                        style={{
+                          background: ourColors.inactiveButtonColor,
+                          color: 'white'
+                        }}
+                      >
+                        Save Recipe
+                      </Form.Button>
+                      <Form.Button
+                        onClick={() =>
+                          this.props.history.push(
+                            `/recipes/one/${this.props.match.params.id}`
+                          )
+                        }
+                        style={{
+                          background: ourColors.inactiveButtonColor,
+                          color: 'white',
+                          width: '133px'
+                        }}
+                      >
+                        Cancel
+                      </Form.Button>
+                    </Form.Group>
+                  </React.Fragment>
                 ) : (
-                  <Form.Button
-                    type='submit'
-                    style={{
-                      background: ourColors.buttonColor,
-                      color: 'white'
-                    }}
-                  >
-                    Save Recipe
-                  </Form.Button>
+                  <React.Fragment>
+                    <Form.Group
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Form.Button
+                        type='submit'
+                        style={{
+                          background: ourColors.buttonColor,
+                          color: 'white'
+                        }}
+                      >
+                        Save Recipe
+                      </Form.Button>
+                      <Form.Button
+                        onClick={() =>
+                          this.props.history.push(
+                            `/recipes/one/${this.props.match.params.id}`
+                          )
+                        }
+                        style={{
+                          background: ourColors.inactiveButtonColor,
+                          color: 'white',
+                          width: '133px'
+                        }}
+                      >
+                        Cancel
+                      </Form.Button>
+                    </Form.Group>
+                  </React.Fragment>
                 )
               ) : (
                 <React.Fragment>
-                  <Form.Button type='submit' disabled>
-                    Save Recipe
-                  </Form.Button>
+                  <Form.Group
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Form.Button type='submit' disabled>
+                      Save Recipe
+                    </Form.Button>
+                    <Form.Button
+                      onClick={() =>
+                        this.props.history.push(
+                          `/recipes/one/${this.props.match.params.id}`
+                        )
+                      }
+                      style={{
+                        background: ourColors.inactiveButtonColor,
+                        color: 'white',
+                        width: '133px'
+                      }}
+                    >
+                      Cancel
+                    </Form.Button>
+                  </Form.Group>
                   <p>Please Log In to Edit a Recipe!</p>
                 </React.Fragment>
               )}
