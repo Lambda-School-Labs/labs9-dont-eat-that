@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, Responsive } from 'semantic-ui-react';
+import { Menu, Responsive, Message } from 'semantic-ui-react';
 
 import ourColors from '../../ColorScheme';
 
@@ -89,6 +89,29 @@ class SideMenu extends React.Component {
               </Menu.Item>
             </NavLink>
           </Menu>
+          {window.location.pathname === '/recipes' ? (
+            <React.Fragment>
+              <Message style={{ maxWidth: '240px' }} info>
+                <Message.Header>See Other Recipes</Message.Header>
+                <p>Uncheck the 'See your own recipes' box under Search!</p>
+              </Message>
+              <Message style={{ maxWidth: '240px' }} info>
+                <Message.Header>Add Allergies</Message.Header>
+                <p>Go to Settings and add an allergy!</p>
+              </Message>
+            </React.Fragment>
+          ) : null}
+          {window.location.pathname === '/settings' ? (
+            <Message style={{ maxWidth: '240px' }} info>
+              <Message.Header>Allergy Notications</Message.Header>
+              <Message.List>
+                <Message.Item>Recipes will be bordered in maroon</Message.Item>
+                <Message.Item>
+                  Ingredients will be highlighted in maroon
+                </Message.Item>
+              </Message.List>
+            </Message>
+          ) : null}
         </Responsive>
       );
     }
