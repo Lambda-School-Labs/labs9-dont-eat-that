@@ -91,18 +91,18 @@ class SideMenu extends React.Component {
           </Menu>
           {window.location.pathname === '/recipes' ? (
             <React.Fragment>
-              <Message style={{ maxWidth: '240px' }} info>
+              <Message style={{ maxWidth: '240px', background: ourColors.formColor }}>
                 <Message.Header>See Other Recipes</Message.Header>
                 <p>Uncheck the 'See your own recipes' box under Search!</p>
               </Message>
-              <Message style={{ maxWidth: '240px' }} info>
+              <Message style={{ maxWidth: '240px', background: ourColors.formColor }}>
                 <Message.Header>Add Allergies</Message.Header>
                 <p>Go to Settings and add an allergy!</p>
               </Message>
             </React.Fragment>
           ) : null}
           {window.location.pathname === '/settings' ? (
-            <Message style={{ maxWidth: '240px' }} info>
+            <Message style={{ maxWidth: '240px', background: ourColors.formColor }}>
               <Message.Header>Allergy Notications</Message.Header>
               <Message.List>
                 <Message.Item>Recipes will be bordered in maroon</Message.Item>

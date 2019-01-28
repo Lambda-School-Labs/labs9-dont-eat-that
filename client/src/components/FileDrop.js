@@ -11,14 +11,6 @@ const FileDropFunc = props => {
 
   const fileName = props.file ? props.file.name : 'No File Uploaded';
 
-    {/* <Form.Group
-      widths='equal'
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '14px'
-      }}
-    > */}
   return (
     <Form.Field
       className={props.uploaderClasses}
