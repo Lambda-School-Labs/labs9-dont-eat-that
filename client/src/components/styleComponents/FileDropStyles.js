@@ -5,7 +5,7 @@ export const DropCard = styled.main`
   display: block;
   width: 98%;
   height: 200px;
-  margin: 100px auto;
+  margin: 50px auto;
   background-color: white;
 `;
 
