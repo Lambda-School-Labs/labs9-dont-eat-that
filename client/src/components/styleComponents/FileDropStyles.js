@@ -3,7 +3,7 @@ import ourColors from '../../ColorScheme';
 
 export const DropCard = styled.main`
   display: block;
-  width: 90%;
+  width: 98%;
   height: 200px;
   margin: 100px auto;
   background-color: white;
