@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import FileDropFunc from './FileDrop';
 import { Form, Segment, Header } from 'semantic-ui-react';
 import {
   editRecipe,
@@ -14,11 +13,7 @@ import {
 import styled from 'styled-components';
 
 import ourColors from '../ColorScheme';
-
-// const AutoComDiv = styled.div`
-//   position: relative;
-//   display: inline-block;
-// `;
+import FileDropFunc from './FileDrop';
 
 const AutoComItemsDiv = styled.div`
   position: absolute;
@@ -41,7 +36,6 @@ const AutoComItemsDiv = styled.div`
 const EditRecipeFormDiv = styled.div`
   width: 95%;
   margin-left: 2.5%;
-
   font-family: Roboto;
 
   .quill-div {
@@ -482,8 +476,9 @@ class AddNewRecipeForm extends Component {
                 onFileChange={this.onFileChange}
               />
 
-              <div
+              <Form.Field
                 className='quill-div'
+                width='16'
                 style={{ marginTop: '14px', marginBottom: '14px' }}
               >
                 <ReactQuill
@@ -497,7 +492,7 @@ class AddNewRecipeForm extends Component {
                     color: 'black'
                   }}
                 />
-              </div>
+              </Form.Field>
               {(!this.state.name || !this.state.description) && (
                 <p className='please-provide'>
                   Please provide a name, description, and ingredients before

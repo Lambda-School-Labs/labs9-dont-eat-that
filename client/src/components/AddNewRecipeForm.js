@@ -37,9 +37,7 @@ const AutoComItemsDiv = styled.div`
 const AddNewRecipeFormDiv = styled.div`
   width: 95%;
   margin-left: 2.5%;
-
   font-family: Roboto;
-
   .quill-div {
     min-height: 150px;
   }
@@ -329,7 +327,7 @@ class AddNewRecipeForm extends Component {
       
       // console.log("dropListener",this.state.selectedFile);
     }
-    console.log("upload image name",ev.dataTransfer.files[0].name);
+    // console.log("upload image name",ev.dataTransfer.files[0].name);
   };
   
   overRideEventDefaults = ev => {
@@ -457,6 +455,7 @@ class AddNewRecipeForm extends Component {
               handleFileUpload={this.handleFileUpload}
               handleInputSelectedFile={this.handleInputSelectedFile}
               onFileChange={this.onFileChange}
+              imageName={this.state.imageName}
             />
 
             <Form.Field

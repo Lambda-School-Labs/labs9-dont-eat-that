@@ -3,6 +3,10 @@ import { Button, Form, Popup } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme';
 
+
+
+
+
 const FileDropFunc = props => {
   let uploaderClasses = 'file-uploader';
   if (props.dragging) {
@@ -11,14 +15,6 @@ const FileDropFunc = props => {
 
   const fileName = props.file ? props.file.name : 'No File Uploaded';
 
-    {/* <Form.Group
-      widths='equal'
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginTop: '14px'
-      }}
-    > */}
   return (
     <Form.Field
       className={props.uploaderClasses}
@@ -35,7 +31,7 @@ const FileDropFunc = props => {
         className='file-uploader-contents'
         onChange={props.handleInputSelectedFile}
       >
-        <span className='file-uploader-file-name'>{fileName}</span>
+        <span className='file-uploader-file-name'>{props.imageName}</span>
         <br />
         <span>Drag & Drop File</span>
         <br />
@@ -50,10 +46,9 @@ const FileDropFunc = props => {
           type='file'
           name='myfile'
           onChange={props.handleInputSelectedFile}
-          placeholder={"Select File"}
+          placeholder={'Select File'}
           style={{ marginLeft: '7px', marginRight: '7px', width: '78%' }}
         />
-          
       </div>
       {props.children}
 
@@ -67,13 +62,15 @@ const FileDropFunc = props => {
         trigger={
           <Button
             onClick={props.handleFileUpload}
-            style={{ marginTop: '15px', 
-            marginRight: '8px',
-            marginLeft: '7px',
-            width: '20%',
-            minWidth: '100px',
-            background: ourColors.buttonColor,
-            color: 'white'}}
+            style={{
+              marginTop: '15px',
+              marginRight: '8px',
+              marginLeft: '7px',
+              width: '20%',
+              minWidth: '100px',
+              background: ourColors.buttonColor,
+              color: 'white'
+            }}
           >
             Upload Image
           </Button>
