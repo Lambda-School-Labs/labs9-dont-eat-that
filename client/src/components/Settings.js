@@ -2,28 +2,65 @@ import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Header, Form, Segment, Icon, Input } from 'semantic-ui-react';
+import styled from 'styled-components';
 
 import { withFirebase } from './firebase';
-import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
+import { addAllergy, getAllergies, deleteAllergy, autoComIng, resetAutoCom } from '../actions/index';
 import PasswordChangeForm from './auth/passwordChange';
 import ourColors from '../ColorScheme.js';
 
+const AutoComItemsDiv = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 35px;
+  border: 1px solid #d4d4d4;
+  z-index: 10;
+
+  div {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+    height: 25px;
+    padding-left: 13.7px;
+  }
+`;
+
 class Settings extends React.Component {
-  state = {
-    email: '',
-    password: '',
-    allergy: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      allergy: '',
+      allergyInputFocus: false
+    };
+  }
   componentDidMount() {
     this.props.getAllergies();
   }
   onChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    this.props.autoComIng(event.target.value);
   };
   onAddAllergy = e => {
     this.props.addAllergy(this.state.allergy.toLowerCase());
     this.setState({ allergy: '' });
   };
+  focusField = () => {
+    this.setState({ allergyInputFocus: true });
+  }
+  blurField = () => {
+    this.setState({ allergyInputFocus: false });
+  }
+  onClickAutocomplete = (item, ev) => {
+    this.props.addAllergy(item.toLowerCase());
+    this.setState({ allergy: '' });
+    // this.props.resetAutoCom(); // resets autoCom so menu will disappear
+    this.blurField();
+  }
 
   render() {
     if (this.props.allergies) {
@@ -72,7 +109,7 @@ class Settings extends React.Component {
           <Segment
             style={{ width: '70%', marginLeft: '15%', background: ourColors.formColor }}
           >
-            <Form>
+            <Form autoComplete='off'>
               <Form.Field>
                 {/* changed button into Icon
           also put Icon inside of Input as action */}
@@ -85,6 +122,8 @@ class Settings extends React.Component {
                   placeholder='Please enter an allergy...'
                   value={this.state.allergy}
                   onChange={this.onChange}
+                  onFocus={this.focusField}
+                  onBlur={this.blurField}
                   action={
                     <Icon
                       name='add circle'
@@ -105,6 +144,20 @@ class Settings extends React.Component {
                   }
                   actionPosition='right'
                 />
+                { this.props.autoCom && this.state.allergyInputFocus && (
+                  <AutoComItemsDiv>
+                    {this.props.autoCom.map(item => {
+                      return (
+                        <div
+                          key={item}
+                          onClick={ev => this.onClickAutocomplete(item, ev)}
+                        >
+                          {item}
+                        </div>
+                      );
+                    })}
+                  </AutoComItemsDiv>
+                )}
               </Form.Field>
             </Form>
           </Segment>
@@ -118,11 +171,12 @@ class Settings extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    autoCom: state.nutritionReducer.autoComIng,
     allergies: state.usersReducer.user.allergies
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addAllergy, getAllergies, deleteAllergy }
+  { addAllergy, getAllergies, deleteAllergy, autoComIng, resetAutoCom }
 )(compose(withFirebase)(Settings));
