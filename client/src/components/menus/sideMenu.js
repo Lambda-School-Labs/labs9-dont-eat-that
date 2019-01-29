@@ -85,7 +85,7 @@ class SideMenu extends React.Component {
                 active={item === '/settings'}
                 onClick={this.handleItemClick}
               >
-                Settings
+                Settings & Allergies
               </Menu.Item>
             </NavLink>
           </Menu>
@@ -96,17 +96,7 @@ class SideMenu extends React.Component {
               <Message.Header>Signup/Login for Full Features!</Message.Header>
             </Message>
           ) : null}
-          {window.location.pathname === '/recipes' &&
-          localStorage.getItem('uid') ? (
-            <React.Fragment>
-              <Message
-                style={{ maxWidth: '240px', background: ourColors.formColor }}
-              >
-                <Message.Header>Add Allergies</Message.Header>
-                <p>Go to Settings and add an allergy!</p>
-              </Message>
-            </React.Fragment>
-          ) : null}
+
           {(window.location.pathname === '/recipes/new' &&
             localStorage.getItem('uid')) ||
           window.location.pathname.indexOf('/edit') > 0 ? (

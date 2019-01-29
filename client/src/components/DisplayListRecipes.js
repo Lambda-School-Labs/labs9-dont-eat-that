@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
+import { Form, Card, Icon, Header } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme';
 
@@ -60,12 +60,6 @@ const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-`;
-
-const CheckboxElement = styled.div`
-  margin: 15px 0 0 12px;
-  font-weight: normal;
-  font-family: Roboto;
 `;
 
 class DisplayListRecipes extends Component {
