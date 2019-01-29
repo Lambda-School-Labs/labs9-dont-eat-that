@@ -424,13 +424,13 @@ class AddNewRecipeForm extends Component {
               />
             </Form.Input>
             <Form.Select width='5' options={unitOptions} />
-            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
+            <select name={`unit${i}`} onChange={this.ingHandler}>
               {this.state.ingredients[i].unitsList &&
                 this.state.ingredients[i].unitsList.map(unit => (
                   <option value={unit}>{unit}</option>
                 ))}
             </select>
-            <br /> */}
+            <br />
           </Form.Group>
         );
       }
