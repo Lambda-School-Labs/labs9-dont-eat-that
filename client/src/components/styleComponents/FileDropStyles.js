@@ -2,21 +2,23 @@ import styled from 'styled-components';
 
 export const DropCard = styled.main`
   display: block;
-  width: 98%;
-  height: 200px;
-  margin: 50px auto;
+  width: 100%;
+  margin: 0 auto;
   background-color: white;
+  border: 1px solid #ccc;
 `;
 
 export const DropInputField = styled.main`
   width: 100%;
   display: block;
   height: 100%;
+  font-size: 1rem;
 `;
 
 export const DropTextStyle = styled.div`
-  padding: 20px 0 0 0;
-  font-size: 20px;
+  padding: 15px 0 0 0;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
 `;
 
 // export const UploadButton = styled.div`
