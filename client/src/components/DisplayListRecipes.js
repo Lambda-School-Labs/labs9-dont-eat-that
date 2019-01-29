@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon, Header } from 'semantic-ui-react';
+import { Form, Card, Icon, Header } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme';
 
@@ -17,6 +17,7 @@ import {
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
+import DisplayTab from './displayTab.js';
 
 import { downloadRecipeToCSV } from '../components/util';
 
@@ -37,17 +38,28 @@ const RecipeListPage = styled.div`
     padding: 0 15px;
   }
 `;
+const TabDiv = styled.div`
+  display: flex;
+
+  /* flex-wrap: wrap; */
+  /* justify-content: space-between; */
+
+  .menu {
+    margin-left: 4%;
+    width: 50%;
+    border: 1px solid blue;
+  }
+
+  .search {
+    margin-left: 10%;
+    width: 50%;
+  }
+`;
 
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-`;
-
-const CheckboxElement = styled.div`
-  margin: 15px 0 0 12px;
-  font-weight: normal;
-  font-family: Roboto;
 `;
 
 class DisplayListRecipes extends Component {
@@ -113,9 +125,10 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
-  checkHandler = async ev => {
+  checkHandler = async personal => {
+    console.log('checkHandler personal = ', personal);
     await this.setState({
-      personalCheck: ev.target.checked
+      personalCheck: personal
     });
     if (this.state.personalCheck) {
       this.props.getOwnRecipes();
@@ -141,38 +154,6 @@ class DisplayListRecipes extends Component {
 
     return (
       <RecipeListPage>
-        <Segment
-          style={{
-            width: '95%',
-            marginLeft: '2.5%',
-            fontFamily: 'Roboto',
-            padding: '10px 0 0 0',
-            background: ourColors.formColor
-          }}
-        >
-          <Form>
-            <Form.Group className='topBarOptions'>
-              <SimpleSearch
-                query={this.state.query}
-                handleInputChange={this.handleInputChange}
-              />
-              {localStorage.getItem('uid') && (
-                <CheckboxElement>
-                  <Form.Field inline>
-                    <input
-                      type='checkbox'
-                      id='personalCheck'
-                      name='personalCheck'
-                      onChange={this.checkHandler}
-                      checked={this.state.personalCheck}
-                    />
-                    <label htmlFor='personalCheck'>See your own recipes</label>
-                  </Form.Field>
-                </CheckboxElement>
-              )}
-            </Form.Group>
-          </Form>
-        </Segment>
         <div className='header-icons'>
           <div className='dummy-for-flexbox' />
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
@@ -187,10 +168,25 @@ class DisplayListRecipes extends Component {
             />
           )}
         </div>
+        <TabDiv>
+          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <Form className='search'>
+            <SimpleSearch
+              query={this.state.query}
+              handleInputChange={this.handleInputChange}
+            />
+          </Form>
+        </TabDiv>
+
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
-              style={{ width: '200px', height: '200px', margin: '10px', boxShadow: `0 0 3px 1px ${ourColors.buttonColor}` }}
+              style={{
+                width: '200px',
+                height: '200px',
+                margin: '10px',
+                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
+              }}
             >
               <Card.Content
                 style={{

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import { Form, Segment, Header } from 'semantic-ui-react';
+import { Form, Segment, Header, Image } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
@@ -21,6 +21,7 @@ const AutoComItemsDiv = styled.div`
   right: 0;
   border: 1px solid #d4d4d4;
   z-index: 10;
+  top : 35px;
 
   div {
     display: flex;
@@ -64,6 +65,7 @@ class AddNewRecipeForm extends Component {
       ingredients: this.props.recipe
         ? this.populateUnitsLists()
         : [emptyIng, emptyIng, emptyIng],
+      unitsDone: false,
       focuses: this.props.recipe
         ? this.props.recipe.ingredients.map(ingredient => ({
             focus: false
@@ -364,9 +366,14 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+  unitsListWait = () => {
+    setTimeout(() => this.setState({ unitsDone: true }), 2000);
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
-    if (this.props.recipe) {
+    this.unitsListWait();
+    if (this.props.recipe && this.state.unitsDone) {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
@@ -418,13 +425,13 @@ class AddNewRecipeForm extends Component {
               />
             </Form.Input>
             <Form.Select width='5' options={unitOptions} />
-            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
+            <select name={`unit${i}`} onChange={this.ingHandler}>
               {this.state.ingredients[i].unitsList &&
                 this.state.ingredients[i].unitsList.map(unit => (
                   <option value={unit}>{unit}</option>
                 ))}
             </select>
-            <br /> */}
+            <br />
           </Form.Group>
         );
       }
@@ -598,7 +605,11 @@ class AddNewRecipeForm extends Component {
         </EditRecipeFormDiv>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <Segment loading style={{ width: '95%', marginLeft: '2.5%' }}>
+          <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+        </Segment>
+      );
     }
   }
 }

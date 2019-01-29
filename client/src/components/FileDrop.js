@@ -59,7 +59,7 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-          <label for='file' onCLick>
+          <label for='file'>
             <input
               type='file'
               name='file'
@@ -86,13 +86,12 @@ const FileDropFunc = props => {
             <Button
               onClick={props.handleFileUpload}
               style={{
-                margin: '15px',
-                height: '80px',
+                margin: '10px',
                 width: '35%',
+                height: '48px',
                 minWidth: '100px',
                 background: ourColors.buttonColor,
-                color: 'white',
-                padding: '20px'
+                color: 'white'
               }}
             >
               Upload Image
