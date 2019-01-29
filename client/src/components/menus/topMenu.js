@@ -104,9 +104,9 @@ const TopMenu = props => {
               ? {}
               : {
                   padding: '5px',
-                  paddingRight: '15px',
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  width: '240px'
                 }
           }
         >

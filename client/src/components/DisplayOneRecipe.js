@@ -31,8 +31,8 @@ const DisplayOneRecipe = props => {
       <Card
         style={{
           boxShadow: props.allergy
-            ? (`0 0 3px 5px ${ourColors.warningColor}`)
-            : (`0 0 3px 1px ${ourColors.buttonColor}`),
+            ? `0 0 3px 5px ${ourColors.warningColor}`
+            : `0 0 3px 1px ${ourColors.outlineColor}`,
           width: '200px',
           height: '200px',
           margin: '10px',
@@ -41,17 +41,18 @@ const DisplayOneRecipe = props => {
         }}
       >
         {props.recipe.imageUrl ? (
-          <Image
-            src={props.recipe.imageUrl}
-            style={{ height: '133px' }}
-          />
+          <Image src={props.recipe.imageUrl} style={{ height: '133px' }} />
         ) : (
           <Image src={defaultImage} />
         )}
         <Card.Content style={{ paddingTop: '4px' }}>
           <Card.Header
             as='h3'
-            style={{ height: '45px', overflow: 'hidden', fontSize: '1.1rem' }}
+            style={{
+              maxHeight: '45px',
+              overflow: 'hidden',
+              fontSize: '1.1rem'
+            }}
           >
             {props.recipe.name}
           </Card.Header>

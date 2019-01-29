@@ -89,7 +89,8 @@ class SideMenu extends React.Component {
               </Menu.Item>
             </NavLink>
           </Menu>
-          {window.location.pathname === '/recipes' ? (
+          {window.location.pathname === '/recipes' &&
+          localStorage.getItem('uid') ? (
             <React.Fragment>
               <Message
                 style={{ maxWidth: '240px', background: ourColors.formColor }}
@@ -114,7 +115,8 @@ class SideMenu extends React.Component {
               <p>Drop a file or browse an image, then hit upload image!</p>
             </Message>
           ) : null}
-          {window.location.pathname === '/settings' ? (
+          {window.location.pathname === '/settings' &&
+          localStorage.getItem('uid') ? (
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >

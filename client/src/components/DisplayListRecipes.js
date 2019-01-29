@@ -190,7 +190,12 @@ class DisplayListRecipes extends Component {
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
-              style={{ width: '200px', height: '200px', margin: '10px', boxShadow: `0 0 3px 1px ${ourColors.buttonColor}` }}
+              style={{
+                width: '200px',
+                height: '200px',
+                margin: '10px',
+                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
+              }}
             >
               <Card.Content
                 style={{
