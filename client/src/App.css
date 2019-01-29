@@ -139,10 +139,26 @@ table {
   font-family: 'Roboto', sans-serif;
 }
 
+.appContainer{
+  width:100%;
+}
+
+
 .App {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 2000px;
+  margin: 0 auto;
+  
+}
+.menuContainer{
+  max-width: 100%;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+.navigationBar {
+  max-width:2000px;
 }
 
 .topMenu {
@@ -167,6 +183,7 @@ table {
   display: flex;
   justify-content: center;
 }
+
 
 /* .field{ 
   height: 40px;
