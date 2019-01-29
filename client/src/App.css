@@ -166,6 +166,11 @@ table {
   width: 100%;
 }
 
+.searchLogout {
+  display:flex;
+  margin-left: auto;
+}
+
 .sideMenu {
   margin: 0 10px;
 }
