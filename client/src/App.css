@@ -150,10 +150,11 @@ table {
   flex-wrap: wrap;
   max-width: 2000px;
   margin: 0 auto;
-  
+
 }
+
 .navigationBar {
-  width:100%;
+  max-width: 2000px;
 }
 
 .topMenu {
@@ -178,6 +179,7 @@ table {
   display: flex;
   justify-content: center;
 }
+
 
 /* .field{ 
   height: 40px;
