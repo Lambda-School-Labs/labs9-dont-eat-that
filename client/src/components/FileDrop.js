@@ -48,7 +48,6 @@ const FileDropFunc = props => {
         <br />
         <span>or</span>
         <br />
-        
         <input type="file" id="file" style={{display: "none"}}/>
         <Button
           style={{
