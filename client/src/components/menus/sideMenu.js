@@ -105,7 +105,8 @@ class SideMenu extends React.Component {
               </Message>
             </React.Fragment>
           ) : null}
-          {window.location.pathname === '/recipes/new' || '/recipes/edit/*' ? (
+          {window.location.pathname === '/recipes/new' ||
+          window.location.pathname.indexOf('/edit') > 0 ? (
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >
