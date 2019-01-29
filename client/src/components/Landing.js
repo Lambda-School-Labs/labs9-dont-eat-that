@@ -22,7 +22,7 @@ const Landing = props => {
   const headerStyles1 = () => {
     return {
       fontFamily: `Trebuchet MS, Arial, Helvetica, sans-serif`,
-      textAlign: 'left',
+      textAlign: 'center',
       fontSize: '7rem',
       fontWeight: 'normal',
       margin: '10px 0 0 5%',
@@ -41,18 +41,15 @@ const Landing = props => {
   return (
     <LandingDiv>
       <Responsive style={{ height: '90vh' }} minWidth={501}>
-        <Header as='h1' style={headerStyles1()}>
+        {/* <Header as='h1' style={headerStyles1()}>
           Don't
           <br />
           Eat
           <br />
           That
-        </Header>
+        </Header> */}
         <p style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
-          Do you have trouble finding recipes that meet your dietary needs and
-          avoid your allergens? Don't Eat That is the app for you! Here you can
-          collect recipes or upload your own, and easily see which don't meet
-          your nutritional standards.
+          Trouble finding recipes that meet all your dietary needs? Don't Eat That is the app for you! Upload or collect your own recipes here, and we will make it easy to see recipes that meet your nutritional standards.
         </p>
         <Button
           onClick={e => props.history.push('/recipes')}
