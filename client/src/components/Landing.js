@@ -21,7 +21,7 @@ const LandingDiv = styled.div`
 const Landing = props => {
   const headerStyles1 = () => {
     return {
-      fontFamily: `Roboto`,
+      fontFamily: `Trebuchet MS, Arial, Helvetica, sans-serif`,
       textAlign: 'left',
       fontSize: '7rem',
       fontWeight: 'normal',

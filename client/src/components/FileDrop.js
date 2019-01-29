@@ -66,13 +66,12 @@ const FileDropFunc = props => {
               id='file'
               class='inputfile'
               style={{
-                margin: '15px',
-                height: '80px',
-                width: '35%',
+                margin: '10px',
+                height: '60px',
+                width: '20%',
                 minWidth: '100px',
                 background: ourColors.buttonColor,
                 color: 'white',
-                padding: '20px'
               }}
             />
           </label>
@@ -87,8 +86,8 @@ const FileDropFunc = props => {
               onClick={props.handleFileUpload}
               style={{
                 margin: '10px',
-                width: '35%',
-                height: '48px',
+                width: '20%',
+                height: '60px',
                 minWidth: '100px',
                 background: ourColors.buttonColor,
                 color: 'white'
