@@ -33,10 +33,10 @@ class DisplayTab extends React.Component {
           onClick={this.handleItemClick}
         />
         <Menu.Item
-          name='Other People'
-          active={activeItem === 'Other People'}
+          name='Other Recipes'
+          active={activeItem === 'Other Recipes'}
           style={
-            activeItem === 'Other People'
+            activeItem === 'Other Recipes'
               ? {
                   background: ourColors.formColor,
                   color: 'black'

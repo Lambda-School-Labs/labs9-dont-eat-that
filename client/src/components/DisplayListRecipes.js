@@ -53,6 +53,7 @@ const TabDiv = styled.div`
   .search {
     margin-left: 10%;
     width: 50%;
+    margin-right: 15px;
   }
 `;
 
@@ -154,11 +155,11 @@ class DisplayListRecipes extends Component {
 
     return (
       <RecipeListPage>
-        <div className='header-icons'>
-          <div className='dummy-for-flexbox' />
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
+        <div className='header-icons'>
+          <div className='dummy-for-flexbox' />
           {this.props.user.subscriptionid && (
             <Icon
               name='download'
