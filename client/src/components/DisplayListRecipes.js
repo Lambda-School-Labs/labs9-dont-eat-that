@@ -38,6 +38,23 @@ const RecipeListPage = styled.div`
     padding: 0 15px;
   }
 `;
+const TabDiv = styled.div`
+  display: flex;
+
+  /* flex-wrap: wrap; */
+  /* justify-content: space-between; */
+
+  .menu {
+    margin-left: 4%;
+    width: 50%;
+    border: 1px solid blue;
+  }
+
+  .search {
+    margin-left: 10%;
+    width: 50%;
+  }
+`;
 
 const DisplayListDiv = styled.div`
   display: flex;
@@ -143,38 +160,6 @@ class DisplayListRecipes extends Component {
 
     return (
       <RecipeListPage>
-        <Segment
-          style={{
-            width: '95%',
-            marginLeft: '2.5%',
-            fontFamily: 'Roboto',
-            padding: '10px 0 0 0',
-            background: ourColors.formColor
-          }}
-        >
-          <Form>
-            <Form.Group className='topBarOptions'>
-              <SimpleSearch
-                query={this.state.query}
-                handleInputChange={this.handleInputChange}
-              />
-              {/* {localStorage.getItem('uid') && (
-                <CheckboxElement>
-                  <Form.Field inline>
-                    <input
-                      type='checkbox'
-                      id='personalCheck'
-                      name='personalCheck'
-                      onChange={this.checkHandler}
-                      checked={this.state.personalCheck}
-                    />
-                    <label htmlFor='personalCheck'>See your own recipes</label>
-                  </Form.Field>
-                </CheckboxElement>
-              )} */}
-            </Form.Group>
-          </Form>
-        </Segment>
         <div className='header-icons'>
           <div className='dummy-for-flexbox' />
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
@@ -189,8 +174,15 @@ class DisplayListRecipes extends Component {
             />
           )}
         </div>
-
-        <DisplayTab personalCheck={this.checkHandler} />
+        <TabDiv>
+          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <Form className='search'>
+            <SimpleSearch
+              query={this.state.query}
+              handleInputChange={this.handleInputChange}
+            />
+          </Form>
+        </TabDiv>
 
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
