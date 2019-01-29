@@ -102,12 +102,6 @@ class SideMenu extends React.Component {
               <Message
                 style={{ maxWidth: '240px', background: ourColors.formColor }}
               >
-                <Message.Header>See Other Recipes</Message.Header>
-                <p>Uncheck the 'See your own recipes' box under Search!</p>
-              </Message>
-              <Message
-                style={{ maxWidth: '240px', background: ourColors.formColor }}
-              >
                 <Message.Header>Add Allergies</Message.Header>
                 <p>Go to Settings and add an allergy!</p>
               </Message>
