@@ -48,17 +48,20 @@ class Settings extends React.Component {
   onAddAllergy = e => {
     this.props.addAllergy(this.state.allergy.toLowerCase());
     this.setState({ allergy: '' });
+    this.blurField();
   };
   focusField = () => {
     this.setState({ allergyInputFocus: true });
   }
   blurField = () => {
-    this.setState({ allergyInputFocus: false });
+    setTimeout( () => this.setState({ allergyInputFocus: false }),
+    100);
   }
-  onClickAutocomplete = (item, ev) => {
+  onClickAutocomplete = (item) => {
+    console.log(item);
     this.props.addAllergy(item.toLowerCase());
     this.setState({ allergy: '' });
-    // this.props.resetAutoCom(); // resets autoCom so menu will disappear
+    this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.blurField();
   }
 
@@ -150,7 +153,7 @@ class Settings extends React.Component {
                       return (
                         <div
                           key={item}
-                          onClick={ev => this.onClickAutocomplete(item, ev)}
+                          onClick={ev => this.onClickAutocomplete(item)}
                         >
                           {item}
                         </div>
