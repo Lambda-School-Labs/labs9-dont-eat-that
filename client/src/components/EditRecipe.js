@@ -21,6 +21,7 @@ const AutoComItemsDiv = styled.div`
   right: 0;
   border: 1px solid #d4d4d4;
   z-index: 10;
+  top : 35px;
 
   div {
     display: flex;
