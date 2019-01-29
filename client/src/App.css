@@ -139,10 +139,21 @@ table {
   font-family: 'Roboto', sans-serif;
 }
 
+.appContainer{
+  width:100%;
+}
+
+
 .App {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 2000px;
+  margin: 0 auto;
+  
+}
+.navigationBar {
+  width:100%;
 }
 
 .topMenu {
