@@ -110,9 +110,11 @@ class AddNewRecipeForm extends Component {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
     this.props.getAllergies();
-    this.setState({
-      ingredients: this.populateUnitsLists()
-    });
+    if (this.props.recipe) {
+      this.setState({
+        ingredients: this.populateUnitsLists()
+      });
+    }
   }
 
   quillHandler = html => {
