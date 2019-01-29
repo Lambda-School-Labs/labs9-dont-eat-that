@@ -33,7 +33,11 @@ export const recipesReducer = (state = initialState, action) => {
     case actionTypes.DELETE_RECIPE:
       return { ...state, recipes: action.payload };
     case actionTypes.RATING_CHANGE:
-      return { ...state, recipe: { ...state.recipe, ratings: action.payload } };
+      return {
+        ...state,
+        recipe: { ...state.recipe, ratings: action.payload.newRatings },
+        recipes: action.payload.newRecipes
+      };
     case actionTypes.REMOVE_USER:
       return initialState;
     case actionTypes.ERROR:

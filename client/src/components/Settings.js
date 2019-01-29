@@ -1,11 +1,12 @@
 import React from 'react';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { Button, Header, Form, Segment, Icon } from 'semantic-ui-react';
+import { Header, Form, Segment, Icon, Input } from 'semantic-ui-react';
 
 import { withFirebase } from './firebase';
 import { addAllergy, getAllergies, deleteAllergy } from '../actions/index';
 import PasswordChangeForm from './auth/passwordChange';
+import ourColors from '../ColorScheme.js';
 
 class Settings extends React.Component {
   state = {
@@ -28,18 +29,18 @@ class Settings extends React.Component {
     if (this.props.allergies) {
       return (
         <div>
-          <Header as="h1">Settings</Header>
+          <Header as='h1'>Settings</Header>
           {localStorage.getItem('uid') && <PasswordChangeForm />}
           <Header
-            as="h3"
-            color="red"
-            inverted
-            attached="top"
-            style={{ width: '95%', marginLeft: '2.5%' }}
+            as='h3'
+            color='black'
+            // inverted
+            attached='top'
+            style={{ width: '70%', marginLeft: '15%' }}
           >
             Allergies
           </Header>
-          <Segment attached style={{ width: '95%', marginLeft: '2.5%' }}>
+          <Segment attached style={{ width: '70%', marginLeft: '15%' }}>
             <ul>
               {this.props.allergies.map((allergy, i) => {
                 if (typeof allergy === 'object') {
@@ -49,7 +50,7 @@ class Settings extends React.Component {
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy.name)}
                         name="delete"
-                        style={{ color: 'red' }}
+                        style={{ color: ourColors.warningColor }}
                       />
                     </li>
                   );
@@ -60,7 +61,7 @@ class Settings extends React.Component {
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
                         name="delete"
-                        style={{ color: 'red' }}
+                        style={{ color: ourColors.warningColor, cursor: 'pointer' }}
                       />
                     </li>
                   );
@@ -69,31 +70,42 @@ class Settings extends React.Component {
             </ul>
           </Segment>
           <Segment
-            color="red"
-            inverted
-            style={{ width: '95%', marginLeft: '2.5%' }}
+            style={{ width: '70%', marginLeft: '15%', background: ourColors.formColor }}
           >
-            <Form inverted>
+            <Form>
               <Form.Field>
-                <input
-                  type="text"
-                  name="allergy"
-                  id="allergy"
-                  placeholder="Please enter an allergy..."
+                {/* changed button into Icon
+          also put Icon inside of Input as action */}
+
+                <Input
+                  size='mini'
+                  type='text'
+                  name='allergy'
+                  id='allergy'
+                  placeholder='Please enter an allergy...'
                   value={this.state.allergy}
                   onChange={this.onChange}
+                  action={
+                    <Icon
+                      name='add circle'
+                      onClick={this.onAddAllergy}
+                      style={
+                        !localStorage.getItem('uid')
+                          ? {
+                              color: ourColors.inactiveButtonColor,
+                              cursor: 'pointer',
+                              margin: '4.5px 5px 0'
+                            }
+                          : { color: ourColors.buttonColor, cursor: 'pointer', margin: '4.5px 5px 0' }
+                      }
+                      disabled={!localStorage.getItem('uid')}
+                      size='big'
+                      // style={{ cursor: 'pointer' }}
+                    />
+                  }
+                  actionPosition='right'
                 />
               </Form.Field>
-              {localStorage.getItem('uid') ? (
-                <Button onClick={this.onAddAllergy}>Add Allergy</Button>
-              ) : (
-                <React.Fragment>
-                  <Button onClick={this.onAddAllergy} disabled>
-                    Add Allergy
-                  </Button>
-                  <p>Please Login to Add an Allergy!</p>
-                </React.Fragment>
-              )}
             </Form>
           </Segment>
         </div>

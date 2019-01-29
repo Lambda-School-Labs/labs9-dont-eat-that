@@ -54,15 +54,22 @@ class App extends Component {
     if (localStorage.uid) {
     }
     return (
-      <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
-        <div className="App" style={this.appStyles()}>
-          <TopMenu isLoggedIn={this.state.isLoggedIn} />
-          <div className="mainDisplay">
-            <SideMenu />
-            <MainDisplaySection />
-          </div>
+      <div className='appContainer'>
+        <div className='menuContainer'>
+          <TopMenu
+            className='navigationBar'
+            isLoggedIn={this.state.isLoggedIn}
+          />
         </div>
-      </StripeProvider>
+        <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
+          <div className='App' style={this.appStyles()}>
+            <div className='mainDisplay'>
+              <SideMenu />
+              <MainDisplaySection />
+            </div>
+          </div>
+        </StripeProvider>
+      </div>
     );
   }
 }

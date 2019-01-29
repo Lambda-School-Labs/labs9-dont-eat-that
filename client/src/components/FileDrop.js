@@ -1,134 +1,92 @@
-// //Functional Component Route
-// import React from 'react';
-// import { Button, Form, Popup } from 'semantic-ui-react';
-// // import { connect } from "react-redux";
-// // import { handleFileUpload } from "../actions";
+import React from 'react';
+import { Button, Popup, Form } from 'semantic-ui-react';
+// import styled from 'styled-components';
+import ourColors from '../ColorScheme';
 
-// const FileDrop = props => {
-//   return (
-//     <Form.Field>
-//       <input
-//         type="file"
-//         name="myFile"
-//         onChange={props.handleInputSelectedFile}
-//       />
-//       <Popup
-//         trigger={
-//           <Button
-//             onClick={props.handleFileUpload}
-//             style={{ marginTop: '15px' }}
-//           >
-//             Upload Image
-//           </Button>
-//         }
-//         content={
-//           props.selectedFile
-//             ? 'Image Upload completed!'
-//             : 'No image was uploaded.'
-//         }
-//         on="click"
-//       />
-//     </Form.Field>
-//   );
-// };
+import {
+  DropCard,
+  DropInputField,
+  DropStyleText,
+  DropTextStyle
+} from './styleComponents/FileDropStyles';
 
-// export default FileDrop;
-// // const mapStateToProps = state => {
-// //   return {};
-// // };
-// // export default connect(
-// //   mapStateToProps,
-// //   { handleFileUpload }
-// // )(FileDrop);
+// const UploadButton = styled.div`
+//   height: 20px;
+//   marginTop: '15px',
+//   marginRight: '8px',
+//   marginLeft: '7px',
+//   width: '20%',
+//   minWidth: '100px',
+//   background: ${ourColors.buttonColor},
+//   color: 'white'
+// `;
 
-import React, { Component } from 'react';
-// import { Button, Form, Popup } from 'semantic-ui-react';
-import FileDropFunc from './FileDropFunc';
-
-class DragAndDropFile extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      dragging: false,
-      file: null,
-    };
-  
-  
+const FileDropFunc = props => {
+  let uploaderClasses = 'file-uploader';
+  if (props.dragging) {
+    uploaderClasses += 'file-uploader--dragging';
   }
-  
-dragLeaveListener = ev => {
-  this.overRideEventDefaults(ev);
-  this.dragEventCounter--;
 
-  if(this.dragEventCounter === 0) {
-    this.setState({dragging: false});
-  }
-};
-
-dropListener = ev => {
-  this.overRideEventDefaults(ev);
-  this.dragEventCounter = 0;
-  this.setState({dragging:false});
-
-  if(ev.dataTransfer.files && ev.dataTransfer.files[0]) {
-    this.setState({file: ev.dataTransfer.files[0]});
-
-  }
-};
-
-overRideEventDefaults = ev => {
-  ev.preventDefault();
-  ev.stopPropagation();
-
-};
-
-onSelectFileClick = () => {
-  this.fileUploaderInput && this.fileUploaderInput.click();
-};
-  
-onFileChange = ev => {
-  if (ev.target.files && ev.target.files[0]) {
-    this.setState({file:ev.target.files[0]});
-  }
-};
-
-componentDidMount() {
-  window.addEventListener("dragover", ev  => {
-    this.overRideEventDefaults(ev);
-  });
-  window.addEventListener('drop', ev => {
-    this.overRideEventDefaults(ev);
-  });
-}
-
-componentWillMount() {
-  window.removeEventListener('dragover', this.overRideEventDefaults);
-  window.removeEventListener('drop', this.overRideEventDefaults);
-
-}
-
-
-render(props) {
   return (
-    <FileDropFunc
-      dragging={this.state.dragging}
-      file={this.state.file}
-      onSelectFileClick={this.onSelectFileClick}
-      onDrag={this.overRideEventDefaults}
-      onDragStart={this.overRideEventDefaults}
-      onDragEnd={this.overRideEventDefaults}
-      onDragOver={this.overRideEventDefaults}
-      onDragEnter={this.onDragEnter}
-      onDragLeave={this.onDragLeave}
-      onDrop={this.dropListener}
-      handleFileUpload={this.props.handleFileUpload}
-      handleInputSelectedFile={this.props.handleInputSelectedFile}
-      onFileChange={this.onFileChange}
-    />
-  )
-}
+    <Form.Field>
+      <DropCard
+        onDrag={props.onDrag}
+        onDragStart={props.onDragStart}
+        onDragEnd={props.onDragEnd}
+        onDragOver={props.onDragOver}
+        onDragEnter={props.onDragEnter}
+        onDragLeave={props.onDragLeave}
+        onDrop={props.onDrop}
+        onSubmit={props.handleFileUpload}
+      >
+        <DropInputField
+          className='file-uploader-contents'
+          onChange={props.handleInputSelectedFile}
+        >
+          <DropTextStyle>
+            {props.imageName ? props.imageName : 'Drop File Here'}
+          </DropTextStyle>
+          <span>or</span>
+          <br />
+          <Button
+            style={{
+              background: ourColors.buttonColor,
+              minWidth: '100px',
+              margin: '10px',
+              width: '35%',
+              color: 'white'
+            }}
+            onClick={props.onSelectFileClick}
+          >
+            Browse for File
+          </Button>
+          <input type='file' id='file' style={{ display: 'none' }} />
+          <Popup
+            trigger={
+              <Button
+                onClick={props.handleFileUpload}
+                style={{
+                  margin: '10px',
+                  width: '35%',
+                  minWidth: '100px',
+                  background: ourColors.buttonColor,
+                  color: 'white'
+                }}
+              >
+                Upload Image
+              </Button>
+            }
+            content={
+              props.selectedFile
+                ? 'Image Upload completed!'
+                : 'No image was uploaded.'
+            }
+            on='click'
+          />
+        </DropInputField>
+      </DropCard>
+    </Form.Field>
+  );
+};
 
-
-}
-
-export default DragAndDropFile;
+export default FileDropFunc;

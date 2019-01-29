@@ -71,7 +71,14 @@ export const editRecipe = (id, recipe) => (dispatch, getState) => {
   const firebaseid = localStorage.getItem('uid');
   const { name, description, imageUrl, ingredients } = recipe;
   const recipes = getState().recipesReducer.recipes.map(oldRecipe => {
-    return oldRecipe.id === id ? recipe : oldRecipe;
+    return `${oldRecipe.id}` === id
+      ? {
+          ...recipe,
+          id: oldRecipe.id,
+          ratings: oldRecipe.ratings,
+          user_id: oldRecipe.user_id
+        }
+      : oldRecipe;
   });
   axios
     .put(`${URL}/api/recipes/edit/${id}`, {
@@ -207,7 +214,14 @@ export const ratingChange = (recipeid, newRating) => async (
           : rating;
       });
     }
-    dispatch({ type: RATING_CHANGE, payload: newRatings });
+    const recipe = getState().recipesReducer.recipe;
+    recipe.ratings = newRatings;
+    const recipes = getState().recipesReducer.recipes;
+    const newRecipes = recipes.map(oldRecipe => {
+      if (oldRecipe.id === recipe.id) return recipe;
+      return oldRecipe;
+    });
+    dispatch({ type: RATING_CHANGE, payload: { newRatings, newRecipes } });
   } catch (err) {
     dispatch({ type: ERROR, payload: err });
   }

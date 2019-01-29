@@ -1,17 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, Responsive } from 'semantic-ui-react';
+import { Menu, Responsive, Message } from 'semantic-ui-react';
+
+import ourColors from '../../ColorScheme';
 
 class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
   // Landing page is displayed when user is not loggedin and path is '/'
   state = { activeItem: window.location.pathname };
-
-  componentDidUpdate() {
-    if (window.location.pathname !== this.state.activeItem) {
-      this.setState({ activeItem: window.location.pathname })
-    }
-  }
 
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
@@ -22,6 +18,8 @@ class SideMenu extends React.Component {
     // on right menu.
     // without this, URL changes from create/delete recipe won't change the focus of side menu
     // so the focus would be in wrong menu
+    // tried to use some kind of event listener but couldn't find right one
+
     setInterval(() => {
       if (this.state.activeItem !== window.location.pathname) {
         this.setState({ activeItem: window.location.pathname });
@@ -39,46 +37,51 @@ class SideMenu extends React.Component {
     } else {
       return (
         <Responsive minWidth={771}>
-          <Menu pointing vertical className="sideMenu" color="blue" inverted>
-            <NavLink to="/recipes">
+          <Menu
+            pointing
+            vertical
+            className='sideMenu'
+            style={{ background: ourColors.menuColor }}
+          >
+            <NavLink to='/recipes'>
               <Menu.Item
-                name="/recipes"
+                name='/recipes'
                 active={item === '/recipes'}
                 onClick={this.handleItemClick}
               >
                 Recipes List
               </Menu.Item>
             </NavLink>
-            <NavLink to="/recipes/new">
+            <NavLink to='/recipes/new'>
               <Menu.Item
-                name="/recipes/new"
+                name='/recipes/new'
                 active={item === '/recipes/new'}
                 onClick={this.handleItemClick}
               >
                 New Recipe
               </Menu.Item>
             </NavLink>
-            <NavLink to="/recipes/import">
+            <NavLink to='/recipes/import'>
               <Menu.Item
-                name="/recipes/import"
+                name='/recipes/import'
                 active={item === '/recipes/import'}
                 onClick={this.handleItemClick}
               >
                 Import Recipe
               </Menu.Item>
             </NavLink>
-            <NavLink to="/billing">
+            <NavLink to='/billing'>
               <Menu.Item
-                name="/billing"
+                name='/billing'
                 active={item === '/billing'}
                 onClick={this.handleItemClick}
               >
                 Billing
               </Menu.Item>
             </NavLink>
-            <NavLink to="/settings">
+            <NavLink to='/settings'>
               <Menu.Item
-                name="/settings"
+                name='/settings'
                 active={item === '/settings'}
                 onClick={this.handleItemClick}
               >
@@ -86,6 +89,44 @@ class SideMenu extends React.Component {
               </Menu.Item>
             </NavLink>
           </Menu>
+          {window.location.pathname === '/recipes' ? (
+            <React.Fragment>
+              <Message
+                style={{ maxWidth: '240px', background: ourColors.formColor }}
+              >
+                <Message.Header>See Other Recipes</Message.Header>
+                <p>Uncheck the 'See your own recipes' box under Search!</p>
+              </Message>
+              <Message
+                style={{ maxWidth: '240px', background: ourColors.formColor }}
+              >
+                <Message.Header>Add Allergies</Message.Header>
+                <p>Go to Settings and add an allergy!</p>
+              </Message>
+            </React.Fragment>
+          ) : null}
+          {window.location.pathname === '/recipes/new' ||
+          window.location.pathname.indexOf('/edit') > 0 ? (
+            <Message
+              style={{ maxWidth: '240px', background: ourColors.formColor }}
+            >
+              <Message.Header>Image Upload</Message.Header>
+              <p>Drop a file or browse an image, then hit upload image!</p>
+            </Message>
+          ) : null}
+          {window.location.pathname === '/settings' ? (
+            <Message
+              style={{ maxWidth: '240px', background: ourColors.formColor }}
+            >
+              <Message.Header>Allergy Notications</Message.Header>
+              <Message.List>
+                <Message.Item>Recipes will be bordered in maroon</Message.Item>
+                <Message.Item>
+                  Ingredients will be highlighted in maroon
+                </Message.Item>
+              </Message.List>
+            </Message>
+          ) : null}
         </Responsive>
       );
     }
