@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Popup } from 'semantic-ui-react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import ourColors from '../ColorScheme';
 
 import {
@@ -9,16 +9,16 @@ import {
   DropTextStyle
 } from './styleComponents/FileDropStyles';
 
-const UploadButton = styled.div`
-  height: 20px;
-  marginTop: '15px',
-  marginRight: '8px',
-  marginLeft: '7px',
-  width: '20%',
-  minWidth: '100px',
-  background: ${ourColors.buttonColor},
-  color: 'white'
-`;
+// const UploadButton = styled.div`
+//   height: 20px;
+//   marginTop: '15px',
+//   marginRight: '8px',
+//   marginLeft: '7px',
+//   width: '20%',
+//   minWidth: '100px',
+//   background: ${ourColors.buttonColor},
+//   color: 'white'
+// `;
 
 const FileDropFunc = props => {
   let uploaderClasses = 'file-uploader';
@@ -26,7 +26,6 @@ const FileDropFunc = props => {
     uploaderClasses += 'file-uploader--dragging';
   }
 
-  const fileName = props.file ? props.file.name : 'No File Uploaded';
 
   return (
     <DropCard
@@ -49,7 +48,7 @@ const FileDropFunc = props => {
         <br />
         <span>or</span>
         <br />
-
+        <input type="file" id="file" style={{display: "none"}}/>
         <Button
           style={{
             margin: '15px',

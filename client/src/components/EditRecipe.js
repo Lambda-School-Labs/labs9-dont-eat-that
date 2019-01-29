@@ -537,19 +537,23 @@ class AddNewRecipeForm extends Component {
                     </Form.Group>
                   </React.Fragment>
                 ) : (
+
                   <React.Fragment>
                     <Form.Group
                       style={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Form.Button
-                        type='submit'
-                        style={{
-                          background: ourColors.buttonColor,
-                          color: 'white'
-                        }}
-                      >
-                        Save Recipe
-                      </Form.Button>
+                  <Form.Button
+                    type='submit'
+                    style={{
+                      background: ourColors.buttonColor,
+                      color: 'white',
+                      height: '80px',
+                      width: '40%',
+                      'font-size': '25px'
+                    }}
+                  >
+                    Save Recipe
+                  </Form.Button>
                       <Form.Button
                         onClick={() =>
                           this.props.history.push(
@@ -566,6 +570,7 @@ class AddNewRecipeForm extends Component {
                       </Form.Button>
                     </Form.Group>
                   </React.Fragment>
+
                 )
               ) : (
                 <React.Fragment>
