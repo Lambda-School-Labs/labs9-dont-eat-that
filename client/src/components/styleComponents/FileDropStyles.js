@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ourColors from '../../ColorScheme';
+// import ourColors from '../../ColorScheme';
 
 export const DropCard = styled.main`
   display: block;

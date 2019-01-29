@@ -110,6 +110,10 @@ class AddNewRecipeForm extends Component {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
     this.props.getAllergies();
+    if(!this.props.ingredients || this.props.ingredients.length === 0){
+      return 'Loading'
+    }
+    
     this.setState({
       ingredients: this.populateUnitsLists()
     });

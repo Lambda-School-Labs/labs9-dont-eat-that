@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import ourColors from '../ColorScheme.js';
 
-import { Button, Header, Responsive, Segment } from 'semantic-ui-react';
+import { Button, Header, Responsive } from 'semantic-ui-react';
 // import { url } from 'inspector';
 
 const LandingDiv = styled.div`
