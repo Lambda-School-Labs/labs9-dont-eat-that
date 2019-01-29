@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Responsive } from 'semantic-ui-react';
-
+import SimpleSearchInput from '../util/simpleSearch';
 import ourColors from '../../ColorScheme';
+import { MenuSearch } from '../styleComponents/navigationStyles';
 
 // TopMenu manages top part of display, showing login related menu
 // Depend on user's login status, active/inactive menu changes.
@@ -97,29 +98,37 @@ const TopMenu = props => {
       size='small'
       style={{ background: ourColors.menuColor }}
     >
-      <NavLink to='/'>
-        <Menu.Item
-          style={
-            window.location.pathname === '/'
-              ? {}
-              : {
-                  padding: '5px',
-                  paddingRight: '15px',
-                  display: 'flex',
-                  alignItems: 'center'
-                }
-          }
-        >
-          {SiteIcon}
-          Don't Eat That
-        </Menu.Item>
-      </NavLink>
-      <Menu.Menu position='right'>
-        {displaySignUp}
-        {displaySignIn}
-        {displayMenu}
-        {displaySignOut}
-      </Menu.Menu>
+      {/* <div className='navigationContainer'> */}
+        <NavLink to='/'>
+          <Menu.Item
+            style={
+              window.location.pathname === '/'
+                ? {}
+                : {
+                    padding: '5px',
+                    paddingRight: '15px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    maxWidth: '2000px',
+                    margin: '0 auto'
+                  }
+            }
+          >
+            {SiteIcon}
+            Don't Eat That
+          </Menu.Item>
+        </NavLink>
+        <MenuSearch>
+        <SimpleSearchInput/>
+
+        </MenuSearch>
+        <Menu.Menu position='right'>
+          {displaySignUp}
+          {displaySignIn}
+          {displayMenu}
+          {displaySignOut}
+        </Menu.Menu>
+      {/* </div> */}
     </Menu>
   );
 };
