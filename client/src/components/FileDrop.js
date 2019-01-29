@@ -44,7 +44,6 @@ const FileDropFunc = props => {
         <DropTextStyle>
           {props.imageName ? props.imageName : 'Drop File Here'}
         </DropTextStyle>
-        <br />
         <span>or</span>
         <br />
 
@@ -59,23 +58,21 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-          <label for='file' onCLick>
-            <input
-              type='file'
-              name='file'
-              id='file'
-              class='inputfile'
-              style={{
-                margin: '15px',
-                height: '80px',
-                width: '35%',
-                minWidth: '100px',
-                background: ourColors.buttonColor,
-                color: 'white',
-                padding: '20px'
-              }}
-            />
-          </label>
+        <label for='file' onCLick>
+          <input
+            type='file'
+            name='file'
+            id='file'
+            class='inputfile'
+            style={{
+              margin: '10px',
+              width: '35%',
+              minWidth: '100px',
+              background: ourColors.buttonColor,
+              color: 'white'
+            }}
+          />
+        </label>
         {/* </Button> */}
 
         {/* <UploadButton onClick={console.log("i was clicked")}>
@@ -86,13 +83,12 @@ const FileDropFunc = props => {
             <Button
               onClick={props.handleFileUpload}
               style={{
-                margin: '15px',
-                height: '80px',
+                margin: '10px',
                 width: '35%',
+                height: '48px',
                 minWidth: '100px',
                 background: ourColors.buttonColor,
-                color: 'white',
-                padding: '20px'
+                color: 'white'
               }}
             >
               Upload Image
