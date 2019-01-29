@@ -89,6 +89,13 @@ class SideMenu extends React.Component {
               </Menu.Item>
             </NavLink>
           </Menu>
+          {!localStorage.getItem('uid') ? (
+            <Message
+              style={{ maxWidth: '240px', background: ourColors.formColor }}
+            >
+              <Message.Header>Signup/Login for Full Features!</Message.Header>
+            </Message>
+          ) : null}
           {window.location.pathname === '/recipes' &&
           localStorage.getItem('uid') ? (
             <React.Fragment>
@@ -106,7 +113,8 @@ class SideMenu extends React.Component {
               </Message>
             </React.Fragment>
           ) : null}
-          {window.location.pathname === '/recipes/new' ||
+          {(window.location.pathname === '/recipes/new' &&
+            localStorage.getItem('uid')) ||
           window.location.pathname.indexOf('/edit') > 0 ? (
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
