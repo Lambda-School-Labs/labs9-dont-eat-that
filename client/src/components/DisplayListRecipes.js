@@ -17,6 +17,7 @@ import {
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
+import DisplayTab from './displayTab.js';
 
 import { downloadRecipeToCSV } from '../components/util';
 
@@ -113,9 +114,10 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
-  checkHandler = async ev => {
+  checkHandler = async personal => {
+    console.log('checkHandler personal = ', personal);
     await this.setState({
-      personalCheck: ev.target.checked
+      personalCheck: personal
     });
     if (this.state.personalCheck) {
       this.props.getOwnRecipes();
@@ -156,7 +158,7 @@ class DisplayListRecipes extends Component {
                 query={this.state.query}
                 handleInputChange={this.handleInputChange}
               />
-              {localStorage.getItem('uid') && (
+              {/* {localStorage.getItem('uid') && (
                 <CheckboxElement>
                   <Form.Field inline>
                     <input
@@ -169,7 +171,7 @@ class DisplayListRecipes extends Component {
                     <label htmlFor='personalCheck'>See your own recipes</label>
                   </Form.Field>
                 </CheckboxElement>
-              )}
+              )} */}
             </Form.Group>
           </Form>
         </Segment>
@@ -187,6 +189,9 @@ class DisplayListRecipes extends Component {
             />
           )}
         </div>
+
+        <DisplayTab personalCheck={this.checkHandler} />
+
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
