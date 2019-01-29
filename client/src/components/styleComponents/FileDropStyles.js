@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import ourColors from '../../ColorScheme';
 
 export const DropCard = styled.main`
   display: block;
@@ -18,7 +17,6 @@ export const DropInputField = styled.main`
 export const DropTextStyle = styled.div`
   padding: 20px 0 0 0;
   font-size: 20px;
-
 `;
 
 // export const UploadButton = styled.div`

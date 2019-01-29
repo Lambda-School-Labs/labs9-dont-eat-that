@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Popup } from 'semantic-ui-react';
+import { Button, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
 import ourColors from '../ColorScheme';
 
@@ -49,8 +49,7 @@ const FileDropFunc = props => {
         <br />
         <span>or</span>
         <br />
-        
-        
+
         <Button
           style={{
             margin: '15px',
