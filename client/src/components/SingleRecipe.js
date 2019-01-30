@@ -146,14 +146,14 @@ class SingleRecipe extends React.Component {
               src={recipe.imageUrl}
               size='medium'
               rounded
-              style={{ marginTop: '10px', maxHeight: '239.52px' }}
+              style={{ marginTop: '7.5px', maxHeight: '250px' }}
             />
           )}
           <div
             style={{
               fontFamily: 'Roboto',
               marginTop: '10px',
-              marginLeft: '10px',
+              marginLeft: recipe.imageUrl ? '10px' : 0,
               flexGrow: 1,
               alignSelf: 'stretch'
             }}
@@ -161,7 +161,14 @@ class SingleRecipe extends React.Component {
             <Header as='h3' attached='top' textAlign='left'>
               Ingredients
             </Header>
-            <Segment attached textAlign='left'>
+            <Segment
+              attached
+              textAlign='left'
+              style={{
+                minHeight: recipe.imageUrl ? '198px' : 'auto',
+                lineHeight: '1.25'
+              }}
+            >
               <ul>
                 {recipe.ingredients.map(ingr => {
                   const boolArr = this.props.user.allergies.map(allergy =>
