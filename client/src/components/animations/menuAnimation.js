@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {TweenLite} from 'gsap';
+import {TweenLite, Expo} from 'gsap';
 
 class MenuAnimation extends Component{
     constructor() {
@@ -7,7 +7,7 @@ class MenuAnimation extends Component{
         this.state = {  
             loaderWrap: null,
             loaderTween: null,
-            toggleMenuBtn: null;
+            toggleMenuBtn: null,
             toggle: false,
         }
     }
