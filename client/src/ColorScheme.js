@@ -1,6 +1,8 @@
 const ourColors = {
-  formColor: '#ffdf8b',
+  formColor: '#F2F2F2',
   menuColor: '#F2F2F2',
+  billingColor: '#F2F2F2',
+  messageColor: '#ffdf8b',
   buttonColor: '#ff7b6e',
   inactiveButtonColor: '#ff7b6e',
   warningColor: '#c94617',

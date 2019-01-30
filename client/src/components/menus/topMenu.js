@@ -84,14 +84,14 @@ const TopMenu = props => {
     );
   }
 
-  const SiteIcon =
-    window.location.pathname === '/' ? null : (
-      <img
-        src={require('../../images/forbidden-cake.png')}
-        alt='site icon'
-        style={{ marginRight: '10px' }}
-      />
-    );
+  // const SiteIcon =
+  //   window.location.pathname === '/' ? null : (
+  //     <img
+  //       src={require('../../images/forbidden-cake.png')}
+  //       alt='site icon'
+  //       style={{ marginRight: '10px' }}
+  //     />
+  //   );
 
   return (
     <Menu
@@ -106,14 +106,11 @@ const TopMenu = props => {
               window.location.pathname === '/'
                 ? {}
                 : {
-                    padding: '5px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '240px'
+                    width: '240px',
+                    marginLeft: '1.5px'
                   }
             }
           >
-            {SiteIcon}
             Don't Eat That
           </Menu.Item>
         </NavLink>
@@ -125,13 +122,11 @@ const TopMenu = props => {
               window.location.pathname === '/'
                 ? {}
                 : {
-                    padding: '5px',
-                    display: 'flex',
-                    alignItems: 'center'
+                    marginLeft: '1.5px'
                   }
             }
           >
-            {SiteIcon}
+            DET
           </Menu.Item>
         </NavLink>
       </Responsive>
