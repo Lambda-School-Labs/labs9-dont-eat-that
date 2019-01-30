@@ -26,7 +26,7 @@ const RecipeListPage = styled.div`
     margin-top: 4px;
   }
   .header-icons {
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -42,6 +42,7 @@ const RecipeListPage = styled.div`
 
 // TabDiv manage Tab and search box
 const TabDiv = styled.div`
+  width: 97%;
   display: flex;
   justify-content: space-between;
   @media (max-width: 576px) {
@@ -79,6 +80,7 @@ const TabDiv = styled.div`
   .tab2 {
     margin-left: 4% !important;
     width: 50%;
+    height: 25px;
 
     @media (max-width: 576px) {
       display: flex;
@@ -89,6 +91,7 @@ const TabDiv = styled.div`
 `;
 
 const DisplayListDiv = styled.div`
+  width: 99%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;

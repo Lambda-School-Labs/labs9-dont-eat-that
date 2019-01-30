@@ -108,8 +108,8 @@ class SingleRecipe extends React.Component {
             <Link to={`/recipes/edit/${this.props.match.params.id}`}>
               <Icon
                 name='edit'
-                color='green'
                 size='large'
+                color='black'
                 style={{ cursor: 'pointer' }}
               />
             </Link>
@@ -117,10 +117,9 @@ class SingleRecipe extends React.Component {
           {recipe.user_id === this.props.user.id && (
             <Icon
               name='delete'
-              color='red'
               size='large'
               onClick={this.deleteRecipe}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: 'pointer', color: ourColors.buttonColor }}
             />
           )}
         </Segment>

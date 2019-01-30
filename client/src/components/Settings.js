@@ -162,6 +162,9 @@ class Settings extends React.Component {
                   </AutoComItemsDiv>
                 )}
               </Form.Field>
+              { !localStorage.getItem('uid') && 
+                <p style={{ fontFamily: 'Roboto' }}>Please Log In to Add an Allergy!</p>
+              }
             </Form>
           </Segment>
         </div>
