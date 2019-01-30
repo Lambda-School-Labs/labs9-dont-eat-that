@@ -10,60 +10,61 @@ import ourColors from '../../ColorScheme';
 const TopMenu = props => {
   let displaySignUp, displaySignIn, displaySignOut, displayMenu;
 
+  displayMenu = (
+    <Responsive maxWidth={770}>
+      <Dropdown item text='Menu'>
+        <Dropdown.Menu>
+          <NavLink to='/recipes'>
+            <Dropdown.Item
+              style={{
+                background: ourColors.menuColor,
+                borderBottom: '1px solid black'
+              }}
+            >
+              Recipes List
+            </Dropdown.Item>
+          </NavLink>
+          <NavLink to='/recipes/new'>
+            <Dropdown.Item
+              style={{
+                background: ourColors.menuColor,
+                borderBottom: '1px solid black'
+              }}
+            >
+              New Recipe
+            </Dropdown.Item>
+          </NavLink>
+          <NavLink to='/recipes/import'>
+            <Dropdown.Item
+              style={{
+                background: ourColors.menuColor,
+                borderBottom: '1px solid black'
+              }}
+            >
+              Import Recipes
+            </Dropdown.Item>
+          </NavLink>
+          <NavLink to='/billing'>
+            <Dropdown.Item
+              style={{
+                background: ourColors.menuColor,
+                borderBottom: '1px solid black'
+              }}
+            >
+              Billing
+            </Dropdown.Item>
+          </NavLink>
+          <NavLink to='/settings'>
+            <Dropdown.Item style={{ background: ourColors.menuColor }}>
+              Settings
+            </Dropdown.Item>
+          </NavLink>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Responsive>
+  );
+
   if (props.isLoggedIn) {
-    displayMenu = (
-      <Responsive maxWidth={770}>
-        <Dropdown item text='Menu'>
-          <Dropdown.Menu>
-            <NavLink to='/recipes'>
-              <Dropdown.Item
-                style={{
-                  background: ourColors.menuColor,
-                  borderBottom: '1px solid black'
-                }}
-              >
-                Recipes List
-              </Dropdown.Item>
-            </NavLink>
-            <NavLink to='/recipes/new'>
-              <Dropdown.Item
-                style={{
-                  background: ourColors.menuColor,
-                  borderBottom: '1px solid black'
-                }}
-              >
-                New Recipe
-              </Dropdown.Item>
-            </NavLink>
-            <NavLink to='/recipes/import'>
-              <Dropdown.Item
-                style={{
-                  background: ourColors.menuColor,
-                  borderBottom: '1px solid black'
-                }}
-              >
-                Import Recipes
-              </Dropdown.Item>
-            </NavLink>
-            <NavLink to='/billing'>
-              <Dropdown.Item
-                style={{
-                  background: ourColors.menuColor,
-                  borderBottom: '1px solid black'
-                }}
-              >
-                Billing
-              </Dropdown.Item>
-            </NavLink>
-            <NavLink to='/settings'>
-              <Dropdown.Item style={{ background: ourColors.menuColor }}>
-                Settings
-              </Dropdown.Item>
-            </NavLink>
-          </Dropdown.Menu>
-        </Dropdown>
-      </Responsive>
-    );
     displaySignOut = (
       <NavLink to='/signout'>
         <Menu.Item>Logout</Menu.Item>
@@ -97,23 +98,44 @@ const TopMenu = props => {
       size='small'
       style={{ background: ourColors.menuColor }}
     >
-      <NavLink to='/'>
-        <Menu.Item
-          style={
-            window.location.pathname === '/'
-              ? {}
-              : {
-                  padding: '5px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '240px'
-                }
-          }
-        >
-          {SiteIcon}
-          Don't Eat That
-        </Menu.Item>
-      </NavLink>
+      <Responsive minWidth={771}>
+        <NavLink to='/'>
+          <Menu.Item
+            style={
+              window.location.pathname === '/'
+                ? {}
+                : {
+                    padding: '5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '240px'
+                  }
+            }
+          >
+            {SiteIcon}
+            Don't Eat That
+          </Menu.Item>
+        </NavLink>
+      </Responsive>
+      <Responsive maxWidth={770}>
+        <NavLink to='/'>
+          <Menu.Item
+            style={
+              window.location.pathname === '/'
+                ? {}
+                : {
+                    padding: '5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingRight: '17px'
+                  }
+            }
+          >
+            {SiteIcon}
+            Don't Eat That
+          </Menu.Item>
+        </NavLink>
+      </Responsive>
       <Menu.Menu position='right'>
         {displaySignUp}
         {displaySignIn}
