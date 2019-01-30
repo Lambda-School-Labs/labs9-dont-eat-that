@@ -21,7 +21,7 @@ const AutoComItemsDiv = styled.div`
   right: 0;
   border: 1px solid #d4d4d4;
   z-index: 10;
-  top : 35px;
+  top: 35px;
 
   div {
     display: flex;
@@ -425,12 +425,12 @@ class AddNewRecipeForm extends Component {
               />
             </Form.Input>
             <Form.Select width='5' options={unitOptions} />
-            <select name={`unit${i}`} onChange={this.ingHandler}>
+            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
               {this.state.ingredients[i].unitsList &&
                 this.state.ingredients[i].unitsList.map(unit => (
                   <option value={unit}>{unit}</option>
                 ))}
-            </select>
+            </select> */}
             <br />
           </Form.Group>
         );
