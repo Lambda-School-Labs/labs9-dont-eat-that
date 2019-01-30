@@ -38,21 +38,52 @@ const RecipeListPage = styled.div`
     padding: 0 15px;
   }
 `;
+
+// TabDiv manage Tab and search box
 const TabDiv = styled.div`
   display: flex;
-
-  /* flex-wrap: wrap; */
-  /* justify-content: space-between; */
-
-  .menu {
-    margin-left: 4%;
-    width: 50%;
-    border: 1px solid blue;
+  justify-content: space-between;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    position: relative !important;
   }
 
   .search {
-    margin-left: 10%;
+    margin: 0 20px;
+    width: 35%;
+    @media (max-width: 576px) {
+      margin-bottom: 10px;
+      order: -1;
+      width: 95% !important;
+      text-align: right !important;
+    }
+  }
+
+  /* icon is for search icon  */
+  .icon {
+    @media (max-width: 576px) {
+      width: 40px !important;
+    }
+  }
+  /* searchInput is for input field */
+  .searchInput {
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 576px) {
+      width: 95% !important;
+    }
+  }
+
+  /* tab2 is for tab div */
+  .tab2 {
+    margin-left: 4% !important;
     width: 50%;
+
+    @media (max-width: 576px) {
+      display: flex;
+      width: 95% !important;
+      margin: 0 auto;
+    }
   }
 `;
 
