@@ -372,13 +372,23 @@ class AddNewRecipeForm extends Component {
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
-    this.unitsListWait();
+
+    // added below if statement to call unitsListWatch once
+    // without if, unitsListatch is keep looping
+    if (!this.state.unitsDone) this.unitsListWait();
+
     if (this.props.recipe && this.state.unitsDone) {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
         this.state.ingredients[i].unitsList.map(unit =>
-          unitOptions.push({ value: unit, text: unit })
+          unitOptions.push({
+            value: unit,
+            text: unit,
+            // added below to prevent warning in console.
+            // warning said same keys are used for multiple children
+            key: `unit${Math.random() * 1000}`
+          })
         );
         ingredientRows.push(
           <Form.Group key={`row${i}`}>
@@ -424,7 +434,15 @@ class AddNewRecipeForm extends Component {
                 onFocus={() => this.onBlur(i)}
               />
             </Form.Input>
-            <Form.Select width='5' options={unitOptions} />
+            <Form.Select
+              width='5'
+              options={unitOptions}
+              // below 2 lines are to display previously selected unit.
+              // however it only works some recipes...
+              // it seems newly created recipes display this but imported one doesn't
+              defaultValue={this.state.ingredients[i].unit}
+              placeholder={this.state.ingredients[i].unit}
+            />
             {/* <select name={`unit${i}`} onChange={this.ingHandler}>
               {this.state.ingredients[i].unitsList &&
                 this.state.ingredients[i].unitsList.map(unit => (
