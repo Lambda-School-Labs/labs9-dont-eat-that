@@ -38,22 +38,52 @@ const RecipeListPage = styled.div`
     padding: 0 15px;
   }
 `;
+
+// TabDiv manage Tab and search box
 const TabDiv = styled.div`
   display: flex;
-
-  /* flex-wrap: wrap; */
-  /* justify-content: space-between; */
-
-  .menu {
-    margin-left: 4%;
-    width: 50%;
-    border: 1px solid blue;
+  justify-content: space-between;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    position: relative !important;
   }
 
   .search {
-    margin-left: 10%;
+    margin: 0 20px;
+    width: 35%;
+    @media (max-width: 576px) {
+      margin-bottom: 10px;
+      order: -1;
+      width: 95% !important;
+      text-align: right !important;
+    }
+  }
+
+  /* icon is for search icon  */
+  .icon {
+    @media (max-width: 576px) {
+      width: 40px !important;
+    }
+  }
+  /* searchInput is for input field */
+  .searchInput {
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 576px) {
+      width: 95% !important;
+    }
+  }
+
+  /* tab2 is for tab div */
+  .tab2 {
+    margin-left: 4% !important;
     width: 50%;
-    margin-right: 15px;
+
+    @media (max-width: 576px) {
+      display: flex;
+      width: 95% !important;
+      margin: 0 auto;
+    }
   }
 `;
 
@@ -84,6 +114,21 @@ class DisplayListRecipes extends Component {
     }
     this.props.getUser();
     this.props.getAllergies();
+  }
+
+  // if Props.recipes change (ie. user click different tab)
+  // display correct searched recipes
+  // without this, if search query exist, tab does not work
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.recipes.length !== prevProps.recipes.length &&
+      this.state.query
+    ) {
+      this.setState({
+        displayedRecipes: searchFunc(this.state.query, this.props.recipes)
+      });
+    }
   }
 
   // maybe filter the array?
@@ -127,7 +172,6 @@ class DisplayListRecipes extends Component {
   // edge case for spacing, for later
 
   checkHandler = async personal => {
-    console.log('checkHandler personal = ', personal);
     await this.setState({
       personalCheck: personal
     });

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ourColors from '../ColorScheme.js';
 
 import { Button, Header, Responsive } from 'semantic-ui-react';
+import MyComponent from './LandingPageAnimation.js';
 // import { url } from 'inspector';
 
 const LandingDiv = styled.div`
@@ -41,13 +42,14 @@ const Landing = props => {
   return (
     <LandingDiv>
       <Responsive style={{ height: '90vh' }} minWidth={501}>
-        {/* <Header as='h1' style={headerStyles1()}>
+        <MyComponent/>
+        <Header as='h1' style={headerStyles1()}>
           Don't
           <br />
           Eat
           <br />
           That
-        </Header> */}
+        </Header>
         <p style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
           Trouble finding recipes that meet all your dietary needs? Don't Eat That is the app for you! Upload or collect your own recipes here, and we will make it easy to see recipes that meet your nutritional standards.
         </p>

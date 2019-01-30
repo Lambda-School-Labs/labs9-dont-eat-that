@@ -8,19 +8,19 @@ import ourColors from '../ColorScheme';
 class DisplayTab extends React.Component {
   state = { activeItem: 'Your Own' };
 
-  handleItemClick = (e, { name, personal }) => {
+  handleItemClick = (e, { name, own }) => {
     this.setState({ activeItem: name });
-    this.props.personalCheck(personal);
+    this.props.personalCheck(own);
   };
 
   render() {
     const { activeItem } = this.state;
 
     return (
-      <Menu tabular>
+      <Menu tabular className='tab2'>
         <Menu.Item
           name='Your Own'
-          personal
+          own
           active={activeItem === 'Your Own'}
           style={
             activeItem === 'Your Own'
