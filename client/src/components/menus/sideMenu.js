@@ -85,27 +85,20 @@ class SideMenu extends React.Component {
                 active={item === '/settings'}
                 onClick={this.handleItemClick}
               >
-                Settings
+                Settings & Allergies
               </Menu.Item>
             </NavLink>
           </Menu>
-          {window.location.pathname === '/recipes' ? (
-            <React.Fragment>
-              <Message
-                style={{ maxWidth: '240px', background: ourColors.formColor }}
-              >
-                <Message.Header>See Other Recipes</Message.Header>
-                <p>Uncheck the 'See your own recipes' box under Search!</p>
-              </Message>
-              <Message
-                style={{ maxWidth: '240px', background: ourColors.formColor }}
-              >
-                <Message.Header>Add Allergies</Message.Header>
-                <p>Go to Settings and add an allergy!</p>
-              </Message>
-            </React.Fragment>
+          {!localStorage.getItem('uid') ? (
+            <Message
+              style={{ maxWidth: '240px', background: ourColors.formColor }}
+            >
+              <Message.Header>Signup/Login for Full Features!</Message.Header>
+            </Message>
           ) : null}
-          {window.location.pathname === '/recipes/new' ||
+
+          {(window.location.pathname === '/recipes/new' &&
+            localStorage.getItem('uid')) ||
           window.location.pathname.indexOf('/edit') > 0 ? (
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
@@ -114,7 +107,8 @@ class SideMenu extends React.Component {
               <p>Drop a file or browse an image, then hit upload image!</p>
             </Message>
           ) : null}
-          {window.location.pathname === '/settings' ? (
+          {window.location.pathname === '/settings' &&
+          localStorage.getItem('uid') ? (
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >

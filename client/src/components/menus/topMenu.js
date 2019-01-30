@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu, Dropdown, Responsive } from 'semantic-ui-react';
-import SimpleSearchInput from '../util/simpleSearch';
+// import SimpleSearchInput from '../util/simpleSearch';
 import ourColors from '../../ColorScheme';
 import { MenuSearch } from '../styleComponents/navigationStyles';
 
@@ -118,17 +118,20 @@ const TopMenu = props => {
             Don't Eat That
           </Menu.Item>
         </NavLink>
-        <MenuSearch>
+        {/* <div className='searchLogout'> */}
+        {/* <MenuSearch class='minWidth={771}'>
         <SimpleSearchInput/>
+        </MenuSearch> */}
 
-        </MenuSearch>
         <Menu.Menu position='right'>
           {displaySignUp}
           {displaySignIn}
           {displayMenu}
           {displaySignOut}
         </Menu.Menu>
-      {/* </div> */}
+
+        {/* </div>
+      </div> */}
     </Menu>
   );
 };
