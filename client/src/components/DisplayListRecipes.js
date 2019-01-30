@@ -27,6 +27,7 @@ const RecipeListPage = styled.div`
   }
   .header-icons {
     width: 95%;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -45,14 +46,14 @@ const TabDiv = styled.div`
   /* justify-content: space-between; */
 
   .menu {
-    margin-left: 4%;
-    width: 50%;
-    border: 1px solid blue;
+    margin-left: 3%;
+    width: 47%;
   }
 
   .search {
-    margin-left: 10%;
-    width: 50%;
+    margin-left: 8%;
+    margin-right: 3%;
+    width: 47%;
   }
 `;
 
@@ -159,6 +160,9 @@ class DisplayListRecipes extends Component {
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
+          {!this.props.user.subscriptionid && (
+            <div className='dummy-for-flexbox' />
+          )}
           {this.props.user.subscriptionid && (
             <Icon
               name='download'
