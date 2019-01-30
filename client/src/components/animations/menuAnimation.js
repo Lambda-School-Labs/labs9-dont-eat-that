@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// GSAP import will be needed
+import {TweenLite} from 'gsap';
 
 class MenuAnimation extends Component{
     constructor() {
@@ -11,7 +11,26 @@ class MenuAnimation extends Component{
             toggle: false,
         }
     }
-    
+    componentDidMount() {
+        this.loaderTween = TweenLite.to(this.loaderWrap, 1, {
+			y: "100%", ease: Expo.easeInOut, delay: 2,
+			onComplete: () => {
+				TweenLite.to( this.toggleBtn, 0.2, { autoAlpha: 1 } );
+			}
+		});
+	}
+
+    render() {
+        return(
+            <div className="menuAnimationContainer">
+                testing
+            </div>
+        )
+    }
+
 
 }
 export default MenuAnimation;
+
+// dom screen size event listeners for mobile changes
+// find best solution for integrating sideMenu animation
