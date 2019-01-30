@@ -116,6 +116,21 @@ class DisplayListRecipes extends Component {
     this.props.getAllergies();
   }
 
+  // if Props.recipes change (ie. user click different tab)
+  // display correct searched recipes
+  // without this, if search query exist, tab does not work
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.recipes.length !== prevProps.recipes.length &&
+      this.state.query
+    ) {
+      this.setState({
+        displayedRecipes: searchFunc(this.state.query, this.props.recipes)
+      });
+    }
+  }
+
   // maybe filter the array?
   displayDiv = () => {
     return this.state.displayedRecipes.map(recipe => {
@@ -157,7 +172,6 @@ class DisplayListRecipes extends Component {
   // edge case for spacing, for later
 
   checkHandler = async personal => {
-    console.log('checkHandler personal = ', personal);
     await this.setState({
       personalCheck: personal
     });

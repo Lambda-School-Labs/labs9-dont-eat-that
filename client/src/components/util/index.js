@@ -14,7 +14,7 @@ export const searchFunc = (query, recipes) => {
     return result.length > 0 ? true : false;
   };
   // returns recipes that has search query in recipe name or ingredient name
-  console.log('Search index.js recipes = ', recipes);
+  // console.log('Search index.js recipes = ', recipes);
   return recipes.filter(recipe => {
     // let recipeName = recipe.name.toUpperCase();
 
