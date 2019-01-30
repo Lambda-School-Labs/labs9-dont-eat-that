@@ -112,7 +112,7 @@ class SideMenu extends React.Component {
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >
-              <Message.Header>Allergy Notications</Message.Header>
+              <Message.Header>Allergy Notifications</Message.Header>
               <Message.List>
                 <Message.Item>Recipes will be bordered in maroon</Message.Item>
                 <Message.Item>

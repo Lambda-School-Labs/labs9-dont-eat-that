@@ -40,24 +40,33 @@ class CheckoutForm extends React.Component {
           // marginLeft: '2.5%',
           // marginBottom: '15px',
           fontFamily: 'Roboto',
-          background: ourColors.formColor
+          background: ourColors.billingColor
         }}
       >
         <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell style={{ background: 'white' }} />
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Dishwasher
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Line Cook
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Executive Chef
             </Table.HeaderCell>
@@ -222,24 +231,33 @@ class CheckoutForm extends React.Component {
           // marginLeft: '2.5%',
           // marginBottom: '15px',
           fontFamily: 'Roboto',
-          background: ourColors.formColor
+          background: ourColors.billingColor
         }}
       >
         <Table.Header>
           <Table.Row textAlign='center'>
-            <Table.HeaderCell style={{ background: ourColors.formColor }} />
+            <Table.HeaderCell style={{ background: ourColors.billingColor }} />
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Dishwasher
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Line Cook
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Executive Chef
             </Table.HeaderCell>
@@ -438,7 +456,15 @@ class CheckoutForm extends React.Component {
         </Header>
         <Responsive minWidth={768}>{this.desktopTable()}</Responsive>
         <Responsive maxWidth={767}>{this.mobileTable()}</Responsive>
-        <div style={{ width: '80%', margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div
+          style={{
+            width: '80%',
+            margin: '0 auto',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}
+        >
           <div style={{ width: '50%', maxWidth: '500px', marginRight: '10px' }}>
             <Header
               as='h3'
@@ -452,7 +478,9 @@ class CheckoutForm extends React.Component {
             </Segment>
           </div>
           {this.props.user.subscriptionid ? (
-            <div style={{ width: '25%', display: 'flex', flexDirection: 'column' }}>
+            <div
+              style={{ width: '25%', display: 'flex', flexDirection: 'column' }}
+            >
               <Button
                 onClick={this.submit}
                 style={{
@@ -472,10 +500,12 @@ class CheckoutForm extends React.Component {
               </Button>
             </div>
           ) : (
-            <div style={{ width: '25%', display: 'flex', flexDirection: 'column' }}>
+            <div
+              style={{ width: '25%', display: 'flex', flexDirection: 'column' }}
+            >
               <Button
                 onClick={this.submit}
-                style={{ 
+                style={{
                   background: ourColors.buttonColor,
                   color: 'white',
                   marginBottom: '10px'

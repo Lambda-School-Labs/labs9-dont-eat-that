@@ -90,11 +90,16 @@ const TabDiv = styled.div`
   }
 `;
 
+const DisplayRecipesDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const DisplayListDiv = styled.div`
-  width: 99%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  width: 95%;
 `;
 
 class DisplayListRecipes extends Component {
@@ -229,35 +234,40 @@ class DisplayListRecipes extends Component {
             />
           </Form>
         </TabDiv>
-
-        <DisplayListDiv>
-          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
-            <Card
-              style={{
-                width: '200px',
-                height: '200px',
-                margin: '10px',
-                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
-              }}
-            >
-              <Card.Content
+        <DisplayRecipesDiv>
+          <DisplayListDiv>
+            <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+              <Card
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  width: '200px',
+                  height: '200px',
+                  margin: '10px',
+                  boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
                 }}
               >
-                <Card.Header>Create a Recipe</Card.Header>
-                <Card.Description>
-                  <Icon name='plus circle' size='big' />
-                </Card.Description>
-              </Card.Content>
-            </Card>
-          </Link>
+                <Card.Content
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Card.Header>Create a Recipe</Card.Header>
+                  <Card.Description>
+                    <Icon
+                      name='plus circle'
+                      size='big'
+                      style={{ color: ourColors.outlineColor }}
+                    />
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            </Link>
 
-          {this.displayDiv()}
-        </DisplayListDiv>
+            {this.displayDiv()}
+          </DisplayListDiv>
+        </DisplayRecipesDiv>
       </RecipeListPage>
     );
   }
