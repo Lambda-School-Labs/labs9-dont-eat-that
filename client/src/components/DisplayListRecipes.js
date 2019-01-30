@@ -2,18 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Segment, Card, Icon, Button, Header } from 'semantic-ui-react';
+import { Form, Card, Icon, Header } from 'semantic-ui-react';
+
+import ourColors from '../ColorScheme';
 
 import {
   getAllRecipes,
   getOwnRecipes,
   getForeignRecipes,
+  getUser,
   getAllergies
 } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
 import SimpleSearch from './util/simpleSearch.js';
 import { searchFunc } from './util';
+import DisplayTab from './displayTab.js';
 
 import { downloadRecipeToCSV } from '../components/util';
 
@@ -21,16 +25,73 @@ const RecipeListPage = styled.div`
   form {
     margin-top: 4px;
   }
+  .header-icons {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .topBarOptions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start;
+    padding: 0 15px;
+  }
+`;
+
+// TabDiv manage Tab and search box
+const TabDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    position: relative !important;
+  }
+
+  .search {
+    margin: 0 20px;
+    width: 35%;
+    @media (max-width: 576px) {
+      margin-bottom: 10px;
+      order: -1;
+      width: 95% !important;
+      text-align: right !important;
+    }
+  }
+
+  /* icon is for search icon  */
+  .icon {
+    @media (max-width: 576px) {
+      width: 40px !important;
+    }
+  }
+  /* searchInput is for input field */
+  .searchInput {
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 576px) {
+      width: 95% !important;
+    }
+  }
+
+  /* tab2 is for tab div */
+  .tab2 {
+    margin-left: 4% !important;
+    width: 50%;
+
+    @media (max-width: 576px) {
+      display: flex;
+      width: 95% !important;
+      margin: 0 auto;
+    }
+  }
 `;
 
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-`;
-
-const CheckboxElement = styled.div`
-  margin-top: 15px;
 `;
 
 class DisplayListRecipes extends Component {
@@ -52,21 +113,44 @@ class DisplayListRecipes extends Component {
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getUser();
     this.props.getAllergies();
+  }
+
+  // if Props.recipes change (ie. user click different tab)
+  // display correct searched recipes
+  // without this, if search query exist, tab does not work
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.recipes.length !== prevProps.recipes.length &&
+      this.state.query
+    ) {
+      this.setState({
+        displayedRecipes: searchFunc(this.state.query, this.props.recipes)
+      });
+    }
   }
 
   // maybe filter the array?
   displayDiv = () => {
     return this.state.displayedRecipes.map(recipe => {
       // returns on of the JSX elements in if/else below
+
       const outerBoolArr = recipe.ingredients.map(ingredient => {
-        const innerBoolArr = this.props.allergies.map(
-          allergy => ingredient.name.includes(allergy) // seeing if any allergies in one ingredient
-        );
+        const innerBoolArr = this.props.allergies.map(allergy => {
+          // allergy sometime has array of string and sometimes has array of 'name:allergy'
+          // so check the type and compare correct value
+          if (typeof allergy === 'string')
+            return ingredient.name.includes(allergy);
+          // seeing if any allergies in one ingredient
+          else return ingredient.name.includes(allergy.name);
+        });
         return innerBoolArr.includes(true); // returns true if allergy in ingredient
       });
       if (outerBoolArr.includes(true)) {
         // seeing if any allergies in all ingredients
+
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
       } else {
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} />;
@@ -88,9 +172,9 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
-  checkHandler = async ev => {
+  checkHandler = async personal => {
     await this.setState({
-      personalCheck: ev.target.checked
+      personalCheck: personal
     });
     if (this.state.personalCheck) {
       this.props.getOwnRecipes();
@@ -116,54 +200,42 @@ class DisplayListRecipes extends Component {
 
     return (
       <RecipeListPage>
-        <Segment
-          inverted
-          color="grey"
-          style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
-        >
-          <Form inverted>
-            <Form.Group inline className="flexWrapCenter">
-              <SimpleSearch
-                query={this.state.query}
-                handleInputChange={this.handleInputChange}
-              />
-              {localStorage.getItem('uid') && (
-
-                <CheckboxElement>
-                  <Form.Field inline>
-                    <input
-                      type='checkbox'
-                      id='personalCheck'
-                      name='personalCheck'
-                      onChange={this.checkHandler}
-                      checked={this.state.personalCheck}
-                    />
-                    <label htmlFor='personalCheck'>See your own recipes</label>
-                  </Form.Field>
-                </CheckboxElement>
-
-              )}
-            </Form.Group>
+        <div className='header-icons'>
+          <div className='dummy-for-flexbox' />
+          <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
+            Recipes
+          </Header>
+          {!this.props.user.subscriptionid && (
+            <div className='dummy-for-flexbox' />
+          )}
+          {this.props.user.subscriptionid && (
+            <Icon
+              name='download'
+              size='large'
+              onClick={() => downloadRecipeToCSV(this.state.displayedRecipes)}
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+        </div>
+        <TabDiv>
+          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <Form className='search'>
+            <SimpleSearch
+              query={this.state.query}
+              handleInputChange={this.handleInputChange}
+            />
           </Form>
-        </Segment>
-        <Header as="h1">Recipes</Header>
+        </TabDiv>
 
-        {this.props.user.subscriptionid && (
-          <Button
-            color="blue"
-            onClick={() => {
-              downloadRecipeToCSV(this.state.displayedRecipes);
-            }}
-          >
-            {' '}
-            Download Recipes{' '}
-          </Button>
-        )}
         <DisplayListDiv>
           <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
             <Card
-              style={{ width: '200px', height: '200px', margin: '10px' }}
-              color="olive"
+              style={{
+                width: '200px',
+                height: '200px',
+                margin: '10px',
+                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
+              }}
             >
               <Card.Content
                 style={{
@@ -175,7 +247,7 @@ class DisplayListRecipes extends Component {
               >
                 <Card.Header>Create a Recipe</Card.Header>
                 <Card.Description>
-                  <Icon name="plus circle" size="big" />
+                  <Icon name='plus circle' size='big' />
                 </Card.Description>
               </Card.Content>
             </Card>
@@ -199,5 +271,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies }
+  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
 )(DisplayListRecipes);

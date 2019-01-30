@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import FileDrop from './FileDrop';
-import { Form, Segment, Header } from 'semantic-ui-react';
+import { Form, Segment, Header, Image } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
@@ -13,10 +12,8 @@ import {
 } from '../actions';
 import styled from 'styled-components';
 
-// const AutoComDiv = styled.div`
-//   position: relative;
-//   display: inline-block;
-// `;
+import ourColors from '../ColorScheme';
+import FileDropFunc from './FileDrop';
 
 const AutoComItemsDiv = styled.div`
   position: absolute;
@@ -24,6 +21,7 @@ const AutoComItemsDiv = styled.div`
   right: 0;
   border: 1px solid #d4d4d4;
   z-index: 10;
+  top : 35px;
 
   div {
     display: flex;
@@ -39,6 +37,7 @@ const AutoComItemsDiv = styled.div`
 const EditRecipeFormDiv = styled.div`
   width: 95%;
   margin-left: 2.5%;
+  font-family: Roboto;
 
   .quill-div {
     min-height: 150px;
@@ -57,13 +56,16 @@ class AddNewRecipeForm extends Component {
       name: this.props.recipe ? this.props.recipe.name : '',
       description: this.props.recipe ? this.props.recipe.description : '',
       selectedFile: null,
-      imageUrl: '',
+      imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
+      dragging: false,
+      imageReady: false,
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
       ingredients: this.props.recipe
         ? this.populateUnitsLists()
         : [emptyIng, emptyIng, emptyIng],
+      unitsDone: false,
       focuses: this.props.recipe
         ? this.props.recipe.ingredients.map(ingredient => ({
             focus: false
@@ -110,9 +112,11 @@ class AddNewRecipeForm extends Component {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
     this.props.getAllergies();
-    this.setState({
-      ingredients: this.populateUnitsLists()
-    });
+    if (this.props.recipe) {
+      this.setState({
+        ingredients: this.populateUnitsLists()
+      });
+    }
   }
 
   quillHandler = html => {
@@ -299,7 +303,7 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    if (!this.state.selectedFile[0]) {
+    if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
       console.log('not setting image');
     } else {
@@ -309,7 +313,8 @@ class AddNewRecipeForm extends Component {
       axios
         .post(URL, formData)
         .then(res => {
-          this.setState({ imageUrl: res.data.imageUrl });
+          this.setState({ imageUrl: res.data.imageUrl, imageReady: true });
+          alert('Image ready to upload!');
         })
         .catch(err => {
           console.log(err);
@@ -324,9 +329,51 @@ class AddNewRecipeForm extends Component {
     });
   };
 
+  dragLeaveListener = ev => {
+    this.overRideEventDefaults(ev);
+    this.dragEventCounter--;
+    console.log('Leaving', this.dragEventCounter);
+    if (this.dragEventCounter === 0) {
+      this.setState({ dragging: false });
+    }
+  };
+
+  dropListener = ev => {
+    this.overRideEventDefaults(ev);
+    this.dragEventCounter = 0;
+    this.setState({ dragging: false });
+    if (ev.dataTransfer.files) {
+      this.setState({ selectedFile: ev.dataTransfer.files });
+
+      // console.log("dropListener",this.state.selectedFile);
+    }
+  };
+
+  overRideEventDefaults = ev => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
+
+  onSelectFileClick = ev => {
+    this.overRideEventDefaults(ev);
+    this.fileUploaderInput() && this.fileUploaderInput.click();
+  };
+
+  onFileChange = ev => {
+    console.log('file change', ev.target.files);
+    if (ev.target.files && ev.target.files[0]) {
+      this.setState({ selectedFile: ev.target.files[0] });
+    }
+  };
+
+  unitsListWait = () => {
+    setTimeout(() => this.setState({ unitsDone: true }), 2000);
+  };
+
   render() {
     // Build the array of HTML inputs that will get inserted into the form
-    if (this.props.recipe) {
+    this.unitsListWait();
+    if (this.props.recipe && this.state.unitsDone) {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
@@ -378,31 +425,26 @@ class AddNewRecipeForm extends Component {
               />
             </Form.Input>
             <Form.Select width='5' options={unitOptions} />
-            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
+            <select name={`unit${i}`} onChange={this.ingHandler}>
               {this.state.ingredients[i].unitsList &&
                 this.state.ingredients[i].unitsList.map(unit => (
                   <option value={unit}>{unit}</option>
                 ))}
             </select>
-            <br /> */}
+            <br />
           </Form.Group>
         );
       }
       return (
         <EditRecipeFormDiv>
-          <Segment inverted color='orange'>
-            <Header as='h1' style={{ color: 'white' }}>
-              Edit Recipe
-            </Header>
-            <Form
-              onSubmit={this.submitHandler}
-              autoComplete='off'
-              size='tiny'
-              inverted
-            >
-              <Form.Group widths='equal'>
+          <Segment style={{ background: ourColors.formColor }}>
+            <Header as='h1'>Edit Recipe</Header>
+            <Form onSubmit={this.submitHandler} autoComplete='off' size='tiny'>
+              <Form.Group
+                widths='equal'
+                style={{ display: 'flex', alignItems: 'flex-end' }}
+              >
                 <Form.Field width='6'>
-                  <label htmlFor='recipe-name'>Name</label>
                   <input
                     type='text'
                     placeholder='Recipe Name'
@@ -426,16 +468,28 @@ class AddNewRecipeForm extends Component {
                 </Form.Field>
               </Form.Group>
               {ingredientRows}
-
-              <div>Drop Image here</div>
-
-              <FileDrop
+              <FileDropFunc
+                dragging={this.state.dragging}
+                file={this.state.selectedFile}
                 selectedFile={this.state.selectedFile}
+                onSelectFileClick={this.onSelectFileClick}
+                onDrag={this.overRideEventDefaults}
+                onDragStart={this.overRideEventDefaults}
+                onDragEnd={this.overRideEventDefaults}
+                onDragOver={this.overRideEventDefaults}
+                onDragEnter={this.onDragEnter}
+                onDragLeave={this.onDragLeave}
+                onDrop={this.dropListener}
                 handleFileUpload={this.handleFileUpload}
                 handleInputSelectedFile={this.handleInputSelectedFile}
+                onFileChange={this.onFileChange}
               />
 
-              <div className='quill-div'>
+              <Form.Field
+                className='quill-div'
+                width='16'
+                style={{ marginTop: '14px', marginBottom: '14px' }}
+              >
                 <ReactQuill
                   value={this.state.description}
                   onChange={html => this.quillHandler(html)}
@@ -447,22 +501,115 @@ class AddNewRecipeForm extends Component {
                     color: 'black'
                   }}
                 />
-              </div>
+              </Form.Field>
               {(!this.state.name || !this.state.description) && (
                 <p className='please-provide'>
                   Please provide a name, description, and ingredients before
                   submitting a recipe!
                 </p>
               )}
-              <Form.Button type='submit' style={{ marginTop: '20px' }}>
-                Save Recipe
-              </Form.Button>
+              {localStorage.getItem('uid') ? (
+                !this.state.name ||
+                !this.state.description ||
+                !this.state.ingredients[0].name ||
+                !this.state.ingredients[0].quantity ? (
+                  <React.Fragment>
+                    <Form.Group
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Form.Button
+                        type='submit'
+                        disabled
+                        style={{
+                          background: ourColors.inactiveButtonColor,
+                          color: 'white'
+                        }}
+                      >
+                        Save Recipe
+                      </Form.Button>
+                      <Form.Button
+                        onClick={() =>
+                          this.props.history.push(
+                            `/recipes/one/${this.props.match.params.id}`
+                          )
+                        }
+                        style={{
+                          background: ourColors.inactiveButtonColor,
+                          color: 'white',
+                          width: '133px'
+                        }}
+                      >
+                        Cancel
+                      </Form.Button>
+                    </Form.Group>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Form.Group
+                      style={{ display: 'flex', justifyContent: 'center' }}
+                    >
+                      <Form.Button
+                        type='submit'
+                        style={{
+                          background: ourColors.buttonColor,
+                          color: 'white'
+                        }}
+                      >
+                        Save Recipe
+                      </Form.Button>
+                      <Form.Button
+                        onClick={() =>
+                          this.props.history.push(
+                            `/recipes/one/${this.props.match.params.id}`
+                          )
+                        }
+                        style={{
+                          background: ourColors.inactiveButtonColor,
+                          color: 'white',
+                          width: '133px'
+                        }}
+                      >
+                        Cancel
+                      </Form.Button>
+                    </Form.Group>
+                  </React.Fragment>
+                )
+              ) : (
+                <React.Fragment>
+                  <Form.Group
+                    style={{ display: 'flex', justifyContent: 'center' }}
+                  >
+                    <Form.Button type='submit' disabled>
+                      Save Recipe
+                    </Form.Button>
+                    <Form.Button
+                      onClick={() =>
+                        this.props.history.push(
+                          `/recipes/one/${this.props.match.params.id}`
+                        )
+                      }
+                      style={{
+                        background: ourColors.inactiveButtonColor,
+                        color: 'white',
+                        width: '133px'
+                      }}
+                    >
+                      Cancel
+                    </Form.Button>
+                  </Form.Group>
+                  <p>Please Log In to Edit a Recipe!</p>
+                </React.Fragment>
+              )}
             </Form>
           </Segment>
         </EditRecipeFormDiv>
       );
     } else {
-      return <div>Loading...</div>;
+      return (
+        <Segment loading style={{ width: '95%', marginLeft: '2.5%' }}>
+          <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+        </Segment>
+      );
     }
   }
 }

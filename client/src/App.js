@@ -55,9 +55,12 @@ class App extends Component {
     }
     return (
       <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
-        <div className="App" style={this.appStyles()}>
-          <TopMenu isLoggedIn={this.state.isLoggedIn} />
-          <div className="mainDisplay">
+        <div className='App' style={this.appStyles()}>
+          <TopMenu
+            className='navigationBar'
+            isLoggedIn={this.state.isLoggedIn}
+          />
+          <div className='mainDisplay'>
             <SideMenu />
             <MainDisplaySection />
           </div>

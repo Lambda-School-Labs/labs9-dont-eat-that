@@ -7,6 +7,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating, Card, Image } from 'semantic-ui-react';
 
+import ourColors from '../ColorScheme.js';
+
 import defaultImage from '../images/defaultimage.jpeg';
 
 const DisplayOneRecipe = props => {
@@ -28,28 +30,35 @@ const DisplayOneRecipe = props => {
     >
       <Card
         style={{
-          boxShadow: props.allergy ? `0 0 3px 5px red` : null,
+          boxShadow: props.allergy
+            ? `0 0 3px 5px ${ourColors.warningColor}`
+            : `0 0 3px 1px ${ourColors.outlineColor}`,
           width: '200px',
           height: '200px',
           margin: '10px',
           overflow: 'hidden',
           fontFamily: 'Roboto'
         }}
-        color="blue"
       >
         {props.recipe.imageUrl ? (
-          <Image
-            src={props.recipe.imageUrl}
-            style={{ maxHeight: '133.13px' }}
-          />
+          <Image src={props.recipe.imageUrl} style={{ height: '133px' }} />
         ) : (
           <Image src={defaultImage} />
         )}
-        <Card.Content>
-          <Card.Header as="h3" style={{ maxHeight: '28px', overflow: 'hidden' }}>{props.recipe.name}</Card.Header>
+        <Card.Content style={{ paddingTop: '4px' }}>
+          <Card.Header
+            as='h3'
+            style={{
+              maxHeight: '45px',
+              overflow: 'hidden',
+              fontSize: '1.1rem'
+            }}
+          >
+            {props.recipe.name}
+          </Card.Header>
           <div>
             <Rating
-              icon="star"
+              icon='star'
               rating={ratingsFunc(props.recipe)}
               maxRating={5}
               disabled

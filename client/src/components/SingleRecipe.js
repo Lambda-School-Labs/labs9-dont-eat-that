@@ -2,14 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
-import {
-  Button,
-  Rating,
-  Table,
-  Header,
-  Segment,
-  Image
-} from 'semantic-ui-react';
+import { Rating, Table, Header, Segment, Image, Icon } from 'semantic-ui-react';
+import styled from 'styled-components';
+
+import ourColors from '../ColorScheme';
 import {
   getRecipe,
   deleteRecipe,
@@ -20,6 +16,13 @@ import {
   ratingChange
 } from '../actions';
 import { downloadRecipeToCSV } from '../components/util';
+
+const ImageIngrDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin-left: 2.5%;
+`;
 
 class SingleRecipe extends React.Component {
   componentDidMount() {
@@ -79,105 +82,122 @@ class SingleRecipe extends React.Component {
   displayRecipe = recipe => {
     return (
       <React.Fragment>
-        <Header as="h1">{recipe.name}</Header>
+        <Segment floated='right' textAlign='center'>
+          {recipe.user_id !== this.props.user.id &&
+            localStorage.getItem('uid') && (
+              <Icon
+                name='copy'
+                onClick={async () => {
+                  await this.copyRecipe(recipe);
+                  this.props.history.push('/recipes');
+                }}
+                size='large'
+                style={{ cursor: 'pointer' }}
+              />
+            )}
+          {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+          {this.props.user.subscriptionid && (
+            <Icon
+              name='download'
+              size='large'
+              onClick={() => downloadRecipeToCSV(recipe)}
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+          {recipe.user_id === this.props.user.id && (
+            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+              <Icon
+                name='edit'
+                color='green'
+                size='large'
+                style={{ cursor: 'pointer' }}
+              />
+            </Link>
+          )}
+          {recipe.user_id === this.props.user.id && (
+            <Icon
+              name='delete'
+              color='red'
+              size='large'
+              onClick={this.deleteRecipe}
+              style={{ cursor: 'pointer' }}
+            />
+          )}
+        </Segment>
+        <Header as='h1' style={{ marginBottom: '5px', marginTop: 0 }}>
+          {recipe.name}
+        </Header>
         <div>
           <Rating
-            icon="star"
-            size="massive"
+            icon='star'
+            size='huge'
             rating={this.ratingsFunc(recipe)}
             onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
             maxRating={5}
             disabled={!localStorage.getItem('uid')}
           />
-          <Header as="h6">
+          <Header as='h6' style={{ marginTop: '0px' }}>
             {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
             review(s)
           </Header>
         </div>
-        <br />
-        {recipe.user_id !== this.props.user.id && localStorage.getItem('uid') && (
-          <Button
-            onClick={async () => {
-              await this.copyRecipe(recipe);
-              this.props.history.push('/recipes');
+        <ImageIngrDiv>
+          {recipe.imageUrl && (
+            <Image
+              src={recipe.imageUrl}
+              size='medium'
+              rounded
+              style={{ marginTop: '10px', maxHeight: '239.52px' }}
+            />
+          )}
+          <div
+            style={{
+              fontFamily: 'Roboto',
+              marginTop: '10px',
+              marginLeft: '10px',
+              flexGrow: 1,
+              alignSelf: 'stretch'
             }}
           >
-            Copy Recipe
-          </Button>
-        )}
-        {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
-        {this.props.user.subscriptionid && (
-          <Button
-            color="blue"
-            onClick={() => {
-              downloadRecipeToCSV(recipe);
-            }}
-          >
-            Download Recipe
-          </Button>
-        )}
-        {recipe.user_id === this.props.user.id && (
-          <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-            <Button color="green">Edit Recipe</Button>
-          </Link>
-        )}
-        {recipe.user_id === this.props.user.id && (
-          <Button color="red" onClick={this.deleteRecipe}>
-            Delete Recipe
-          </Button>
-        )}
-        {recipe.imageUrl && (
-          <Image
-            src={recipe.imageUrl}
-            size="medium"
-            rounded
-            centered
-            style={{ marginTop: '10px', maxHeight: '239.52px' }}
-          />
-        )}
-        <div
-          style={{
-            width: '95%',
-            marginLeft: '2.5%',
-            marginTop: '15px',
-            fontFamily: 'Roboto'
-          }}
-        >
-          <Header as="h3" attached="top" textAlign="left">
-            Ingredients
-          </Header>
-          <Segment attached textAlign="left">
-            <ul>
-              {recipe.ingredients.map(ingr => {
-                const boolArr = this.props.user.allergies.map(allergy =>
-                  ingr.name.includes(allergy.name)
-                );
-                if (boolArr.includes(true)) {
-                  return (
-                    <li key={ingr.name} style={{ 
-                      background: 'rgba(255,0,0,0.75)',
-                      boxShadow: '0 0 3px rgba(255,0,0,0.75)'
-                     }}>{`${
-                      ingr.quantity
-                    } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
+            <Header as='h3' attached='top' textAlign='left'>
+              Ingredients
+            </Header>
+            <Segment attached textAlign='left'>
+              <ul>
+                {recipe.ingredients.map(ingr => {
+                  const boolArr = this.props.user.allergies.map(allergy =>
+                    ingr.name.includes(allergy.name)
                   );
-                } else {
-                  return (
-                    <li key={ingr.name}>{`${ingr.quantity} ${
-                      ingr.unit ? ingr.unit : ''
-                    } ${ingr.name}`}</li>
-                  );
-                }
-              })}
-            </ul>
-          </Segment>
-        </div>
+                  if (boolArr.includes(true)) {
+                    return (
+                      <li
+                        key={ingr.name}
+                        style={{
+                          background: ourColors.warningTranslucent,
+                          boxShadow: `0 0 3px ${ourColors.warningTranslucent}`
+                        }}
+                      >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
+                        ingr.name
+                      }`}</li>
+                    );
+                  } else {
+                    return (
+                      <li key={ingr.name}>{`${ingr.quantity} ${
+                        ingr.unit ? ingr.unit : ''
+                      } ${ingr.name}`}</li>
+                    );
+                  }
+                })}
+              </ul>
+            </Segment>
+          </div>
+        </ImageIngrDiv>
         <br />
         <div style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}>
-          <Header as="h3" attached="top" textAlign="left">
+          <Header as='h3' attached='top' textAlign='left'>
             Recipe Description
           </Header>
-          <Segment attached textAlign="left">
+          <Segment attached textAlign='left'>
             {Parser(recipe.description)}
           </Segment>
         </div>
@@ -198,21 +218,28 @@ class SingleRecipe extends React.Component {
           <Table
             celled
             structured
-            color="blue"
-            style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}
-            inverted
+            style={{
+              width: '95%',
+              marginLeft: '2.5%',
+              fontFamily: 'Roboto',
+              background: ourColors.formColor
+            }}
           >
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>
-                  <Header as="h3">Nutrition Facts</Header>
-                  <Segment vertical>Servings: {nutrition.yield}</Segment>
-                  <Segment vertical>Calories: {nutrition.calories}</Segment>
+                <Table.HeaderCell style={{ background: ourColors.formColor }}>
+                  <Header as='h3'>Nutrition Facts</Header>
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
+              <Table.Row>
+                <Table.Cell>Servings: {nutrition.yield}</Table.Cell>
+              </Table.Row>
+              <Table.Row>
+                <Table.Cell>Calories: {nutrition.calories}</Table.Cell>
+              </Table.Row>
               <Table.Row>
                 <Table.Cell>
                   Diet Labels:{' '}
@@ -236,8 +263,10 @@ class SingleRecipe extends React.Component {
                       ) / 10} ${nutrition.totalNutrients.CHOCDF.unit}`
                     : '0 g'}
                   {' | '}
-                  {Math.round(nutrition.totalDaily.CHOCDF.quantity * 10) / 10}%
-                  Daily Value
+                  {nutrition.totalNutrients.CHOCDF
+                    ? Math.round(nutrition.totalDaily.CHOCDF.quantity * 10) / 10
+                    : 0}
+                  % Daily Value
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
@@ -249,8 +278,10 @@ class SingleRecipe extends React.Component {
                       ) / 10} ${nutrition.totalNutrients.PROCNT.unit}`
                     : '0 g'}
                   {' | '}
-                  {Math.round(nutrition.totalDaily.PROCNT.quantity * 10) / 10}%
-                  Daily Value
+                  {nutrition.totalNutrients.PROCNT
+                    ? Math.round(nutrition.totalDaily.PROCNT.quantity * 10) / 10
+                    : 0}
+                  % Daily Value
                 </Table.Cell>
               </Table.Row>
               <Table.Row>
@@ -262,8 +293,10 @@ class SingleRecipe extends React.Component {
                       ) / 10} ${nutrition.totalNutrients.FAT.unit}`
                     : '0 g'}
                   {' | '}
-                  {Math.round(nutrition.totalDaily.FAT.quantity * 10) / 10}%
-                  Daily Value
+                  {nutrition.totalNutrients.FAT
+                    ? Math.round(nutrition.totalDaily.FAT.quantity * 10) / 10
+                    : 0}
+                  % Daily Value
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
@@ -272,8 +305,8 @@ class SingleRecipe extends React.Component {
       );
     } else {
       return (
-        <Segment loading>
-          <Image src="https://react.semantic-ui.com/images/wireframe/paragraph.png" />
+        <Segment loading style={{ width: '95%', marginLeft: '2.5%' }}>
+          <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
         </Segment>
       );
     }

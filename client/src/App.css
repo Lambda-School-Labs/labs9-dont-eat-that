@@ -143,6 +143,13 @@ table {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 2000px;
+  margin: 0 auto;
+
+}
+
+.navigationBar {
+  max-width: 2000px;
 }
 
 .topMenu {
@@ -168,8 +175,13 @@ table {
   justify-content: center;
 }
 
-.flexWrapCenter {
+
+/* .field{ 
+  height: 40px;
+} */
+
+/* .flexWrapCenter {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
+} */

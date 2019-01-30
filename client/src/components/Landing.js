@@ -2,80 +2,80 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { Button, Header, Icon, Responsive } from 'semantic-ui-react';
+import ourColors from '../ColorScheme.js';
+
+import { Button, Header, Responsive } from 'semantic-ui-react';
 // import { url } from 'inspector';
 
 const LandingDiv = styled.div`
   height: 100%;
   p {
-    margin: 15px auto;
+    margin: 0 auto 15px;
+    padding: 10px 0 10px 10px;
     max-width: 500px;
     text-align: left;
+    line-height: 1.5;
   }
-`;
-
-const ArrowDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const Landing = props => {
   const headerStyles1 = () => {
     return {
-      fontFamily: `Dancing Script`,
+      fontFamily: `Roboto`,
       textAlign: 'left',
-      fontWeight: 'bold',
-      fontSize: '9rem',
-      margin: '10px 0 0 5%'
+      fontSize: '7rem',
+      fontWeight: 'normal',
+      margin: '10px 0 0 5%',
+      lineHeight: 1.2
     };
   };
   const headerStyles2 = () => {
     return {
-      fontFamily: `Dancing Script`,
-      textAlign: 'left',
-      fontWeight: 'bold',
+      fontFamily: `Roboto`,
+      textAlign: 'center',
+      fontWeight: 'normal',
       fontSize: '6rem',
-      margin: '10px 0 0 5%'
+      margin: '0 0 30px'
     };
   };
   return (
     <LandingDiv>
       <Responsive style={{ height: '90vh' }} minWidth={501}>
-        <Header as="h1" style={headerStyles1()}>
+        <Header as='h1' style={headerStyles1()}>
           Don't
           <br />
           Eat
           <br />
           That
         </Header>
-        <ArrowDiv>
-          <Icon name="long arrow alternate down" size="huge" />
-        </ArrowDiv>
-      </Responsive>
-      <Responsive style={{ height: '90vh' }} maxWidth={500}>
-        <Header as="h1" style={headerStyles2()}>
-          Don't
-          <br />
-          Eat
-          <br />
-          That
-        </Header>
-        <ArrowDiv>
-          <Icon name="long arrow alternate down" size="huge" />
-        </ArrowDiv>
-      </Responsive>
-      <div style={{ background: 'white', width: '100%', fontFamily: 'Roboto' }}>
-        <p>
+        <p style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
           Do you have trouble finding recipes that meet your dietary needs and
           avoid your allergens? Don't Eat That is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
-        <Button onClick={e => props.history.push('/recipes')}>
-          Enter the Site!
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{ background: ourColors.buttonColor, color: 'white' }}
+        >
+          Demo Site!
         </Button>
-      </div>
+      </Responsive>
+      <Responsive style={{ height: '90vh' }} maxWidth={500}>
+        <Header as='h1' style={headerStyles2()}>
+          Don't
+          <br />
+          Eat
+          <br />
+          That
+        </Header>
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{ background: ourColors.buttonColor, color: 'white' }}
+        >
+          Demo Site!
+        </Button>
+      </Responsive>
     </LandingDiv>
   );
 };

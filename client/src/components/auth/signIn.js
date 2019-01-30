@@ -3,6 +3,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form, Button, Header, Icon, Segment } from 'semantic-ui-react';
+import ourColors from '../../ColorScheme.js';
 
 import { SignUpLink } from './signUp.js';
 import PasswordForgetPage from './passwordForgot.js';
@@ -12,9 +13,9 @@ import { getUser, addUser } from '../../actions';
 // import * as ROUTES from '../../constants/routes';
 
 const SignInPage = () => (
-  <div className="flexCenter">
-    <Segment inverted>
-      <Header as="h1" textAlign="center">
+  <div className='flexCenter'>
+    <Segment style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
+      <Header as='h1' textAlign='center'>
         Login
       </Header>
       <SignInForm />
@@ -96,27 +97,43 @@ class SignInFormBase extends Component {
         <Form onSubmit={this.onSubmit}>
           <Form.Field>
             <input
-              name="email"
+              name='email'
               value={email}
               onChange={this.onChange}
-              type="email"
-              placeholder="Email Address"
+              type='email'
+              placeholder='Email Address'
             />
           </Form.Field>
           <Form.Field>
             <input
-              name="password"
+              name='password'
               value={password}
               onChange={this.onChange}
-              type="password"
-              placeholder="Password"
+              type='password'
+              placeholder='Password'
             />
           </Form.Field>
-          <div className="flexCenter">
-            <Button disabled={isInvalid} type="submit">
+          <div className='flexCenter'>
+            <Button
+              disabled={isInvalid}
+              type='submit'
+              style={
+                isInvalid
+                  ? {
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white'
+                    }
+                  : { background: ourColors.buttonColor, color: 'white' }
+              }
+            >
               Sign In
             </Button>
-            <Button onClick={this.resetPassword}>Forgot Password?</Button>
+            <Button
+              onClick={this.resetPassword}
+              style={{ background: ourColors.buttonColor, color: 'white' }}
+            >
+              Forgot Password?
+            </Button>
           </div>
           {error && (
             <p>
@@ -164,9 +181,16 @@ class SignInGoogleBase extends Component {
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <div className="flexCenter">
-          <Button type="submit" color="green">
-            <Icon name="google" />
+        <div className='flexCenter'>
+          <Button
+            type='submit'
+            style={{
+              background: ourColors.buttonColor,
+              color: 'white',
+              width: '225.95px'
+            }}
+          >
+            <Icon name='google' />
             Sign In with Google
           </Button>
         </div>
@@ -209,9 +233,12 @@ class SignInFacebookBase extends Component {
 
     return (
       <Form onSubmit={this.onSubmit}>
-        <div className="flexCenter">
-          <Button type="submit" color="blue">
-            <Icon name="facebook" />
+        <div className='flexCenter'>
+          <Button
+            type='submit'
+            style={{ background: '#4267B2', color: 'white' }}
+          >
+            <Icon name='facebook' />
             Sign In with Facebook
           </Button>
         </div>
