@@ -58,16 +58,18 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-        <label for='file' onCLick>
+        <label for='file'>
           <input
             type='file'
             name='file'
+            onChange={props.handleInputSelectedFile}
             id='file'
             class='inputfile'
             style={{
               margin: '10px',
-              width: '35%',
+              width: '25%',
               minWidth: '100px',
+              height: '60px',
               background: ourColors.buttonColor,
               color: 'white'
             }}
@@ -84,8 +86,8 @@ const FileDropFunc = props => {
               onClick={props.handleFileUpload}
               style={{
                 margin: '10px',
-                width: '35%',
-                height: '48px',
+                width: '25%',
+                height: '60px',
                 minWidth: '100px',
                 background: ourColors.buttonColor,
                 color: 'white'

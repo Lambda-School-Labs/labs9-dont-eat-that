@@ -277,6 +277,7 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
+    console.log("choose file ev",ev);
   
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
@@ -300,6 +301,7 @@ class AddNewRecipeForm extends Component {
 
   handleInputSelectedFile = ev => {
     ev.preventDefault();
+    console.log(ev.target.files)
     this.setState({
       selectedFile: ev.target.files
 
@@ -307,6 +309,9 @@ class AddNewRecipeForm extends Component {
     // console.log("upload image name",ev.target.files.name);
   };
 
+  // inputSubmit = (input.onchange) = ev => {
+  //   this.handleInputSelectedFile(ev);
+  // } 
 
   dragLeaveListener = ev => {
     this.overRideEventDefaults(ev);
@@ -335,10 +340,12 @@ class AddNewRecipeForm extends Component {
     ev.stopPropagation();
   };
   
-  onSelectFileClick = (ev) => {
-    this.overRideEventDefaults(ev)
-    this.fileUploaderInput() && this.fileUploaderInput.click();
-  };
+
+  // No current use case for this function
+  // onSelectFileClick = (ev) => {
+  //   this.overRideEventDefaults(ev)
+  //   this.fileUploaderInput() && this.fileUploaderInput.click();
+  // };
     
   onFileChange = ev => {  
     console.log("file change", ev.target.files);
@@ -525,7 +532,7 @@ class AddNewRecipeForm extends Component {
             ) : (
               <React.Fragment>
                 <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                  <Form.Button type='submit' onClick={this.handleFileUpload} disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
                     Save Recipe
                   </Form.Button>
                   <Form.Button
