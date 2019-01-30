@@ -104,10 +104,11 @@ const TopMenu = props => {
           <Menu.Item
             style={
               window.location.pathname === '/'
-                ? {}
+                ? { fontFamily: 'Montserrat' }
                 : {
                     width: '240px',
-                    marginLeft: '1.5px'
+                    marginLeft: '1.5px',
+                    fontFamily: 'Montserrat'
                   }
             }
           >
@@ -120,9 +121,10 @@ const TopMenu = props => {
           <Menu.Item
             style={
               window.location.pathname === '/'
-                ? {}
+                ? { fontFamily: 'Montserrat' }
                 : {
-                    marginLeft: '1.5px'
+                    marginLeft: '1.5px',
+                    fontFamily: 'Montserrat'
                   }
             }
           >
