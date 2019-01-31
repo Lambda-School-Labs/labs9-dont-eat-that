@@ -7,6 +7,7 @@ export const EDIT_RECIPE = 'EDIT_RECIPE';
 export const GET_NUTRITION = 'GET_NUTRITION';
 export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
+export const GET_RECIPES2 = 'GET_RECIPES2';
 export const GET_OWN_RECIPES = 'GET_OWN_RECIPES';
 export const GET_FOREIGN_RECIPES = 'GET_FOREIGN_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
@@ -30,6 +31,14 @@ export const getAllRecipes = () => dispatch => {
   axios
     .get(`${URL}/api/recipes/all`)
     .then(res => dispatch({ type: GET_RECIPES, payload: res.data }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const getAllRecipes2 = () => dispatch => {
+  dispatch({ type: GETTING_RECIPES });
+  axios
+    .get(`${URL}/api/recipes/all`)
+    .then(res => dispatch({ type: GET_RECIPES2, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 

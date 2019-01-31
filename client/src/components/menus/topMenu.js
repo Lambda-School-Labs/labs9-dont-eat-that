@@ -11,8 +11,8 @@ import { MenuSearch } from '../styleComponents/navigationStyles';
 const TopMenu = props => {
   let displaySignUp, displaySignIn, displaySignOut, displayMenu;
 
-  if (props.isLoggedIn) {
-    displayMenu = (
+  displayMenu =
+    window.location.pathname === '/' ? null : (
       <Responsive maxWidth={770}>
         <Dropdown item text='Menu'>
           <Dropdown.Menu>
@@ -65,6 +65,8 @@ const TopMenu = props => {
         </Dropdown>
       </Responsive>
     );
+
+  if (props.isLoggedIn) {
     displaySignOut = (
       <NavLink to='/signout'>
         <Menu.Item>Logout</Menu.Item>
@@ -73,7 +75,7 @@ const TopMenu = props => {
   } else {
     displaySignUp = (
       <NavLink to='/signup'>
-        <Menu.Item>Sign Up</Menu.Item>
+        <Menu.Item>Signup</Menu.Item>
       </NavLink>
     );
     displaySignIn = (
@@ -83,14 +85,14 @@ const TopMenu = props => {
     );
   }
 
-  const SiteIcon =
-    window.location.pathname === '/' ? null : (
-      <img
-        src={require('../../images/forbidden-cake.png')}
-        alt='site icon'
-        style={{ marginRight: '10px' }}
-      />
-    );
+  // const SiteIcon =
+  //   window.location.pathname === '/' ? null : (
+  //     <img
+  //       src={require('../../images/forbidden-cake.png')}
+  //       alt='site icon'
+  //       style={{ marginRight: '10px' }}
+  //     />
+  //   );
 
   return (
     <Menu
@@ -98,40 +100,45 @@ const TopMenu = props => {
       size='small'
       style={{ background: ourColors.menuColor }}
     >
-      {/* <div className='navigationContainer'> */}
+      <Responsive minWidth={771}>
         <NavLink to='/'>
           <Menu.Item
             style={
               window.location.pathname === '/'
-                ? {}
+                ? { fontFamily: 'Montserrat' }
                 : {
-                    padding: '5px',
-                    paddingRight: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    maxWidth: '2000px',
-                    margin: '0 auto'
+                    width: '240px',
+                    marginLeft: '1.5px',
+                    fontFamily: 'Montserrat'
                   }
             }
           >
-            {SiteIcon}
             Don't Eat That
           </Menu.Item>
         </NavLink>
-        {/* <div className='searchLogout'> */}
-        {/* <MenuSearch class='minWidth={771}'>
-        <SimpleSearchInput/>
-        </MenuSearch> */}
-
-        <Menu.Menu position='right'>
-          {displaySignUp}
-          {displaySignIn}
-          {displayMenu}
-          {displaySignOut}
-        </Menu.Menu>
-
-        {/* </div>
-      </div> */}
+      </Responsive>
+      <Responsive maxWidth={770}>
+        <NavLink to='/'>
+          <Menu.Item
+            style={
+              window.location.pathname === '/'
+                ? { fontFamily: 'Montserrat' }
+                : {
+                    marginLeft: '1.5px',
+                    fontFamily: 'Montserrat'
+                  }
+            }
+          >
+            DET
+          </Menu.Item>
+        </NavLink>
+      </Responsive>
+      <Menu.Menu position='right'>
+        {displaySignUp}
+        {displaySignIn}
+        {displayMenu}
+        {displaySignOut}
+      </Menu.Menu>
     </Menu>
   );
 };

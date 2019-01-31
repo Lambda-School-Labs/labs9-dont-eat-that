@@ -26,7 +26,8 @@ const RecipeListPage = styled.div`
     margin-top: 4px;
   }
   .header-icons {
-    width: 95%;
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,6 +42,7 @@ const RecipeListPage = styled.div`
 
 // TabDiv manage Tab and search box
 const TabDiv = styled.div`
+  width: 97%;
   display: flex;
   justify-content: space-between;
   @media (max-width: 576px) {
@@ -78,6 +80,7 @@ const TabDiv = styled.div`
   .tab2 {
     margin-left: 4% !important;
     width: 50%;
+    height: 25px;
 
     @media (max-width: 576px) {
       display: flex;
@@ -87,10 +90,16 @@ const TabDiv = styled.div`
   }
 `;
 
+const DisplayRecipesDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  width: 95%;
 `;
 
 class DisplayListRecipes extends Component {
@@ -202,8 +211,9 @@ class DisplayListRecipes extends Component {
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
-        <div className='header-icons'>
-          <div className='dummy-for-flexbox' />
+          {!this.props.user.subscriptionid && (
+            <div className='dummy-for-flexbox' />
+          )}
           {this.props.user.subscriptionid && (
             <Icon
               name='download'
@@ -212,7 +222,6 @@ class DisplayListRecipes extends Component {
               style={{ cursor: 'pointer' }}
             />
           )}
-        </div>
         <TabDiv>
           <DisplayTab className='tab' personalCheck={this.checkHandler} />
           <Form className='search'>
@@ -222,35 +231,40 @@ class DisplayListRecipes extends Component {
             />
           </Form>
         </TabDiv>
-
-        <DisplayListDiv>
-          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
-            <Card
-              style={{
-                width: '200px',
-                height: '200px',
-                margin: '10px',
-                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
-              }}
-            >
-              <Card.Content
+        <DisplayRecipesDiv>
+          <DisplayListDiv>
+            <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+              <Card
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  width: '200px',
+                  height: '200px',
+                  margin: '10px',
+                  boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
                 }}
               >
-                <Card.Header>Create a Recipe</Card.Header>
-                <Card.Description>
-                  <Icon name='plus circle' size='big' />
-                </Card.Description>
-              </Card.Content>
-            </Card>
-          </Link>
+                <Card.Content
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Card.Header>Create a Recipe</Card.Header>
+                  <Card.Description>
+                    <Icon
+                      name='plus circle'
+                      size='big'
+                      style={{ color: ourColors.outlineColor }}
+                    />
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            </Link>
 
-          {this.displayDiv()}
-        </DisplayListDiv>
+            {this.displayDiv()}
+          </DisplayListDiv>
+        </DisplayRecipesDiv>
       </RecipeListPage>
     );
   }

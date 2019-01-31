@@ -7,8 +7,8 @@ import { withFirebase } from './components/firebase';
 import MainDisplaySection from './mainDisplaySection';
 import TopMenu from './components/menus/topMenu.js';
 import SideMenu from './components/menus/sideMenu.js';
-import cake from './images/cake.jpeg';
 import MenuAnimation from './components/animations/menuAnimation';
+import landingpageimg from './images/landingpage.jpg';
 
 class App extends Component {
   // componentDidMount and componentWillUnmout is used to check if user is loggedin
@@ -41,7 +41,7 @@ class App extends Component {
   appStyles = () => {
     if (window.location.pathname === '/') {
       return {
-        backgroundImage: `url(${cake})`,
+        backgroundImage: `url(${landingpageimg})`,
         backgroundSize: 'cover'
       };
     } else {

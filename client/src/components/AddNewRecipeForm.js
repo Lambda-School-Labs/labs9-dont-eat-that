@@ -161,6 +161,16 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+  unitHandler = (ev, data, rowNum) => {
+    // console.log("data", data);
+    // console.log("i", i);
+    // Get what number of row on the form is being handled
+    // const rowNum = Number(ev.target.name.slice(4));
+    const copy = this.state.ingredients.slice();
+    copy[rowNum].unit = data.value;
+    this.setState({ ingredients: copy });
+  }
+
   submitHandler = ev => {
     ev.preventDefault();
     // Convert quantities to numbers
@@ -403,7 +413,14 @@ class AddNewRecipeForm extends Component {
               onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
-          <Form.Select width='5' placeholder='Unit' options={unitOptions} />
+          <Form.Select
+            width='5'
+            placeholder='Unit'
+            name={`unit${i}`}
+            value={this.state.ingredients[i].unit}
+            options={unitOptions}
+            onChange={(ev, data) => this.unitHandler(ev, data, i)}
+          />
         </Form.Group>
       );
     }
