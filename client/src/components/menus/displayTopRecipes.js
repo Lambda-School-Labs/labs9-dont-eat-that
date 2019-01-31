@@ -16,6 +16,9 @@ const TopRatedRecipes = styled.div`
   align-items: center;
 `;
 
+// DisplayTopRecipes manages to display top 3 rated recipes
+// under Side Menu
+
 class DisplayTopRecipes extends Component {
   constructor(props) {
     super(props);
@@ -26,23 +29,39 @@ class DisplayTopRecipes extends Component {
   }
 
   render() {
-    console.log('REnder this.props.recipes2 = ', this.props.recipes2);
+    // console.log('REnder this.props.recipes2 = ', this.props.recipes2);
+
+    // displayRecipe gets sorted list of recipes, highest rated recipes in the front
+    // getTopRatedRecipes is function that sort recipes by highest rating
+    // this.props.recipes2 contains all recipes in site's DB
+
     let displayRecipe = getTopRatedRecipes(this.props.recipes2);
 
-    let temp =
-      this.props.recipes2.length > 0 ? (
-        <TopRatedRecipes className='ui raised segment'>
-          <Header
-            as='h4'
-            style={{ marginTop: '10px', display: 'inline', marginBottom: '0' }}
-          >
-            Top Rated Recipes
-          </Header>
-          <TopRecipeCard recipe={displayRecipe[0]} ranking='1' />
-          <TopRecipeCard recipe={displayRecipe[1]} ranking='2' />
-        </TopRatedRecipes>
-      ) : null;
-    return <div> {temp} </div>;
+    let displayCard = [];
+
+    // displayCard should contains all TopRecipeCard components but
+    // it caused error.  so I assing one component each.
+    // would be nice to put all components into one variable
+
+    for (let i = 0; i < 3 && i < displayRecipe.length; i++)
+      displayCard[i] = (
+        <TopRecipeCard recipe={displayRecipe[i]} ranking={i + 1} />
+      );
+
+    return (
+      <TopRatedRecipes className='ui raised segment'>
+        <Header
+          as='h4'
+          style={{ marginTop: '10px', display: 'inline', marginBottom: '0' }}
+        >
+          Top Rated Recipes
+        </Header>
+
+        {displayCard[0] && displayCard[0]}
+        {displayCard[1] && displayCard[1]}
+        {displayCard[2] && displayCard[2]}
+      </TopRatedRecipes>
+    );
   }
 }
 

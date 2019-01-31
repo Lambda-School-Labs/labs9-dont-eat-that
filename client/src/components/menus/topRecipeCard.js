@@ -5,6 +5,9 @@ import ourColors from '../../ColorScheme.js';
 import { ratingsFunc } from '../util';
 import defaultImage from '../../images/defaultimage.jpeg';
 
+// TopRecipeCard display one card that contains
+// one recipe's info
+
 class TopRecipeCard extends React.Component {
   render() {
     return (
@@ -19,49 +22,64 @@ class TopRecipeCard extends React.Component {
               : null,
             //   `0 0 3px 1px ${ourColors.outlineColor}`,
             width: '200px',
-            height: '120px',
+            height: '90px',
             margin: '10px',
             overflow: 'hidden',
             fontFamily: 'Roboto'
           }}
         >
-          <Card.Content style={{ paddingTop: '4px' }}>
+          <Card.Content
+            className='topRatedCard'
+            style={{ paddingTop: '4px', display: 'flex' }}
+          >
             <Card.Header
               as='h6'
               style={{
                 marginTop: '5px',
-                maxHeight: '45px',
+                alignSelf: 'center',
                 overflow: 'hidden',
-                fontSize: '1rem'
+                fontSize: '1rem',
+                width: '55%'
               }}
             >
               #{this.props.ranking} : {this.props.recipe.name}
             </Card.Header>
-            <div>
+            <div
+              className='CardRightSide '
+              style={{
+                width: '45%',
+                display: 'flex',
+
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              {this.props.recipe.imageUrl ? (
+                <Image
+                  src={this.props.recipe.imageUrl}
+                  style={{
+                    height: '40px',
+
+                    margin: '10px 0'
+                  }}
+                />
+              ) : (
+                <Image src={defaultImage} />
+              )}
               <Rating
                 icon='star'
                 rating={ratingsFunc(this.props.recipe)}
                 maxRating={5}
                 disabled
                 style={{
-                  fontSize: '0.7rem',
-                  marginLeft: '25px'
+                  fontSize: '0.6rem',
+
+                  marginRight: '3px'
                 }}
               />
               {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}
             </div>
-            {this.props.recipe.imageUrl ? (
-              <Image
-                src={this.props.recipe.imageUrl}
-                style={{
-                  height: '40px',
-                  marginLeft: '25px',
-                  marginTop: '10px'
-                }}
-              />
-            ) : (
-              <Image src={defaultImage} />
-            )}
           </Card.Content>
         </Card>
       </Link>
