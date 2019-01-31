@@ -97,7 +97,6 @@ class SideMenu extends React.Component {
               <Message.Header>Signup/Login for Full Features!</Message.Header>
             </Message>
           ) : null}
-
           {(window.location.pathname === '/recipes/new' &&
             localStorage.getItem('uid')) ||
           window.location.pathname.indexOf('/edit') > 0 ? (
@@ -123,7 +122,9 @@ class SideMenu extends React.Component {
             </Message>
           ) : null}
 
-          {window.location.pathname.includes('recipes') && (
+          {/*  top rated recipes only shown when pathname includes recipes 
+           such  as recipes list, new recipe, import recipe */}
+          {window.location.pathname.slice(0, 8) === '/recipes' && (
             <DisplayTopRecipes />
           )}
         </Responsive>

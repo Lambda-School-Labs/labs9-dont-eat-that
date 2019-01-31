@@ -108,7 +108,7 @@ class DisplayListRecipes extends Component {
     this.state = {
       query: '',
       isSearched: false,
-      personalCheck: true,
+      personalCheck: localStorage.getItem('uid') ? true : false,
       displayedRecipes: []
     };
   }
@@ -226,7 +226,11 @@ class DisplayListRecipes extends Component {
           )}
         </div>
         <TabDiv>
-          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <DisplayTab
+            className='tab'
+            personalCheck={this.checkHandler}
+            ownChecked={this.state.personalCheck}
+          />
           <Form className='search'>
             <SimpleSearch
               query={this.state.query}

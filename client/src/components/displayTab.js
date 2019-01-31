@@ -6,7 +6,7 @@ import ourColors from '../ColorScheme';
 // My own recipes and other people's recipes
 
 class DisplayTab extends React.Component {
-  state = { activeItem: 'Your Own' };
+  state = { activeItem: this.props.ownChecked ? 'Your Own' : 'Other' };
 
   handleItemClick = (e, { name, own }) => {
     this.setState({ activeItem: name });
