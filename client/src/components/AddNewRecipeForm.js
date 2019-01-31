@@ -62,7 +62,6 @@ class AddNewRecipeForm extends Component {
       edamamAppId: '4747cfb2',
       edamamAppKey: process.env.REACT_APP_EDAMAMAPP_KEY
     };
-
   }
 
   dragEventCounter = 0;
@@ -70,21 +69,18 @@ class AddNewRecipeForm extends Component {
   componentDidMount() {
     this.props.getAllergies();
     // image upload lifecycle
-    window.addEventListener("dragover", ev  => {
+    window.addEventListener('dragover', ev => {
       this.overRideEventDefaults(ev);
     });
     window.addEventListener('drop', ev => {
       this.overRideEventDefaults(ev);
     });
-
   }
 
   componentWillUnmount() {
     window.removeEventListener('dragover', this.overRideEventDefaults);
     window.removeEventListener('drop', this.overRideEventDefaults);
-  
   }
-  
 
   quillHandler = html => {
     this.setState({ description: html });
@@ -161,33 +157,49 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-  submitHandler = ev => {
+  submitHandler = async ev => {
     ev.preventDefault();
-    // Convert quantities to numbers
-    let ingArray = this.state.ingredients;
-    for (let i = 0; i < ingArray.length; i++) {
-      ingArray[i].quantity = Number(ingArray[i].quantity);
-    }
+    console.log("Before if")
+    console.log("selected file", this.state.selectedFile[0])
 
-    // Package up the recipe object to be sent to the API
-    // eslint-disable-next-line
-    const firebaseid = localStorage.getItem('uid');
-    let recipeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      imageUrl: this.state.imageUrl,
-      firebaseid,
-      ingredients: ingArray
-    };
-    // Call the action to send this object to POST a recipe
-    this.props.addRecipe(recipeObj);
-    this.setState({
-      name: '',
-      description: '',
-      imageUrl: '',
-      ingredients: [emptyIng, emptyIng, emptyIng]
-    });
-    this.props.history.push('/recipes');
+    // if(this.state.selectedFile[0].name) {
+      console.log("After if")
+      const imageUP = this.handleFileUpload(ev);
+      
+      setTimeout(() => {
+        console.log("after settimeout",imageUP);
+        if (imageUP) {
+          // Convert quantities to numbers
+          let ingArray = this.state.ingredients;
+          for (let i = 0; i < ingArray.length; i++) {
+            ingArray[i].quantity = Number(ingArray[i].quantity);
+          }
+    
+          // Package up the recipe object to be sent to the API
+          // eslint-disable-next-line
+          const firebaseid = localStorage.getItem('uid');
+          let recipeObj = {
+            name: this.state.name,
+            description: this.state.description,
+            imageUrl: this.state.imageUrl,
+            firebaseid,
+            ingredients: ingArray
+          };
+          // Call the action to send this object to POST a recipe
+          this.props.addRecipe(recipeObj);
+          this.setState({
+            name: '',
+            description: '',
+            imageUrl: '',
+            ingredients: [emptyIng, emptyIng, emptyIng]
+          });
+          this.props.history.push('/recipes');
+        }
+      }, 3000)
+
+    // }
+    return;
+
   };
 
   onClickAutocomplete = (i, item) => {
@@ -277,8 +289,8 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    console.log("choose file ev",ev);
-  
+    console.log('choose file ev', ev);
+
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
     } else {
@@ -286,12 +298,17 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      console.log("name of Image", this.state.selectedFile[0].name);
-      axios
+      console.log('name of Image', this.state.selectedFile[0].name);
+      console.log("passing ev to submit",ev);
+      // this.submitHandler();
+      return axios
         .post(URL, formData)
         .then(res => {
+          console.log("in axios res", res)
           this.setState({ imageUrl: res.data.imageUrl });
-          alert('Image ready to upload!');
+          // alert('Image ready to upload!');
+          // return res.data.imageUrl;
+          return res.data.imageUrl;
         })
         .catch(err => {
           console.log(err);
@@ -301,62 +318,58 @@ class AddNewRecipeForm extends Component {
 
   handleInputSelectedFile = ev => {
     ev.preventDefault();
-    console.log(ev.target.files)
+    console.log(ev.target.files);
     this.setState({
       selectedFile: ev.target.files
-
     });
     // console.log("upload image name",ev.target.files.name);
   };
 
   // inputSubmit = (input.onchange) = ev => {
   //   this.handleInputSelectedFile(ev);
-  // } 
+  // }
 
   dragLeaveListener = ev => {
     this.overRideEventDefaults(ev);
     this.dragEventCounter--;
-    console.log("Leaving", this.dragEventCounter);
-    if(this.dragEventCounter === 0) {
-      this.setState({dragging: false});
+    console.log('Leaving', this.dragEventCounter);
+    if (this.dragEventCounter === 0) {
+      this.setState({ dragging: false });
     }
   };
-  
+
   dropListener = ev => {
     this.overRideEventDefaults(ev);
     this.dragEventCounter = 0;
-    this.setState({dragging:false});
-    if(ev.dataTransfer.files) {  
-      this.setState({selectedFile: ev.dataTransfer.files,
-      imageName: ev.dataTransfer.files[0].name})
-      
+    this.setState({ dragging: false });
+    if (ev.dataTransfer.files) {
+      this.setState({
+        selectedFile: ev.dataTransfer.files,
+        imageName: ev.dataTransfer.files[0].name
+      });
+
       // console.log("dropListener",this.state.selectedFile);
     }
     // console.log("upload image name",ev.dataTransfer.files[0].name);
   };
-  
+
   overRideEventDefaults = ev => {
     ev.preventDefault();
     ev.stopPropagation();
   };
-  
 
   // No current use case for this function
   // onSelectFileClick = (ev) => {
   //   this.overRideEventDefaults(ev)
   //   this.fileUploaderInput() && this.fileUploaderInput.click();
   // };
-    
-  onFileChange = ev => {  
-    console.log("file change", ev.target.files);
+
+  onFileChange = ev => {
+    console.log('file change', ev.target.files);
     if (ev.target.files && ev.target.files[0]) {
-      this.setState({selectedFile:ev.target.files[0]});
+      this.setState({ selectedFile: ev.target.files[0] });
     }
   };
-
-
-
-
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
@@ -482,7 +495,9 @@ class AddNewRecipeForm extends Component {
                 }}
               />
             </Form.Field>
-            {(!this.state.name || !this.state.description || !this.state.ingredients[0].name ||
+            {(!this.state.name ||
+              !this.state.description ||
+              !this.state.ingredients[0].name ||
               !this.state.ingredients[0].quantity) && (
               <p className='please-provide'>
                 Please provide a name, description, and an ingredient before
@@ -494,57 +509,80 @@ class AddNewRecipeForm extends Component {
               !this.state.description ||
               !this.state.ingredients[0].name ||
               !this.state.ingredients[0].quantity ? (
-                <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Form.Button type='submit' disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
-                    Save Recipe
-                  </Form.Button>
-                  <Form.Button
-                      onClick={() => this.props.history.push('/recipes')}
-                      style={{
-                        background: ourColors.inactiveButtonColor,
-                        color: 'white',
-                        width: '133px'
-                      }}
-                    >
-                      Cancel
-                    </Form.Button>
-                </Form.Group>
-              ) : (
-                <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
+                <Form.Group
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                >
                   <Form.Button
                     type='submit'
-                    style={{ background: ourColors.buttonColor, color: 'white' }}
+                    disabled
+                    style={{
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white'
+                    }}
                   >
                     Save Recipe
                   </Form.Button>
                   <Form.Button
-                      onClick={() => this.props.history.push('/recipes')}
-                      style={{
-                        background: ourColors.inactiveButtonColor,
-                        color: 'white',
-                        width: '133px'
-                      }}
-                    >
-                      Cancel
-                    </Form.Button>
+                    onClick={() => this.props.history.push('/recipes')}
+                    style={{
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white',
+                      width: '133px'
+                    }}
+                  >
+                    Cancel
+                  </Form.Button>
+                </Form.Group>
+              ) : (
+                <Form.Group
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                >
+                  <Form.Button
+                    type='submit'
+                    style={{
+                      background: ourColors.buttonColor,
+                      color: 'white'
+                    }}
+                  >
+                    Save Recipe
+                  </Form.Button>
+                  <Form.Button
+                    onClick={() => this.props.history.push('/recipes')}
+                    style={{
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white',
+                      width: '133px'
+                    }}
+                  >
+                    Cancel
+                  </Form.Button>
                 </Form.Group>
               )
             ) : (
               <React.Fragment>
-                <Form.Group style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Form.Button type='submit' onClick={this.handleFileUpload} disabled style={{ background: ourColors.inactiveButtonColor, color: 'white' }}>
+                <Form.Group
+                  style={{ display: 'flex', justifyContent: 'center' }}
+                >
+                  <Form.Button
+                    type='submit'
+                    disabled
+                    style={{
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white'
+                    }}
+                  >
                     Save Recipe
                   </Form.Button>
                   <Form.Button
-                      onClick={() => this.props.history.push('/recipes')}
-                      style={{
-                        background: ourColors.inactiveButtonColor,
-                        color: 'white',
-                        width: '133px'
-                      }}
-                    >
-                      Cancel
-                    </Form.Button>
+                    onClick={() => this.props.history.push('/recipes')}
+                    style={{
+                      background: ourColors.inactiveButtonColor,
+                      color: 'white',
+                      width: '133px'
+                    }}
+                  >
+                    Cancel
+                  </Form.Button>
                 </Form.Group>
                 <p>Please Log In to Add a Recipe!</p>
               </React.Fragment>

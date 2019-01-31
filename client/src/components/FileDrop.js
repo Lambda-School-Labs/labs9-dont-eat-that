@@ -80,7 +80,7 @@ const FileDropFunc = props => {
         {/* <UploadButton onClick={console.log("i was clicked")}>
           Upload Image
         </UploadButton> */}
-        <Popup
+        {/* <Popup
           trigger={
             <Button
               onClick={props.handleFileUpload}
@@ -94,15 +94,15 @@ const FileDropFunc = props => {
               }}
             >
               Upload Image
-            </Button>
-          }
-          content={
+            </Button> */}
+          {/* } */}
+          {/* content={
             props.selectedFile
               ? 'Image Upload completed!'
               : 'No image was uploaded.'
           }
           on='click'
-        />
+        /> */}
       </DropInputField>
     </DropCard>
   );
