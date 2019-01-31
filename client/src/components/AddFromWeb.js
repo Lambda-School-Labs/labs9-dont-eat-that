@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addRecipe } from '../actions';
-import { Form, Button, Segment, Responsive } from 'semantic-ui-react';
+import { Form, Button, Segment, Responsive, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import ourColors from '../ColorScheme';
+import importdish from '../images/importdish.jpeg';
 
 const ImportRecipeDiv = styled.div`
   width: 95%;
+  max-width: 1000px;
   margin: 0 auto;
   .contentDiv {
     display: flex;
@@ -20,7 +22,15 @@ const ImportRecipeDiv = styled.div`
     text-align: left;
     max-width: 500px;
     padding: 10px 27px 10px;
-    line-height: 1.5;
+    line-height: 1.75;
+  }
+`;
+
+const ImageTextDiv = styled.div`
+  display: flex;
+  @media (max-width: 1100px) {
+    flex-direction: column;
+    justify-content: center;
   }
 `;
 
@@ -91,6 +101,20 @@ class AddFromWeb extends Component {
             onSubmit={this.submitHandler}
             style={{ width: '95%', marginLeft: '2.5%' }}
           >
+            <ImageTextDiv>
+              <Image
+                src={importdish}
+                style={{ maxHeight: '250px', margin: '0 auto 15px' }}
+              />
+              <Responsive className='contentDiv' minWidth={500}>
+                <p>
+                  Found a recipe you really like on another site, like a recipes
+                  blog? Go ahead and import the url to your collection below!
+                  <br />
+                  Warning, this feature isn't compatible with some sites.
+                </p>
+              </Responsive>
+            </ImageTextDiv>
             <Form.Group>
               <Form.Field width='12'>
                 <input
@@ -112,7 +136,7 @@ class AddFromWeb extends Component {
                         color: 'white'
                       }}
                     >
-                      Import Recipe
+                      Import Recipe Url
                     </Button>
                   </Responsive>
                   <Responsive
@@ -132,7 +156,7 @@ class AddFromWeb extends Component {
                         color: 'white'
                       }}
                     >
-                      Import Recipe
+                      Import Recipe Url
                     </Button>
                   </Responsive>
                 </React.Fragment>
@@ -154,13 +178,6 @@ class AddFromWeb extends Component {
               )}
             </Form.Group>
           </Form>
-          <div className='contentDiv'>
-            <p>
-              Found a recipe you really like on another site, like a recipes
-              blog? Go ahead and try importing it to your collection here!
-              Warning, this feature isn't compatible with some sites.
-            </p>
-          </div>
         </Segment>
       </ImportRecipeDiv>
     );

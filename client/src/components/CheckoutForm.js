@@ -459,13 +459,17 @@ class CheckoutForm extends React.Component {
         <div
           style={{
             width: '80%',
+            maxWidth: '600px',
             margin: '0 auto',
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center'
           }}
         >
-          <div style={{ width: '50%', maxWidth: '500px', marginRight: '10px' }}>
+          <Responsive
+            minWidth={940}
+            style={{ width: '50%', minWidth: '350px', marginRight: '10px' }}
+          >
             <Header
               as='h3'
               attached='top'
@@ -476,52 +480,142 @@ class CheckoutForm extends React.Component {
             <Segment attached>
               <CardElement />
             </Segment>
-          </div>
+          </Responsive>
+          <Responsive
+            maxWidth={939}
+            style={{ width: '100%', maxWidth: '500px' }}
+          >
+            <Header
+              as='h3'
+              attached='top'
+              style={{ background: ourColors.menuColor }}
+            >
+              Pay with Card
+            </Header>
+            <Segment attached>
+              <CardElement />
+            </Segment>
+          </Responsive>
           {this.props.user.subscriptionid ? (
-            <div
-              style={{ width: '25%', display: 'flex', flexDirection: 'column' }}
-            >
-              <Button
-                onClick={this.submit}
+            <React.Fragment>
+              <Responsive
+                minWidth={940}
                 style={{
-                  background: ourColors.inactiveButtonColor,
-                  color: 'white',
-                  marginBottom: '10px'
+                  width: '25%',
+                  minWidth: '200px',
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}
-                disabled
               >
-                Subscribe
-              </Button>
-              <Button
-                onClick={this.props.cancelSubscription}
-                style={{ background: ourColors.buttonColor, color: 'white' }}
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.inactiveButtonColor,
+                    color: 'white',
+                    marginBottom: '10px'
+                  }}
+                  disabled
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{ background: ourColors.buttonColor, color: 'white' }}
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+              <Responsive
+                maxWidth={939}
+                style={{
+                  minWidth: '200px',
+                  display: 'flex'
+                }}
               >
-                Cancel Subscription
-              </Button>
-            </div>
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.inactiveButtonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                  disabled
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+            </React.Fragment>
           ) : (
-            <div
-              style={{ width: '25%', display: 'flex', flexDirection: 'column' }}
-            >
-              <Button
-                onClick={this.submit}
+            <React.Fragment>
+              <Responsive
+                minWidth={940}
                 style={{
-                  background: ourColors.buttonColor,
-                  color: 'white',
-                  marginBottom: '10px'
+                  width: '25%',
+                  minWidth: '200px',
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}
-                disabled={!localStorage.getItem('uid')}
               >
-                Subscribe
-              </Button>
-              <Button
-                onClick={this.props.cancelSubscription}
-                style={{ background: ourColors.buttonColor, color: 'white' }}
-                disabled
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginBottom: '10px'
+                  }}
+                  disabled={!localStorage.getItem('uid')}
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{ background: ourColors.buttonColor, color: 'white' }}
+                  disabled
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+              <Responsive
+                maxWidth={939}
+                style={{
+                  minWidth: '200px',
+                  display: 'flex'
+                }}
               >
-                Cancel Subscription
-              </Button>
-            </div>
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                  disabled={!localStorage.getItem('uid')}
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                  disabled
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+            </React.Fragment>
           )}
         </div>
       </div>

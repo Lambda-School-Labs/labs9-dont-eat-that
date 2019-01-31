@@ -157,7 +157,18 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-  submitHandler = async ev => {
+
+  unitHandler = (ev, data, rowNum) => {
+    // console.log("data", data);
+    // console.log("i", i);
+    // Get what number of row on the form is being handled
+    // const rowNum = Number(ev.target.name.slice(4));
+    const copy = this.state.ingredients.slice();
+    copy[rowNum].unit = data.value;
+    this.setState({ ingredients: copy });
+  }
+
+  submitHandler = ev => {
     ev.preventDefault();
     // console.log("Before if")
     // console.log("selected file", this.state.selectedFile[0])
@@ -168,7 +179,7 @@ class AddNewRecipeForm extends Component {
       
       setTimeout(() => {
         // console.log("after settimeout",imageUP);
-        if (imageUP) {
+        // if (imageUP) {
           // Convert quantities to numbers
           let ingArray = this.state.ingredients;
           for (let i = 0; i < ingArray.length; i++) {
@@ -194,8 +205,10 @@ class AddNewRecipeForm extends Component {
             ingredients: [emptyIng, emptyIng, emptyIng]
           });
           this.props.history.push('/recipes');
-        }
-      }, 3000)
+        // }
+
+        
+      }, 2000)
 
     // }
     return;
@@ -423,7 +436,14 @@ class AddNewRecipeForm extends Component {
               onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
-          <Form.Select width='5' placeholder='Unit' options={unitOptions} />
+          <Form.Select
+            width='5'
+            placeholder='Unit'
+            name={`unit${i}`}
+            value={this.state.ingredients[i].unit}
+            options={unitOptions}
+            onChange={(ev, data) => this.unitHandler(ev, data, i)}
+          />
         </Form.Group>
       );
     }
