@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu, Responsive, Message } from 'semantic-ui-react';
 
 import ourColors from '../../ColorScheme';
+import DisplayTopRecipes from './displayTopRecipes.js';
 
 class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
@@ -121,6 +122,10 @@ class SideMenu extends React.Component {
               </Message.List>
             </Message>
           ) : null}
+
+          {window.location.pathname.includes('recipes') && (
+            <DisplayTopRecipes />
+          )}
         </Responsive>
       );
     }
