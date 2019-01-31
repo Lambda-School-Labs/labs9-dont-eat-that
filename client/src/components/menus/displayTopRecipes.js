@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Form, Card, Icon, Header } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { getAllRecipes2 } from '../../actions';
 import { getTopRatedRecipes } from '../util';
 import TopRecipeCard from './topRecipeCard.js';
-import ourColors from '../../ColorScheme';
 
 const TopRatedRecipes = styled.div`
   width: 100% !important;
@@ -20,10 +18,6 @@ const TopRatedRecipes = styled.div`
 // under Side Menu
 
 class DisplayTopRecipes extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.getAllRecipes2();
   }
@@ -52,7 +46,7 @@ class DisplayTopRecipes extends Component {
       <TopRatedRecipes className='ui raised segment'>
         <Header
           as='h4'
-          style={{ marginTop: '10px', display: 'inline', marginBottom: '0' }}
+          style={{ marginTop: '10px', display: 'inline', marginBottom: '0', maxHeight: '' }}
         >
           Top Rated Recipes
         </Header>

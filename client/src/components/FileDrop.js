@@ -21,6 +21,7 @@ import {
 // `;
 
 const FileDropFunc = props => {
+  // eslint-disable-next-line
   let uploaderClasses = 'file-uploader';
   if (props.dragging) {
     uploaderClasses += 'file-uploader--dragging';
@@ -58,12 +59,12 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-        <label for='file' onCLick>
+        <label htmlFor='file'>
           <input
             type='file'
             name='file'
             id='file'
-            class='inputfile'
+            className='inputfile'
             style={{
               margin: '10px',
               width: '35%',
@@ -96,7 +97,7 @@ const FileDropFunc = props => {
           }
           content={
             props.selectedFile
-              ? 'Image Upload completed!'
+              ? 'Wait for the alert before submitting recipe!'
               : 'No image was uploaded.'
           }
           on='click'

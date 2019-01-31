@@ -35,12 +35,13 @@ class TopRecipeCard extends React.Component {
             <Card.Header
               as='h6'
               style={{
-                padding: '10px 0',
+                padding: '7.5px 0',
                 marginTop: '5px',
                 alignSelf: 'center',
                 overflow: 'hidden',
                 fontSize: '1rem',
-                width: '55%'
+                width: '55%',
+                maxHeight: '80px'
               }}
             >
               #{this.props.ranking} : {this.props.recipe.name}
@@ -60,13 +61,20 @@ class TopRecipeCard extends React.Component {
                 <Image
                   src={this.props.recipe.imageUrl}
                   style={{
-                    height: '40px',
-
-                    margin: '10px 0'
+                    height: '50px',
+                    width: '71px',
+                    margin: '7.5px 0 5px'
                   }}
                 />
               ) : (
-                <Image src={defaultImage} />
+                <Image
+                  src={defaultImage}
+                  style={{
+                    height: '50px',
+                    width: '71px',
+                    margin: '7.5px 0 5px'
+                  }}
+                />
               )}
               <Rating
                 icon='star'
@@ -74,7 +82,7 @@ class TopRecipeCard extends React.Component {
                 maxRating={5}
                 disabled
                 style={{
-                  fontSize: '0.6rem',
+                  fontSize: '0.5rem',
 
                   marginRight: '3px'
                 }}
