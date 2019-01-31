@@ -159,15 +159,15 @@ class AddNewRecipeForm extends Component {
 
   submitHandler = async ev => {
     ev.preventDefault();
-    console.log("Before if")
-    console.log("selected file", this.state.selectedFile[0])
+    // console.log("Before if")
+    // console.log("selected file", this.state.selectedFile[0])
 
     // if(this.state.selectedFile[0].name) {
-      console.log("After if")
+      // console.log("After if")
       const imageUP = this.handleFileUpload(ev);
       
       setTimeout(() => {
-        console.log("after settimeout",imageUP);
+        // console.log("after settimeout",imageUP);
         if (imageUP) {
           // Convert quantities to numbers
           let ingArray = this.state.ingredients;
@@ -289,7 +289,7 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    console.log('choose file ev', ev);
+    // console.log('choose file ev', ev);
 
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
@@ -298,13 +298,13 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      console.log('name of Image', this.state.selectedFile[0].name);
-      console.log("passing ev to submit",ev);
+      // console.log('name of Image', this.state.selectedFile[0].name);
+      // console.log("passing ev to submit",ev);
       // this.submitHandler();
       return axios
         .post(URL, formData)
         .then(res => {
-          console.log("in axios res", res)
+          // console.log("in axios res", res)
           this.setState({ imageUrl: res.data.imageUrl });
           // alert('Image ready to upload!');
           // return res.data.imageUrl;

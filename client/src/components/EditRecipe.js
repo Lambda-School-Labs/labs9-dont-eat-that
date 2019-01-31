@@ -197,25 +197,33 @@ class AddNewRecipeForm extends Component {
   submitHandler = ev => {
     ev.preventDefault();
     // Convert quantities to numbers
-    let ingArray = this.state.ingredients;
-    for (let i = 0; i < ingArray.length; i++) {
-      ingArray[i].quantity = Number(ingArray[i].quantity);
-    }
+    const imageUP = this.handleFileUpload(ev);
+    setTimeout(() => {
+      // console.log("after settimeout",imageUP);
+      if (imageUP) {
 
-    // Package up the recipe object to be sent to the API
-    // eslint-disable-next-line
-    const firebaseid = localStorage.getItem('uid');
-    let recipeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      imageUrl: this.state.imageUrl,
-      firebaseid,
-      ingredients: ingArray
-    };
-    // Call the action to send this object to POST a recipe
-    this.props.editRecipe(this.props.match.params.id, recipeObj);
-    this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
-    this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
+      let ingArray = this.state.ingredients;
+      for (let i = 0; i < ingArray.length; i++) {
+        ingArray[i].quantity = Number(ingArray[i].quantity);
+      }
+  
+      // Package up the recipe object to be sent to the API
+      // eslint-disable-next-line
+      const firebaseid = localStorage.getItem('uid');
+      let recipeObj = {
+        name: this.state.name,
+        description: this.state.description,
+        imageUrl: this.state.imageUrl,
+        firebaseid,
+        ingredients: ingArray
+      };
+      // Call the action to send this object to POST a recipe
+      this.props.editRecipe(this.props.match.params.id, recipeObj);
+      this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
+      this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
+
+    }
+  }, 3000)
   };
 
   onClickAutocomplete = (i, item) => {
@@ -303,18 +311,26 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
+    // console.log('choose file ev', ev);
+
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
-      console.log('not setting image');
     } else {
+      // console.log("selected File",this.state.selectedFile);
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      axios
+      // console.log('name of Image', this.state.selectedFile[0].name);
+      // console.log("passing ev to submit",ev);
+      // this.submitHandler();
+      return axios
         .post(URL, formData)
         .then(res => {
-          this.setState({ imageUrl: res.data.imageUrl, imageReady: true });
-          alert('Image ready to upload!');
+          // console.log("in axios res", res)
+          this.setState({ imageUrl: res.data.imageUrl });
+          // alert('Image ready to upload!');
+          // return res.data.imageUrl;
+          return res.data.imageUrl;
         })
         .catch(err => {
           console.log(err);
