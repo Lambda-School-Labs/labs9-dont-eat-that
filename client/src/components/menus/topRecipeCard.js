@@ -19,7 +19,7 @@ class TopRecipeCard extends React.Component {
               : null,
             //   `0 0 3px 1px ${ourColors.outlineColor}`,
             width: '200px',
-            height: '150px',
+            height: '120px',
             margin: '10px',
             overflow: 'hidden',
             fontFamily: 'Roboto'
@@ -54,7 +54,7 @@ class TopRecipeCard extends React.Component {
               <Image
                 src={this.props.recipe.imageUrl}
                 style={{
-                  height: '70px',
+                  height: '40px',
                   marginLeft: '25px',
                   marginTop: '10px'
                 }}

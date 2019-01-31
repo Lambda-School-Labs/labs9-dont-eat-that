@@ -123,7 +123,9 @@ class SideMenu extends React.Component {
             </Message>
           ) : null}
 
-          <DisplayTopRecipes />
+          {window.location.pathname.includes('recipes') && (
+            <DisplayTopRecipes />
+          )}
         </Responsive>
       );
     }
