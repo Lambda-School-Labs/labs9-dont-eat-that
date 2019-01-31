@@ -21,6 +21,7 @@ import {
 // `;
 
 const FileDropFunc = props => {
+  // eslint-disable-next-line
   let uploaderClasses = 'file-uploader';
   if (props.dragging) {
     uploaderClasses += 'file-uploader--dragging';

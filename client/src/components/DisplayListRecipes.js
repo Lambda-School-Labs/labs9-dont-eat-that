@@ -11,7 +11,8 @@ import {
   getOwnRecipes,
   getForeignRecipes,
   getUser,
-  getAllergies
+  getAllergies,
+  getAllRecipes2
 } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
@@ -121,6 +122,7 @@ class DisplayListRecipes extends Component {
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getAllRecipes2();
     this.props.getUser();
     this.props.getAllergies();
   }
@@ -289,5 +291,12 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
+  {
+    getAllRecipes,
+    getOwnRecipes,
+    getForeignRecipes,
+    getAllergies,
+    getUser,
+    getAllRecipes2
+  }
 )(DisplayListRecipes);
