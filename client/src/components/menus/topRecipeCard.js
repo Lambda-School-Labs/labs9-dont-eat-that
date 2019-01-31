@@ -35,6 +35,7 @@ class TopRecipeCard extends React.Component {
             <Card.Header
               as='h6'
               style={{
+                padding: '10px 0',
                 marginTop: '5px',
                 alignSelf: 'center',
                 overflow: 'hidden',
