@@ -194,6 +194,13 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+  unitHandler = (ev, data, rowNum) => {
+    // Get what number of row on the form is being handled
+    const copy = this.state.ingredients.slice();
+    copy[rowNum].unit = data.value;
+    this.setState({ ingredients: copy });
+  }
+
   submitHandler = ev => {
     ev.preventDefault();
     // Convert quantities to numbers
@@ -437,18 +444,10 @@ class AddNewRecipeForm extends Component {
             <Form.Select
               width='5'
               options={unitOptions}
-              // below 2 lines are to display previously selected unit.
-              // however it only works some recipes...
-              // it seems newly created recipes display this but imported one doesn't
-              defaultValue={this.state.ingredients[i].unit}
+              value={this.state.ingredients[i].unit}
               placeholder={this.state.ingredients[i].unit}
+              onChange={(ev, data) => this.unitHandler(ev, data, i)}
             />
-            {/* <select name={`unit${i}`} onChange={this.ingHandler}>
-              {this.state.ingredients[i].unitsList &&
-                this.state.ingredients[i].unitsList.map(unit => (
-                  <option value={unit}>{unit}</option>
-                ))}
-            </select> */}
             <br />
           </Form.Group>
         );
