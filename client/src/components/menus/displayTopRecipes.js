@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import ourColors from '../../ColorScheme';
-
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Form, Card, Icon, Header } from 'semantic-ui-react';
+import styled from 'styled-components';
 import { getAllRecipes2 } from '../../actions';
 import { getTopRatedRecipes } from '../util';
 import TopRecipeCard from './topRecipeCard.js';
+import ourColors from '../../ColorScheme';
+
+const TopRatedRecipes = styled.div`
+  width: 100% !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 class DisplayTopRecipes extends Component {
   constructor(props) {
@@ -22,11 +31,16 @@ class DisplayTopRecipes extends Component {
 
     let temp =
       this.props.recipes2.length > 0 ? (
-        <div>
-          <h3> Top Rated Recipes</h3>
+        <TopRatedRecipes className='ui raised segment'>
+          <Header
+            as='h4'
+            style={{ marginTop: '10px', display: 'inline', marginBottom: '0' }}
+          >
+            Top Rated Recipes
+          </Header>
           <TopRecipeCard recipe={displayRecipe[0]} ranking='1' />
           <TopRecipeCard recipe={displayRecipe[1]} ranking='2' />
-        </div>
+        </TopRatedRecipes>
       ) : null;
     return <div> {temp} </div>;
   }

@@ -16,9 +16,10 @@ class TopRecipeCard extends React.Component {
           style={{
             boxShadow: this.props.allergy
               ? `0 0 3px 5px ${ourColors.warningColor}`
-              : `0 0 3px 1px ${ourColors.outlineColor}`,
+              : null,
+            //   `0 0 3px 1px ${ourColors.outlineColor}`,
             width: '200px',
-            height: '200px',
+            height: '150px',
             margin: '10px',
             overflow: 'hidden',
             fontFamily: 'Roboto'
@@ -26,11 +27,12 @@ class TopRecipeCard extends React.Component {
         >
           <Card.Content style={{ paddingTop: '4px' }}>
             <Card.Header
-              as='h3'
+              as='h6'
               style={{
+                marginTop: '5px',
                 maxHeight: '45px',
                 overflow: 'hidden',
-                fontSize: '1.1rem'
+                fontSize: '1rem'
               }}
             >
               #{this.props.ranking} : {this.props.recipe.name}
@@ -41,13 +43,21 @@ class TopRecipeCard extends React.Component {
                 rating={ratingsFunc(this.props.recipe)}
                 maxRating={5}
                 disabled
+                style={{
+                  fontSize: '0.7rem',
+                  marginLeft: '25px'
+                }}
               />
               {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}
             </div>
             {this.props.recipe.imageUrl ? (
               <Image
                 src={this.props.recipe.imageUrl}
-                style={{ height: '70px' }}
+                style={{
+                  height: '70px',
+                  marginLeft: '25px',
+                  marginTop: '10px'
+                }}
               />
             ) : (
               <Image src={defaultImage} />
