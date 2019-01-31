@@ -2,7 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Parser from 'html-react-parser';
-import { Rating, Table, Header, Segment, Image, Icon } from 'semantic-ui-react';
+import {
+  Rating,
+  Table,
+  Header,
+  Segment,
+  Image,
+  Icon,
+  Responsive
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ourColors from '../ColorScheme';
@@ -73,6 +81,51 @@ class SingleRecipe extends React.Component {
   rateFunc = (e, data, recipeid) => {
     // processes rating from user for recipe
     this.props.ratingChange(recipeid, data.rating);
+  };
+
+  ingredients = recipe => {
+    return (
+      <React.Fragment>
+        <Header as='h3' attached='top' textAlign='left'>
+          Ingredients
+        </Header>
+        <Segment
+          attached
+          textAlign='left'
+          style={{
+            minHeight: recipe.imageUrl ? '198px' : 'auto',
+            lineHeight: '1.25'
+          }}
+        >
+          <ul>
+            {recipe.ingredients.map(ingr => {
+              const boolArr = this.props.user.allergies.map(allergy =>
+                ingr.name.includes(allergy.name)
+              );
+              if (boolArr.includes(true)) {
+                return (
+                  <li
+                    key={ingr.name}
+                    style={{
+                      background: ourColors.warningTranslucent,
+                      boxShadow: `0 0 3px ${ourColors.warningTranslucent}`
+                    }}
+                  >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
+                    ingr.name
+                  }`}</li>
+                );
+              } else {
+                return (
+                  <li key={ingr.name}>{`${ingr.quantity} ${
+                    ingr.unit ? ingr.unit : ''
+                  } ${ingr.name}`}</li>
+                );
+              }
+            })}
+          </ul>
+        </Segment>
+      </React.Fragment>
+    );
   };
 
   componentWillUnmount() {
@@ -149,7 +202,8 @@ class SingleRecipe extends React.Component {
               style={{ marginTop: '7.5px', maxHeight: '250px' }}
             />
           )}
-          <div
+          <Responsive
+            minWidth={501}
             style={{
               fontFamily: 'Roboto',
               marginTop: '10px',
@@ -158,46 +212,20 @@ class SingleRecipe extends React.Component {
               alignSelf: 'stretch'
             }}
           >
-            <Header as='h3' attached='top' textAlign='left'>
-              Ingredients
-            </Header>
-            <Segment
-              attached
-              textAlign='left'
-              style={{
-                minHeight: recipe.imageUrl ? '198px' : 'auto',
-                lineHeight: '1.25'
-              }}
-            >
-              <ul>
-                {recipe.ingredients.map(ingr => {
-                  const boolArr = this.props.user.allergies.map(allergy =>
-                    ingr.name.includes(allergy.name)
-                  );
-                  if (boolArr.includes(true)) {
-                    return (
-                      <li
-                        key={ingr.name}
-                        style={{
-                          background: ourColors.warningTranslucent,
-                          boxShadow: `0 0 3px ${ourColors.warningTranslucent}`
-                        }}
-                      >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
-                        ingr.name
-                      }`}</li>
-                    );
-                  } else {
-                    return (
-                      <li key={ingr.name}>{`${ingr.quantity} ${
-                        ingr.unit ? ingr.unit : ''
-                      } ${ingr.name}`}</li>
-                    );
-                  }
-                })}
-              </ul>
-            </Segment>
-          </div>
+            {this.ingredients(recipe)}
+          </Responsive>
         </ImageIngrDiv>
+        <Responsive
+          maxWidth={500}
+          style={{
+            width: '95%',
+            marginLeft: '2.5%',
+            fontFamily: 'Roboto',
+            marginTop: '15px'
+          }}
+        >
+          {this.ingredients(recipe)}
+        </Responsive>
         <br />
         <div style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}>
           <Header as='h3' attached='top' textAlign='left'>
