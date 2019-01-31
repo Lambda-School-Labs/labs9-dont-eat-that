@@ -100,46 +100,11 @@ const TopMenu = props => {
       size='small'
       style={{ background: ourColors.menuColor }}
     >
-<<<<<<< HEAD
-      {/* <div className='navigationContainer'> */}
-=======
       <Responsive minWidth={771}>
->>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
         <NavLink to='/'>
           <Menu.Item
             style={
               window.location.pathname === '/'
-<<<<<<< HEAD
-                ? {}
-                : {
-                    padding: '5px',
-                    paddingRight: '15px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    maxWidth: '2000px',
-                    margin: '0 auto'
-                  }
-            }
-          >
-            {SiteIcon}
-            Don't Eat That
-          </Menu.Item>
-        </NavLink>
-        {/* <div className='searchLogout'> */}
-        {/* <MenuSearch class='minWidth={771}'>
-        <SimpleSearchInput/>
-        </MenuSearch> */}
-
-        <Menu.Menu position='right'>
-          {displaySignUp}
-          {displaySignIn}
-          {displayMenu}
-          {displaySignOut}
-        </Menu.Menu>
-
-        {/* </div>
-      </div> */}
-=======
                 ? { fontFamily: 'Montserrat' }
                 : {
                     width: '240px',
@@ -174,7 +139,6 @@ const TopMenu = props => {
         {displayMenu}
         {displaySignOut}
       </Menu.Menu>
->>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
     </Menu>
   );
 };

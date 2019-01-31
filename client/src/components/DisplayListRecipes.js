@@ -81,9 +81,6 @@ const TabDiv = styled.div`
   .tab2 {
     margin-left: 4% !important;
     width: 50%;
-<<<<<<< HEAD
-    margin-right: 15px;
-=======
     height: 25px;
 
     @media (max-width: 576px) {
@@ -91,7 +88,6 @@ const TabDiv = styled.div`
       width: 95% !important;
       margin: 0 auto;
     }
->>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
   }
 `;
 
@@ -218,14 +214,9 @@ class DisplayListRecipes extends Component {
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
-<<<<<<< HEAD
-        <div className='header-icons'>
-          <div className='dummy-for-flexbox' />
-=======
           {!this.props.user.subscriptionid && (
             <div className='dummy-for-flexbox' />
           )}
->>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
           {this.props.user.subscriptionid && (
             <Icon
               name='download'
@@ -234,7 +225,6 @@ class DisplayListRecipes extends Component {
               style={{ cursor: 'pointer' }}
             />
           )}
-        </div>
         <TabDiv>
           <DisplayTab
             className='tab'
