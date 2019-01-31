@@ -465,7 +465,7 @@ class CheckoutForm extends React.Component {
             justifyContent: 'center'
           }}
         >
-          <div style={{ width: '50%', maxWidth: '500px', marginRight: '10px' }}>
+          <div style={{ width: '50%', minWidth: '350px', maxWidth: '500px', marginRight: '10px' }}>
             <Header
               as='h3'
               attached='top'
@@ -479,7 +479,7 @@ class CheckoutForm extends React.Component {
           </div>
           {this.props.user.subscriptionid ? (
             <div
-              style={{ width: '25%', display: 'flex', flexDirection: 'column' }}
+              style={{ width: '25%', minWidth: '200px', display: 'flex', flexDirection: 'column' }}
             >
               <Button
                 onClick={this.submit}
@@ -501,7 +501,7 @@ class CheckoutForm extends React.Component {
             </div>
           ) : (
             <div
-              style={{ width: '25%', display: 'flex', flexDirection: 'column' }}
+              style={{ width: '25%', minWidth: '200px', display: 'flex', flexDirection: 'column' }}
             >
               <Button
                 onClick={this.submit}
