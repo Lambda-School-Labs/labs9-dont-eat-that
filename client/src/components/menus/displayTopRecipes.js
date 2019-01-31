@@ -24,7 +24,8 @@ class DisplayTopRecipes extends Component {
       this.props.recipes2.length > 0 ? (
         <div>
           <h3> Top Rated Recipes</h3>
-          <TopRecipeCard recipe={displayRecipe[0]} />
+          <TopRecipeCard recipe={displayRecipe[0]} ranking='1' />
+          <TopRecipeCard recipe={displayRecipe[1]} ranking='2' />
         </div>
       ) : null;
     return <div> {temp} </div>;

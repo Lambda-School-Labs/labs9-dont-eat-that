@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Rating, Card, Image } from 'semantic-ui-react';
 import ourColors from '../../ColorScheme.js';
 import { ratingsFunc } from '../util';
+import defaultImage from '../../images/defaultimage.jpeg';
 
 class TopRecipeCard extends React.Component {
   render() {
@@ -32,7 +33,7 @@ class TopRecipeCard extends React.Component {
                 fontSize: '1.1rem'
               }}
             >
-              {this.props.recipe.name}
+              #{this.props.ranking} : {this.props.recipe.name}
             </Card.Header>
             <div>
               <Rating
@@ -43,6 +44,14 @@ class TopRecipeCard extends React.Component {
               />
               {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}
             </div>
+            {this.props.recipe.imageUrl ? (
+              <Image
+                src={this.props.recipe.imageUrl}
+                style={{ height: '70px' }}
+              />
+            ) : (
+              <Image src={defaultImage} />
+            )}
           </Card.Content>
         </Card>
       </Link>
