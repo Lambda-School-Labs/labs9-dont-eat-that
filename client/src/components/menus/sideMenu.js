@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu, Responsive, Message } from 'semantic-ui-react';
 
 import ourColors from '../../ColorScheme';
+import DisplayTopRecipes from './displayTopRecipes.js';
 
 class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
@@ -96,7 +97,6 @@ class SideMenu extends React.Component {
               <Message.Header>Signup/Login for Full Features!</Message.Header>
             </Message>
           ) : null}
-
           {(window.location.pathname === '/recipes/new' &&
             localStorage.getItem('uid')) ||
           window.location.pathname.indexOf('/edit') > 0 ? (
@@ -112,7 +112,7 @@ class SideMenu extends React.Component {
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >
-              <Message.Header>Allergy Notications</Message.Header>
+              <Message.Header>Allergy Notifications</Message.Header>
               <Message.List>
                 <Message.Item>Recipes will be bordered in maroon</Message.Item>
                 <Message.Item>
@@ -121,6 +121,12 @@ class SideMenu extends React.Component {
               </Message.List>
             </Message>
           ) : null}
+
+          {/*  top rated recipes only shown when pathname includes recipes 
+           such  as recipes list, new recipe, import recipe */}
+          {window.location.pathname.slice(0, 8) === '/recipes' && (
+            <DisplayTopRecipes />
+          )}
         </Responsive>
       );
     }

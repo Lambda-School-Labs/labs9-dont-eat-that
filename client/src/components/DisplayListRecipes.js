@@ -11,7 +11,8 @@ import {
   getOwnRecipes,
   getForeignRecipes,
   getUser,
-  getAllergies
+  getAllergies,
+  getAllRecipes2
 } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
@@ -26,7 +27,8 @@ const RecipeListPage = styled.div`
     margin-top: 4px;
   }
   .header-icons {
-    width: 95%;
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,29 +40,71 @@ const RecipeListPage = styled.div`
     padding: 0 15px;
   }
 `;
+
+// TabDiv manage Tab and search box
 const TabDiv = styled.div`
+  width: 97%;
   display: flex;
-
-  /* flex-wrap: wrap; */
-  /* justify-content: space-between; */
-
-  .menu {
-    margin-left: 4%;
-    width: 50%;
-    border: 1px solid blue;
+  justify-content: space-between;
+  @media (max-width: 576px) {
+    flex-direction: column;
+    position: relative !important;
   }
 
   .search {
-    margin-left: 10%;
-    width: 50%;
-    margin-right: 15px;
+    margin: 0 20px;
+    width: 35%;
+    @media (max-width: 576px) {
+      margin-bottom: 10px;
+      order: -1;
+      width: 95% !important;
+      text-align: right !important;
+    }
   }
+
+  /* icon is for search icon  */
+  .icon {
+    @media (max-width: 576px) {
+      width: 40px !important;
+    }
+  }
+  /* searchInput is for input field */
+  .searchInput {
+    display: flex;
+    justify-content: space-between;
+    @media (max-width: 576px) {
+      width: 95% !important;
+    }
+  }
+
+  /* tab2 is for tab div */
+  .tab2 {
+    margin-left: 4% !important;
+    width: 50%;
+<<<<<<< HEAD
+    margin-right: 15px;
+=======
+    height: 25px;
+
+    @media (max-width: 576px) {
+      display: flex;
+      width: 95% !important;
+      margin: 0 auto;
+    }
+>>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
+  }
+`;
+
+const DisplayRecipesDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;
 
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  width: 95%;
 `;
 
 class DisplayListRecipes extends Component {
@@ -69,7 +113,7 @@ class DisplayListRecipes extends Component {
     this.state = {
       query: '',
       isSearched: false,
-      personalCheck: true,
+      isLogged: localStorage.getItem('uid') ? true : false,
       displayedRecipes: []
     };
   }
@@ -77,13 +121,29 @@ class DisplayListRecipes extends Component {
   componentDidMount() {
     if (!localStorage.getItem('uid')) {
       this.props.getAllRecipes();
-    } else if (this.state.personalCheck) {
+    } else if (this.state.isLogged) {
       this.props.getOwnRecipes();
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getAllRecipes2();
     this.props.getUser();
     this.props.getAllergies();
+  }
+
+  // if Props.recipes change (ie. user click different tab)
+  // display correct searched recipes
+  // without this, if search query exist, tab does not work
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.recipes.length !== prevProps.recipes.length &&
+      this.state.query
+    ) {
+      this.setState({
+        displayedRecipes: searchFunc(this.state.query, this.props.recipes)
+      });
+    }
   }
 
   // maybe filter the array?
@@ -126,12 +186,12 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
-  checkHandler = async personal => {
-    console.log('checkHandler personal = ', personal);
+  checkHandler = async checked => {
+    console.log('checkHandler checked = ', checked);
     await this.setState({
-      personalCheck: personal
+      personalCheck: checked
     });
-    if (this.state.personalCheck) {
+    if (checked) {
       this.props.getOwnRecipes();
     } else {
       this.props.getForeignRecipes();
@@ -158,8 +218,14 @@ class DisplayListRecipes extends Component {
           <Header as='h1' style={{ marginTop: '0', display: 'inline' }}>
             Recipes
           </Header>
+<<<<<<< HEAD
         <div className='header-icons'>
           <div className='dummy-for-flexbox' />
+=======
+          {!this.props.user.subscriptionid && (
+            <div className='dummy-for-flexbox' />
+          )}
+>>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
           {this.props.user.subscriptionid && (
             <Icon
               name='download'
@@ -170,7 +236,11 @@ class DisplayListRecipes extends Component {
           )}
         </div>
         <TabDiv>
-          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <DisplayTab
+            className='tab'
+            personalCheck={this.checkHandler}
+            isLogged={this.state.isLogged}
+          />
           <Form className='search'>
             <SimpleSearch
               query={this.state.query}
@@ -178,35 +248,40 @@ class DisplayListRecipes extends Component {
             />
           </Form>
         </TabDiv>
-
-        <DisplayListDiv>
-          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
-            <Card
-              style={{
-                width: '200px',
-                height: '200px',
-                margin: '10px',
-                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
-              }}
-            >
-              <Card.Content
+        <DisplayRecipesDiv>
+          <DisplayListDiv>
+            <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+              <Card
                 style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
+                  width: '200px',
+                  height: '200px',
+                  margin: '10px',
+                  boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
                 }}
               >
-                <Card.Header>Create a Recipe</Card.Header>
-                <Card.Description>
-                  <Icon name='plus circle' size='big' />
-                </Card.Description>
-              </Card.Content>
-            </Card>
-          </Link>
+                <Card.Content
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <Card.Header>Create a Recipe</Card.Header>
+                  <Card.Description>
+                    <Icon
+                      name='plus circle'
+                      size='big'
+                      style={{ color: ourColors.outlineColor }}
+                    />
+                  </Card.Description>
+                </Card.Content>
+              </Card>
+            </Link>
 
-          {this.displayDiv()}
-        </DisplayListDiv>
+            {this.displayDiv()}
+          </DisplayListDiv>
+        </DisplayRecipesDiv>
       </RecipeListPage>
     );
   }
@@ -223,5 +298,12 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
+  {
+    getAllRecipes,
+    getOwnRecipes,
+    getForeignRecipes,
+    getAllergies,
+    getUser,
+    getAllRecipes2
+  }
 )(DisplayListRecipes);

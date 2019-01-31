@@ -10,35 +10,64 @@ import { Button, Header, Responsive } from 'semantic-ui-react';
 const LandingDiv = styled.div`
   height: 100%;
   p {
-    margin: 0 auto 15px;
+    margin: 0 0 15px 52.5%;
     padding: 10px 0 10px 10px;
     max-width: 500px;
     text-align: left;
     line-height: 1.5;
+  }
+
+  @media (max-width: 1440px) {
+    p {
+      margin: 0 0 15px 50%;
+    }
+  }
+  @media (max-width: 1024px) {
+    p {
+      margin: 0 0 15px 45%;
+    }
+  }
+  @media (max-width: 768px) {
+    p {
+      margin: 0 0 15px 40%;
+    }
   }
 `;
 
 const Landing = props => {
   const headerStyles1 = () => {
     return {
+<<<<<<< HEAD
       fontFamily: `Trebuchet MS, Arial, Helvetica, sans-serif`,
+=======
+      fontFamily: `Montserrat`,
+>>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
       textAlign: 'center',
       fontSize: '7rem',
       fontWeight: 'normal',
-      margin: '10px 0 0 5%',
-      lineHeight: 1.2
+      margin: '75px 0 30px 35%'
     };
   };
   const headerStyles2 = () => {
     return {
-      fontFamily: `Roboto`,
+      fontFamily: `Montserrat`,
       textAlign: 'center',
       fontWeight: 'normal',
-      fontSize: '6rem',
-      margin: '0 0 30px'
+      fontSize: '5rem',
+      margin: '0 0 30px 35%'
+    };
+  };
+  const headerStyles3 = () => {
+    return {
+      fontFamily: `Montserrat`,
+      textAlign: 'right',
+      fontWeight: 'normal',
+      fontSize: '4rem',
+      margin: '0 5% 30px 0'
     };
   };
   return (
+<<<<<<< HEAD
     <LandingDiv>
       <Responsive style={{ height: '90vh' }} minWidth={501}>
         {/* <Header as='h1' style={headerStyles1()}>
@@ -50,16 +79,57 @@ const Landing = props => {
         </Header> */}
         <p style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
           Trouble finding recipes that meet all your dietary needs? Don't Eat That is the app for you! Upload or collect your own recipes here, and we will make it easy to see recipes that meet your nutritional standards.
+=======
+    <LandingDiv style={{ height: '85vh' }}>
+      <Responsive minWidth={769}>
+        <Header as='h1' style={headerStyles1()}>
+          DON'T EAT
+          <br />
+          THAT
+        </Header>
+        <p style={{ fontFamily: 'Roboto' }}>
+          Do you have trouble finding recipes that meet your dietary needs and
+          avoid your allergens? Don't Eat That is the app for you! Here you can
+          collect recipes or upload your own, and easily see which don't meet
+          your nutritional standards.
+>>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
         </p>
         <Button
           onClick={e => props.history.push('/recipes')}
-          style={{ background: ourColors.buttonColor, color: 'white' }}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '35%'
+          }}
         >
-          Demo Site!
+          Enter Site
         </Button>
       </Responsive>
-      <Responsive style={{ height: '90vh' }} maxWidth={500}>
+      <Responsive minWidth={501} maxWidth={768}>
         <Header as='h1' style={headerStyles2()}>
+          DON'T EAT
+          <br />
+          THAT
+        </Header>
+        <p style={{ fontFamily: 'Roboto', background: '#EFF3F4' }}>
+          Do you have trouble finding recipes that meet your dietary needs and
+          avoid your allergens? Don't Eat That is the app for you! Here you can
+          collect recipes or upload your own, and easily see which don't meet
+          your nutritional standards.
+        </p>
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '35%'
+          }}
+        >
+          Enter Site
+        </Button>
+      </Responsive>
+      <Responsive maxWidth={500}>
+        <Header as='h1' style={headerStyles3()}>
           Don't
           <br />
           Eat
@@ -70,7 +140,7 @@ const Landing = props => {
           onClick={e => props.history.push('/recipes')}
           style={{ background: ourColors.buttonColor, color: 'white' }}
         >
-          Demo Site!
+          Enter Site
         </Button>
       </Responsive>
     </LandingDiv>

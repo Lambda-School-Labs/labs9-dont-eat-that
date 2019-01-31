@@ -6,24 +6,23 @@ import ourColors from '../ColorScheme';
 // My own recipes and other people's recipes
 
 class DisplayTab extends React.Component {
-  state = { activeItem: 'Your Own' };
+  state = { activeItem: this.props.isLogged ? 'Your Own' : 'Other' };
 
-  handleItemClick = (e, { name, personal }) => {
+  handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
-    this.props.personalCheck(personal);
+    this.props.personalCheck(name === 'Your Own');
   };
 
   render() {
     const { activeItem } = this.state;
 
     return (
-      <Menu tabular>
+      <Menu tabular className='tab2'>
         <Menu.Item
           name='Your Own'
-          personal
-          active={activeItem === 'Your Own'}
+          active={activeItem === 'Your Own' && this.props.isLogged}
           style={
-            activeItem === 'Your Own'
+            activeItem === 'Your Own' && this.props.isLogged
               ? {
                   background: ourColors.formColor,
                   color: 'black'
@@ -33,10 +32,17 @@ class DisplayTab extends React.Component {
           onClick={this.handleItemClick}
         />
         <Menu.Item
+<<<<<<< HEAD
           name='Other Recipes'
           active={activeItem === 'Other Recipes'}
           style={
             activeItem === 'Other Recipes'
+=======
+          name='Other'
+          active={activeItem === 'Other' || !this.props.isLogged}
+          style={
+            activeItem === 'Other' || !this.props.isLogged
+>>>>>>> 9af30ed7a49a0af1c9e6660bbd09d398a19b40c1
               ? {
                   background: ourColors.formColor,
                   color: 'black'

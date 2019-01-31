@@ -40,24 +40,33 @@ class CheckoutForm extends React.Component {
           // marginLeft: '2.5%',
           // marginBottom: '15px',
           fontFamily: 'Roboto',
-          background: ourColors.formColor
+          background: ourColors.billingColor
         }}
       >
         <Table.Header>
           <Table.Row textAlign='center'>
             <Table.HeaderCell style={{ background: 'white' }} />
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Dishwasher
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Line Cook
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Executive Chef
             </Table.HeaderCell>
@@ -222,24 +231,33 @@ class CheckoutForm extends React.Component {
           // marginLeft: '2.5%',
           // marginBottom: '15px',
           fontFamily: 'Roboto',
-          background: ourColors.formColor
+          background: ourColors.billingColor
         }}
       >
         <Table.Header>
           <Table.Row textAlign='center'>
-            <Table.HeaderCell style={{ background: ourColors.formColor }} />
+            <Table.HeaderCell style={{ background: ourColors.billingColor }} />
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Dishwasher
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Line Cook
             </Table.HeaderCell>
             <Table.HeaderCell
-              style={{ background: ourColors.formColor, fontWeight: 'normal' }}
+              style={{
+                background: ourColors.billingColor,
+                fontWeight: 'normal'
+              }}
             >
               Executive Chef
             </Table.HeaderCell>
@@ -433,61 +451,173 @@ class CheckoutForm extends React.Component {
         <Header as='h1' style={{ marginBottom: 0 }}>
           Don't Eat That Subscription Plans
         </Header>
-        <Header as='h5' style={{ marginTop: 0, marginBottom: '5px' }}>
+        <Header as='h5' style={{ marginTop: 0, marginBottom: '15px' }}>
           Currently Selected Plan: {planName}
         </Header>
         <Responsive minWidth={768}>{this.desktopTable()}</Responsive>
         <Responsive maxWidth={767}>{this.mobileTable()}</Responsive>
-        <div style={{ width: '70%', margin: '0 auto', maxWidth: '500px' }}>
-          <Header
-            as='h3'
-            attached='top'
-            inverted
-            style={{ background: ourColors.menuColor, color: 'white' }}
+        <div
+          style={{
+            width: '80%',
+            maxWidth: '600px',
+            margin: '0 auto',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}
+        >
+          <Responsive
+            minWidth={940}
+            style={{ width: '50%', minWidth: '350px', marginRight: '10px' }}
           >
-            Pay with Card
-          </Header>
-          <Segment attached>
-            <CardElement />
-          </Segment>
+            <Header
+              as='h3'
+              attached='top'
+              style={{ background: ourColors.menuColor }}
+            >
+              Pay with Card
+            </Header>
+            <Segment attached>
+              <CardElement />
+            </Segment>
+          </Responsive>
+          <Responsive
+            maxWidth={939}
+            style={{ width: '100%', maxWidth: '500px' }}
+          >
+            <Header
+              as='h3'
+              attached='top'
+              style={{ background: ourColors.menuColor }}
+            >
+              Pay with Card
+            </Header>
+            <Segment attached>
+              <CardElement />
+            </Segment>
+          </Responsive>
+          {this.props.user.subscriptionid ? (
+            <React.Fragment>
+              <Responsive
+                minWidth={940}
+                style={{
+                  width: '25%',
+                  minWidth: '200px',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.inactiveButtonColor,
+                    color: 'white',
+                    marginBottom: '10px'
+                  }}
+                  disabled
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{ background: ourColors.buttonColor, color: 'white' }}
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+              <Responsive
+                maxWidth={939}
+                style={{
+                  minWidth: '200px',
+                  display: 'flex'
+                }}
+              >
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.inactiveButtonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                  disabled
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Responsive
+                minWidth={940}
+                style={{
+                  width: '25%',
+                  minWidth: '200px',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginBottom: '10px'
+                  }}
+                  disabled={!localStorage.getItem('uid')}
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{ background: ourColors.buttonColor, color: 'white' }}
+                  disabled
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+              <Responsive
+                maxWidth={939}
+                style={{
+                  minWidth: '200px',
+                  display: 'flex'
+                }}
+              >
+                <Button
+                  onClick={this.submit}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                  disabled={!localStorage.getItem('uid')}
+                >
+                  Subscribe
+                </Button>
+                <Button
+                  onClick={this.props.cancelSubscription}
+                  style={{
+                    background: ourColors.buttonColor,
+                    color: 'white',
+                    marginTop: '10px'
+                  }}
+                  disabled
+                >
+                  Cancel Subscription
+                </Button>
+              </Responsive>
+            </React.Fragment>
+          )}
         </div>
-        <br />
-        {this.props.user.subscriptionid ? (
-          <React.Fragment>
-            <Button
-              onClick={this.submit}
-              style={{
-                background: ourColors.inactiveButtonColor,
-                color: 'white'
-              }}
-              disabled
-            >
-              Subscribe
-            </Button>
-            <Button
-              onClick={this.props.cancelSubscription}
-              style={{ background: ourColors.warningColor, color: 'white' }}
-            >
-              Cancel Subscription
-            </Button>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <Button
-              onClick={this.submit}
-              style={{ background: ourColors.buttonColor, color: 'white' }}
-            >
-              Subscribe
-            </Button>
-            <Button
-              onClick={this.props.cancelSubscription}
-              style={{ background: ourColors.warningColor, color: 'white' }}
-              disabled
-            >
-              Cancel Subscription
-            </Button>
-          </React.Fragment>
-        )}
       </div>
     );
   }
