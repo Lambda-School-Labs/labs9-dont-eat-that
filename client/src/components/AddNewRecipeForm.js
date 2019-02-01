@@ -157,7 +157,6 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-
   unitHandler = (ev, data, rowNum) => {
     // console.log("data", data);
     // console.log("i", i);
@@ -174,45 +173,35 @@ class AddNewRecipeForm extends Component {
     // console.log("selected file", this.state.selectedFile[0])
 
     // if(this.state.selectedFile[0].name) {
-      // console.log("After if")
-    const imageUP = this.handleFileUpload(ev);
-    
+    // console.log("After if")
+    this.handleFileUpload(ev);
+
     setTimeout(() => {
-      console.log("after settimeout",imageUP);
-      // if (imageUP) {
-        // Convert quantities to numbers
-        let ingArray = this.state.ingredients;
-        for (let i = 0; i < ingArray.length; i++) {
-          ingArray[i].quantity = Number(ingArray[i].quantity);
-        }
-  
-        // Package up the recipe object to be sent to the API
-        // eslint-disable-next-line
-        const firebaseid = localStorage.getItem('uid');
-        let recipeObj = {
-          name: this.state.name,
-          description: this.state.description,
-          imageUrl: this.state.imageUrl,
-          firebaseid,
-          ingredients: ingArray
-        };
-        // Call the action to send this object to POST a recipe
-        this.props.addRecipe(recipeObj);
-        this.setState({
-          name: '',
-          description: '',
-          imageUrl: '',
-          ingredients: [emptyIng, emptyIng, emptyIng]
-        });
-        this.props.history.push('/recipes');
-        // }
+      let ingArray = this.state.ingredients;
+      for (let i = 0; i < ingArray.length; i++) {
+        ingArray[i].quantity = Number(ingArray[i].quantity);
+      }
 
-        
-      }, 2000)
-
-    // }
+      // Package up the recipe object to be sent to the API
+      const firebaseid = localStorage.getItem('uid');
+      let recipeObj = {
+        name: this.state.name,
+        description: this.state.description,
+        imageUrl: this.state.imageUrl,
+        firebaseid,
+        ingredients: ingArray
+      };
+      // Call the action to send this object to POST a recipe
+      this.props.addRecipe(recipeObj);
+      this.setState({
+        name: '',
+        description: '',
+        imageUrl: '',
+        ingredients: [emptyIng, emptyIng, emptyIng]
+      });
+      this.props.history.push('/recipes');
+    }, 2000);
     return;
-
   };
 
   onClickAutocomplete = (i, item) => {
@@ -322,7 +311,7 @@ class AddNewRecipeForm extends Component {
       return axios
         .post(URL, formData)
         .then(res => {
-          console.log("in axios res", res.data.imageUrl)
+          console.log('in axios res', res.data.imageUrl);
           this.setState({ imageUrl: res.data.imageUrl });
           // alert('Image ready to upload!');
           // return res.data.imageUrl;
@@ -370,7 +359,6 @@ class AddNewRecipeForm extends Component {
     ev.preventDefault();
     ev.stopPropagation();
   };
-
 
   onFileChange = ev => {
     console.log('file change', ev.target.files);

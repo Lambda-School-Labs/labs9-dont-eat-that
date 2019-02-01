@@ -197,7 +197,6 @@ class AddNewRecipeForm extends Component {
   unitHandler = (ev, data, rowNum) => {
     // Get what number of row on the form is being handled
     const copy = this.state.ingredients.slice();
-    console.log("copy",copy);
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
   };
@@ -205,18 +204,13 @@ class AddNewRecipeForm extends Component {
   submitHandler = ev => {
     ev.preventDefault();
     // Convert quantities to numbers
-    const imageUP = this.handleFileUpload(ev);
+    this.handleFileUpload(ev);
     setTimeout(() => {
-      // console.log("after settimeout",imageUP);
-      // if (imageUP) {
-
       let ingArray = this.state.ingredients;
       for (let i = 0; i < ingArray.length; i++) {
         ingArray[i].quantity = Number(ingArray[i].quantity);
       }
-  
       // Package up the recipe object to be sent to the API
-      // eslint-disable-next-line
       const firebaseid = localStorage.getItem('uid');
       let recipeObj = {
         name: this.state.name,
@@ -227,11 +221,14 @@ class AddNewRecipeForm extends Component {
       };
       // Call the action to send this object to POST a recipe
       this.props.editRecipe(this.props.match.params.id, recipeObj);
-      this.setState({ name: '', description: '', imageUrl: '', ingredients: this.state.ingredients.map(ingr => emptyIng) });
+      this.setState({
+        name: '',
+        description: '',
+        imageUrl: '',
+        ingredients: this.state.ingredients.map(ingr => emptyIng)
+      });
       this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
-
-    // }
-  }, 2000)
+    }, 2000);
   };
 
   onClickAutocomplete = (i, item) => {
@@ -327,25 +324,16 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    // console.log('choose file ev', ev);
-
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
     } else {
-      // console.log("selected File",this.state.selectedFile);
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      // console.log('name of Image', this.state.selectedFile[0].name);
-      // console.log("passing ev to submit",ev);
-      // this.submitHandler();
       return axios
         .post(URL, formData)
         .then(res => {
-          // console.log("in axios res", res)
           this.setState({ imageUrl: res.data.imageUrl });
-          // alert('Image ready to upload!');
-          // return res.data.imageUrl;
           return res.data.imageUrl;
         })
         .catch(err => {
@@ -364,7 +352,6 @@ class AddNewRecipeForm extends Component {
   dragLeaveListener = ev => {
     this.overRideEventDefaults(ev);
     this.dragEventCounter--;
-    console.log('Leaving', this.dragEventCounter);
     if (this.dragEventCounter === 0) {
       this.setState({ dragging: false });
     }
@@ -376,8 +363,6 @@ class AddNewRecipeForm extends Component {
     this.setState({ dragging: false });
     if (ev.dataTransfer.files) {
       this.setState({ selectedFile: ev.dataTransfer.files });
-
-      // console.log("dropListener",this.state.selectedFile);
     }
   };
 
