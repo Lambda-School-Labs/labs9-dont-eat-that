@@ -59,7 +59,7 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-        <label htmlFor='file'/>
+        <label htmlFor='file'>
           <input
             type='file'
             name='file'
@@ -74,7 +74,7 @@ const FileDropFunc = props => {
               color: 'white'
             }}
           />
-
+</label>
         {/* </Button> */}
 
         {/* <UploadButton onClick={console.log("i was clicked")}>

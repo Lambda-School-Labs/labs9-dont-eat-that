@@ -170,15 +170,15 @@ class AddNewRecipeForm extends Component {
 
   submitHandler = ev => {
     ev.preventDefault();
-    // console.log("Before if")
-    // console.log("selected file", this.state.selectedFile[0])
+    console.log("Before if")
+    console.log("selected file", this.state.selectedFile[0])
 
     // if(this.state.selectedFile[0].name) {
       // console.log("After if")
-      const imageUP = this.handleFileUpload(ev);
+      this.handleFileUpload(ev);
       
       setTimeout(() => {
-        // console.log("after settimeout",imageUP);
+        console.log("after settimeout", this.state.imageUrl);
         // if (imageUP) {
           // Convert quantities to numbers
           let ingArray = this.state.ingredients;
@@ -205,10 +205,10 @@ class AddNewRecipeForm extends Component {
             ingredients: [emptyIng, emptyIng, emptyIng]
           });
           this.props.history.push('/recipes');
-        // }
+//         }
 
         
-      }, 2000)
+      }, 4000)
 
     // }
     return;
@@ -495,6 +495,7 @@ class AddNewRecipeForm extends Component {
               handleInputSelectedFile={this.handleInputSelectedFile}
               onFileChange={this.onFileChange}
               imageName={this.state.imageName}
+              submitHandler={this.submitHandler}
             />
 
             <Form.Field
