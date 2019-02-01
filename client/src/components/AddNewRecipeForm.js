@@ -175,36 +175,36 @@ class AddNewRecipeForm extends Component {
 
     // if(this.state.selectedFile[0].name) {
       // console.log("After if")
-      const imageUP = this.handleFileUpload(ev);
-      
-      setTimeout(() => {
-        // console.log("after settimeout",imageUP);
-        // if (imageUP) {
-          // Convert quantities to numbers
-          let ingArray = this.state.ingredients;
-          for (let i = 0; i < ingArray.length; i++) {
-            ingArray[i].quantity = Number(ingArray[i].quantity);
-          }
+    const imageUP = this.handleFileUpload(ev);
     
-          // Package up the recipe object to be sent to the API
-          // eslint-disable-next-line
-          const firebaseid = localStorage.getItem('uid');
-          let recipeObj = {
-            name: this.state.name,
-            description: this.state.description,
-            imageUrl: this.state.imageUrl,
-            firebaseid,
-            ingredients: ingArray
-          };
-          // Call the action to send this object to POST a recipe
-          this.props.addRecipe(recipeObj);
-          this.setState({
-            name: '',
-            description: '',
-            imageUrl: '',
-            ingredients: [emptyIng, emptyIng, emptyIng]
-          });
-          this.props.history.push('/recipes');
+    setTimeout(() => {
+      console.log("after settimeout",imageUP);
+      // if (imageUP) {
+        // Convert quantities to numbers
+        let ingArray = this.state.ingredients;
+        for (let i = 0; i < ingArray.length; i++) {
+          ingArray[i].quantity = Number(ingArray[i].quantity);
+        }
+  
+        // Package up the recipe object to be sent to the API
+        // eslint-disable-next-line
+        const firebaseid = localStorage.getItem('uid');
+        let recipeObj = {
+          name: this.state.name,
+          description: this.state.description,
+          imageUrl: this.state.imageUrl,
+          firebaseid,
+          ingredients: ingArray
+        };
+        // Call the action to send this object to POST a recipe
+        this.props.addRecipe(recipeObj);
+        this.setState({
+          name: '',
+          description: '',
+          imageUrl: '',
+          ingredients: [emptyIng, emptyIng, emptyIng]
+        });
+        this.props.history.push('/recipes');
         // }
 
         
@@ -312,6 +312,7 @@ class AddNewRecipeForm extends Component {
     //if user clicks upload with no image this will catch that and not break the code
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
+      console.log('empty imageUrl', this.state.selectedFile);
     } else {
       // console.log("selected File",this.state.selectedFile);
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
@@ -321,7 +322,7 @@ class AddNewRecipeForm extends Component {
       return axios
         .post(URL, formData)
         .then(res => {
-          // console.log("in axios res", res)
+          console.log("in axios res", res.data.imageUrl)
           this.setState({ imageUrl: res.data.imageUrl });
           // alert('Image ready to upload!');
           // return res.data.imageUrl;

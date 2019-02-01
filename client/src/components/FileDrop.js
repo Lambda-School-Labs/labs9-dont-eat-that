@@ -64,6 +64,7 @@ const FileDropFunc = props => {
             type='file'
             name='file'
             id='file'
+            onChange={props.handleInputSelectedFile}
             className='inputfile'
             style={{
               margin: '10px',
