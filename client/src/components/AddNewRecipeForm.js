@@ -8,6 +8,7 @@ import styled from 'styled-components';
 
 import ourColors from '../ColorScheme';
 import FileDropFunc from './FileDrop';
+import fractionParser from './util/fractionHandler.js';
 
 // const AutoComDiv = styled.div`
 //   width: 500px;
@@ -174,7 +175,7 @@ class AddNewRecipeForm extends Component {
     // setTimeout(() => {
     let ingArray = this.state.ingredients;
     for (let i = 0; i < ingArray.length; i++) {
-      ingArray[i].quantity = Number(ingArray[i].quantity);
+      ingArray[i].quantity = fractionParser(ingArray[i].quantity);
     }
 
     // Package up the recipe object to be sent to the API
