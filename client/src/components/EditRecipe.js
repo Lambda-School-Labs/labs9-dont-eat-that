@@ -141,7 +141,7 @@ class AddNewRecipeForm extends Component {
           let otherFoc = [];
           for (let i = 0; i < value - prevNumIng; i++) {
             // getting extra rows for ing and foc
-            otherIng.push({ name: '', quantity: '', unit: '' });
+            otherIng.push(emptyIng);
             otherFoc.push({ focus: false });
           }
           return {
