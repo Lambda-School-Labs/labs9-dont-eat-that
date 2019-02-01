@@ -10,6 +10,7 @@ import TopRecipeCard from './topRecipeCard.js';
 const TopRatedRecipes = styled.div`
   width: 100% !important;
   padding: 0 !important;
+  margin-top: 40px !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,7 +39,7 @@ class DisplayTopRecipes extends Component {
     // it caused error.  so I assing one component each.
     // would be nice to put all components into one variable
 
-    for (let i = 0; i < 3 && i < displayRecipe.length; i++)
+    for (let i = 0; i < Math.min(3, displayRecipe.length); i++)
       displayCard[i] = (
         <TopRecipeCard recipe={displayRecipe[i]} ranking={i + 1} />
       );
@@ -56,10 +57,7 @@ class DisplayTopRecipes extends Component {
         >
           Top Rated Recipes
         </Header>
-
-        {displayCard[0] && displayCard[0]}
-        {displayCard[1] && displayCard[1]}
-        {displayCard[2] && displayCard[2]}
+        {displayCard}
       </TopRatedRecipes>
     );
   }

@@ -37,7 +37,10 @@ class SideMenu extends React.Component {
       return null;
     } else {
       return (
-        <Responsive minWidth={771}>
+        <Responsive
+          minWidth={771}
+          style={{ position: 'fixed', zIndex: '10' }}
+        >
           <Menu
             pointing
             vertical
@@ -95,16 +98,6 @@ class SideMenu extends React.Component {
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >
               <Message.Header>Signup/Login for Full Features!</Message.Header>
-            </Message>
-          ) : null}
-          {(window.location.pathname === '/recipes/new' &&
-            localStorage.getItem('uid')) ||
-          window.location.pathname.indexOf('/edit') > 0 ? (
-            <Message
-              style={{ maxWidth: '240px', background: ourColors.formColor }}
-            >
-              <Message.Header>Image Upload</Message.Header>
-              <p>Drop a file or browse an image, then hit upload image!</p>
             </Message>
           ) : null}
           {window.location.pathname === '/settings' &&
