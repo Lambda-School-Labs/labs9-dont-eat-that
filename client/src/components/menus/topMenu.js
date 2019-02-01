@@ -97,7 +97,11 @@ const TopMenu = props => {
     <Menu
       className='topMenu'
       size='small'
-      style={{ background: ourColors.menuColor }}
+      style={{
+        background: ourColors.menuColor,
+        position: 'fixed',
+        zIndex: '10'
+      }}
     >
       <Responsive minWidth={771}>
         <NavLink to='/'>

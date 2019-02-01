@@ -60,6 +60,7 @@ class App extends Component {
             className='navigationBar'
             isLoggedIn={this.state.isLoggedIn}
           />
+          <div style={{ zIndex: '5', width: '100%', height: '60px' }} />
           <div className='mainDisplay'>
             <SideMenu />
             <MainDisplaySection />
