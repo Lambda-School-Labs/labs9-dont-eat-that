@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import { Form, Segment, Header, Image } from 'semantic-ui-react';
+import { Form, Segment, Header, Image, Popup } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
@@ -201,34 +201,34 @@ class AddNewRecipeForm extends Component {
     this.setState({ ingredients: copy });
   };
 
-  submitHandler = ev => {
+  submitHandler = async ev => {
     ev.preventDefault();
     // Convert quantities to numbers
-    this.handleFileUpload(ev);
-    setTimeout(() => {
-      let ingArray = this.state.ingredients;
-      for (let i = 0; i < ingArray.length; i++) {
-        ingArray[i].quantity = Number(ingArray[i].quantity);
-      }
-      // Package up the recipe object to be sent to the API
-      const firebaseid = localStorage.getItem('uid');
-      let recipeObj = {
-        name: this.state.name,
-        description: this.state.description,
-        imageUrl: this.state.imageUrl,
-        firebaseid,
-        ingredients: ingArray
-      };
-      // Call the action to send this object to POST a recipe
-      this.props.editRecipe(this.props.match.params.id, recipeObj);
-      this.setState({
-        name: '',
-        description: '',
-        imageUrl: '',
-        ingredients: this.state.ingredients.map(ingr => emptyIng)
-      });
-      this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
-    }, 2000);
+    await this.handleFileUpload(ev);
+    // setTimeout(() => {
+    let ingArray = this.state.ingredients;
+    for (let i = 0; i < ingArray.length; i++) {
+      ingArray[i].quantity = Number(ingArray[i].quantity);
+    }
+    // Package up the recipe object to be sent to the API
+    const firebaseid = localStorage.getItem('uid');
+    let recipeObj = {
+      name: this.state.name,
+      description: this.state.description,
+      imageUrl: this.state.imageUrl,
+      firebaseid,
+      ingredients: ingArray
+    };
+    // Call the action to send this object to POST a recipe
+    this.props.editRecipe(this.props.match.params.id, recipeObj);
+    this.setState({
+      name: '',
+      description: '',
+      imageUrl: '',
+      ingredients: this.state.ingredients.map(ingr => emptyIng)
+    });
+    this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
+    // }, 2000);
   };
 
   onClickAutocomplete = (i, item) => {
@@ -321,7 +321,7 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-  handleFileUpload = ev => {
+  handleFileUpload = async ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
@@ -330,7 +330,7 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      return axios
+      return await axios
         .post(URL, formData)
         .then(res => {
           this.setState({ imageUrl: res.data.imageUrl });
@@ -384,7 +384,7 @@ class AddNewRecipeForm extends Component {
   };
 
   unitsListWait = () => {
-    setTimeout(() => this.setState({ unitsDone: true }), 2000);
+    setTimeout(() => this.setState({ unitsDone: true }), 1000);
   };
 
   render() {
@@ -581,15 +581,20 @@ class AddNewRecipeForm extends Component {
                     <Form.Group
                       style={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Form.Button
-                        type='submit'
-                        style={{
-                          background: ourColors.buttonColor,
-                          color: 'white'
-                        }}
-                      >
-                        Save Recipe
-                      </Form.Button>
+                      <Popup
+                        trigger={
+                          <Form.Button
+                            type='submit'
+                            style={{
+                              background: ourColors.buttonColor,
+                              color: 'white'
+                            }}
+                          >
+                            Save Recipe
+                          </Form.Button>
+                        }
+                        content='Submissions Submissions take time depending on the image size!'
+                      />
                       <Form.Button
                         onClick={() =>
                           this.props.history.push(
