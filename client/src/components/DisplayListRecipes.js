@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Card, Icon, Header } from 'semantic-ui-react';
+import { Form, Card, Icon, Header, Message } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme';
 
@@ -12,7 +12,8 @@ import {
   getForeignRecipes,
   getUser,
   getAllergies,
-  getAllRecipes2
+  getAllRecipes2,
+  removeAddRecipeError
 } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
@@ -275,6 +276,22 @@ class DisplayListRecipes extends Component {
             {this.displayDiv()}
           </DisplayListDiv>
         </DisplayRecipesDiv>
+        {this.props.addRecipeError && (
+          <Message
+            onClick={this.props.removeAddRecipeError}
+            style={{
+              position: 'absolute',
+              top: '41.6px',
+              right: '5px',
+              textAlign: 'left',
+              zIndex: '5'
+            }}
+            negative
+          >
+            <Message.Header>Add/Import Recipe Failed</Message.Header>
+            <p>For imports, please try another recipe or website.</p>
+          </Message>
+        )}
       </RecipeListPage>
     );
   }
@@ -283,6 +300,7 @@ class DisplayListRecipes extends Component {
 const mapStateToProps = state => {
   return {
     recipes: state.recipesReducer.recipes,
+    addRecipeError: state.recipesReducer.addRecipeError,
     error: state.recipesReducer.error,
     allergies: state.usersReducer.user.allergies,
     user: state.usersReducer.user
@@ -297,6 +315,7 @@ export default connect(
     getForeignRecipes,
     getAllergies,
     getUser,
-    getAllRecipes2
+    getAllRecipes2,
+    removeAddRecipeError
   }
 )(DisplayListRecipes);

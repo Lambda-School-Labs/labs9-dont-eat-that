@@ -6,7 +6,8 @@ const initialState = {
   recipes2: [],
   recipe: null,
   error: null,
-  rating: null
+  rating: null,
+  addRecipeError: false
 };
 
 export const recipesReducer = (state = initialState, action) => {
@@ -43,6 +44,10 @@ export const recipesReducer = (state = initialState, action) => {
       };
     case actionTypes.REMOVE_USER:
       return initialState;
+    case actionTypes.ADD_RECIPE_ERROR:
+      return { ...state, addRecipeError: true };
+    case actionTypes.REMOVE_ADD_RECIPE_ERROR:
+      return { ...state, addRecipeError: false };
     case actionTypes.ERROR:
       return {
         ...state,
