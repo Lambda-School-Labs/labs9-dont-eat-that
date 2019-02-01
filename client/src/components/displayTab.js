@@ -27,7 +27,10 @@ class DisplayTab extends React.Component {
                   background: ourColors.formColor,
                   color: 'black'
                 }
-              : null
+              : {
+                  cursor: 'default',
+                  color: 'gray'
+                }
           }
           onClick={this.handleItemClick}
         />
