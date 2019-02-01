@@ -21,7 +21,7 @@ const AutoComItemsDiv = styled.div`
   right: 0;
   border: 1px solid #d4d4d4;
   z-index: 10;
-  top : 35px;
+  top: 35px;
 
   div {
     display: flex;
@@ -194,28 +194,43 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+  unitHandler = (ev, data, rowNum) => {
+    // Get what number of row on the form is being handled
+    const copy = this.state.ingredients.slice();
+    copy[rowNum].unit = data.value;
+    this.setState({ ingredients: copy });
+  };
+
   submitHandler = ev => {
     ev.preventDefault();
     // Convert quantities to numbers
-    let ingArray = this.state.ingredients;
-    for (let i = 0; i < ingArray.length; i++) {
-      ingArray[i].quantity = Number(ingArray[i].quantity);
-    }
+    const imageUP = this.handleFileUpload(ev);
+    setTimeout(() => {
+      // console.log("after settimeout",imageUP);
+      // if (imageUP) {
 
-    // Package up the recipe object to be sent to the API
-    // eslint-disable-next-line
-    const firebaseid = localStorage.getItem('uid');
-    let recipeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      imageUrl: this.state.imageUrl,
-      firebaseid,
-      ingredients: ingArray
-    };
-    // Call the action to send this object to POST a recipe
-    this.props.editRecipe(this.props.match.params.id, recipeObj);
-    this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
-    this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
+      let ingArray = this.state.ingredients;
+      for (let i = 0; i < ingArray.length; i++) {
+        ingArray[i].quantity = Number(ingArray[i].quantity);
+      }
+  
+      // Package up the recipe object to be sent to the API
+      // eslint-disable-next-line
+      const firebaseid = localStorage.getItem('uid');
+      let recipeObj = {
+        name: this.state.name,
+        description: this.state.description,
+        imageUrl: this.state.imageUrl,
+        firebaseid,
+        ingredients: ingArray
+      };
+      // Call the action to send this object to POST a recipe
+      this.props.editRecipe(this.props.match.params.id, recipeObj);
+      this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
+      this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
+
+    // }
+  }, 2000)
   };
 
   onClickAutocomplete = (i, item) => {
@@ -237,6 +252,14 @@ class AddNewRecipeForm extends Component {
     let focuses = this.state.focuses.slice();
     focuses[index].focus = false;
     this.setState({ focuses });
+  };
+
+  onBlurTimeout = index => {
+    setTimeout(() => {
+      let focuses = this.state.focuses.slice();
+      focuses[index].focus = false;
+      this.setState({ focuses });
+    }, 100);
   };
 
   checkUnits = ev => {
@@ -303,18 +326,26 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
+    // console.log('choose file ev', ev);
+
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
-      console.log('not setting image');
     } else {
+      // console.log("selected File",this.state.selectedFile);
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      axios
+      // console.log('name of Image', this.state.selectedFile[0].name);
+      // console.log("passing ev to submit",ev);
+      // this.submitHandler();
+      return axios
         .post(URL, formData)
         .then(res => {
-          this.setState({ imageUrl: res.data.imageUrl, imageReady: true });
-          alert('Image ready to upload!');
+          // console.log("in axios res", res)
+          this.setState({ imageUrl: res.data.imageUrl });
+          // alert('Image ready to upload!');
+          // return res.data.imageUrl;
+          return res.data.imageUrl;
         })
         .catch(err => {
           console.log(err);
@@ -372,18 +403,35 @@ class AddNewRecipeForm extends Component {
 
   render() {
     // Build the array of HTML inputs that will get inserted into the form
-    this.unitsListWait();
+
+    // added below if statement to call unitsListWatch once
+    // without if, unitsListatch is keep looping
+    if (!this.state.unitsDone) this.unitsListWait();
+
     if (this.props.recipe && this.state.unitsDone) {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
         this.state.ingredients[i].unitsList.map(unit =>
-          unitOptions.push({ value: unit, text: unit })
+          unitOptions.push({
+            value: unit,
+            text: unit,
+            // added below to prevent warning in console.
+            // warning said same keys are used for multiple children
+            key: `unit${Math.random() * 1000}`
+          })
         );
         ingredientRows.push(
           <Form.Group key={`row${i}`}>
             {/* <AutoComDiv> */}
-            <Form.Input width='10' onBlur={this.checkUnits} name={`name${i}`}>
+            <Form.Input
+              width='10'
+              onBlur={e => {
+                this.checkUnits(e);
+                this.onBlurTimeout(i);
+              }}
+              name={`name${i}`}
+            >
               <input
                 type='text'
                 placeholder='Ingredient Name'
@@ -395,7 +443,6 @@ class AddNewRecipeForm extends Component {
                   this.ingHandler(e);
                   this.props.autoComIng(this.state.ingredients[i].name);
                 }}
-                // onBlur={this.checkUnits}
                 style={this.ingAllergyWarning(i)}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (
@@ -424,13 +471,13 @@ class AddNewRecipeForm extends Component {
                 onFocus={() => this.onBlur(i)}
               />
             </Form.Input>
-            <Form.Select width='5' options={unitOptions} />
-            <select name={`unit${i}`} onChange={this.ingHandler}>
-              {this.state.ingredients[i].unitsList &&
-                this.state.ingredients[i].unitsList.map(unit => (
-                  <option value={unit}>{unit}</option>
-                ))}
-            </select>
+            <Form.Select
+              width='5'
+              options={unitOptions}
+              value={this.state.ingredients[i].unit}
+              placeholder={this.state.ingredients[i].unit}
+              onChange={(ev, data) => this.unitHandler(ev, data, i)}
+            />
             <br />
           </Form.Group>
         );

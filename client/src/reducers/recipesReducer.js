@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/index';
 const initialState = {
   fetching: false,
   recipes: [],
+  recipes2: [],
   recipe: null,
   error: null,
   rating: null
@@ -16,6 +17,8 @@ export const recipesReducer = (state = initialState, action) => {
       return { ...state, gettingRecipe: true };
     case actionTypes.GET_RECIPES:
       return { ...state, recipes: action.payload, gettingRecipes: false };
+    case actionTypes.GET_RECIPES2:
+      return { ...state, recipes2: action.payload, gettingRecipes: false };
     case actionTypes.GET_OWN_RECIPES:
       return { ...state, recipes: action.payload, gettingRecipes: false };
     case actionTypes.GET_FOREIGN_RECIPES:

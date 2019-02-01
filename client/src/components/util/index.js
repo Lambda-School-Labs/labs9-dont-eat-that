@@ -1,3 +1,20 @@
+export const getTopRatedRecipes = recipesArray => {
+  // console.log('recipesArray = ', recipesArray);
+  // console.log('recipe.ratins[0].rating', recipesArray[0]);
+
+  const compare = (a, b) => {
+    if (a.ratings.length > 0 && b.ratings.length > 0) {
+      console.log('Compared done');
+      return b.ratings[0].rating - a.ratings[0].rating;
+    }
+    if (a.ratings.length > 0) return -1;
+
+    return 1;
+  };
+
+  return recipesArray.sort(compare);
+};
+
 export const searchFunc = (query, recipes) => {
   // checkIngredient function checks if a recipe's ingredient names has search query
   // and returns true or false
@@ -14,7 +31,7 @@ export const searchFunc = (query, recipes) => {
     return result.length > 0 ? true : false;
   };
   // returns recipes that has search query in recipe name or ingredient name
-  console.log('Search index.js recipes = ', recipes);
+  // console.log('Search index.js recipes = ', recipes);
   return recipes.filter(recipe => {
     // let recipeName = recipe.name.toUpperCase();
 
@@ -97,4 +114,15 @@ export const downloadRecipeToCSV = recipes => {
   link.setAttribute('href', encodeURI(csv));
   link.setAttribute('download', filename);
   link.click();
+};
+
+export const ratingsFunc = recipe => {
+  if (!recipe.ratings || !recipe.ratings[0]) {
+    return 0;
+  } else {
+    const ratingArr = recipe.ratings.map(rating => rating.rating);
+    const avgRating =
+      ratingArr.reduce((acc, num) => acc + num, 0) / recipe.ratings.length;
+    return Math.round(avgRating);
+  }
 };
