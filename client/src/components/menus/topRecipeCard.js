@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Rating, Card, Image } from 'semantic-ui-react';
+
 import ourColors from '../../ColorScheme.js';
 import { ratingsFunc } from '../util';
 import defaultImage from '../../images/defaultimage.jpeg';
@@ -41,7 +42,7 @@ class TopRecipeCard extends React.Component {
                 overflow: 'hidden',
                 fontSize: '1rem',
                 width: '55%',
-                maxHeight: '80px'
+                maxHeight: '70px'
               }}
             >
               #{this.props.ranking} : {this.props.recipe.name}
