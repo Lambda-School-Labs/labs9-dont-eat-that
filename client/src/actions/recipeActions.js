@@ -21,6 +21,8 @@ export const AUTOCOM_ING = 'AUTOCOM_ING';
 export const RESET_AUTOCOM = 'RESET_AUTOCOM';
 export const DELETE_ALLERGY = 'DELETE_ALLERGY';
 // export const FILE_UPLOAD = "FILE_UPLOAD";
+export const ADD_RECIPE_ERROR = 'ADD_RECIPE_ERROR';
+export const REMOVE_ADD_RECIPE_ERROR = 'REMOVE_ADD_RECIPE_ERROR';
 export const ERROR = 'ERROR';
 
 const URL = 'https://donteatthat.herokuapp.com';
@@ -73,7 +75,11 @@ export const addRecipe = recipe => dispatch => {
   axios
     .post(`${URL}/api/recipes/create`, recipe)
     .then(res => dispatch({ type: ADD_RECIPE, payload: res.data }))
-    .catch(err => dispatch({ type: ERROR, payload: err }));
+    .catch(err => dispatch({ type: ADD_RECIPE_ERROR, payload: err }));
+};
+
+export const removeAddRecipeError = () => dispatch => {
+  dispatch({ type: REMOVE_ADD_RECIPE_ERROR, payload: null });
 };
 
 export const editRecipe = (id, recipe) => (dispatch, getState) => {

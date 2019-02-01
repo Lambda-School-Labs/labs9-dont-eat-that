@@ -10,7 +10,7 @@ import TopRecipeCard from './topRecipeCard.js';
 const TopRatedRecipes = styled.div`
   width: 100% !important;
   padding: 0 !important;
-  margin-top: 40px !important;
+  margin-top: 16px !important;
   display: flex;
   flex-direction: column;
   align-items: center;

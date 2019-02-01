@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addRecipe } from '../actions';
-import { Form, Button, Segment, Responsive, Image } from 'semantic-ui-react';
+import {
+  Form,
+  Button,
+  Segment,
+  Responsive,
+  Image,
+  Message
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 import axios from 'axios';
 
@@ -41,7 +48,8 @@ class AddFromWeb extends Component {
       baseUrl:
         'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract',
       xRapidApiKey: process.env.REACT_APP_SPOONACULAR_KEY,
-      targetUrl: ''
+      targetUrl: '',
+      error: ''
     };
   }
 
@@ -84,11 +92,15 @@ class AddFromWeb extends Component {
         // Call the action to send this object to POST a recipe
         this.props.addRecipe(recipeObj);
         // Reset the state
-        this.setState({ targetUrl: '' });
+        this.setState({ targetUrl: '', error: '' });
         // Redirect the user to the recipes list page
         this.props.history.push('/recipes');
       })
       .catch(err => {
+        this.setState({
+          error:
+            'Unable to import from the url. Please try another recipe or another site.'
+        });
         console.log({ error: err });
       });
   };
@@ -179,6 +191,12 @@ class AddFromWeb extends Component {
             </Form.Group>
           </Form>
         </Segment>
+        {this.state.error && (
+          <Message negative>
+            <Message.Header>Import Recipe Failure</Message.Header>
+            <p>{this.state.error}</p>
+          </Message>
+        )}
       </ImportRecipeDiv>
     );
   }
