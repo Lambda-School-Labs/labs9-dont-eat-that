@@ -27,7 +27,9 @@ class DisplayTab extends React.Component {
                   background: ourColors.formColor,
                   color: 'black'
                 }
-              : null
+              : this.props.isLogged
+              ? null
+              : { cursor: 'not-allowed' }
           }
           onClick={this.handleItemClick}
         />
