@@ -74,7 +74,7 @@ const FileDropFunc = props => {
         >
           Choose File
         </label>
-        <input type='file' id='file' style={{visibility:'hidden'}} />
+        <input type='file' id='file' style={{visibility:'hidden'}}  />
 
         {/* </Button> */}
 

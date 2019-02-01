@@ -327,6 +327,9 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
+      // console.log('name of Image', this.state.selectedFile[0].name);
+      // console.log("passing ev to submit",ev);
+      // this.submitHandler();
       return axios
         .post(URL, formData)
         .then(res => {

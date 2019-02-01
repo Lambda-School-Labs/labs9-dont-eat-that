@@ -157,6 +157,7 @@ class AddNewRecipeForm extends Component {
     }
   };
 
+
   unitHandler = (ev, data, rowNum) => {
     // console.log("data", data);
     // console.log("i", i);
@@ -169,31 +170,49 @@ class AddNewRecipeForm extends Component {
 
   submitHandler = ev => {
     ev.preventDefault();
-    // Convert quantities to numbers
-    let ingArray = this.state.ingredients;
-    for (let i = 0; i < ingArray.length; i++) {
-      ingArray[i].quantity = Number(ingArray[i].quantity);
-    }
+    // console.log("Before if")
+    // console.log("selected file", this.state.selectedFile[0])
 
-    // Package up the recipe object to be sent to the API
-    // eslint-disable-next-line
-    const firebaseid = localStorage.getItem('uid');
-    let recipeObj = {
-      name: this.state.name,
-      description: this.state.description,
-      imageUrl: this.state.imageUrl,
-      firebaseid,
-      ingredients: ingArray
-    };
-    // Call the action to send this object to POST a recipe
-    this.props.addRecipe(recipeObj);
-    this.setState({
-      name: '',
-      description: '',
-      imageUrl: '',
-      ingredients: [emptyIng, emptyIng, emptyIng]
-    });
-    this.props.history.push('/recipes');
+    // if(this.state.selectedFile[0].name) {
+      // console.log("After if")
+      const imageUP = this.handleFileUpload(ev);
+      
+      setTimeout(() => {
+        // console.log("after settimeout",imageUP);
+        // if (imageUP) {
+          // Convert quantities to numbers
+          let ingArray = this.state.ingredients;
+          for (let i = 0; i < ingArray.length; i++) {
+            ingArray[i].quantity = Number(ingArray[i].quantity);
+          }
+    
+          // Package up the recipe object to be sent to the API
+          // eslint-disable-next-line
+          const firebaseid = localStorage.getItem('uid');
+          let recipeObj = {
+            name: this.state.name,
+            description: this.state.description,
+            imageUrl: this.state.imageUrl,
+            firebaseid,
+            ingredients: ingArray
+          };
+          // Call the action to send this object to POST a recipe
+          this.props.addRecipe(recipeObj);
+          this.setState({
+            name: '',
+            description: '',
+            imageUrl: '',
+            ingredients: [emptyIng, emptyIng, emptyIng]
+          });
+          this.props.history.push('/recipes');
+        // }
+
+        
+      }, 2000)
+
+    // }
+    return;
+
   };
 
   onClickAutocomplete = (i, item) => {
@@ -291,7 +310,6 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
     } else {
@@ -299,12 +317,15 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      console.log('name of Image', this.state.selectedFile[0].name);
-      axios
+
+      return axios
         .post(URL, formData)
         .then(res => {
+          // console.log("in axios res", res)
           this.setState({ imageUrl: res.data.imageUrl });
-          alert('Image ready to upload!');
+          // alert('Image ready to upload!');
+          // return res.data.imageUrl;
+          return res.data.imageUrl;
         })
         .catch(err => {
           console.log(err);
@@ -314,6 +335,7 @@ class AddNewRecipeForm extends Component {
 
   handleInputSelectedFile = ev => {
     ev.preventDefault();
+    console.log(ev.target.files);
     this.setState({
       selectedFile: ev.target.files
     });
@@ -348,10 +370,6 @@ class AddNewRecipeForm extends Component {
     ev.stopPropagation();
   };
 
-  onSelectFileClick = ev => {
-    this.overRideEventDefaults(ev);
-    this.fileUploaderInput() && this.fileUploaderInput.click();
-  };
 
   onFileChange = ev => {
     console.log('file change', ev.target.files);
