@@ -197,6 +197,7 @@ class AddNewRecipeForm extends Component {
   unitHandler = (ev, data, rowNum) => {
     // Get what number of row on the form is being handled
     const copy = this.state.ingredients.slice();
+    console.log("copy",copy);
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
   };
@@ -226,7 +227,7 @@ class AddNewRecipeForm extends Component {
       };
       // Call the action to send this object to POST a recipe
       this.props.editRecipe(this.props.match.params.id, recipeObj);
-      this.setState({ name: '', description: '', imageUrl: '', ingredients: [] });
+      this.setState({ name: '', description: '', imageUrl: '', ingredients: this.state.ingredients.map(ingr => emptyIng) });
       this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
 
     // }
