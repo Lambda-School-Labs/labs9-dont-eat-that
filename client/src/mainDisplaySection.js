@@ -17,7 +17,12 @@ import Settings from './components/Settings';
 import ConditionalLanding from './components/Landing';
 
 const MainDisplayDiv = styled.div`
+  margin-left: 240px;
   padding-bottom: 40px;
+
+  @media (max-width: 770px) {
+    margin-left: 30px;
+  }
 `;
 
 class MainDisplaySection extends Component {

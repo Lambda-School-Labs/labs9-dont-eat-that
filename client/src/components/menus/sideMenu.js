@@ -37,7 +37,10 @@ class SideMenu extends React.Component {
       return null;
     } else {
       return (
-        <Responsive minWidth={771}>
+        <Responsive
+          minWidth={771}
+          style={{ position: 'fixed', zIndex: '10' }}
+        >
           <Menu
             pointing
             vertical
