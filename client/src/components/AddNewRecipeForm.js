@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import { addRecipe, autoComIng, resetAutoCom, getAllergies } from '../actions';
-import { Form, Segment, Header, Popup } from 'semantic-ui-react';
+import { Form, Segment, Header, Popup, Icon } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import ourColors from '../ColorScheme';
@@ -159,14 +159,20 @@ class AddNewRecipeForm extends Component {
   };
 
   unitHandler = (ev, data, rowNum) => {
-    // console.log("data", data);
-    // console.log("i", i);
-    // Get what number of row on the form is being handled
-    // const rowNum = Number(ev.target.name.slice(4));
     const copy = this.state.ingredients.slice();
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
   };
+
+  deleteIngredient = (ev, rowNum) => {
+    let ingCopy = this.state.ingredients;
+    const newIngNum = this.state.numIngredients - 1;
+    ingCopy.splice(rowNum, 1);
+    this.setState({
+      numIngredients: newIngNum,
+      ingredients: ingCopy
+    });
+  }
 
   submitHandler = async ev => {
     ev.preventDefault();
@@ -427,6 +433,12 @@ class AddNewRecipeForm extends Component {
             value={this.state.ingredients[i].unit}
             options={unitOptions}
             onChange={(ev, data) => this.unitHandler(ev, data, i)}
+          />
+          <Icon
+            name='delete'
+            size='large'
+            onClick={ev => this.deleteIngredient(ev, i)}
+            style={{ cursor: 'pointer', color: ourColors.buttonColor, marginTop: '8px' }}
           />
         </Form.Group>
       );

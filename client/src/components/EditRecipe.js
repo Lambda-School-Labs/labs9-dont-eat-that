@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import { Form, Segment, Header, Image, Popup } from 'semantic-ui-react';
+import { Form, Segment, Header, Image, Popup, Icon } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
@@ -205,6 +205,16 @@ class EditRecipeForm extends Component {
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
   };
+
+  deleteIngredient = (ev, rowNum) => {
+    let ingCopy = this.state.ingredients;
+    const newIngNum = this.state.numIngredients - 1;
+    ingCopy.splice(rowNum, 1);
+    this.setState({
+      numIngredients: newIngNum,
+      ingredients: ingCopy
+    });
+  }
 
   submitHandler = async ev => {
     ev.preventDefault();
@@ -473,7 +483,12 @@ class EditRecipeForm extends Component {
               placeholder={this.state.ingredients[i].unit}
               onChange={(ev, data) => this.unitHandler(ev, data, i)}
             />
-            <br />
+            <Icon
+              name='delete'
+              size='large'
+              onClick={ev => this.deleteIngredient(ev, i)}
+              style={{ cursor: 'pointer', color: ourColors.buttonColor, marginTop: '8px' }}
+            />
           </Form.Group>
         );
       }
