@@ -180,6 +180,14 @@ table {
   justify-content: center;
 }
 
+.inputCustom{
+  margin: 10px;
+  height: 60px;
+  width: 20%;
+  minWidth: 100px;
+  background: 'ourColors.buttonColor';
+  color: 'white';
+}
 
 /* .field{ 
   height: 40px;

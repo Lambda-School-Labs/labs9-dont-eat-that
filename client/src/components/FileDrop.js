@@ -60,22 +60,22 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-          <label for='file'>
-            <input
-              type='file'
-              name='file'
-              id='file'
-              class='inputfile'
-              style={{
-                margin: '10px',
-                height: '60px',
-                width: '20%',
-                minWidth: '100px',
-                background: ourColors.buttonColor,
-                color: 'white',
-              }}
-            />
-          </label>
+        <label
+          for='file'
+          class='inputCustom'
+          style={{
+            margin: '10px',
+            height: '60px',
+            width: '20%',
+            minWidth: '100px',
+            background: ourColors.buttonColor,
+            color: 'white'
+          }}
+        >
+          Choose File
+        </label>
+        <input type='file' id='file' style={{visibility:'hidden'}} />
+
         {/* </Button> */}
 
         {/* <UploadButton onClick={console.log("i was clicked")}>
