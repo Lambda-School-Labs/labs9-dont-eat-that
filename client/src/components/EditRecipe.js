@@ -199,7 +199,7 @@ class AddNewRecipeForm extends Component {
     const copy = this.state.ingredients.slice();
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
-  }
+  };
 
   submitHandler = ev => {
     ev.preventDefault();
@@ -252,6 +252,14 @@ class AddNewRecipeForm extends Component {
     let focuses = this.state.focuses.slice();
     focuses[index].focus = false;
     this.setState({ focuses });
+  };
+
+  onBlurTimeout = index => {
+    setTimeout(() => {
+      let focuses = this.state.focuses.slice();
+      focuses[index].focus = false;
+      this.setState({ focuses });
+    }, 100);
   };
 
   checkUnits = ev => {
@@ -416,7 +424,14 @@ class AddNewRecipeForm extends Component {
         ingredientRows.push(
           <Form.Group key={`row${i}`}>
             {/* <AutoComDiv> */}
-            <Form.Input width='10' onBlur={this.checkUnits} name={`name${i}`}>
+            <Form.Input
+              width='10'
+              onBlur={e => {
+                this.checkUnits(e);
+                this.onBlurTimeout(i);
+              }}
+              name={`name${i}`}
+            >
               <input
                 type='text'
                 placeholder='Ingredient Name'
@@ -428,7 +443,6 @@ class AddNewRecipeForm extends Component {
                   this.ingHandler(e);
                   this.props.autoComIng(this.state.ingredients[i].name);
                 }}
-                // onBlur={this.checkUnits}
                 style={this.ingAllergyWarning(i)}
               />
               {this.props.autoCom && this.state.focuses[i].focus && (

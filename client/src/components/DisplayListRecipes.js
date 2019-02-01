@@ -11,7 +11,8 @@ import {
   getOwnRecipes,
   getForeignRecipes,
   getUser,
-  getAllergies
+  getAllergies,
+  getAllRecipes2
 } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
@@ -108,7 +109,7 @@ class DisplayListRecipes extends Component {
     this.state = {
       query: '',
       isSearched: false,
-      personalCheck: true,
+      isLogged: localStorage.getItem('uid') ? true : false,
       displayedRecipes: []
     };
   }
@@ -116,11 +117,12 @@ class DisplayListRecipes extends Component {
   componentDidMount() {
     if (!localStorage.getItem('uid')) {
       this.props.getAllRecipes();
-    } else if (this.state.personalCheck) {
+    } else if (this.state.isLogged) {
       this.props.getOwnRecipes();
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getAllRecipes2();
     this.props.getUser();
     this.props.getAllergies();
   }
@@ -180,11 +182,12 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
-  checkHandler = async personal => {
+  checkHandler = async checked => {
+    console.log('checkHandler checked = ', checked);
     await this.setState({
-      personalCheck: personal
+      personalCheck: checked
     });
-    if (this.state.personalCheck) {
+    if (checked) {
       this.props.getOwnRecipes();
     } else {
       this.props.getForeignRecipes();
@@ -226,7 +229,11 @@ class DisplayListRecipes extends Component {
           )}
         </div>
         <TabDiv>
-          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <DisplayTab
+            className='tab'
+            personalCheck={this.checkHandler}
+            isLogged={this.state.isLogged}
+          />
           <Form className='search'>
             <SimpleSearch
               query={this.state.query}
@@ -284,5 +291,12 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
+  {
+    getAllRecipes,
+    getOwnRecipes,
+    getForeignRecipes,
+    getAllergies,
+    getUser,
+    getAllRecipes2
+  }
 )(DisplayListRecipes);

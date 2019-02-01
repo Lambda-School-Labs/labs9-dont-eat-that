@@ -166,7 +166,7 @@ class AddNewRecipeForm extends Component {
     const copy = this.state.ingredients.slice();
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
-  }
+  };
 
   submitHandler = ev => {
     ev.preventDefault();
@@ -236,6 +236,14 @@ class AddNewRecipeForm extends Component {
     this.setState({ focuses });
   };
 
+  onBlurTimeout = index => {
+    setTimeout(() => {
+      let focuses = this.state.focuses.slice();
+      focuses[index].focus = false;
+      this.setState({ focuses });
+    }, 100);
+  };
+
   checkUnits = ev => {
     if (ev.target.value !== '') {
       const ingNum = Number(ev.target.name.slice(4));
@@ -302,8 +310,6 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    // console.log('choose file ev', ev);
-
     if (!this.state.selectedFile || !this.state.selectedFile[0]) {
       this.setState({ imageUrl: '' });
     } else {
@@ -311,9 +317,7 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      // console.log('name of Image', this.state.selectedFile[0].name);
-      // console.log("passing ev to submit",ev);
-      // this.submitHandler();
+
       return axios
         .post(URL, formData)
         .then(res => {
@@ -335,12 +339,7 @@ class AddNewRecipeForm extends Component {
     this.setState({
       selectedFile: ev.target.files
     });
-    // console.log("upload image name",ev.target.files.name);
   };
-
-  // inputSubmit = (input.onchange) = ev => {
-  //   this.handleInputSelectedFile(ev);
-  // }
 
   dragLeaveListener = ev => {
     this.overRideEventDefaults(ev);
@@ -371,11 +370,6 @@ class AddNewRecipeForm extends Component {
     ev.stopPropagation();
   };
 
-  // No current use case for this function
-  // onSelectFileClick = (ev) => {
-  //   this.overRideEventDefaults(ev)
-  //   this.fileUploaderInput() && this.fileUploaderInput.click();
-  // };
 
   onFileChange = ev => {
     console.log('file change', ev.target.files);
@@ -394,7 +388,14 @@ class AddNewRecipeForm extends Component {
       );
       ingredientRows.push(
         <Form.Group key={`row${i}`}>
-          <Form.Input width='8' onBlur={this.checkUnits} name={`name${i}`}>
+          <Form.Input
+            width='8'
+            onBlur={e => {
+              this.checkUnits(e);
+              this.onBlurTimeout(i);
+            }}
+            name={`name${i}`}
+          >
             {/* <AutoComDiv> */}
             <input
               type='text'
@@ -407,7 +408,6 @@ class AddNewRecipeForm extends Component {
                 this.props.autoComIng(this.state.ingredients[i].name);
               }}
               onFocus={() => this.onFocus(i)}
-              // onBlur={this.checkUnits}
               style={this.ingAllergyWarning(i)}
             />
             {this.props.autoCom && this.state.focuses[i].focus && (
@@ -433,7 +433,6 @@ class AddNewRecipeForm extends Component {
               name={`quty${i}`}
               value={this.state.ingredients[i].quantity}
               onChange={this.ingHandler}
-              onFocus={() => this.onBlur(i)}
             />
           </Form.Input>
           <Form.Select
