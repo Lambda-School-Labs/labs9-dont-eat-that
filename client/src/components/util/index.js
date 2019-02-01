@@ -1,7 +1,7 @@
 export const getTopRatedRecipes = recipesArray => {
   const compare = (a, b) => {
     if (a.ratings.length > 0 && b.ratings.length > 0) {
-      return b.ratings[0].rating - a.ratings[0].rating;
+      return getAveRating(b.ratings) - getAveRating(a.ratings);
     }
     if (a.ratings.length > 0) return -1;
 
@@ -9,6 +9,15 @@ export const getTopRatedRecipes = recipesArray => {
   };
 
   return recipesArray.sort(compare);
+};
+
+const getAveRating = ratings => {
+  let sumRating = 0;
+  if (ratings.length < 1) return 0;
+
+  for (let i = 0; i < ratings.length; i++) sumRating += ratings[i].rating;
+
+  return sumRating / ratings.length;
 };
 
 export const searchFunc = (query, recipes) => {

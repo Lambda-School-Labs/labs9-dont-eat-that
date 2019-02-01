@@ -31,7 +31,7 @@ class DisplayTopRecipes extends Component {
     // this.props.recipes2 contains all recipes in site's DB
 
     let displayRecipe = getTopRatedRecipes(this.props.recipes2);
-
+    console.log(displayRecipe);
     let displayCard = [];
 
     // displayCard should contains all TopRecipeCard components but
