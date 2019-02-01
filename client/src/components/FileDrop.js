@@ -49,7 +49,11 @@ const FileDropFunc = props => {
             margin: '10px'
           }}
         >
-          {props.selectedFile ? props.selectedFile[0].name : 'Choose a file...'}
+          {props.selectedFile
+            ? typeof props.selectedFile === 'boolean'
+              ? 'Choose a file...'
+              : props.selectedFile[0].name
+            : 'Choose a file...'}
         </label>
         <input
           type='file'

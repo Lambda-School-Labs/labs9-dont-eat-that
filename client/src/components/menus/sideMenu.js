@@ -97,16 +97,6 @@ class SideMenu extends React.Component {
               <Message.Header>Signup/Login for Full Features!</Message.Header>
             </Message>
           ) : null}
-          {(window.location.pathname === '/recipes/new' &&
-            localStorage.getItem('uid')) ||
-          window.location.pathname.indexOf('/edit') > 0 ? (
-            <Message
-              style={{ maxWidth: '240px', background: ourColors.formColor }}
-            >
-              <Message.Header>Image Upload</Message.Header>
-              <p>Drop a file or browse an image, then hit upload image!</p>
-            </Message>
-          ) : null}
           {window.location.pathname === '/settings' &&
           localStorage.getItem('uid') ? (
             <Message

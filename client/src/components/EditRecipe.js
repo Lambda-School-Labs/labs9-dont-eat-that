@@ -49,13 +49,17 @@ const edamam = 'https://api.edamam.com/api/food-database';
 const edamamAppId = '4747cfb2';
 const edamamAppKey = process.env.REACT_APP_EDAMAMAPP_KEY;
 
-class AddNewRecipeForm extends Component {
+class EditRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: this.props.recipe ? this.props.recipe.name : '',
       description: this.props.recipe ? this.props.recipe.description : '',
-      selectedFile: null,
+      selectedFile: this.props.recipe
+        ? this.props.recipe.imageUrl
+          ? true
+          : null
+        : null,
       imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
       dragging: false,
       imageReady: false,
@@ -324,7 +328,11 @@ class AddNewRecipeForm extends Component {
   handleFileUpload = async ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    if (!this.state.selectedFile || !this.state.selectedFile[0]) {
+    if (typeof this.state.selectedFile === 'boolean') {
+      console.log('boolean if');
+      return;
+    } else if (!this.state.selectedFile || !this.state.selectedFile[0]) {
+      console.log('no selectedFile', this.state.selectedFile);
       this.setState({ imageUrl: '' });
     } else {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
@@ -526,8 +534,8 @@ class AddNewRecipeForm extends Component {
                 <ReactQuill
                   value={this.state.description}
                   onChange={html => this.quillHandler(html)}
-                  modules={AddNewRecipeForm.modules}
-                  formats={AddNewRecipeForm.formats}
+                  modules={EditRecipeForm.modules}
+                  formats={EditRecipeForm.formats}
                   style={{
                     minHeight: '150px',
                     background: 'white',
@@ -593,7 +601,7 @@ class AddNewRecipeForm extends Component {
                             Save Recipe
                           </Form.Button>
                         }
-                        content='Submissions Submissions take time depending on the image size!'
+                        content='Submissions take time depending on the image size!'
                       />
                       <Form.Button
                         onClick={() =>
@@ -652,7 +660,7 @@ class AddNewRecipeForm extends Component {
   }
 }
 
-AddNewRecipeForm.modules = {
+EditRecipeForm.modules = {
   toolbar: [
     [{ header: '1' }, { header: '2' }, { font: [] }],
     [{ size: [] }],
@@ -671,7 +679,7 @@ AddNewRecipeForm.modules = {
     matchVisual: false
   }
 };
-AddNewRecipeForm.formats = [
+EditRecipeForm.formats = [
   'header',
   'font',
   'size',
@@ -697,4 +705,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { editRecipe, autoComIng, resetAutoCom, getRecipe, getAllergies }
-)(AddNewRecipeForm);
+)(EditRecipeForm);
