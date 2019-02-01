@@ -40,7 +40,7 @@ const FileDropFunc = props => {
     >
       <DropInputField
         className='file-uploader-contents'
-        onChange={props.handleInputSelectedFile}
+        onChange={props.dropListener}
       >
         <DropTextStyle>
           {props.imageName ? props.imageName : 'Drop File Here'}
@@ -59,11 +59,10 @@ const FileDropFunc = props => {
             padding: '20px'
           }}
         > */}
-        <label htmlFor='file'>
+        <label htmlFor='file'/>
           <input
             type='file'
             name='file'
-            onChange={props.handleInputSelectedFile}
             id='file'
             className='inputfile'
             style={{
@@ -75,7 +74,7 @@ const FileDropFunc = props => {
               color: 'white'
             }}
           />
-        </label>
+
         {/* </Button> */}
 
         {/* <UploadButton onClick={console.log("i was clicked")}>
@@ -96,8 +95,8 @@ const FileDropFunc = props => {
             >
               Upload Image
             </Button> */}
-          {/* } */}
-          {/* content={
+        {/* } */}
+        {/* content={
             props.selectedFile
               ? 'Wait for the alert before submitting recipe!'
               : 'No image was uploaded.'
