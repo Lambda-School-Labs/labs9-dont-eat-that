@@ -60,6 +60,9 @@ class App extends Component {
             className='navigationBar'
             isLoggedIn={this.state.isLoggedIn}
           />
+          {/* below div is a placeholder for topMenu.  TopMenu position is fixed
+  so below div is used to occupy topMenu's space, so other element is in
+  right place */}
           <div style={{ zIndex: '5', width: '100%', height: '60px' }} />
           <div className='mainDisplay'>
             <SideMenu />
