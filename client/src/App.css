@@ -139,8 +139,8 @@ table {
   font-family: 'Roboto', sans-serif;
 }
 
-.appContainer{
-  width:100%;
+.appContainer {
+  width: 100%;
 }
 
 
@@ -180,13 +180,11 @@ table {
   justify-content: center;
 }
 
-
-/* .field{ 
-  height: 40px;
-} */
-
-/* .flexWrapCenter {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-} */
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}

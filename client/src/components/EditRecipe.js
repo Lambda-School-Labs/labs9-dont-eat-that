@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
-import { Form, Segment, Header, Image } from 'semantic-ui-react';
+import { Form, Segment, Header, Image, Popup } from 'semantic-ui-react';
 import {
   editRecipe,
   autoComIng,
@@ -49,13 +49,17 @@ const edamam = 'https://api.edamam.com/api/food-database';
 const edamamAppId = '4747cfb2';
 const edamamAppKey = process.env.REACT_APP_EDAMAMAPP_KEY;
 
-class AddNewRecipeForm extends Component {
+class EditRecipeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: this.props.recipe ? this.props.recipe.name : '',
       description: this.props.recipe ? this.props.recipe.description : '',
-      selectedFile: null,
+      selectedFile: this.props.recipe
+        ? this.props.recipe.imageUrl
+          ? true
+          : null
+        : null,
       imageUrl: this.props.recipe ? this.props.recipe.imageUrl : '',
       dragging: false,
       imageReady: false,
@@ -197,41 +201,38 @@ class AddNewRecipeForm extends Component {
   unitHandler = (ev, data, rowNum) => {
     // Get what number of row on the form is being handled
     const copy = this.state.ingredients.slice();
-    console.log("copy",copy);
     copy[rowNum].unit = data.value;
     this.setState({ ingredients: copy });
   };
 
-  submitHandler = ev => {
+  submitHandler = async ev => {
     ev.preventDefault();
     // Convert quantities to numbers
-    const imageUP = this.handleFileUpload(ev);
-    setTimeout(() => {
-      // console.log("after settimeout",imageUP);
-      // if (imageUP) {
-
-      let ingArray = this.state.ingredients;
-      for (let i = 0; i < ingArray.length; i++) {
-        ingArray[i].quantity = Number(ingArray[i].quantity);
-      }
-  
-      // Package up the recipe object to be sent to the API
-      // eslint-disable-next-line
-      const firebaseid = localStorage.getItem('uid');
-      let recipeObj = {
-        name: this.state.name,
-        description: this.state.description,
-        imageUrl: this.state.imageUrl,
-        firebaseid,
-        ingredients: ingArray
-      };
-      // Call the action to send this object to POST a recipe
-      this.props.editRecipe(this.props.match.params.id, recipeObj);
-      this.setState({ name: '', description: '', imageUrl: '', ingredients: this.state.ingredients.map(ingr => emptyIng) });
-      this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
-
-    // }
-  }, 2000)
+    await this.handleFileUpload(ev);
+    // setTimeout(() => {
+    let ingArray = this.state.ingredients;
+    for (let i = 0; i < ingArray.length; i++) {
+      ingArray[i].quantity = Number(ingArray[i].quantity);
+    }
+    // Package up the recipe object to be sent to the API
+    const firebaseid = localStorage.getItem('uid');
+    let recipeObj = {
+      name: this.state.name,
+      description: this.state.description,
+      imageUrl: this.state.imageUrl,
+      firebaseid,
+      ingredients: ingArray
+    };
+    // Call the action to send this object to POST a recipe
+    this.props.editRecipe(this.props.match.params.id, recipeObj);
+    this.setState({
+      name: '',
+      description: '',
+      imageUrl: '',
+      ingredients: this.state.ingredients.map(ingr => emptyIng)
+    });
+    this.props.history.push(`/recipes/one/${this.props.match.params.id}`);
+    // }, 2000);
   };
 
   onClickAutocomplete = (i, item) => {
@@ -324,28 +325,23 @@ class AddNewRecipeForm extends Component {
     }
   };
 
-  handleFileUpload = ev => {
+  handleFileUpload = async ev => {
     ev.preventDefault();
     //if user clicks upload with no image this will catch that and not break the code
-    // console.log('choose file ev', ev);
-
-    if (!this.state.selectedFile || !this.state.selectedFile[0]) {
+    if (typeof this.state.selectedFile === 'boolean') {
+      console.log('boolean if');
+      return;
+    } else if (!this.state.selectedFile || !this.state.selectedFile[0]) {
+      console.log('no selectedFile', this.state.selectedFile);
       this.setState({ imageUrl: '' });
     } else {
-      // console.log("selected File",this.state.selectedFile);
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-      // console.log('name of Image', this.state.selectedFile[0].name);
-      // console.log("passing ev to submit",ev);
-      // this.submitHandler();
-      return axios
+      return await axios
         .post(URL, formData)
         .then(res => {
-          // console.log("in axios res", res)
           this.setState({ imageUrl: res.data.imageUrl });
-          // alert('Image ready to upload!');
-          // return res.data.imageUrl;
           return res.data.imageUrl;
         })
         .catch(err => {
@@ -364,7 +360,6 @@ class AddNewRecipeForm extends Component {
   dragLeaveListener = ev => {
     this.overRideEventDefaults(ev);
     this.dragEventCounter--;
-    console.log('Leaving', this.dragEventCounter);
     if (this.dragEventCounter === 0) {
       this.setState({ dragging: false });
     }
@@ -376,8 +371,6 @@ class AddNewRecipeForm extends Component {
     this.setState({ dragging: false });
     if (ev.dataTransfer.files) {
       this.setState({ selectedFile: ev.dataTransfer.files });
-
-      // console.log("dropListener",this.state.selectedFile);
     }
   };
 
@@ -399,7 +392,7 @@ class AddNewRecipeForm extends Component {
   };
 
   unitsListWait = () => {
-    setTimeout(() => this.setState({ unitsDone: true }), 2000);
+    setTimeout(() => this.setState({ unitsDone: true }), 1000);
   };
 
   render() {
@@ -541,8 +534,8 @@ class AddNewRecipeForm extends Component {
                 <ReactQuill
                   value={this.state.description}
                   onChange={html => this.quillHandler(html)}
-                  modules={AddNewRecipeForm.modules}
-                  formats={AddNewRecipeForm.formats}
+                  modules={EditRecipeForm.modules}
+                  formats={EditRecipeForm.formats}
                   style={{
                     minHeight: '150px',
                     background: 'white',
@@ -596,15 +589,20 @@ class AddNewRecipeForm extends Component {
                     <Form.Group
                       style={{ display: 'flex', justifyContent: 'center' }}
                     >
-                      <Form.Button
-                        type='submit'
-                        style={{
-                          background: ourColors.buttonColor,
-                          color: 'white'
-                        }}
-                      >
-                        Save Recipe
-                      </Form.Button>
+                      <Popup
+                        trigger={
+                          <Form.Button
+                            type='submit'
+                            style={{
+                              background: ourColors.buttonColor,
+                              color: 'white'
+                            }}
+                          >
+                            Save Recipe
+                          </Form.Button>
+                        }
+                        content='Submissions take time depending on the image size!'
+                      />
                       <Form.Button
                         onClick={() =>
                           this.props.history.push(
@@ -662,7 +660,7 @@ class AddNewRecipeForm extends Component {
   }
 }
 
-AddNewRecipeForm.modules = {
+EditRecipeForm.modules = {
   toolbar: [
     [{ header: '1' }, { header: '2' }, { font: [] }],
     [{ size: [] }],
@@ -681,7 +679,7 @@ AddNewRecipeForm.modules = {
     matchVisual: false
   }
 };
-AddNewRecipeForm.formats = [
+EditRecipeForm.formats = [
   'header',
   'font',
   'size',
@@ -707,4 +705,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { editRecipe, autoComIng, resetAutoCom, getRecipe, getAllergies }
-)(AddNewRecipeForm);
+)(EditRecipeForm);

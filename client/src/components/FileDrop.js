@@ -33,22 +33,34 @@ const FileDropFunc = props => {
         <DropTextStyle>
           {props.imageName ? props.imageName : 'Drop File Here'}
         </DropTextStyle>
-        <span>or</span>
+        <span style={{ marginBottom: '20px' }}>or</span>
         <br />
-        <label htmlFor='file' />
+        <label
+          htmlFor='file'
+          style={{
+            display: 'inline-block',
+            background: ourColors.buttonColor,
+            fontSize: '1rem',
+            fontWeight: '500',
+            color: 'white',
+            padding: '12px 24px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            margin: '10px'
+          }}
+        >
+          {props.selectedFile
+            ? typeof props.selectedFile === 'boolean'
+              ? 'Choose a file...'
+              : props.selectedFile[0].name
+            : 'Choose a file...'}
+        </label>
         <input
           type='file'
           name='file'
           id='file'
           onChange={props.handleInputSelectedFile}
           className='inputfile'
-          style={{
-            margin: '10px',
-            width: '185px',
-            background: ourColors.buttonColor,
-            fontSize: '0.75rem',
-            color: 'white'
-          }}
         />
       </DropInputField>
     </DropCard>
