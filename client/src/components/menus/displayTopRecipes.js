@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Header } from 'semantic-ui-react';
 import styled from 'styled-components';
+
 import { getAllRecipes2 } from '../../actions';
 import { getTopRatedRecipes } from '../util';
 import TopRecipeCard from './topRecipeCard.js';
@@ -46,7 +47,12 @@ class DisplayTopRecipes extends Component {
       <TopRatedRecipes className='ui raised segment'>
         <Header
           as='h4'
-          style={{ marginTop: '10px', display: 'inline', marginBottom: '0', maxHeight: '' }}
+          style={{
+            marginTop: '10px',
+            display: 'inline',
+            marginBottom: '0',
+            maxHeight: ''
+          }}
         >
           Top Rated Recipes
         </Header>
