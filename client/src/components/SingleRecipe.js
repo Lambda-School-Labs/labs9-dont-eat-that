@@ -108,7 +108,8 @@ class SingleRecipe extends React.Component {
                     key={ingr.name}
                     style={{
                       background: ourColors.buttonColor,
-                      boxShadow: `0 0 3px ${ourColors.buttonColor}`
+                      boxShadow: `0 0 3px ${ourColors.buttonColor}`,
+                      paddingLeft: '2px'
                     }}
                   >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
                     ingr.name
@@ -116,9 +117,14 @@ class SingleRecipe extends React.Component {
                 );
               } else {
                 return (
-                  <li key={ingr.name}>{`${ingr.quantity} ${
-                    ingr.unit ? ingr.unit : ''
-                  } ${ingr.name}`}</li>
+                  <li
+                    key={ingr.name}
+                    style={{ paddingLeft: '2px' }}
+                  >
+                    {`${ingr.quantity} ${
+                      ingr.unit ? ingr.unit : ''
+                    } ${ingr.name}`}
+                  </li>
                 );
               }
             })}
