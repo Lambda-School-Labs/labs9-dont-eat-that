@@ -217,7 +217,11 @@ export const ratingChange = (recipeid, newRating) => async (
           recipe_id: recipeid
         }
       ];
-    } else {
+    } else if (
+      ratings
+        .map(rating => rating.user_id === response.data.userid)
+        .includes(true)
+    ) {
       newRatings = ratings.map(rating => {
         return rating.id === response.data.ratingid
           ? {
@@ -228,6 +232,16 @@ export const ratingChange = (recipeid, newRating) => async (
             }
           : rating;
       });
+    } else {
+      newRatings = [
+        ...ratings,
+        {
+          id: response.data.ratingid,
+          rating: newRating,
+          user_id: response.data.userid,
+          recipe_id: recipeid
+        }
+      ];
     }
     const recipe = getState().recipesReducer.recipe;
     recipe.ratings = newRatings;
