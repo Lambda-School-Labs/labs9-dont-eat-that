@@ -1,6 +1,6 @@
 # Don't Eat That
 
-Don't Eat That is an app where you can create and view recipes.
+Don't Eat That is an app where you can create and view recipes. You can copy other people's recipe or import a recipe from another site. If you save allergies, recipes with allergic ingredients are highlighted.
 
 Front-end Deployment: https://donteatthatapp.netlify.com/
 Back-end Deployment: https://donteatthat.herokuapp.com/
@@ -47,6 +47,8 @@ The app will break without the proper API keys placed into the app. We hid them 
 	- Signup at RapidAPI and go to the given url. There, the API key can be found in the Request Snippet section for the example endpoints they have in the header part in the following example: `.header("X-RapidAPI-Key", "{API_Key_Here}")`. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
 - The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
 	- Follow section 2 of the given article to signup for AWS and get the API keys. (https://medium.freecodecamp.org/how-to-set-up-simple-image-upload-with-node-and-aws-s3-84e609248792)
+- The Rechaptcha API key is required in `client/src/components/auth/signUp.js` in 176 for signUp to function. 
+	- Create an account at Rechaptcha, go to admin console. register your site and get a key. Replace the config portion with the key. (https://www.google.com/recaptcha)
 
 ### FAQs
 
@@ -68,11 +70,11 @@ Tasty.co lets people upload and browse recipes. Has a tips section from other pe
 
 #### Who is your target audience?
 
-A user with dietary restrictions or allergies that wants to save recipes suitary for their needs.
+A user with dietary restrictions or allergies that wants to save recipes suitable for their needs.
 
 #### How many types of user accounts will you need for this project?
 
-Account Type: Standard
+Account Type: Standard (Dishwasher)
 Description: Free-subscription accounts for users with limited functionalities
 Features:
 
@@ -84,7 +86,7 @@ Features:
 - Allergy Notifications
 - Search Recipes
 
-Account Type: Premium
+Account Type: Premium (Line Cook or Executive Chef)
 Description: With the paid subscription you get all the benefits of the free subscription plus some extra functionalities listed below.
 Features:
 
@@ -356,7 +358,7 @@ Returns the ratingid and userid. Requires, a firebaseid, recipeid, and the new r
 
 ##### POST https://donteatthat.herokuapp.com/api/image-upload/
 
-Returns an imageurl from the AWS database. Requres an image file.
+Returns an imageurl from the AWS database. Requires an image file.
 
 #### External Endpoints
 
