@@ -24,7 +24,6 @@ export const getPlan = () => dispatch => {
   axios
     .get(`${URL}/api/payments/plan/${firebaseid}`)
     .then(res => {
-      console.log('then block of getPlan', res);
       dispatch({ type: GET_PLAN, payload: res.data.planName });
     })
     .catch(err => dispatch({ type: ERROR, payload: err.message }));
