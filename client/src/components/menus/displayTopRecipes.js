@@ -32,7 +32,6 @@ class DisplayTopRecipes extends Component {
     // this.props.recipes2 contains all recipes in site's DB
 
     let displayRecipe = getTopRatedRecipes(this.props.recipes2);
-    console.log(displayRecipe);
     let displayCard = [];
 
     // displayCard should contains all TopRecipeCard components but
@@ -41,7 +40,7 @@ class DisplayTopRecipes extends Component {
 
     for (let i = 0; i < Math.min(3, displayRecipe.length); i++)
       displayCard[i] = (
-        <TopRecipeCard recipe={displayRecipe[i]} ranking={i + 1} />
+        <TopRecipeCard recipe={displayRecipe[i]} key={i} ranking={i + 1} />
       );
 
     return (

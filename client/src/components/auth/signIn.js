@@ -55,7 +55,6 @@ class SignInFormBase extends Component {
       // should change below code so it would wait until getUser is completed...
       this.props.history.push('/recipes');
     } else {
-      console.log('Inside Signin OnSubmit Else');
       this.props.firebase
         .doSignInWithEmailAndPassword(email, password)
         .then(user => {
@@ -64,7 +63,6 @@ class SignInFormBase extends Component {
           return user;
         })
         .then(res => {
-          console.log('PROPS', this.props);
           this.props.getUser();
           return res;
         })
