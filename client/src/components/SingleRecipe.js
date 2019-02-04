@@ -110,10 +110,10 @@ class SingleRecipe extends React.Component {
         >
           <ul>
             {recipe.ingredients.map(ingr => {
-              const boolArr = this.props.user.allergies.map(allergy =>
-                ingr.name.includes(allergy.name)
+              const boolArr = this.props.user.allergies.map(
+                allergy => ingr.name.indexOf(allergy.name) >= 0
               );
-              if (boolArr.includes(true)) {
+              if (boolArr.indexOf(true) >= 0) {
                 return (
                   <li
                     key={ingr.name}

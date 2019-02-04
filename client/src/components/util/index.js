@@ -27,7 +27,7 @@ export const searchFunc = (query, recipes) => {
   const checkIngredient = recipe => {
     const result = recipe.ingredients.filter(ingredient => {
       //   let ingredientName = ingredient.name.toUpperCase();
-      return ingredient.name.toUpperCase().includes(query.toUpperCase());
+      return ingredient.name.toUpperCase().indexOf(query.toUpperCase()) >= 0;
     });
 
     // filter returns array and even empty array is truthy.
@@ -40,7 +40,7 @@ export const searchFunc = (query, recipes) => {
     // let recipeName = recipe.name.toUpperCase();
 
     return (
-      recipe.name.toUpperCase().includes(query.toUpperCase()) ||
+      recipe.name.toUpperCase().indexOf(query.toUpperCase()) >= 0 ||
       checkIngredient(recipe)
     );
   });

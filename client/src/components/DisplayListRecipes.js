@@ -96,6 +96,9 @@ const DisplayRecipesDiv = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  .ie9up {
+    max-width: 1000px;
+  }
 `;
 
 const DisplayListDiv = styled.div`
@@ -153,13 +156,13 @@ class DisplayListRecipes extends Component {
           // allergy sometime has array of string and sometimes has array of 'name:allergy'
           // so check the type and compare correct value
           if (typeof allergy === 'string')
-            return ingredient.name.includes(allergy);
+            return ingredient.name.indexOf(allergy) >= 0;
           // seeing if any allergies in one ingredient
-          else return ingredient.name.includes(allergy.name);
+          else return ingredient.name.indexOf(allergy.name) >= 0;
         });
-        return innerBoolArr.includes(true); // returns true if allergy in ingredient
+        return innerBoolArr.indexOf(true) >= 0; // returns true if allergy in ingredient
       });
-      if (outerBoolArr.includes(true)) {
+      if (outerBoolArr.indexOf(true) >= 0) {
         // seeing if any allergies in all ingredients
 
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
