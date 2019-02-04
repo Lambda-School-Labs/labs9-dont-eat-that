@@ -37,61 +37,59 @@ class SideMenu extends React.Component {
       return null;
     } else {
       return (
-        <Responsive
-          minWidth={771}
-          style={{ position: 'fixed', zIndex: '10' }}
-        >
+        <Responsive minWidth={771} style={{ position: 'fixed', zIndex: '10' }}>
           <Menu
             pointing
             vertical
             className='sideMenu'
             style={{ background: ourColors.menuColor }}
           >
-            <NavLink to='/recipes'>
-              <Menu.Item
-                name='/recipes'
-                active={item === '/recipes'}
-                onClick={this.handleItemClick}
-              >
-                Recipes List
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/recipes/new'>
-              <Menu.Item
-                name='/recipes/new'
-                active={item === '/recipes/new'}
-                onClick={this.handleItemClick}
-              >
-                New Recipe
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/recipes/import'>
-              <Menu.Item
-                name='/recipes/import'
-                active={item === '/recipes/import'}
-                onClick={this.handleItemClick}
-              >
-                Import Recipe
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/billing'>
-              <Menu.Item
-                name='/billing'
-                active={item === '/billing'}
-                onClick={this.handleItemClick}
-              >
-                Billing
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/settings'>
-              <Menu.Item
-                name='/settings'
-                active={item === '/settings'}
-                onClick={this.handleItemClick}
-              >
-                Settings & Allergies
-              </Menu.Item>
-            </NavLink>
+            <Menu.Item
+              as={NavLink}
+              exact
+              to='/recipes'
+              name='/recipes'
+              active={item === '/recipes'}
+              onClick={this.handleItemClick}
+            >
+              Recipes List
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/recipes/new'
+              name='/recipes/new'
+              active={item === '/recipes/new'}
+              onClick={this.handleItemClick}
+            >
+              New Recipe
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/recipes/import'
+              name='/recipes/import'
+              active={item === '/recipes/import'}
+              onClick={this.handleItemClick}
+            >
+              Import Recipe
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/billing'
+              name='/billing'
+              active={item === '/billing'}
+              onClick={this.handleItemClick}
+            >
+              Billing
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/settings'
+              name='/settings'
+              active={item === '/settings'}
+              onClick={this.handleItemClick}
+            >
+              Settings & Allergies
+            </Menu.Item>
           </Menu>
           {!localStorage.getItem('uid') ? (
             <Message
