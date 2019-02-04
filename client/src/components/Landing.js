@@ -73,8 +73,9 @@ const Landing = props => {
       fontFamily: `Montserrat`,
       textAlign: 'right',
       fontWeight: 'normal',
-      fontSize: '4rem',
-      margin: '0 5% 30px 50%',
+      fontSize: '5rem',
+      margin: '0 5% 30px 40%',
+      paddingRight: '10px',
       background: 'rgba(255,255,255,0.6)'
     };
   };
