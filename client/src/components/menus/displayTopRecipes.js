@@ -35,14 +35,14 @@ class DisplayTopRecipes extends Component {
         // so check the type and compare correct value
 
         if (typeof allergy === 'string')
-          return ingredient.name.includes(allergy);
+          return ingredient.name.indexOf(allergy) >= 0;
         // seeing if any allergies in one ingredient
-        else return ingredient.name.includes(allergy.name);
+        else return ingredient.name.indexOf(allergy.name) >= 0;
       });
-      return innerBoolArr.includes(true);
+      return innerBoolArr.indexOf(true) >= 0;
     });
 
-    return outerBoolArr.includes(true);
+    return outerBoolArr.indexOf(true) >= 0;
   };
 
   render() {
