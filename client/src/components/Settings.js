@@ -5,7 +5,13 @@ import { Header, Form, Segment, Icon, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 import { withFirebase } from './firebase';
-import { addAllergy, getAllergies, deleteAllergy, autoComIng, resetAutoCom } from '../actions/index';
+import {
+  addAllergy,
+  getAllergies,
+  deleteAllergy,
+  autoComIng,
+  resetAutoCom
+} from '../actions/index';
 import PasswordChangeForm from './auth/passwordChange';
 import ourColors from '../ColorScheme.js';
 
@@ -52,18 +58,17 @@ class Settings extends React.Component {
   };
   focusField = () => {
     this.setState({ allergyInputFocus: true });
-  }
+  };
   blurField = () => {
-    setTimeout( () => this.setState({ allergyInputFocus: false }),
-    100);
-  }
-  onClickAutocomplete = (item) => {
+    setTimeout(() => this.setState({ allergyInputFocus: false }), 100);
+  };
+  onClickAutocomplete = item => {
     console.log(item);
     this.props.addAllergy(item.toLowerCase());
     this.setState({ allergy: '' });
     this.props.resetAutoCom(); // resets autoCom so menu will disappear
     this.blurField();
-  }
+  };
 
   render() {
     if (this.props.allergies) {
@@ -89,7 +94,7 @@ class Settings extends React.Component {
                       {allergy.name}{' '}
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy.name)}
-                        name="delete"
+                        name='delete'
                         style={{ color: ourColors.warningColor }}
                       />
                     </li>
@@ -100,8 +105,11 @@ class Settings extends React.Component {
                       {allergy}{' '}
                       <Icon
                         onClick={() => this.props.deleteAllergy(allergy)}
-                        name="delete"
-                        style={{ color: ourColors.warningColor, cursor: 'pointer' }}
+                        name='delete'
+                        style={{
+                          color: ourColors.warningColor,
+                          cursor: 'pointer'
+                        }}
                       />
                     </li>
                   );
@@ -110,7 +118,11 @@ class Settings extends React.Component {
             </ul>
           </Segment>
           <Segment
-            style={{ width: '70%', marginLeft: '15%', background: ourColors.formColor }}
+            style={{
+              width: '70%',
+              marginLeft: '15%',
+              background: ourColors.formColor
+            }}
           >
             <Form autoComplete='off'>
               <Form.Field>
@@ -138,16 +150,19 @@ class Settings extends React.Component {
                               cursor: 'pointer',
                               margin: '4.5px 5px 0'
                             }
-                          : { color: ourColors.buttonColor, cursor: 'pointer', margin: '4.5px 5px 0' }
+                          : {
+                              color: ourColors.buttonColor,
+                              cursor: 'pointer',
+                              margin: '4.5px 5px 0'
+                            }
                       }
                       disabled={!localStorage.getItem('uid')}
                       size='big'
                       // style={{ cursor: 'pointer' }}
                     />
                   }
-                  actionPosition='right'
                 />
-                { this.props.autoCom && this.state.allergyInputFocus && (
+                {this.props.autoCom && this.state.allergyInputFocus && (
                   <AutoComItemsDiv>
                     {this.props.autoCom.map(item => {
                       return (
@@ -162,9 +177,11 @@ class Settings extends React.Component {
                   </AutoComItemsDiv>
                 )}
               </Form.Field>
-              { !localStorage.getItem('uid') && 
-                <p style={{ fontFamily: 'Roboto' }}>Please Log In to Add an Allergy!</p>
-              }
+              {!localStorage.getItem('uid') && (
+                <p style={{ fontFamily: 'Roboto' }}>
+                  Please Log In to Add an Allergy!
+                </p>
+              )}
             </Form>
           </Segment>
         </div>

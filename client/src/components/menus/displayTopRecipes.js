@@ -51,7 +51,6 @@ class DisplayTopRecipes extends Component {
     // this.props.recipes2 contains all recipes in site's DB
 
     let displayRecipe = getTopRatedRecipes(this.props.recipes2);
-    console.log(displayRecipe);
     let displayCard = [];
     let hasAllergy = false;
 
@@ -59,11 +58,13 @@ class DisplayTopRecipes extends Component {
       hasAllergy = this.checkAllergy(displayRecipe[i]) ? true : false;
 
       displayCard[i] = (
+
         <TopRecipeCard
           recipe={displayRecipe[i]}
           ranking={i + 1}
           hasAllergy={hasAllergy}
         />
+
       );
     }
 
