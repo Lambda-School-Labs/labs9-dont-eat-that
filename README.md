@@ -13,6 +13,7 @@ Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 - FAQs
 - Tech Stack Rationale
 - Security
+- Efficiency and Scalability
 - Back-end API
 - Contributing
 
@@ -27,9 +28,10 @@ Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 
 To install the application in a local dev environment, run `yarn install` in the root folder as well as the client folder. Then, in the root folder you run `yarn server` and in the client folder you run `yarn start`.
 
-Know that the local front-end hits our deployed back-end, not the local back-end.
+Know that the local front-end hits our deployed back-end, not the local back-end. You can change that by setting the variable `URL` at the top of every actions file in `client/src/actions` besides the `index.js` to your localhost or a deployed server.
 
 When testing the local back-end, the POST and PUT recipe, user, allergy, and rating endpoints aren't functional since they have `returning()` statements that aren't used in the local SQLite3 database but are required for the Heroku PostgreSQL server. To make a local PostgreSQL server, look at these instructions: https://github.com/Lambda-School-Labs/Labs8-OfflineReader/wiki/Setting-up-a-PostgreSQL-database-for-local-testing.
+
 
 The app will break without the proper API keys put into the app. We hid them in order for our app to have security. Below are the following API keys needed and where to put them along with links to the sites where we got them:
 Back-End Keys :
@@ -41,6 +43,7 @@ Back-End Keys :
 - The Stripe API primary key is required in `client/src/App.js` in line 57 and the secret key in `routes/paymentRouter.js` in line 2 for the payments to function. (https://stripe.com/)
 - The Spoonacular API key is required in `client/src/components/AddFromWeb.js` in line 32 for recipe imports to function and in `client/src/actions/recipeActions.js` in line 168 for ingredients autocomplete to function. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
 - The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
+
 
 ### FAQs
 
@@ -73,7 +76,7 @@ Features:
 - All CRUD operations with recipes
 - Upload pictures of recipe
 - Copy Recipes
-- Import Recipes
+- Import Recipes from other sites
 - Recipe Reviews
 - Allergy Notifications
 - Search Recipes
@@ -95,6 +98,9 @@ Features:
 - Organizes state and manages front-end part of the project, reduces need for page reloads during navigation
 - Routing links
 - DOM Manipulation
+- Reusable components
+- Performance
+- Documentation and ease-of-use/implementation
 
 **What are the costs of using this solution?**
 
@@ -169,7 +175,7 @@ Features:
 
 - Rating
 - User_id
-  -Allergy_id
+- Allergy_id
 
 #### Deployment
 
@@ -213,9 +219,21 @@ Features:
 
 For authentication we went through Google's Firebase for registering, logging in, and logging out. The registering includes a recaptcha for extra authentication. The log in also allows for third party authorization with Google or Facebook.
 
-Most of our routes utilize the firebaseid given from Firebase after you register or login. We place it in localStorage until the user logs out and send it along to the majority of our backend endpoints that require it in order for the application to function. That way, when the user isn't logged in or registered through our firebase system, they can't access the data on our backend. There is a security risk if a user happens to steal/chance upon someone else's firebaseid and then can manually `localStorage.setItem('uid')` that firebaseid to access the other person's recipes, allergies, etc., though the likelihood of that isn't great. More probable is if the user forgets to log out, there is no reauthentication after a period of time or token expiration so anyone can just use that person's account without consent.
+Most of our routes utilize the firebaseid given from Firebase after you register or login. We place it in localStorage until the user logs out and send it along to the majority of our backend endpoints that require it in order for the application to function. That way, when the user isn't logged in or registered through our firebase system, they can't access the data on our backend.
+
+There is a security risk if a user happens to steal/chance upon someone else's firebaseid and then can manually `localStorage.setItem('uid')` that firebaseid to access the other person's recipes, allergies, etc., though the likelihood of that isn't great, and they have to know what localStorage variable to set. More probable is if the user forgets to log out, there is no reauthentication after a period of time or token expiration so anyone can just use that person's account without consent.
 
 In terms of our API keys, we hid all of them using a shared .env file we gitignored on the project and posted them on Netlify and Heroku as environmental variables. This way, no one and can through our code and notoriously ping APIs to their limits or charge payments with the Stripe key to ruin our account.
+
+### Efficiency and Scalability
+
+There are some issues with the efficiency and scalability of our app.
+
+First is that we're using an O(n^3) function on line 147 in `client/src/components/DisplayListRecipes.js` to go through the recipes to discover if they're any allergies in them that the user has set in settings. On a small scale of recipes it's less noticeable, but on a large scale the loading times for recipes will be significantly increased unless we introduce a pagination or other solution to remedy such a performance heavy function.
+
+Second is the limitation of our APIs, specifically the Edamam Nutritional Analysis, Edamam Food Database API, and the Spoonacular Autocomplete API. They are a limit to how much they can be used before they are cut-off.
+
+Third is the fact that we're using a SQL database. In development we have to reset our database everytime we make a change to the tables or add another. After production, I don't know how to manage changes in the database so the horizontal scaling will be very difficult. Our endpoints hit the database multiple times to get the necessary data to the front-end, so many read and write queries per second might overload the backend and reduce the scalability of our app.
 
 ### Back-end API
 
