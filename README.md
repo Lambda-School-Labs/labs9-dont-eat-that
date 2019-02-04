@@ -1,6 +1,6 @@
 # Don't Eat That
 
-Don't Eat That is an app where you can create and view recipes.
+Don't Eat That is an app where you can create and view recipes. You can copy other people's recipe or import a recipe from another site. If you save allergies, recipes with allergic ingredients are highlighted.
 
 Front-end Deployment: https://donteatthatapp.netlify.com/
 Back-end Deployment: https://donteatthat.herokuapp.com/
@@ -32,13 +32,15 @@ Know that the local front-end hits our deployed back-end, not the local back-end
 When testing the local back-end, the POST and PUT recipe, user, allergy, and rating endpoints aren't functional since they have `returning()` statements that aren't used in the local SQLite3 database but are required for the Heroku PostgreSQL server. To make a local PostgreSQL server, look at these instructions: https://github.com/Lambda-School-Labs/Labs8-OfflineReader/wiki/Setting-up-a-PostgreSQL-database-for-local-testing.
 
 The app will break without the proper API keys put into the app. We hid them in order for our app to have security. Below are the following API keys needed and where to put them along with links to the sites where we got them:
+Back-End Keys :
+
 - The firebase API key is required in `client/src/components/firebase/firebase.js` in line 8 for authentication to function. (https://firebase.google.com/)
+- The Rechaptcha API key is required in `client/src/components/auth/signUp.js` in 176 for signUp to function. (https://www.google.com/recaptcha)
 - The Edamam Food Database API key and id is required in `client/src/components/AddNewRecipeForm.js` in lines 62-63 and in `client/src/components/EditRecipe.js` in lines 54-55 for the ingredient units autocomplete to function. (https://developer.edamam.com/food-database-api)
 - The Edamam Nutrition Analysis API key and id is required in `client/src/actions/recipeActions.js` in lines 140-141 for nutrition analysis to function. (https://developer.edamam.com/edamam-nutrition-api)
 - The Stripe API primary key is required in `client/src/App.js` in line 57 and the secret key in `routes/paymentRouter.js` in line 2 for the payments to function. (https://stripe.com/)
 - The Spoonacular API key is required in `client/src/components/AddFromWeb.js` in line 32 for recipe imports to function and in `client/src/actions/recipeActions.js` in line 168 for ingredients autocomplete to function. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
 - The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
-
 
 ### FAQs
 
@@ -60,11 +62,11 @@ Tasty.co lets people upload and browse recipes. Has a tips section from other pe
 
 #### Who is your target audience?
 
-A user with dietary restrictions or allergies that wants to save recipes suitary for their needs.
+A user with dietary restrictions or allergies that wants to save recipes suitable for their needs.
 
 #### How many types of user accounts will you need for this project?
 
-Account Type: Standard
+Account Type: Standard (Dishwasher)
 Description: Free-subscription accounts for users with limited functionalities
 Features:
 
@@ -76,7 +78,7 @@ Features:
 - Allergy Notifications
 - Search Recipes
 
-Account Type: Premium
+Account Type: Premium (Line Cook or Executive Chef)
 Description: With the paid subscription you get all the benefits of the free subscription plus some extra functionalities listed below.
 Features:
 
@@ -87,7 +89,7 @@ Features:
 
 #### Front End
 
-**Solution:** React, React Router, Redux, Styled Components, Material UI
+**Solution:** React, React Router, Redux, Styled Components, Semantic UI
 **What problems does this solution solve for this specific project?:**
 
 - Organizes state and manages front-end part of the project, reduces need for page reloads during navigation
@@ -209,7 +211,7 @@ Features:
 
 ### Security
 
-For authentication we went through Google's Firebase for registering, logging in, and logging out. The registering includes a recaptcha for extra authentication. The log in also allows for third party authorization with Google or Facebook. 
+For authentication we went through Google's Firebase for registering, logging in, and logging out. The registering includes a recaptcha for extra authentication. The log in also allows for third party authorization with Google or Facebook.
 
 Most of our routes utilize the firebaseid given from Firebase after you register or login. We place it in localStorage until the user logs out and send it along to the majority of our backend endpoints that require it in order for the application to function. That way, when the user isn't logged in or registered through our firebase system, they can't access the data on our backend. There is a security risk if a user happens to steal/chance upon someone else's firebaseid and then can manually `localStorage.setItem('uid')` that firebaseid to access the other person's recipes, allergies, etc., though the likelihood of that isn't great. More probable is if the user forgets to log out, there is no reauthentication after a period of time or token expiration so anyone can just use that person's account without consent.
 
@@ -333,7 +335,7 @@ Returns the ratingid and userid. Requires, a firebaseid, recipeid, and the new r
 
 ##### POST https://donteatthat.herokuapp.com/api/image-upload/
 
-Returns an imageurl from the AWS database. Requres an image file.
+Returns an imageurl from the AWS database. Requires an image file.
 
 #### External Endpoints
 
