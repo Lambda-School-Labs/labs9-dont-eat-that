@@ -39,6 +39,17 @@ class SingleRecipe extends React.Component {
     this.props.getUser();
   }
 
+  // componentDidUpdate is needed to make Singe Recipe page work correctly
+  // Singe Recipe needs to invoke this.props.getRecipe(id) to get correct recipe info
+  // however, if id changes while in Single Recipe, getRecipe() doesn't get invoked
+  // so componentDidUpdate check if id is changed and invoke getRecipe()
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      this.props.getRecipe(this.props.match.params.id);
+    }
+  }
+
   getNutrition = () => {
     const { name, ingredients } = this.props.recipe;
     const ingrArr = ingredients.map(
@@ -117,13 +128,10 @@ class SingleRecipe extends React.Component {
                 );
               } else {
                 return (
-                  <li
-                    key={ingr.name}
-                    style={{ paddingLeft: '2px' }}
-                  >
-                    {`${ingr.quantity} ${
-                      ingr.unit ? ingr.unit : ''
-                    } ${ingr.name}`}
+                  <li key={ingr.name} style={{ paddingLeft: '2px' }}>
+                    {`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
+                      ingr.name
+                    }`}
                   </li>
                 );
               }
