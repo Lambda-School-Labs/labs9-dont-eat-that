@@ -1,6 +1,6 @@
 # Don't Eat That
 
-Don't Eat That is an app where you can create and view recipes.
+Don't Eat That is an app where you can create and view recipes. You can copy other people's recipe or import a recipe from another site. If you save allergies, recipes with allergic ingredients are highlighted.
 
 Front-end Deployment: https://donteatthatapp.netlify.com/
 Back-end Deployment: https://donteatthat.herokuapp.com/
@@ -47,20 +47,14 @@ The app will break without the proper API keys placed into the app. We hid them 
 	- Signup at RapidAPI and go to the given url. There, the API key can be found in the Request Snippet section for the example endpoints they have in the header part in the following example: `.header("X-RapidAPI-Key", "{API_Key_Here}")`. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
 - The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
 	- Follow section 2 of the given article to signup for AWS and get the API keys. (https://medium.freecodecamp.org/how-to-set-up-simple-image-upload-with-node-and-aws-s3-84e609248792)
-
-	- If you get the following error:
-  
-	 After setting the environment variable, to run a script.js file that uses the SDK, type the following at the command line:
-		
-	$ AWS_PROFILE=work-account node script.js
-	You can also explicitly select the profile used by the SDK, either by setting process.env.AWS_PROFILE before loading the SDK, or by selecting the credential provider as shown in the following example:
-
-	var credentials = new AWS.SharedIniFileCredentials({profile: 'work-account'});
-	AWS.config.credentials = credentials;
-
-- You will need to reconfigure **Public Access Settings**
-	- In your AWS console click **Edit public access settings**, and uncheck all boxes that block public access.
-- This should complete the AWS backend process, test again in postman to verify that you received the image URL.
+		- After setting the environment variable, to run a script.js file that uses the SDK, type the following at the command line: `$ AWS_PROFILE=work-account node script.js`
+		- You can also explicitly select the profile used by the SDK, either by setting process.env.AWS_PROFILE before loading the SDK, or by selecting the credential provider as shown in the following example:
+			- `var credentials = new AWS.SharedIniFileCredentials({profile: 'work-account'});AWS.config.credentials = credentials;`
+		- You will need to reconfigure **Public Access Settings**
+			- In your AWS console click **Edit public access settings**, and uncheck all boxes that block public access.
+		- This should complete the AWS backend process, test again in postman to verify that you received the image URL.
+- The Rechaptcha API key is required in `client/src/components/auth/signUp.js` in 176 for signUp to function. 
+	- Create an account at Rechaptcha, go to admin console. register your site and get a key. Replace the config portion with the key. (https://www.google.com/recaptcha)
 
 ### FAQs
 
@@ -82,11 +76,11 @@ Tasty.co lets people upload and browse recipes. Has a tips section from other pe
 
 #### Who is your target audience?
 
-A user with dietary restrictions or allergies that wants to save recipes suitary for their needs.
+A user with dietary restrictions or allergies that wants to save recipes suitable for their needs.
 
 #### How many types of user accounts will you need for this project?
 
-Account Type: Standard
+Account Type: Standard (Dishwasher)
 Description: Free-subscription accounts for users with limited functionalities
 Features:
 
@@ -98,7 +92,7 @@ Features:
 - Allergy Notifications
 - Search Recipes
 
-Account Type: Premium
+Account Type: Premium (Line Cook or Executive Chef)
 Description: With the paid subscription you get all the benefits of the free subscription plus some extra functionalities listed below.
 Features:
 
@@ -246,4 +240,152 @@ In terms of our API keys, we hid all of them using a shared .env file we gitigno
 
 There are some issues with the efficiency and scalability of our app.
 
-First is that we're using an O(n^3) function on line 147 in `client/src/components/DisplayListRecipes.js` to go through the recipes to discover if they're any allergies in them that the user has set in settings. On a small scale of recipes it's less noticeable, but on a large scale the loading times for recipes will be significantly increased unless we introduce a pagination or other solution to remedy such a performance heavy...
+First is that we're using an O(n^3) function on line 147 in `client/src/components/DisplayListRecipes.js` to go through the recipes to discover if they're any allergies in them that the user has set in settings. On a small scale of recipes it's less noticeable, but on a large scale the loading times for recipes will be significantly increased unless we introduce a pagination or other solution to remedy such a performance heavy function.
+
+Second is the limitation of our APIs, specifically the Edamam Nutritional Analysis, Edamam Food Database API, and the Spoonacular Autocomplete API. They are a limit to how much they can be used before they are cut-off.
+
+Third is the fact that we're using a SQL database. In development we have to reset our database everytime we make a change to the tables or add another. After production, I don't know how to manage changes in the database so the horizontal scaling will be very difficult. Our endpoints hit the database multiple times to get the necessary data to the front-end, so many read and write queries per second might overload the backend and reduce the scalability of our app.
+
+### Back-end API
+
+#### Recipes
+
+##### GET https://donteatthat.herokuapp.com/api/recipes/all
+
+Returns an array of all the recipes of all users.
+
+##### GET https://donteatthat.herokuapp.com/api/recipes/:firebaseid
+
+Returns an array of all the recipes of the current user.
+
+##### GET https://donteatthat.herokuapp.com/api/recipes/:firebaseid/not
+
+Returuns an array of all the recipes of other users excluding the current user.
+
+##### GET https://donteatthat.herokuapp.com/api/recipes/one/:id
+
+Returns a json of a recipe and it's details.
+
+##### POST https://donteatthat.herokuapp.com/api/recipes/create
+
+Returns the created recipe object. Needs a recipe name, description, firebaseid, and an ingredient array with each ingredient having a name, quanitity and unit with an optional imageUrl as follows:
+
+```
+{
+	"name": "avocado smoothie",
+	"description": "Delicious simple avocado smoothie.",
+	"firebaseid": "123asdf23fasdf",
+	"imageUrl": "",
+	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
+}
+```
+
+##### EDIT https://donteatthat.herokuapp.com/api/recipes/edit/:id
+
+Returns the edited object. Needs **one** of the following: recipe name, description, userid, or an ingredient array with each ingredient having a name, quanitity and unit with an optional imageUrl as follows:
+
+```
+{
+	"name": "avocado smoothie",
+	"description": "Delicious simple avocado smoothie.",
+	"firebaseid": "123asdf23fasdf",
+	"imageUrl": "",
+	"ingredients": [{"name": "avocados", "quantity": 2}, {"name": "water", "quantity": 2, "unit": "cups"}]
+}
+```
+
+##### DELETE https://donteatthat.herokuapp.com/api/recipes/delete/:id
+
+Returns a count of the number of recipes deleted. Needs the recipe id in query to work.
+
+#### Users
+
+##### GET https://donteatthat.herokuapp.com/api/users/all
+
+Returns an array of all the users.
+
+##### GET https://donteatthat.herokuapp.com/api/users/one/:id
+
+Returns object of specified user.
+
+##### POST https://donteatthat.herokuapp.com/api/users/create
+
+Returns the id of the user. Needs a firebase id object sent to create one as follows:
+
+```
+{
+	"firebaseid": "123asdf23fasdf"
+}
+```
+
+#### Payments
+
+##### GET https://donteatthat.herokuapp.com/api/payments/plan/:firebaseid
+
+Returns the plan name that the user is subscribed to based off of the subscriptionid of the user, which is found with the firebaseid in the url.
+
+##### POST https://donteatthat.herokuapp.com/api/payments/charge
+
+Charges a user for a subscription to Don't Eat That and returns a subscription object. Needs a token from stripe, a plan that's either 'plan_EKIEXJhyKqBTFd' or 'plan_EKIFbngvwjejux', and a firebase id as follows:
+
+```
+{
+	"token": "123asafd331adasf",
+	"customerPlan": 'plan_EKIEXJhyKqBTFd',
+	"firebaseid": "123asdf23fasdf"
+}
+```
+
+##### POST https://donteatthat.herokuapp.com/api/payments/cancel
+
+Cancels a subscription and returns a subscription object. Requires a firebaseid sent that is linked to a user account that has a subscription as follows:
+
+```
+{
+	"firebaseid": "123asdf23fasdf"
+}
+```
+
+#### Ratings
+
+##### POST https://donteatthat.herokuapp.com/api/ratings/
+
+Returns the ratingid and userid. Requires, a firebaseid, recipeid, and the new rating as follows:
+
+```
+{
+	"firebaseid": "123asdf23fasdf",
+	"recipeid": 4,
+	"newRating": 5
+}
+```
+
+#### File Upload
+
+##### POST https://donteatthat.herokuapp.com/api/image-upload/
+
+Returns an imageurl from the AWS database. Requires an image file.
+
+#### External Endpoints
+
+##### POST https://api.edamam.com/api/nutrition-details
+
+Given information about an ingredient (in Body), returns information about that ingredient's nutritional content.
+
+##### GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete
+
+Given part of a name of an ingredient, returns guesses at the ingredient's full name.
+
+##### GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract
+
+Given a URL of a website where a recipe is provided, attempts to parse the website and extract information about the recipe in question.
+
+### Contributing
+
+Contributions are welcome. Please create an Issue if there is a bug or feature request you are interested in adding to the project. If you would like to implement the Pull request for this Issue yourself, please request permission in the Issue commentary and affirm from a Maintainer that you can proceed. Once confirmed, assign yourself the Issue in Github.
+
+Pull requests are made via the git feature branch workflow described [here](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow). Once you are assigned the Issue, you can clone the repo locally, and begin working on the feature branch.
+
+If you are implementing new features, please introduce well-thought out unit/integration tests as needed to ensure the feature works properly. Please also ensure you are running eslint, and eliminating any linting errors before attempting to create a pull request. Please also run Prettier, to ensure you are meeting the formatting standards for this project
+
+Once your feature has been finished, please use `git push -u origin *feature-name*` to create the branch on the remote repository, then create the Pull request in github. As part of the Pull request, please fill out the [pull request template](pull_request_template.md) (this should auto-populate in your pull request). Once completed, you may create your Pull request. A review from a contributor and ultimate merge approval by an admin will be required. If there are requests raised in the review, please address them.
