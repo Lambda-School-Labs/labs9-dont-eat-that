@@ -47,6 +47,12 @@ The app will break without the proper API keys placed into the app. We hid them 
 	- Signup at RapidAPI and go to the given url. There, the API key can be found in the Request Snippet section for the example endpoints they have in the header part in the following example: `.header("X-RapidAPI-Key", "{API_Key_Here}")`. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
 - The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
 	- Follow section 2 of the given article to signup for AWS and get the API keys. (https://medium.freecodecamp.org/how-to-set-up-simple-image-upload-with-node-and-aws-s3-84e609248792)
+		- After setting the environment variable, to run a script.js file that uses the SDK, type the following at the command line: `$ AWS_PROFILE=work-account node script.js`
+		- You can also explicitly select the profile used by the SDK, either by setting process.env.AWS_PROFILE before loading the SDK, or by selecting the credential provider as shown in the following example:
+			- `var credentials = new AWS.SharedIniFileCredentials({profile: 'work-account'});AWS.config.credentials = credentials;`
+		- You will need to reconfigure **Public Access Settings**
+			- In your AWS console click **Edit public access settings**, and uncheck all boxes that block public access.
+		- This should complete the AWS backend process, test again in postman to verify that you received the image URL.
 - The Rechaptcha API key is required in `client/src/components/auth/signUp.js` in 176 for signUp to function. 
 	- Create an account at Rechaptcha, go to admin console. register your site and get a key. Replace the config portion with the key. (https://www.google.com/recaptcha)
 
