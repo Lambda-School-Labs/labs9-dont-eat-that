@@ -13,6 +13,7 @@ Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 - FAQs
 - Tech Stack Rationale
 - Security
+- Efficiency and Scalability
 - Back-end API
 - Contributing
 
@@ -34,18 +35,18 @@ When testing the local back-end, the POST and PUT recipe, user, allergy, and rat
 The app will break without the proper API keys placed into the app. We hid them in order for our app to have security. Below are the following API keys needed and where to put them along with links to the sites where we got them:
 
 - The firebase API key is required in `client/src/components/firebase/firebase.js` in line 8 for authentication to function in addition to the rest of the config file.
-- - Signup for firebase, create a project, allow user authentication through email/google/facebook, go to project settings, under Your Apps click the code icon and you'll get a script you can put into the file above and replace the config portion. (https://firebase.google.com/)
+	- Signup for firebase, create a project, allow user authentication through email/google/facebook, go to project settings, under Your Apps click the code icon and you'll get a script you can put into the file above and replace the config portion. (https://firebase.google.com/)
 - The Edamam Food Database API key and id is required in `client/src/components/AddNewRecipeForm.js` in lines 62-63 and in `client/src/components/EditRecipe.js` in lines 54-55 for the ingredient units autocomplete to function.
-- - Signup for the Developer plan for the Food Database API, go to your Dashboard, then the Applications tab, next hit View for the API. Here you can get your AppID and AppKey to place on the lines above. (https://developer.edamam.com/food-database-api)
+	- Signup for the Developer plan for the Food Database API, go to your Dashboard, then the Applications tab, next hit View for the API. Here you can get your AppID and AppKey to place on the lines above. (https://developer.edamam.com/food-database-api)
 - The Edamam Nutrition Analysis API key and id is required in `client/src/actions/recipeActions.js` in lines 140-141 for nutrition analysis to function.
-- - Follow the instructions for the Food Database API to get the AppId and AppKey. (https://developer.edamam.com/edamam-nutrition-api)
+	- Follow the instructions for the Food Database API to get the AppId and AppKey. (https://developer.edamam.com/edamam-nutrition-api)
 - The Stripe API publishable key is required in `client/src/App.js` in line 57 and the secret key in `routes/paymentRouter.js` in line 2 for the payments to function.
-- - After signing up for Stripe, go to the Developers tab on the left-side of the dashboard, then go to API keys. There you can find the publishable key and the secret key to insert into the code above. (https://stripe.com/)
-- - Now, create a Product in Products under the Billing tab in the dashboard. After creating the product, click on the product to enter a screen where you can create two pricing plans (one $2/month another $10/year). After creating them, click on them to get their IDs. Place them in `routes/paymentRouter.js` on lines 8-9 with the \$2/month planID in silverCode and the other in goldCode.
+	- After signing up for Stripe, go to the Developers tab on the left-side of the dashboard, then go to API keys. There you can find the publishable key and the secret key to insert into the code above. (https://stripe.com/)
+	- Now, create a Product in Products under the Billing tab in the dashboard. After creating the product, click on the product to enter a screen where you can create two pricing plans (one $2/month another $10/year). After creating them, click on them to get their IDs. Place them in `routes/paymentRouter.js` on lines 8-9 with the \$2/month planID in silverCode and the other in goldCode.
 - The Spoonacular API key is required in `client/src/components/AddFromWeb.js` in line 32 for recipe imports to function and in `client/src/actions/recipeActions.js` in line 168 for ingredients autocomplete to function.
-- - Signup at RapidAPI and go to the given url. There, the API key can be found in the Request Snippet section for the example endpoints they have in the header part in the following example: `.header("X-RapidAPI-Key", "{API_Key_Here}")`. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
+	- Signup at RapidAPI and go to the given url. There, the API key can be found in the Request Snippet section for the example endpoints they have in the header part in the following example: `.header("X-RapidAPI-Key", "{API_Key_Here}")`. (https://rapidapi.com/spoonacular/api/recipe-food-nutrition)
 - The AWS API secret access key and access key id are required in `routes/file-upload.js` in lines 15-16 for image upload to function.
-- - Follow section 2 of the given article to signup for AWS and get the API keys. (https://medium.freecodecamp.org/how-to-set-up-simple-image-upload-with-node-and-aws-s3-84e609248792)
+	- Follow section 2 of the given article to signup for AWS and get the API keys. (https://medium.freecodecamp.org/how-to-set-up-simple-image-upload-with-node-and-aws-s3-84e609248792)
 
 ### FAQs
 
