@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
-export const DropCard = styled.main`
-  display: block;
+export const DropCard = styled.div`
+  // display: block;
   width: 100%;
   margin: 0 auto;
   background-color: white;
   border: 1px solid #ccc;
 `;
 
-export const DropInputField = styled.main`
+export const DropInputField = styled.div`
   width: 100%;
   display: block;
   height: 100%;

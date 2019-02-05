@@ -403,7 +403,7 @@ class EditRecipeForm extends Component {
   };
 
   unitsListWait = () => {
-    setTimeout(() => this.setState({ unitsDone: true }), 1000);
+    setTimeout(() => this.setState({ unitsDone: true }), 1500);
   };
 
   render() {
