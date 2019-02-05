@@ -51,8 +51,6 @@ class App extends Component {
     this.listener();
   }
   render() {
-    if (localStorage.uid) {
-    }
     return (
       <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
         <div className='App' style={this.appStyles()}>

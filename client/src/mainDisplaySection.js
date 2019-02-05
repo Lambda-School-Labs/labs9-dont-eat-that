@@ -23,6 +23,9 @@ const MainDisplayDiv = styled.div`
   @media (max-width: 770px) {
     margin-left: 30px;
   }
+  @media (max-width: 500px) {
+    margin: 0;
+  }
 `;
 
 class MainDisplaySection extends Component {

@@ -125,7 +125,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 
@@ -143,14 +143,12 @@ table {
   width: 100%;
 }
 
-
 .App {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 2000px;
   margin: 0 auto;
-
 }
 
 .navigationBar {
@@ -171,6 +169,7 @@ table {
 }
 
 .mainDisplaySection {
+  width: 100%;
   text-align: center;
   flex-grow: 1;
 }

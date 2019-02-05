@@ -214,7 +214,7 @@ class EditRecipeForm extends Component {
       numIngredients: newIngNum,
       ingredients: ingCopy
     });
-  }
+  };
 
   submitHandler = async ev => {
     ev.preventDefault();
@@ -329,7 +329,7 @@ class EditRecipeForm extends Component {
     const boolArr = this.props.allergies.map(
       allergy => allergy === this.state.ingredients[index].name
     );
-    if (boolArr.includes(true)) {
+    if (boolArr.indexOf(true) >= 0) {
       return { background: 'red' };
     } else {
       return {};
@@ -487,7 +487,11 @@ class EditRecipeForm extends Component {
               name='delete'
               size='large'
               onClick={ev => this.deleteIngredient(ev, i)}
-              style={{ cursor: 'pointer', color: ourColors.buttonColor, marginTop: '8px' }}
+              style={{
+                cursor: 'pointer',
+                color: ourColors.buttonColor,
+                marginTop: '8px'
+              }}
             />
           </Form.Group>
         );

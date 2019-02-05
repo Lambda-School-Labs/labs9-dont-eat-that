@@ -18,8 +18,8 @@ class TopRecipeCard extends React.Component {
       >
         <Card
           style={{
-            boxShadow: this.props.allergy
-              ? `0 0 3px 5px ${ourColors.warningColor}`
+            boxShadow: this.props.hasAllergy
+              ? `0 0 1px 2px ${ourColors.warningColor}`
               : null,
             //   `0 0 3px 1px ${ourColors.outlineColor}`,
             width: '200px',
