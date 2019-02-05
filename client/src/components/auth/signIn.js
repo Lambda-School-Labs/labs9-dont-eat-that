@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Form, Button, Header, Icon, Segment } from 'semantic-ui-react';
 import ourColors from '../../ColorScheme.js';
-
+import RenderInBrowser from 'react-render-in-browser';
 import { SignUpLink } from './signUp.js';
 import PasswordForgetPage from './passwordForgot.js';
 
@@ -20,9 +20,11 @@ const SignInPage = () => (
       </Header>
       <SignInForm />
       <br />
-      <SignInGoogle />
+      <RenderInBrowser except ie>
+        <SignInGoogle />
       <br />
-      <SignInFacebook />
+        <SignInFacebook />
+      </RenderInBrowser>
       <br />
       <SignUpLink />
     </Segment>

@@ -11,6 +11,7 @@ import { getUser, addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
 import { ReCaptcha, loadReCaptcha } from 'react-recaptcha-google';
+import RenderInBrowser from 'react-render-in-browser';
 import ourColors from '../../ColorScheme';
 
 const SignUpPage = () => (
@@ -163,9 +164,10 @@ class SignUpFormBase extends Component {
             </Form.Field>
 
             {error && <p>{error.message}</p>}
+        <RenderInBrowser except ie>
 
-            {/* You can replace captchaDemo with any ref word */}
-            {/* <Form.Field className='flexCenter'>
+           {/* You can replace captchaDemo with any ref word  */}
+          <Form.Field className='flexCenter'>
               <ReCaptcha
                 ref={el => {
                   this.captchaDemo = el;
@@ -177,7 +179,8 @@ class SignUpFormBase extends Component {
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
               />
-            </Form.Field> */}
+            </Form.Field> 
+        </RenderInBrowser>
             <div className='flexCenter'>
               <Button
                 disabled={isInvalid}
