@@ -24,6 +24,10 @@ import DisplayTab from './displayTab.js';
 import { downloadRecipeToCSV } from '../components/util';
 
 const RecipeListPage = styled.div`
+  .ie9up {
+    max-width: 1000px !important;
+  }
+
   form {
     margin-top: 4px;
   }
@@ -96,15 +100,15 @@ const DisplayRecipesDiv = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  .ie9up {
-    max-width: 1000px;
-  }
 `;
 
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 95%;
+  .ie9up {
+    max-width: 1000px !important;
+  }
 `;
 
 class DisplayListRecipes extends Component {
