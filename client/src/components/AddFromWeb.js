@@ -27,14 +27,14 @@ const ImportRecipeDiv = styled.div`
     line-height: 1.75;
     @media (max-width: 950px) {
       justify-content: center;
-      width: 63%;
+      width: 67%;
       max-width: 400px;
-      margin: 0 auto;
+      margin: 15px auto;
     }
 
     @media (max-width: 750px) {
-      width: 70%;
       min-width: 320px;
+      margin: 15px auto
     }
   }
 `;
@@ -66,6 +66,12 @@ const TextImportInputButton = styled.div`
     justify-content: center;
     width: 100%;
     margin: 0;
+    .inputImportURL {
+      max-width: 400px !important;
+      width: 50%;
+      display: flex;
+      margin: 0px auto !important;
+    }
   }
   @media (max-width: 750px) {
     .inputImportURL {
@@ -180,7 +186,7 @@ class AddFromWeb extends Component {
                   placeholder='Enter URL of desired recipe to import'
                   value={this.state.targetUrl}
                   onChange={this.typingHandler}
-                  style={{ margin: '15px 0 0 0' }}
+                  style={{margin: '15px 0 0 0'}}
                 />
                 {/* </Form.Field> */}
                 {localStorage.getItem('uid') ? (
@@ -229,7 +235,7 @@ class AddFromWeb extends Component {
                       style={{
                         background: ourColors.inactiveButtonColor,
                         color: 'white',
-                        margin: '15px 0'
+                          margin: '15px 0 0 0'
                       }}
                     >
                       Import Recipe
