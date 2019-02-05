@@ -56,7 +56,7 @@ const Landing = props => {
   const headerStyles3 = () => {
     return {
       fontFamily: `Montserrat`,
-      textAlign: 'right',
+      textAlign: 'center',
       fontWeight: 'normal',
       fontSize: '4rem',
       margin: '0 5% 30px 0'
