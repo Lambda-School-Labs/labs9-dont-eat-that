@@ -38,7 +38,8 @@ const FileDropFunc = props => {
         <label
           htmlFor='file'
           style={{
-            display: 'inline-block',
+            display: 'block',
+            maxWidth: '190px',
             background: ourColors.buttonColor,
             fontSize: '1rem',
             fontWeight: '500',
@@ -46,7 +47,7 @@ const FileDropFunc = props => {
             padding: '12px 24px',
             borderRadius: '5px',
             cursor: 'pointer',
-            margin: '10px'
+            margin: '10px auto'
           }}
         >
           {props.selectedFile

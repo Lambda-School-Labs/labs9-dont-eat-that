@@ -60,6 +60,7 @@ class DisplayTopRecipes extends Component {
       displayCard[i] = (
 
         <TopRecipeCard
+          key={`topRecipe${i}`}
           recipe={displayRecipe[i]}
           ranking={i + 1}
           hasAllergy={hasAllergy}

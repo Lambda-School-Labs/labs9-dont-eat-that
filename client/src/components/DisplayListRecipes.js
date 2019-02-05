@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Card, Icon, Header, Message } from 'semantic-ui-react';
+import { Form, Card, Icon, Header, Message, Responsive } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme';
 
@@ -252,32 +252,62 @@ class DisplayListRecipes extends Component {
         <DisplayRecipesDiv>
           <DisplayListDiv>
             <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
-              <Card
-                style={{
-                  width: '200px',
-                  height: '200px',
-                  margin: '10px',
-                  boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
-                }}
-              >
-                <Card.Content
+              <Responsive minWidth={501}>
+                <Card
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
+                    width: '200px',
+                    height: '200px',
+                    margin: '10px',
+                    boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
                   }}
                 >
-                  <Card.Header>Create a Recipe</Card.Header>
-                  <Card.Description>
-                    <Icon
-                      name='plus circle'
-                      size='big'
-                      style={{ color: ourColors.outlineColor }}
-                    />
-                  </Card.Description>
-                </Card.Content>
-              </Card>
+                  <Card.Content
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Card.Header>Create a Recipe</Card.Header>
+                    <Card.Description>
+                      <Icon
+                        name='plus circle'
+                        size='big'
+                        style={{ color: ourColors.outlineColor }}
+                      />
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Responsive>
+              <Responsive maxWidth={500}>
+                <Card
+                  style={{
+                    width: '150px',
+                    height: '200px',
+                    margin: '10px',
+                    boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
+                  }}
+                >
+                  <Card.Content
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Card.Header>Create a Recipe</Card.Header>
+                    <Card.Description>
+                      <Icon
+                        name='plus circle'
+                        size='big'
+                        style={{ color: ourColors.outlineColor }}
+                      />
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Responsive>
             </Link>
 
             {this.displayDiv()}

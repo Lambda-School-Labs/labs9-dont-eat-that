@@ -403,7 +403,7 @@ class EditRecipeForm extends Component {
   };
 
   unitsListWait = () => {
-    setTimeout(() => this.setState({ unitsDone: true }), 1000);
+    setTimeout(() => this.setState({ unitsDone: true }), 1500);
   };
 
   render() {
@@ -427,7 +427,7 @@ class EditRecipeForm extends Component {
           })
         );
         ingredientRows.push(
-          <Form.Group key={`row${i}`}>
+          <Form.Group key={`row${i}`} style={{ marginBottom: '10px' }}>
             {/* <AutoComDiv> */}
             <Form.Input
               width='10'
@@ -477,7 +477,7 @@ class EditRecipeForm extends Component {
               />
             </Form.Input>
             <Form.Select
-              width='5'
+              // width='3'
               options={unitOptions}
               value={this.state.ingredients[i].unit}
               placeholder={this.state.ingredients[i].unit}
