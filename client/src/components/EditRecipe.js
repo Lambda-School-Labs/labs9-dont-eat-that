@@ -427,10 +427,7 @@ class EditRecipeForm extends Component {
           })
         );
         ingredientRows.push(
-          <Form.Group
-            key={`row${i}`}
-            style={{ flexDirection: 'row', justifyContent: 'flex-start' }}
-          >
+          <Form.Group key={`row${i}`} style={{ marginBottom: '10px' }}>
             {/* <AutoComDiv> */}
             <Form.Input
               width='10'
@@ -480,8 +477,7 @@ class EditRecipeForm extends Component {
               />
             </Form.Input>
             <Form.Select
-              width='5'
-              style={{ minWidth: '50px', width: '90%' }}
+              // width='3'
               options={unitOptions}
               value={this.state.ingredients[i].unit}
               placeholder={this.state.ingredients[i].unit}
