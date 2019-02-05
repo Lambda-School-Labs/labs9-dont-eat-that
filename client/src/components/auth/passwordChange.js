@@ -48,7 +48,12 @@ class PasswordChangeForm extends Component {
     return (
       <Segment
         basic
-        style={{ width: '70%', marginLeft: '15%', background: ourColors.formColor }}
+        style={{
+          width: '70%',
+          maxWidth: '1000px',
+          margin: '0 auto 15px',
+          background: ourColors.formColor
+        }}
       >
         <Form onSubmit={this.onSubmit}>
           <Header as='h3'>Password Reset</Header>

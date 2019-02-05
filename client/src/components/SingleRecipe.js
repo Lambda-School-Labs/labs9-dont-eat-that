@@ -25,11 +25,17 @@ import {
 } from '../actions';
 import { downloadRecipeToCSV } from '../components/util';
 
+const SingleRecipeDiv = styled.div`
+  max-width: 1000;
+  margin: 0 auto;
+`;
+
 const ImageIngrDiv = styled.div`
   display: flex;
   justify-content: space-between;
   width: 95%;
-  margin-left: 2.5%;
+  max-width: 1000px;
+  margin: 0 auto;
 `;
 
 class SingleRecipe extends React.Component {
@@ -149,7 +155,11 @@ class SingleRecipe extends React.Component {
   displayRecipe = recipe => {
     return (
       <React.Fragment>
-        <Segment floated='right' textAlign='center'>
+        <Segment
+          floated='right'
+          textAlign='center'
+          style={{ maxWidth: '1000px', margin: '0 auto' }}
+        >
           {recipe.user_id !== this.props.user.id &&
             localStorage.getItem('uid') && (
               <Icon
@@ -190,10 +200,10 @@ class SingleRecipe extends React.Component {
             />
           )}
         </Segment>
-        <Header as='h1' style={{ marginBottom: '5px', marginTop: 0 }}>
+        <Header as='h1' style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
           {recipe.name}
         </Header>
-        <div>
+        <div style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
           <Rating
             icon='star'
             size='huge'
@@ -233,7 +243,8 @@ class SingleRecipe extends React.Component {
           maxWidth={500}
           style={{
             width: '95%',
-            marginLeft: '2.5%',
+            maxWidth: '1000px',
+            margin: '0 auto 15px',
             fontFamily: 'Roboto',
             marginTop: '15px'
           }}
@@ -241,7 +252,14 @@ class SingleRecipe extends React.Component {
           {this.ingredients(recipe)}
         </Responsive>
         <br />
-        <div style={{ width: '95%', marginLeft: '2.5%', fontFamily: 'Roboto' }}>
+        <div
+          style={{
+            width: '95%',
+            maxWidth: '1000px',
+            margin: '0 auto 15px',
+            fontFamily: 'Roboto'
+          }}
+        >
           <Header as='h3' attached='top' textAlign='left'>
             Recipe Description
           </Header>
@@ -257,18 +275,19 @@ class SingleRecipe extends React.Component {
     const { recipe, nutrition } = this.props;
     if (recipe && !nutrition) {
       this.getNutrition();
-      return <div>{this.displayRecipe(recipe)}</div>;
+      return <SingleRecipeDiv>{this.displayRecipe(recipe)}</SingleRecipeDiv>;
     } else if (recipe && nutrition) {
       // copy of the above code except showing nutrition info when they're a subscriber
       return (
-        <div>
+        <SingleRecipeDiv>
           {this.displayRecipe(recipe)}
           <Table
             celled
             structured
             style={{
               width: '95%',
-              marginLeft: '2.5%',
+              maxWidth: '1000px',
+              margin: '0 auto',
               fontFamily: 'Roboto',
               background: ourColors.formColor
             }}
@@ -349,7 +368,7 @@ class SingleRecipe extends React.Component {
               </Table.Row>
             </Table.Body>
           </Table>
-        </div>
+        </SingleRecipeDiv>
       );
     } else {
       return (
