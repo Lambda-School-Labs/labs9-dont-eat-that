@@ -81,11 +81,14 @@ class Settings extends React.Component {
             color='black'
             // inverted
             attached='top'
-            style={{ width: '70%', marginLeft: '15%' }}
+            style={{ width: '70%', maxWidth: '1000px', margin: '0 auto' }}
           >
             Allergies
           </Header>
-          <Segment attached style={{ width: '70%', marginLeft: '15%' }}>
+          <Segment
+            attached
+            style={{ width: '70%', maxWidth: '1000px', margin: '0 auto 15px' }}
+          >
             <ul>
               {this.props.allergies.map((allergy, i) => {
                 if (typeof allergy === 'object') {
@@ -120,7 +123,8 @@ class Settings extends React.Component {
           <Segment
             style={{
               width: '70%',
-              marginLeft: '15%',
+              maxWidth: '1000px',
+              margin: '0 auto',
               background: ourColors.formColor
             }}
           >

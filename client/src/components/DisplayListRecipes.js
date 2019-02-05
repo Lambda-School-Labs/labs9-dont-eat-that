@@ -27,6 +27,8 @@ const RecipeListPage = styled.div`
   .ie9up {
     max-width: 1000px !important;
   }
+  max-width: 1180px;
+  margin: 0 auto;
 
   form {
     margin-top: 4px;
