@@ -220,7 +220,7 @@ export const ratingChange = (recipeid, newRating) => async (
     } else if (
       ratings
         .map(rating => rating.user_id === response.data.userid)
-        .includes(true)
+        .indexOf(true) >= 0
     ) {
       newRatings = ratings.map(rating => {
         return rating.id === response.data.ratingid
