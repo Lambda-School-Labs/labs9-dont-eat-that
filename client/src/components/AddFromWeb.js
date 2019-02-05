@@ -34,11 +34,14 @@ const ImportRecipeDiv = styled.div`
 `;
 
 const ImageTextDiv = styled.div`
-  display: flex;
+  
   @media (max-width: 1100px) {
-    flex-direction: column;
     justify-content: center;
   }
+`;
+
+const ImportInputButton = styled.div`
+  display: flex;
 `;
 
 class AddFromWeb extends Component {
@@ -116,7 +119,7 @@ class AddFromWeb extends Component {
             <ImageTextDiv>
               <Image
                 src={importdish}
-                style={{ maxHeight: '250px', margin: '0 auto 15px' }}
+                style={{ maxHeight: '250px', margin: '0 auto' }}
               />
               <Responsive className='contentDiv' minWidth={500}>
                 <p>
@@ -127,6 +130,7 @@ class AddFromWeb extends Component {
                 </p>
               </Responsive>
             </ImageTextDiv>
+
             <Form.Group>
               <Form.Field width='12'>
                 <input
