@@ -37,7 +37,8 @@ const AutoComItemsDiv = styled.div`
 
 const EditRecipeFormDiv = styled.div`
   width: 95%;
-  margin-left: 2.5%;
+  max-width: 1000px;
+  margin: 0 auto;
   font-family: Roboto;
 
   .quill-div {
