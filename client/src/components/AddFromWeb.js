@@ -19,34 +19,64 @@ const ImportRecipeDiv = styled.div`
   width: 95%;
   max-width: 1000px;
   margin: 0 auto;
-  .contentDiv {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
+
   p {
     font-family: Roboto;
     text-align: left;
     max-width: 500px;
     line-height: 1.75;
+    @media (max-width: 950px) {
+      justify-content: center;
+      width: 63%;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 750px) {
+      width: 70%;
+      min-width: 320px;
+    }
   }
 `;
 
-const ImageTextDiv = styled.div`
+const ImportCardContainer = styled.div`
+  display: flex;
+  @media (max-width: 950px) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+const ImageDiv = styled.div`
   width: 70%;
   max-width: 400px;
   margin: 0 auto;
-  
-  @media (max-width: 1100px) {
-    
-  }
+  min-width: 320px;
+  height: 100%;
 `;
 
-const ImportInputButton = styled.div`
+const TextImportInputButton = styled.div`
   display: block;
-  width: 70%;
-  margin: 0 auto;
+  margin: 0 20px;
+  input {
+    width: 50%;
+  }
+  @media (max-width: 950px) {
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+  }
+  @media (max-width: 750px) {
+    .inputImportURL {
+      width: 50%;
+    }
+    .inputWarning {
+      textalign: center;
+    }
+  }
 `;
+// width: 70%;
 
 class AddFromWeb extends Component {
   constructor(props) {
@@ -120,30 +150,38 @@ class AddFromWeb extends Component {
             onSubmit={this.submitHandler}
             style={{ width: '95%', marginLeft: '2.5%' }}
           >
-            <ImageTextDiv>
-              <Image
-                src={importdish}
-                style={{ maxHeight: '250px', margin: '0 auto', width: '100%' }}
-              />
-              <Responsive className='contentDiv' style={{ margin: '0 auto' }}>
-                <p>
-                  Import your favorite recipes from popular food blogs and sites, place the url to the recipe below!
-                  <br />
-                  Warning, this feature isn't compatible with some sites.
-                </p>
-              </Responsive>
-            </ImageTextDiv>
-            <ImportInputButton>
-              {/* <Form.Group> */}
+            <ImportCardContainer>
+              <ImageDiv>
+                <Image
+                  src={importdish}
+                  style={{
+                    maxHeight: '250px',
+                    margin: '0 auto',
+                    width: '100%'
+                  }}
+                />
+              </ImageDiv>
+              <TextImportInputButton>
+                <Responsive className='contentDiv' style={{ margin: '0 auto' }}>
+                  <p>
+                    Import your favorite recipes from popular food blogs and
+                    sites, place the url to the recipe below!
+                    <br />
+                    Warning, this feature is not compatible with some sites.
+                  </p>
+                </Responsive>
+                {/* <Form.Group> */}
                 {/* <Form.Field width='12'> */}
-                  <input
-                    type='text'
-                    name='targetUrl'
-                    placeholder='Enter URL of desired recipe to import'
-                    value={this.state.targetUrl}
-                    onChange={this.typingHandler}
-                    style={{width: '100%', maxWidth:'400px', margin: '10px 0'}}
-                  />
+
+                <input
+                  type='text'
+                  name='targetUrl'
+                  className='inputImportURL'
+                  placeholder='Enter URL of desired recipe to import'
+                  value={this.state.targetUrl}
+                  onChange={this.typingHandler}
+                  style={{ margin: '15px 0 0 0' }}
+                />
                 {/* </Form.Field> */}
                 {localStorage.getItem('uid') ? (
                   <React.Fragment>
@@ -154,7 +192,7 @@ class AddFromWeb extends Component {
                         style={{
                           background: ourColors.buttonColor,
                           color: 'white',
-                          
+                          margin: '15px 0'
                         }}
                       >
                         Import Recipe
@@ -174,7 +212,8 @@ class AddFromWeb extends Component {
                         width='4'
                         style={{
                           background: ourColors.buttonColor,
-                          color: 'white'
+                          color: 'white',
+                          margin: '15px 0'
                         }}
                       >
                         Import Recipe
@@ -189,16 +228,20 @@ class AddFromWeb extends Component {
                       width='4'
                       style={{
                         background: ourColors.inactiveButtonColor,
-                        color: 'white'
+                        color: 'white',
+                        margin: '15px 0'
                       }}
                     >
                       Import Recipe
                     </Button>
-                    <p>Please Log In to Import a Recipe!</p>
+                    <p className='importWarning' style={{display: 'flex',justifyContent:'center'}}>
+                      Please Log In to Import a Recipe!
+                    </p>
                   </React.Fragment>
                 )}
-              {/* </Form.Group> */}
-            </ImportInputButton>
+                {/* </Form.Group> */}
+              </TextImportInputButton>
+            </ImportCardContainer>
           </Form>
         </Segment>
         {this.state.error && (
