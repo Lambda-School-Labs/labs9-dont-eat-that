@@ -28,20 +28,24 @@ const ImportRecipeDiv = styled.div`
     font-family: Roboto;
     text-align: left;
     max-width: 500px;
-    padding: 10px 27px 10px;
     line-height: 1.75;
   }
 `;
 
 const ImageTextDiv = styled.div`
+  width: 70%;
+  max-width: 400px;
+  margin: 0 auto;
   
   @media (max-width: 1100px) {
-    justify-content: center;
+    
   }
 `;
 
 const ImportInputButton = styled.div`
-  display: flex;
+  display: block;
+  width: 70%;
+  margin: 0 auto;
 `;
 
 class AddFromWeb extends Component {
@@ -119,80 +123,82 @@ class AddFromWeb extends Component {
             <ImageTextDiv>
               <Image
                 src={importdish}
-                style={{ maxHeight: '250px', margin: '0 auto' }}
+                style={{ maxHeight: '250px', margin: '0 auto', width: '100%' }}
               />
-              <Responsive className='contentDiv' minWidth={500}>
+              <Responsive className='contentDiv' style={{ margin: '0 auto' }}>
                 <p>
-                  Found a recipe you really like on another site, like a recipes
-                  blog? Go ahead and import the url to your collection below!
+                  Import your favorite recipes from popular food blogs and sites, place the url to the recipe below!
                   <br />
                   Warning, this feature isn't compatible with some sites.
                 </p>
               </Responsive>
             </ImageTextDiv>
-
-            <Form.Group>
-              <Form.Field width='12'>
-                <input
-                  type='text'
-                  name='targetUrl'
-                  placeholder='Enter URL of desired recipe to import'
-                  value={this.state.targetUrl}
-                  onChange={this.typingHandler}
-                />
-              </Form.Field>
-              {localStorage.getItem('uid') ? (
-                <React.Fragment>
-                  <Responsive minWidth={768}>
+            <ImportInputButton>
+              {/* <Form.Group> */}
+                {/* <Form.Field width='12'> */}
+                  <input
+                    type='text'
+                    name='targetUrl'
+                    placeholder='Enter URL of desired recipe to import'
+                    value={this.state.targetUrl}
+                    onChange={this.typingHandler}
+                    style={{width: '100%', maxWidth:'400px', margin: '10px 0'}}
+                  />
+                {/* </Form.Field> */}
+                {localStorage.getItem('uid') ? (
+                  <React.Fragment>
+                    <Responsive minWidth={768}>
+                      <Button
+                        type='submit'
+                        width='4'
+                        style={{
+                          background: ourColors.buttonColor,
+                          color: 'white',
+                          
+                        }}
+                      >
+                        Import Recipe
+                      </Button>
+                    </Responsive>
+                    <Responsive
+                      maxWidth={767}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                        marginTop: '5px'
+                      }}
+                    >
+                      <Button
+                        type='submit'
+                        width='4'
+                        style={{
+                          background: ourColors.buttonColor,
+                          color: 'white'
+                        }}
+                      >
+                        Import Recipe
+                      </Button>
+                    </Responsive>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
                     <Button
                       type='submit'
+                      disabled
                       width='4'
                       style={{
-                        background: ourColors.buttonColor,
+                        background: ourColors.inactiveButtonColor,
                         color: 'white'
                       }}
                     >
-                      Import Recipe Url
+                      Import Recipe
                     </Button>
-                  </Responsive>
-                  <Responsive
-                    maxWidth={767}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      width: '100%',
-                      marginTop: '5px'
-                    }}
-                  >
-                    <Button
-                      type='submit'
-                      width='4'
-                      style={{
-                        background: ourColors.buttonColor,
-                        color: 'white'
-                      }}
-                    >
-                      Import Recipe Url
-                    </Button>
-                  </Responsive>
-                </React.Fragment>
-              ) : (
-                <React.Fragment>
-                  <Button
-                    type='submit'
-                    disabled
-                    width='4'
-                    style={{
-                      background: ourColors.inactiveButtonColor,
-                      color: 'white'
-                    }}
-                  >
-                    Import Recipe
-                  </Button>
-                  <p>Please Log In to Import a Recipe!</p>
-                </React.Fragment>
-              )}
-            </Form.Group>
+                    <p>Please Log In to Import a Recipe!</p>
+                  </React.Fragment>
+                )}
+              {/* </Form.Group> */}
+            </ImportInputButton>
           </Form>
         </Segment>
         {this.state.error && (
