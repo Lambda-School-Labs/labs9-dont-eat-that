@@ -35,6 +35,7 @@ const LandingDiv = styled.div`
   @media (max-width: 768px) {
     p {
       margin: 0 15px 15px 40%;
+      border-radius: 10px;
     }
   }
 `;
@@ -58,6 +59,15 @@ const Landing = props => {
       margin: '75px 30px 30px 22%'
     };
   }
+  const headerStyles21 = () => {
+    return {
+      fontFamily: `Montserrat`,
+      textAlign: 'center',
+      fontSize: '5rem',
+      fontWeight: 'normal',
+      margin: '50px 30px 30px 22%'
+    };
+  }
   const headerStyles3 = () => {
     return {
       fontFamily: `Montserrat`,
@@ -65,23 +75,25 @@ const Landing = props => {
       fontWeight: 'normal',
       fontSize: '5rem',
       margin: '0 0 30px 35%',
-      background: 'rgba(255,255,255,0.6)'
+      paddingRight: '15px',
+      background: 'rgba(255,255,255,0.7)',
+      borderRadius: '10px'
     };
   };
   const headerStyles4 = () => {
     return {
       fontFamily: `Montserrat`,
-      textAlign: 'right',
+      textAlign: 'center',
       fontWeight: 'normal',
       fontSize: '5rem',
-      margin: '0 5% 30px 40%',
-      paddingRight: '10px',
-      background: 'rgba(255,255,255,0.6)'
+      margin: '0 10% 30px 10%',
+      background: 'rgba(255,255,255,0.7)',
+      borderRadius: '25px'
     };
   };
   return (
     <LandingDiv style={{ height: '85vh' }}>
-    <Responsive minWidth={1240}>
+      <Responsive minWidth={1240}>
         <Header as='h1' style={headerStyles1()}>
           DON'T EAT
           <br />
@@ -98,13 +110,13 @@ const Landing = props => {
           style={{
             background: ourColors.buttonColor,
             color: 'white',
-            marginLeft: '35%'
+            marginLeft: '25%'
           }}
         >
           Enter Site
         </Button>
       </Responsive>
-      <Responsive minWidth={770} maxWidth={1239}>
+      <Responsive minWidth={950} maxWidth={1239}>
         <Header as='h1' style={headerStyles2()}>
           DON'T EAT
           <br />
@@ -121,7 +133,30 @@ const Landing = props => {
           style={{
             background: ourColors.buttonColor,
             color: 'white',
-            marginLeft: '35%'
+            marginLeft: '22%'
+          }}
+        >
+          Enter Site
+        </Button>
+      </Responsive>
+      <Responsive minWidth={770} maxWidth={949}>
+        <Header as='h1' style={headerStyles21()}>
+          DON'T EAT
+          <br />
+          THAT
+        </Header>
+        <p style={{ fontFamily: 'Roboto' }}>
+          Do you have trouble finding recipes that meet your dietary needs and
+          avoid your allergens? Don't Eat That is the app for you! Here you can
+          collect recipes or upload your own, and easily see which don't meet
+          your nutritional standards.
+        </p>
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '22%'
           }}
         >
           Enter Site
@@ -160,7 +195,13 @@ const Landing = props => {
         </Header>
         <Button
           onClick={e => props.history.push('/recipes')}
-          style={{ background: ourColors.buttonColor, color: 'white', marginLeft: '50%' }}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            margin: '0 auto',
+            boxShadow: '0 0 20px white',
+            border: '1px solid white'
+          }}
         >
           Enter Site
         </Button>
