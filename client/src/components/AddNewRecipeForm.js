@@ -378,7 +378,7 @@ class AddNewRecipeForm extends Component {
         unitOptions.push({ value: unit, text: unit })
       );
       ingredientRows.push(
-        <Form.Group key={`row${i}`}>
+        <Form.Group key={`row${i}`} style={{ marginBottom: '10px' }}>
           <Form.Input
             width='8'
             onBlur={e => {
@@ -427,7 +427,7 @@ class AddNewRecipeForm extends Component {
             />
           </Form.Input>
           <Form.Select
-            width='5'
+            // width='5'
             placeholder='Unit'
             name={`unit${i}`}
             value={this.state.ingredients[i].unit}
