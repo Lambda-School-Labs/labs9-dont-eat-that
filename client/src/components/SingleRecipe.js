@@ -53,6 +53,7 @@ class SingleRecipe extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.id !== this.props.match.params.id) {
       this.props.getRecipe(this.props.match.params.id);
+      this.getNutrition();
     }
   }
 
