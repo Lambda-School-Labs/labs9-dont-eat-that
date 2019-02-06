@@ -100,7 +100,7 @@ class AddNewRecipeForm extends Component {
       // numIngredients needs certain logic
       let prevNumIng;
       let value = e.target.value; // declared since lost in async setState
-      if (value < 1) value = 1; // recipe must have at least 1 ingredient
+      if (value !== '' && value < 1) value = 1; // recipe must have at least 1 ingredient
       this.setState(prevState => {
         prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
         if (value === '') {
