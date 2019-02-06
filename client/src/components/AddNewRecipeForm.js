@@ -37,7 +37,7 @@ const AutoComItemsDiv = styled.div`
 
 const AddNewRecipeFormDiv = styled.div`
   width: 95%;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
   font-family: Roboto;
   .quill-div {
@@ -434,7 +434,6 @@ class AddNewRecipeForm extends Component {
             />
           </Form.Input>
           <Form.Select
-            // width='5'
             placeholder='Unit'
             name={`unit${i}`}
             value={this.state.ingredients[i].unit}
