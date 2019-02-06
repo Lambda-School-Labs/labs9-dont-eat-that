@@ -93,7 +93,7 @@ class AddNewRecipeForm extends Component {
       // numIngredients needs certain logic
       let prevNumIng;
       let value = e.target.value; // declared since lost in async setState
-      if (value < 1) value = 1; // must have at least 1 ingredient
+      if (value < 1) value = 1; // recipe must have at least 1 ingredient
       this.setState(prevState => {
         prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
         if (prevNumIng > value) {
@@ -167,6 +167,7 @@ class AddNewRecipeForm extends Component {
   };
 
   deleteIngredient = (ev, rowNum) => {
+    // Recipe must have at least 1 ingredient.  Can not delete if there is only one ingredient
     if (this.state.numIngredients > 1) {
       let ingCopy = this.state.ingredients;
       const newIngNum = this.state.numIngredients - 1;
@@ -443,6 +444,8 @@ class AddNewRecipeForm extends Component {
             size='large'
             onClick={ev => this.deleteIngredient(ev, i)}
             style={
+              // if there is only one ingredient left, disable delete ingredient button
+              // there should be at least 1 ingredient
               this.state.numIngredients > 1
                 ? {
                     cursor: 'pointer',
