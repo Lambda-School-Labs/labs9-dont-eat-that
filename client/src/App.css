@@ -187,3 +187,9 @@ table {
   position: absolute;
   z-index: -1;
 }
+
+@media print {
+  .noPrint {
+    display: none;
+  }
+}
