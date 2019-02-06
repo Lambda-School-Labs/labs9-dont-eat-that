@@ -92,12 +92,12 @@ class SideMenu extends React.Component {
             </Menu.Item>
           </Menu>
           {!localStorage.getItem('uid') ? (
-              <NavLink to='/signin'>
+            <NavLink to='/signin'>
               <Message
-                style={{ maxWidth: '240px', background: ourColors.formColor,fontFamily:'Lato, Helvertica,Times New Roman', fontWeight:'bold' }}
+                style={{ maxWidth: '240px', background: ourColors.formColor, fontFamily:'Roboto' }}
               >
-              Signup/Login for Full Features!
-            </Message>
+                <Message.Header>Signup/Login for Full Features!</Message.Header>
+              </Message>
             </NavLink>
           ) : null}
           {window.location.pathname === '/settings' &&
