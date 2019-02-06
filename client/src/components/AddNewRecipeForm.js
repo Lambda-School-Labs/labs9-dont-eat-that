@@ -46,6 +46,12 @@ const AddNewRecipeFormDiv = styled.div`
 `;
 
 const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
+const exampleIng = {
+  name: 'water',
+  quantity: 1,
+  unit: 'Cup',
+  unitsList: ['Cup']
+};
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
@@ -58,7 +64,7 @@ class AddNewRecipeForm extends Component {
       imageUrl: '',
       imageName: '',
       dragging: false,
-      ingredients: [emptyIng, emptyIng, emptyIng],
+      ingredients: [exampleIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
