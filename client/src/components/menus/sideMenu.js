@@ -90,14 +90,15 @@ class SideMenu extends React.Component {
             >
               Settings & Allergies
             </Menu.Item>
-          </Menu>
           {!localStorage.getItem('uid') ? (
-            <Message
-              style={{ maxWidth: '240px', background: ourColors.formColor }}
+            <Menu.Item
+              as={NavLink}
+              to='/signin'
             >
-              <Message.Header>Signup/Login for Full Features!</Message.Header>
-            </Message>
+              Signup/Login for Full Features!
+            </Menu.Item>
           ) : null}
+          </Menu>
           {window.location.pathname === '/settings' &&
           localStorage.getItem('uid') ? (
             <Message
