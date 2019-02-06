@@ -99,7 +99,8 @@ class AddNewRecipeForm extends Component {
     if (e.target.name === 'numIngredients') {
       // numIngredients needs certain logic
       let prevNumIng;
-      const value = e.target.value; // declared since lost in async setState
+      let value = e.target.value; // declared since lost in async setState
+      if (value < 1) value = 1; // recipe must have at least 1 ingredient
       this.setState(prevState => {
         prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
         if (value === '') {
@@ -178,13 +179,16 @@ class AddNewRecipeForm extends Component {
   };
 
   deleteIngredient = (ev, rowNum) => {
-    let ingCopy = this.state.ingredients;
-    const newIngNum = this.state.numIngredients - 1;
-    ingCopy.splice(rowNum, 1);
-    this.setState({
-      numIngredients: newIngNum,
-      ingredients: ingCopy
-    });
+    // Recipe must have at least 1 ingredient.  Can not delete if there is only one ingredient
+    if (this.state.numIngredients > 1) {
+      let ingCopy = this.state.ingredients;
+      const newIngNum = this.state.numIngredients - 1;
+      ingCopy.splice(rowNum, 1);
+      this.setState({
+        numIngredients: newIngNum,
+        ingredients: ingCopy
+      });
+    }
   };
 
   submitHandler = async ev => {
@@ -454,11 +458,21 @@ class AddNewRecipeForm extends Component {
             name='delete'
             size='large'
             onClick={ev => this.deleteIngredient(ev, i)}
-            style={{
-              cursor: 'pointer',
-              color: ourColors.buttonColor,
-              marginTop: '8px'
-            }}
+            style={
+              // if there is only one ingredient left, disable delete ingredient button
+              // there should be at least 1 ingredient
+              this.state.numIngredients > 1
+                ? {
+                    cursor: 'pointer',
+                    color: ourColors.buttonColor,
+                    marginTop: '8px'
+                  }
+                : {
+                    cursor: 'not-allowed',
+                    color: ourColors.buttonColor,
+                    marginTop: '8px'
+                  }
+            }
           />
         </Form.Group>
       );

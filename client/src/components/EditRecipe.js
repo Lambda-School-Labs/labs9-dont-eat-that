@@ -85,6 +85,7 @@ class EditRecipeForm extends Component {
     // Populate the unitsList property of each ingredient
     const ingArr = this.props.recipe.ingredients.slice(); // Copy ingredients from the db without unitsLists
     for (let i = 0; i < ingArr.length; i++) {
+      // if unit is null, assign Whole as default
       if (!ingArr[i].unit) ingArr[i].unit = 'Whole';
       if (ingArr[i].name !== '') {
         // To avoid pinging the API with empty string queries
