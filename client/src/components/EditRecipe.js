@@ -68,6 +68,7 @@ class EditRecipeForm extends Component {
       numIngredients: this.props.recipe
         ? this.props.recipe.ingredients.length
         : 3,
+      prevNumIng: '',
       ingredients: this.props.recipe
         ? this.populateUnitsLists()
         : [emptyIng, emptyIng, emptyIng],
@@ -136,7 +137,12 @@ class EditRecipeForm extends Component {
       const value = e.target.value; // declared since lost in async setState
       this.setState(prevState => {
         prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
-        if (prevNumIng > value) {
+        if (value === '') {
+          return {
+            numIngredients: value,
+            prevNumIng
+          };
+        } else if (prevNumIng > value) {
           return {
             numIngredients: value,
             ingredients: this.state.ingredients.slice(0, value),
@@ -416,7 +422,11 @@ class EditRecipeForm extends Component {
 
     if (this.props.recipe && this.state.unitsDone) {
       let ingredientRows = [];
-      for (let i = 0; i < this.state.numIngredients; i++) {
+      const finalNumIng =
+        this.state.numIngredients === ''
+          ? this.state.prevNumIng
+          : this.state.numIngredients;
+      for (let i = 0; i < finalNumIng; i++) {
         const unitOptions = [];
         this.state.ingredients[i].unitsList.map(unit =>
           unitOptions.push({
@@ -431,7 +441,7 @@ class EditRecipeForm extends Component {
           <Form.Group key={`row${i}`} style={{ marginBottom: '10px' }}>
             {/* <AutoComDiv> */}
             <Form.Input
-              width='10'
+              width='9'
               onBlur={e => {
                 this.checkUnits(e);
                 this.onBlurTimeout(i);
@@ -467,7 +477,7 @@ class EditRecipeForm extends Component {
               )}
               {/* </AutoComDiv> */}
             </Form.Input>
-            <Form.Input width='4'>
+            <Form.Input width='3'>
               <input
                 type='text'
                 placeholder='Quantity'
