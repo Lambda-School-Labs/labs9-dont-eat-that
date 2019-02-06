@@ -84,6 +84,7 @@ class EditRecipeForm extends Component {
     // Populate the unitsList property of each ingredient
     const ingArr = this.props.recipe.ingredients.slice(); // Copy ingredients from the db without unitsLists
     for (let i = 0; i < ingArr.length; i++) {
+      if (!ingArr[i].unit) ingArr[i].unit = 'Whole';
       if (ingArr[i].name !== '') {
         // To avoid pinging the API with empty string queries
         ingArr[i].unitsList = []; // Make sure there is a unitsList to add to
@@ -418,6 +419,20 @@ class EditRecipeForm extends Component {
       let ingredientRows = [];
       for (let i = 0; i < this.state.numIngredients; i++) {
         const unitOptions = [];
+
+        // imported recipes might not have correct unit and do not have default unit displayed
+        // to fix this, check if unit is included in unitList and if not add unit to unitsList
+        if (
+          this.state.ingredients[i].unitsList.indexOf(
+            this.state.ingredients[i].unit
+          ) < 0
+        ) {
+          unitOptions.push({
+            value: this.state.ingredients[i].unit,
+            text: this.state.ingredients[i].unit
+          });
+        }
+
         this.state.ingredients[i].unitsList.map(unit =>
           unitOptions.push({
             value: unit,
