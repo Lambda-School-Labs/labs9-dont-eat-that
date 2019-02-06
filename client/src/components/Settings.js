@@ -128,11 +128,8 @@ class Settings extends React.Component {
               background: ourColors.formColor
             }}
           >
-            <Form autoComplete='off'>
+            <Form autoComplete='off' onSubmit={this.onAddAllergy}>
               <Form.Field>
-                {/* changed button into Icon
-          also put Icon inside of Input as action */}
-
                 <Input
                   size='mini'
                   type='text'
