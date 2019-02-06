@@ -26,8 +26,6 @@ import {
 } from '../actions';
 import { downloadRecipeToCSV } from '../components/util';
 
-var Tooltip = require('rc-tooltip');
-
 const SingleRecipeDiv = styled.div`
   max-width: 1000;
   margin: 0 auto;
