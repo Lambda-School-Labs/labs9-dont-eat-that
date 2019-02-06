@@ -167,13 +167,15 @@ class AddNewRecipeForm extends Component {
   };
 
   deleteIngredient = (ev, rowNum) => {
-    let ingCopy = this.state.ingredients;
-    const newIngNum = this.state.numIngredients - 1;
-    ingCopy.splice(rowNum, 1);
-    this.setState({
-      numIngredients: newIngNum,
-      ingredients: ingCopy
-    });
+    if (this.state.numIngredients > 1) {
+      let ingCopy = this.state.ingredients;
+      const newIngNum = this.state.numIngredients - 1;
+      ingCopy.splice(rowNum, 1);
+      this.setState({
+        numIngredients: newIngNum,
+        ingredients: ingCopy
+      });
+    }
   };
 
   submitHandler = async ev => {
@@ -440,11 +442,19 @@ class AddNewRecipeForm extends Component {
             name='delete'
             size='large'
             onClick={ev => this.deleteIngredient(ev, i)}
-            style={{
-              cursor: 'pointer',
-              color: ourColors.buttonColor,
-              marginTop: '8px'
-            }}
+            style={
+              this.state.numIngredients > 1
+                ? {
+                    cursor: 'pointer',
+                    color: ourColors.buttonColor,
+                    marginTop: '8px'
+                  }
+                : {
+                    cursor: 'not-allowed',
+                    color: ourColors.buttonColor,
+                    marginTop: '8px'
+                  }
+            }
           />
         </Form.Group>
       );
