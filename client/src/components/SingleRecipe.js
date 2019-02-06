@@ -208,7 +208,14 @@ class SingleRecipe extends React.Component {
         <Header as='h1' style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
           {recipe.name}
         </Header>
-        <div style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
+        <div
+          style={{
+            maxWidth: '175px',
+            margin: '0 auto 5px',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
           <Rating
             icon='star'
             size='huge'
