@@ -261,7 +261,7 @@ class SingleRecipe extends React.Component {
           }}
         >
           <Header as='h3' attached='top' textAlign='left'>
-            Recipe Description
+            Recipe
           </Header>
           <Segment attached textAlign='left'>
             {Parser(recipe.description)}
