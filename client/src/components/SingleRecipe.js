@@ -9,7 +9,8 @@ import {
   Segment,
   Image,
   Icon,
-  Responsive
+  Responsive,
+  Popup
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -25,6 +26,8 @@ import {
 } from '../actions';
 import { downloadRecipeToCSV } from '../components/util';
 
+var Tooltip = require('rc-tooltip');
+
 const SingleRecipeDiv = styled.div`
   max-width: 1000;
   margin: 0 auto;
@@ -39,6 +42,13 @@ const ImageIngrDiv = styled.div`
 `;
 
 class SingleRecipe extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      copyTip: <span>Copy</span>
+    };
+  }
+
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);
@@ -162,42 +172,50 @@ class SingleRecipe extends React.Component {
         >
           {recipe.user_id !== this.props.user.id &&
             localStorage.getItem('uid') && (
-              <Icon
-                name='copy'
-                onClick={async () => {
-                  await this.copyRecipe(recipe);
-                  this.props.history.push('/recipes');
-                }}
-                size='large'
-                style={{ cursor: 'pointer' }}
-              />
+              <Popup trigger={
+                <Icon
+                  name='copy'
+                  onClick={async () => {
+                    await this.copyRecipe(recipe);
+                    this.props.history.push('/recipes');
+                  }}
+                  size='large'
+                  style={{ cursor: 'pointer' }}
+                />
+              } content="Copy" style={{ background: ourColors.messageColor }} />
             )}
           {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
           {this.props.user.subscriptionid && (
-            <Icon
-              name='download'
-              size='large'
-              onClick={() => downloadRecipeToCSV(recipe)}
-              style={{ cursor: 'pointer' }}
-            />
-          )}
-          {recipe.user_id === this.props.user.id && (
-            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+            <Popup trigger={
               <Icon
-                name='edit'
+                name='download'
                 size='large'
-                color='black'
+                onClick={() => downloadRecipeToCSV(recipe)}
                 style={{ cursor: 'pointer' }}
               />
-            </Link>
+            } content="Download" style={{ background: ourColors.messageColor }} />
           )}
           {recipe.user_id === this.props.user.id && (
-            <Icon
-              name='delete'
-              size='large'
-              onClick={this.deleteRecipe}
-              style={{ cursor: 'pointer', color: ourColors.buttonColor }}
-            />
+            <Popup trigger={
+              <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+                <Icon
+                  name='edit'
+                  size='large'
+                  color='black'
+                  style={{ cursor: 'pointer' }}
+                />
+              </Link>
+            } content="Edit" style={{ background: ourColors.messageColor }} />
+          )}
+          {recipe.user_id === this.props.user.id && (
+            <Popup trigger={
+              <Icon
+                name='delete'
+                size='large'
+                onClick={this.deleteRecipe}
+                style={{ cursor: 'pointer', color: ourColors.buttonColor }}
+              />
+            } content="Delete" style={{ background: ourColors.messageColor }} />
           )}
         </Segment>
         <Header as='h1' style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
