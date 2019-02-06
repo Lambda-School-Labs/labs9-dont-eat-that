@@ -32,10 +32,10 @@ const LandingDiv = styled.div`
       margin: 0 30px 15px 30%;
     }
   }
-  @media (max-width: 768px) {
+  @media (max-width: 780px) {
     p {
       margin: 0 15px 15px 40%;
-      border-radius: 10px;
+      border-radius: 15px;
     }
   }
 `;
@@ -77,7 +77,7 @@ const Landing = props => {
       margin: '0 0 30px 35%',
       paddingRight: '15px',
       background: 'rgba(255,255,255,0.7)',
-      borderRadius: '10px'
+      borderRadius: '15px'
     };
   };
   const headerStyles4 = () => {
@@ -88,7 +88,7 @@ const Landing = props => {
       fontSize: '5rem',
       margin: '0 10% 30px 10%',
       background: 'rgba(255,255,255,0.7)',
-      borderRadius: '25px'
+      borderRadius: '15px'
     };
   };
   return (
@@ -139,7 +139,7 @@ const Landing = props => {
           Enter Site
         </Button>
       </Responsive>
-      <Responsive minWidth={770} maxWidth={949}>
+      <Responsive minWidth={781} maxWidth={949}>
         <Header as='h1' style={headerStyles21()}>
           DON'T EAT
           <br />
@@ -162,7 +162,7 @@ const Landing = props => {
           Enter Site
         </Button>
       </Responsive>
-      <Responsive minWidth={501} maxWidth={769}>
+      <Responsive minWidth={501} maxWidth={780}>
         <Header as='h1' style={headerStyles3()}>
           DON'T EAT
           <br />
