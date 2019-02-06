@@ -37,7 +37,7 @@ const AutoComItemsDiv = styled.div`
 
 const AddNewRecipeFormDiv = styled.div`
   width: 95%;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
   font-family: Roboto;
   .quill-div {
@@ -46,6 +46,12 @@ const AddNewRecipeFormDiv = styled.div`
 `;
 
 const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
+const exampleIng = {
+  name: 'water',
+  quantity: 1,
+  unit: 'Cup',
+  unitsList: ['Cup']
+};
 
 class AddNewRecipeForm extends Component {
   constructor(props) {
@@ -58,7 +64,7 @@ class AddNewRecipeForm extends Component {
       imageUrl: '',
       imageName: '',
       dragging: false,
-      ingredients: [emptyIng, emptyIng, emptyIng],
+      ingredients: [exampleIng, emptyIng, emptyIng],
       focuses: [{ focus: false }, { focus: false }, { focus: false }],
       edamam: 'https://api.edamam.com/api/food-database',
       edamamAppId: '4747cfb2',
@@ -428,7 +434,6 @@ class AddNewRecipeForm extends Component {
             />
           </Form.Input>
           <Form.Select
-            // width='5'
             placeholder='Unit'
             name={`unit${i}`}
             value={this.state.ingredients[i].unit}
