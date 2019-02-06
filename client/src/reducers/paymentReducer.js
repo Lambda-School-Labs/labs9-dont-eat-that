@@ -14,7 +14,8 @@ export const paymentReducer = (state = initialState, action) => {
       return {
         ...state,
         subscriptionCanceled: action.payload,
-        paymentComplete: false
+        paymentComplete: false,
+        plan: ''
       };
     case actionTypes.GET_PLAN:
       return { ...state, plan: action.payload };
