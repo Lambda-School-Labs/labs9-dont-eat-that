@@ -60,6 +60,7 @@ class AddNewRecipeForm extends Component {
       name: '',
       description: '',
       numIngredients: 3,
+      prevNumIng: '',
       selectedFile: null,
       imageUrl: '',
       imageName: '',
@@ -101,7 +102,12 @@ class AddNewRecipeForm extends Component {
       const value = e.target.value; // declared since lost in async setState
       this.setState(prevState => {
         prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
-        if (prevNumIng > value) {
+        if (value === '') {
+          return {
+            numIngredients: value,
+            prevNumIng
+          };
+        } else if (prevNumIng > value) {
           return {
             numIngredients: value,
             ingredients: this.state.ingredients.slice(0, value),
@@ -379,7 +385,11 @@ class AddNewRecipeForm extends Component {
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     let ingredientRows = [];
-    for (let i = 0; i < this.state.numIngredients; i++) {
+    const finalNumIng =
+      this.state.numIngredients === ''
+        ? this.state.prevNumIng
+        : this.state.numIngredients;
+    for (let i = 0; i < finalNumIng; i++) {
       const unitOptions = [];
       this.state.ingredients[i].unitsList.map(unit =>
         unitOptions.push({ value: unit, text: unit })
@@ -387,7 +397,7 @@ class AddNewRecipeForm extends Component {
       ingredientRows.push(
         <Form.Group key={`row${i}`} style={{ marginBottom: '10px' }}>
           <Form.Input
-            width='8'
+            width='9'
             onBlur={e => {
               this.checkUnits(e);
               this.onBlurTimeout(i);
