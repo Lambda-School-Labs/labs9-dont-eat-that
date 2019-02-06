@@ -60,6 +60,7 @@ class AddNewRecipeForm extends Component {
       name: '',
       description: '',
       numIngredients: 3,
+      prevNumIng: '',
       selectedFile: null,
       imageUrl: '',
       imageName: '',
@@ -98,10 +99,16 @@ class AddNewRecipeForm extends Component {
     if (e.target.name === 'numIngredients') {
       // numIngredients needs certain logic
       let prevNumIng;
-      const value = e.target.value; // declared since lost in async setState
+      let value = e.target.value; // declared since lost in async setState
+      if (value !== '' && value < 1) value = 1; // recipe must have at least 1 ingredient
       this.setState(prevState => {
         prevNumIng = prevState.numIngredients; // getting prevNumIng for later use
-        if (prevNumIng > value) {
+        if (value === '') {
+          return {
+            numIngredients: value,
+            prevNumIng
+          };
+        } else if (prevNumIng > value) {
           return {
             numIngredients: value,
             ingredients: this.state.ingredients.slice(0, value),
@@ -172,13 +179,16 @@ class AddNewRecipeForm extends Component {
   };
 
   deleteIngredient = (ev, rowNum) => {
-    let ingCopy = this.state.ingredients;
-    const newIngNum = this.state.numIngredients - 1;
-    ingCopy.splice(rowNum, 1);
-    this.setState({
-      numIngredients: newIngNum,
-      ingredients: ingCopy
-    });
+    // Recipe must have at least 1 ingredient.  Can not delete if there is only one ingredient
+    if (this.state.numIngredients > 1) {
+      let ingCopy = this.state.ingredients;
+      const newIngNum = this.state.numIngredients - 1;
+      ingCopy.splice(rowNum, 1);
+      this.setState({
+        numIngredients: newIngNum,
+        ingredients: ingCopy
+      });
+    }
   };
 
   submitHandler = async ev => {
@@ -379,7 +389,11 @@ class AddNewRecipeForm extends Component {
   render() {
     // Build the array of HTML inputs that will get inserted into the form
     let ingredientRows = [];
-    for (let i = 0; i < this.state.numIngredients; i++) {
+    const finalNumIng =
+      this.state.numIngredients === ''
+        ? this.state.prevNumIng
+        : this.state.numIngredients;
+    for (let i = 0; i < finalNumIng; i++) {
       const unitOptions = [];
       this.state.ingredients[i].unitsList.map(unit =>
         unitOptions.push({ value: unit, text: unit })
@@ -387,7 +401,7 @@ class AddNewRecipeForm extends Component {
       ingredientRows.push(
         <Form.Group key={`row${i}`} style={{ marginBottom: '10px' }}>
           <Form.Input
-            width='8'
+            width='9'
             onBlur={e => {
               this.checkUnits(e);
               this.onBlurTimeout(i);
@@ -444,11 +458,21 @@ class AddNewRecipeForm extends Component {
             name='delete'
             size='large'
             onClick={ev => this.deleteIngredient(ev, i)}
-            style={{
-              cursor: 'pointer',
-              color: ourColors.buttonColor,
-              marginTop: '8px'
-            }}
+            style={
+              // if there is only one ingredient left, disable delete ingredient button
+              // there should be at least 1 ingredient
+              this.state.numIngredients > 1
+                ? {
+                    cursor: 'pointer',
+                    color: ourColors.buttonColor,
+                    marginTop: '8px'
+                  }
+                : {
+                    cursor: 'not-allowed',
+                    color: ourColors.buttonColor,
+                    marginTop: '8px'
+                  }
+            }
           />
         </Form.Group>
       );

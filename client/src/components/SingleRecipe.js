@@ -53,6 +53,7 @@ class SingleRecipe extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.id !== this.props.match.params.id) {
       this.props.getRecipe(this.props.match.params.id);
+      this.getNutrition();
     }
   }
 
@@ -128,16 +129,20 @@ class SingleRecipe extends React.Component {
                       boxShadow: `0 0 3px ${ourColors.buttonColor}`,
                       paddingLeft: '2px'
                     }}
-                  >{`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
-                    ingr.name
-                  }`}</li>
+                  >{`${
+                    ingr.quantity % 1 === 0
+                      ? ingr.quantity
+                      : Math.round(ingr.quantity * 100) / 100
+                  } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
                 );
               } else {
                 return (
                   <li key={ingr.name} style={{ paddingLeft: '2px' }}>
-                    {`${ingr.quantity} ${ingr.unit ? ingr.unit : ''} ${
-                      ingr.name
-                    }`}
+                    {`${
+                      ingr.quantity % 1 === 0
+                        ? ingr.quantity
+                        : Math.round(ingr.quantity * 100) / 100
+                    } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}
                   </li>
                 );
               }
