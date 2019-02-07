@@ -165,20 +165,12 @@ class SingleRecipe extends React.Component {
                       boxShadow: `0 0 3px ${ourColors.buttonColor}`,
                       paddingLeft: '2px'
                     }}
-                  >{`${
-                    ingr.quantity % 1 === 0
-                      ? ingr.quantity
-                      : Math.round(ingr.quantity * 100) / 100
-                  } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
+                  >{`${fractFormat(ingr.quantity)} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
                 );
               } else {
                 return (
                   <li key={ingr.name} style={{ paddingLeft: '2px' }}>
-                    {`${
-                      ingr.quantity % 1 === 0
-                        ? ingr.quantity
-                        : Math.round(ingr.quantity * 100) / 100
-                    } ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}
+                    {`${fractFormat(ingr.quantity)} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}
                   </li>
                 );
               }
