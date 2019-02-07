@@ -39,6 +39,34 @@ const ImageIngrDiv = styled.div`
   margin: 0 auto;
 `;
 
+const fractFormat = value => {
+  if (value % 1 === 0) {
+    return `${value}`;
+  }
+
+  let bestNumer = 1;
+  let bestDenom = 1;
+  let bestErr = Math.abs(value - bestNumer / bestDenom);
+  for (var denom = 1; bestErr > 0 && denom <= 100; denom++) {
+    const numer = Math.round(value * denom);
+    const err = Math.abs(value - numer / denom);
+    if (err < bestErr) {
+      bestNumer = numer;
+      bestDenom = denom;
+      bestErr = err;
+    }
+  }
+  if (bestDenom === 100) {
+    return `${Math.round(value * 100) / 100}`;
+  }
+  if (bestNumer > bestDenom) {
+    const whole = Math.floor(value);
+    const fracPart = fractFormat(value - whole);
+    return `${whole} ${fracPart}`;
+  }
+  return `${bestNumer}/${bestDenom}`;
+}
+
 class SingleRecipe extends React.Component {
   constructor(props) {
     super(props);
