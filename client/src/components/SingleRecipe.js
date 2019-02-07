@@ -32,7 +32,7 @@ const SingleRecipeDiv = styled.div`
 `;
 
 const ImageIngrDiv = styled.div`
-  display: flex;
+  display: block;
   justify-content: space-between;
   width: 95%;
   max-width: 1000px;
@@ -112,6 +112,7 @@ class SingleRecipe extends React.Component {
   ingredients = recipe => {
     return (
       <React.Fragment>
+        
         <Header as='h3' attached='top' textAlign='left'>
           Ingredients
         </Header>
@@ -168,79 +169,84 @@ class SingleRecipe extends React.Component {
   displayRecipe = recipe => {
     return (
       <div className='singleRecipeView'>
-        <div className='singleRecipeTitle'>
-          <Header as='h1' style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
-            {recipe.name}
-          </Header>
-          <Rating
-            icon='star'
-            size='huge'
-            rating={this.ratingsFunc(recipe)}
-            onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
-            maxRating={5}
-            disabled={!localStorage.getItem('uid')}
-          />
-          <Header as='h6' style={{ marginTop: '0px' }}>
-            {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
-            review(s)
-          </Header>
-          <div
+        <ImageIngrDiv>
+          <div className='singleRecipeTitle'>
 
-            style={{
-              maxWidth: '175px',
-              margin: '0 auto 5px',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <Segment
-              class='userRecipeButtons'
-              floated='right'
-              textAlign='center'
+              <div
+              className='userRecipeButtons'
             >
-              {recipe.user_id !== this.props.user.id &&
-                localStorage.getItem('uid') && (
+
+                {recipe.user_id !== this.props.user.id &&
+                  localStorage.getItem('uid') && (
+                    <Icon
+                      name='copy'
+                      onClick={async () => {
+                        await this.copyRecipe(recipe);
+                        this.props.history.push('/recipes');
+                      }}
+                      size='large'
+                      style={{ cursor: 'pointer' }}
+                    />
+                  )}
+                {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+                {this.props.user.subscriptionid && (
                   <Icon
-                    name='copy'
-                    onClick={async () => {
-                      await this.copyRecipe(recipe);
-                      this.props.history.push('/recipes');
-                    }}
+                    name='download'
                     size='large'
+                    onClick={() => downloadRecipeToCSV(recipe)}
                     style={{ cursor: 'pointer' }}
                   />
                 )}
-              {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
-              {this.props.user.subscriptionid && (
-                <Icon
-                  name='download'
-                  size='large'
-                  onClick={() => downloadRecipeToCSV(recipe)}
-                  style={{ cursor: 'pointer' }}
-                />
-              )}
-              {recipe.user_id === this.props.user.id && (
-                <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+                {recipe.user_id === this.props.user.id && (
+                  <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+                    <Icon
+                      name='edit'
+                      size='large'
+                      color='black'
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </Link>
+                )}
+                {recipe.user_id === this.props.user.id && (
                   <Icon
-                    name='edit'
+                    name='delete'
                     size='large'
-                    color='black'
-                    style={{ cursor: 'pointer' }}
+                    onClick={this.deleteRecipe}
+                    style={{ cursor: 'pointer', color: ourColors.buttonColor }}
                   />
-                </Link>
-              )}
-              {recipe.user_id === this.props.user.id && (
-                <Icon
-                  name='delete'
-                  size='large'
-                  onClick={this.deleteRecipe}
-                  style={{ cursor: 'pointer', color: ourColors.buttonColor }}
-                />
-              )}
-            </Segment>
-          </div>
+                )}
+            
+            </div>
+
+
+            <Header
+              as='h1'
+              style={{ maxWidth: '1000px', margin: '0 auto 5px' }}
+            >
+              {recipe.name}
+
+            </Header>
+          
+          
+            <Rating
+              icon='star'
+              size='huge'
+              rating={this.ratingsFunc(recipe)}
+              onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
+              maxRating={5}
+              disabled={!localStorage.getItem('uid')}
+              style={{width: '175px', margin:'0 auto'}}
+            />
+            <Header as='h6' style={{ marginTop: '0px' }}>
+              {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
+              review(s)
+            </Header>
+
+          
         </div>
-        <ImageIngrDiv>
+
+<div className="imageIngredients">
+
           {recipe.imageUrl && (
             <Image
               src={recipe.imageUrl}
@@ -261,7 +267,6 @@ class SingleRecipe extends React.Component {
           >
             {this.ingredients(recipe)}
           </Responsive>
-        </ImageIngrDiv>
         <Responsive
           maxWidth={500}
           style={{
@@ -274,6 +279,8 @@ class SingleRecipe extends React.Component {
         >
           {this.ingredients(recipe)}
         </Responsive>
+</div>
+        </ImageIngrDiv>
         <br />
         <div
           style={{

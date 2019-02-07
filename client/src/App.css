@@ -193,14 +193,22 @@ table {
 }
 
 .singleRecipeTitle {
-  display:block;
+  display:flex;
+  flex-direction:column;
+  max-width:1000px;
+  margin: 15px 0;
 }
+
 
 .userRecipeButtons{
-  display:flex;
-  justify-content: flex-end;
+  max-width: 100%;
+  margin-left: auto;
+  width: 100px;
 }
 
+.imageIngredients{
+  display: flex;
+}
 
 .tableRow:nth-child(even) {
   background-color: #f2f2f2; 
