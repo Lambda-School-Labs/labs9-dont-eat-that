@@ -65,7 +65,7 @@ const fractFormat = value => {
     return `${whole} ${fracPart}`;
   }
   return `${bestNumer}/${bestDenom}`;
-}
+};
 
 class SingleRecipe extends React.Component {
   constructor(props) {
@@ -140,7 +140,6 @@ class SingleRecipe extends React.Component {
   ingredients = recipe => {
     return (
       <React.Fragment>
-        
         <Header as='h3' attached='top' textAlign='left'>
           Ingredients
         </Header>
@@ -166,12 +165,16 @@ class SingleRecipe extends React.Component {
                       boxShadow: `0 0 3px ${ourColors.buttonColor}`,
                       paddingLeft: '2px'
                     }}
-                  >{`${fractFormat(ingr.quantity)} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}</li>
+                  >{`${fractFormat(ingr.quantity)} ${
+                    ingr.unit ? ingr.unit : ''
+                  } ${ingr.name}`}</li>
                 );
               } else {
                 return (
                   <li key={ingr.name} style={{ paddingLeft: '2px' }}>
-                    {`${fractFormat(ingr.quantity)} ${ingr.unit ? ingr.unit : ''} ${ingr.name}`}
+                    {`${fractFormat(ingr.quantity)} ${
+                      ingr.unit ? ingr.unit : ''
+                    } ${ingr.name}`}
                   </li>
                 );
               }
@@ -191,63 +194,84 @@ class SingleRecipe extends React.Component {
       <div className='singleRecipeView'>
         <ImageIngrDiv>
           <div className='singleRecipeTitle'>
-
-              <div
-              className='userRecipeButtons'
-            >
-
-                {recipe.user_id !== this.props.user.id &&
-                  localStorage.getItem('uid') && (
+            <div className='userRecipeButtons'>
+              {recipe.user_id !== this.props.user.id &&
+                localStorage.getItem('uid') && (
+                  <Popup
+                    trigger={
+                      <Icon
+                        name='copy'
+                        onClick={async () => {
+                          await this.copyRecipe(recipe);
+                          this.props.history.push('/recipes');
+                        }}
+                        size='large'
+                        style={{ cursor: 'pointer' }}
+                      />
+                    }
+                    content='Copy'
+                    style={{ background: ourColors.messageColor }}
+                  />
+                )}
+              {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+              {this.props.user.subscriptionid && (
+                <Popup
+                  trigger={
                     <Icon
-                      name='copy'
-                      onClick={async () => {
-                        await this.copyRecipe(recipe);
-                        this.props.history.push('/recipes');
+                      name='download'
+                      size='large'
+                      onClick={() => downloadRecipeToCSV(recipe)}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  }
+                  content='Download'
+                  style={{ background: ourColors.messageColor }}
+                />
+              )}
+              {recipe.user_id === this.props.user.id && (
+                <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+                  <Popup
+                    trigger={
+                      <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+                        <Icon
+                          name='edit'
+                          size='large'
+                          color='black'
+                          style={{ cursor: 'pointer' }}
+                        />
+                      </Link>
+                    }
+                    content='Edit'
+                    style={{ background: ourColors.messageColor }}
+                  />
+                </Link>
+              )}
+              {recipe.user_id === this.props.user.id && (
+                <Popup
+                  trigger={
+                    <Icon
+                      name='delete'
+                      size='large'
+                      onClick={this.deleteRecipe}
+                      style={{
+                        cursor: 'pointer',
+                        color: ourColors.buttonColor
                       }}
-                      size='large'
-                      style={{ cursor: 'pointer' }}
                     />
-                  )}
-                {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
-                {this.props.user.subscriptionid && (
-                  <Icon
-                    name='download'
-                    size='large'
-                    onClick={() => downloadRecipeToCSV(recipe)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                )}
-                {recipe.user_id === this.props.user.id && (
-                  <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-                    <Icon
-                      name='edit'
-                      size='large'
-                      color='black'
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </Link>
-                )}
-                {recipe.user_id === this.props.user.id && (
-                  <Icon
-                    name='delete'
-                    size='large'
-                    onClick={this.deleteRecipe}
-                    style={{ cursor: 'pointer', color: ourColors.buttonColor }}
-                  />
-                )}
-            
+                  }
+                  content='Delete'
+                  style={{ background: ourColors.messageColor }}
+                />
+              )}
             </div>
-
 
             <Header
               as='h1'
               style={{ maxWidth: '1000px', margin: '0 auto 5px' }}
             >
               {recipe.name}
-
             </Header>
-          
-          
+
             <Rating
               icon='star'
               size='huge'
@@ -255,51 +279,48 @@ class SingleRecipe extends React.Component {
               onRate={(e, data) => this.rateFunc(e, data, recipe.id)}
               maxRating={5}
               disabled={!localStorage.getItem('uid')}
-              style={{width: '175px', margin:'0 auto'}}
+              style={{ width: '175px', margin: '0 auto' }}
             />
             <Header as='h6' style={{ marginTop: '0px' }}>
               {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
               review(s)
             </Header>
+          </div>
 
-          
-        </div>
-
-<div className="imageIngredients">
-
-          {recipe.imageUrl && (
-            <Image
-              src={recipe.imageUrl}
-              size='medium'
-              rounded
-              style={{ marginTop: '7.5px', maxHeight: '250px' }}
-            />
-          )}
-          <Responsive
-            minWidth={501}
-            style={{
-              fontFamily: 'Roboto',
-              marginTop: '10px',
-              marginLeft: recipe.imageUrl ? '10px' : 0,
-              flexGrow: 1,
-              alignSelf: 'stretch'
-            }}
-          >
-            {this.ingredients(recipe)}
-          </Responsive>
-        <Responsive
-          maxWidth={500}
-          style={{
-            width: '95%',
-            maxWidth: '1000px',
-            margin: '0 auto 15px',
-            fontFamily: 'Roboto',
-            marginTop: '15px'
-          }}
-        >
-          {this.ingredients(recipe)}
-        </Responsive>
-</div>
+          <div className='imageIngredients'>
+            {recipe.imageUrl && (
+              <Image
+                src={recipe.imageUrl}
+                size='medium'
+                rounded
+                style={{ marginTop: '7.5px', maxHeight: '250px' }}
+              />
+            )}
+            <Responsive
+              minWidth={501}
+              style={{
+                fontFamily: 'Roboto',
+                marginTop: '10px',
+                marginLeft: recipe.imageUrl ? '10px' : 0,
+                flexGrow: 1,
+                alignSelf: 'stretch'
+              }}
+            >
+              {this.ingredients(recipe)}
+            </Responsive>
+            <Responsive
+              maxWidth={500}
+              style={{
+                width: '100%',
+                maxWidth: '1000px',
+                margin: '0 auto',
+                fontFamily: 'Roboto',
+                marginTop: '15px'
+              }}
+            >
+              {this.ingredients(recipe)}
+            </Responsive>
+          </div>
         </ImageIngrDiv>
         <br />
         <div
@@ -343,11 +364,7 @@ class SingleRecipe extends React.Component {
               borderRadius: '15px'
             }}
           >
-            <Table.Header
-              style={{
-                borderRadius: '15px'
-              }}
-            >
+            <Table.Header>
               <Table.Row>
                 <Table.HeaderCell style={{ background: ourColors.formColor }}>
                   <Header as='h3'>Nutrition Facts</Header>
@@ -387,21 +404,19 @@ class SingleRecipe extends React.Component {
             style={{
               width: '95%',
               maxWidth: '1000px',
-              margin: '0 auto',
+              margin: '15px auto',
               fontFamily: 'Roboto',
               background: 'white',
               fontWeight: 'normal',
-              borderRadius: '15px',
-              margin: '20px auto'
+              borderRadius: '15px'
             }}
           >
-            <Table.Header
-              style={{
-                borderRadius: '15px'
-              }}
-            >
+            <Table.Header>
               <Table.Row>
-                <Table.HeaderCell style={{ background: ourColors.formColor }}>
+                <Table.HeaderCell
+                  colSpan='3'
+                  style={{ background: ourColors.formColor }}
+                >
                   <Header as='h3'>Macronutrients</Header>
                 </Table.HeaderCell>
               </Table.Row>
@@ -409,14 +424,15 @@ class SingleRecipe extends React.Component {
 
             <Table.Body>
               <Table.Row className='tableRow'>
-                <Table.Cell>
-                  Carbohydrates:{' '}
+                <Table.Cell collapsing>Carbohydrates:</Table.Cell>
+                <Table.Cell textAlign='center'>
                   {nutrition.totalNutrients.CHOCDF
                     ? `${Math.round(
                         nutrition.totalNutrients.CHOCDF.quantity * 10
                       ) / 10} ${nutrition.totalNutrients.CHOCDF.unit}`
                     : '0 g'}
-                  {' | '}
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
                   {nutrition.totalNutrients.CHOCDF
                     ? Math.round(nutrition.totalDaily.CHOCDF.quantity * 10) / 10
                     : 0}
@@ -424,14 +440,15 @@ class SingleRecipe extends React.Component {
                 </Table.Cell>
               </Table.Row>
               <Table.Row className='tableRow'>
-                <Table.Cell>
-                  Protein:{' '}
+                <Table.Cell>Protein:</Table.Cell>
+                <Table.Cell textAlign='center'>
                   {nutrition.totalNutrients.PROCNT
                     ? `${Math.round(
                         nutrition.totalNutrients.PROCNT.quantity * 10
                       ) / 10} ${nutrition.totalNutrients.PROCNT.unit}`
                     : '0 g'}
-                  {' | '}
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
                   {nutrition.totalNutrients.PROCNT
                     ? Math.round(nutrition.totalDaily.PROCNT.quantity * 10) / 10
                     : 0}
@@ -439,14 +456,15 @@ class SingleRecipe extends React.Component {
                 </Table.Cell>
               </Table.Row>
               <Table.Row className='tableRow'>
-                <Table.Cell>
-                  Fat:{' '}
+                <Table.Cell>Fat:</Table.Cell>
+                <Table.Cell textAlign='center'>
                   {nutrition.totalNutrients.FAT
                     ? `${Math.round(
                         nutrition.totalNutrients.FAT.quantity * 10
                       ) / 10} ${nutrition.totalNutrients.FAT.unit}`
                     : '0 g'}
-                  {' | '}
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
                   {nutrition.totalNutrients.FAT
                     ? Math.round(nutrition.totalDaily.FAT.quantity * 10) / 10
                     : 0}

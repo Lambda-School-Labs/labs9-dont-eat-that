@@ -188,33 +188,38 @@ table {
   z-index: -1;
 }
 
-.singleRecipeView {
-  
-}
-
 .singleRecipeTitle {
-  display:flex;
-  flex-direction:column;
-  max-width:1000px;
-  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 10px 0;
 }
 
 
-.userRecipeButtons{
+.userRecipeButtons {
   max-width: 100%;
   margin-left: auto;
   width: 100px;
 }
 
-.imageIngredients{
+.imageIngredients {
   display: flex;
+  justify-content: space-between;
 }
 
 .tableRow:nth-child(even) {
-  background-color: #f2f2f2; 
+  background-color: #f2f2f2;
+}
+
+@media (max-width: 500px) {
+  .imageIngredients {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 @media print {
   .noPrint {
-     display: none;
+    display: none;
+  }
 }
