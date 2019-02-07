@@ -188,8 +188,33 @@ table {
   z-index: -1;
 }
 
+.singleRecipeView {
+  
+}
+
+.singleRecipeTitle {
+  display:flex;
+  flex-direction:column;
+  max-width:1000px;
+  margin: 15px 0;
+}
+
+
+.userRecipeButtons{
+  max-width: 100%;
+  margin-left: auto;
+  width: 100px;
+}
+
+.imageIngredients{
+  display: flex;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #f2f2f2; 
+}
+
 @media print {
   .noPrint {
-    display: none;
-  }
+     display: none;
 }
