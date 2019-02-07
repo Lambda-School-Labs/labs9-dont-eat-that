@@ -187,3 +187,21 @@ table {
   position: absolute;
   z-index: -1;
 }
+
+.singleRecipeView {
+  
+}
+
+.singleRecipeTitle {
+  display:block;
+}
+
+.userRecipeButtons{
+  display:flex;
+  justify-content: flex-end;
+}
+
+
+.tableRow:nth-child(even) {
+  background-color: #f2f2f2; 
+}

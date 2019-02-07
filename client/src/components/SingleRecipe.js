@@ -159,63 +159,11 @@ class SingleRecipe extends React.Component {
 
   displayRecipe = recipe => {
     return (
-      <React.Fragment>
-        <Segment
-          floated='right'
-          textAlign='center'
-          style={{ maxWidth: '1000px', margin: '0 auto' }}
-        >
-          {recipe.user_id !== this.props.user.id &&
-            localStorage.getItem('uid') && (
-              <Icon
-                name='copy'
-                onClick={async () => {
-                  await this.copyRecipe(recipe);
-                  this.props.history.push('/recipes');
-                }}
-                size='large'
-                style={{ cursor: 'pointer' }}
-              />
-            )}
-          {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
-          {this.props.user.subscriptionid && (
-            <Icon
-              name='download'
-              size='large'
-              onClick={() => downloadRecipeToCSV(recipe)}
-              style={{ cursor: 'pointer' }}
-            />
-          )}
-          {recipe.user_id === this.props.user.id && (
-            <Link to={`/recipes/edit/${this.props.match.params.id}`}>
-              <Icon
-                name='edit'
-                size='large'
-                color='black'
-                style={{ cursor: 'pointer' }}
-              />
-            </Link>
-          )}
-          {recipe.user_id === this.props.user.id && (
-            <Icon
-              name='delete'
-              size='large'
-              onClick={this.deleteRecipe}
-              style={{ cursor: 'pointer', color: ourColors.buttonColor }}
-            />
-          )}
-        </Segment>
-        <Header as='h1' style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
-          {recipe.name}
-        </Header>
-        <div
-          style={{
-            maxWidth: '175px',
-            margin: '0 auto 5px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}
-        >
+      <div className='singleRecipeView'>
+        <div className='singleRecipeTitle'>
+          <Header as='h1' style={{ maxWidth: '1000px', margin: '0 auto 5px' }}>
+            {recipe.name}
+          </Header>
           <Rating
             icon='star'
             size='huge'
@@ -228,6 +176,61 @@ class SingleRecipe extends React.Component {
             {this.props.recipe.ratings ? this.props.recipe.ratings.length : 0}{' '}
             review(s)
           </Header>
+          <div
+
+            style={{
+              maxWidth: '175px',
+              margin: '0 auto 5px',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <Segment
+              class='userRecipeButtons'
+              floated='right'
+              textAlign='center'
+            >
+              {recipe.user_id !== this.props.user.id &&
+                localStorage.getItem('uid') && (
+                  <Icon
+                    name='copy'
+                    onClick={async () => {
+                      await this.copyRecipe(recipe);
+                      this.props.history.push('/recipes');
+                    }}
+                    size='large'
+                    style={{ cursor: 'pointer' }}
+                  />
+                )}
+              {/* below button initiate download currently displaying recipe into excel fileURLToPath */}
+              {this.props.user.subscriptionid && (
+                <Icon
+                  name='download'
+                  size='large'
+                  onClick={() => downloadRecipeToCSV(recipe)}
+                  style={{ cursor: 'pointer' }}
+                />
+              )}
+              {recipe.user_id === this.props.user.id && (
+                <Link to={`/recipes/edit/${this.props.match.params.id}`}>
+                  <Icon
+                    name='edit'
+                    size='large'
+                    color='black'
+                    style={{ cursor: 'pointer' }}
+                  />
+                </Link>
+              )}
+              {recipe.user_id === this.props.user.id && (
+                <Icon
+                  name='delete'
+                  size='large'
+                  onClick={this.deleteRecipe}
+                  style={{ cursor: 'pointer', color: ourColors.buttonColor }}
+                />
+              )}
+            </Segment>
+          </div>
         </div>
         <ImageIngrDiv>
           {recipe.imageUrl && (
@@ -279,7 +282,7 @@ class SingleRecipe extends React.Component {
             {Parser(recipe.description)}
           </Segment>
         </div>
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -301,10 +304,15 @@ class SingleRecipe extends React.Component {
               maxWidth: '1000px',
               margin: '0 auto',
               fontFamily: 'Roboto',
-              background: ourColors.formColor
+              background: 'white',
+              borderRadius: '15px'
             }}
           >
-            <Table.Header>
+            <Table.Header
+              style={{
+                borderRadius: '15px'
+              }}
+            >
               <Table.Row>
                 <Table.HeaderCell style={{ background: ourColors.formColor }}>
                   <Header as='h3'>Nutrition Facts</Header>
@@ -313,19 +321,19 @@ class SingleRecipe extends React.Component {
             </Table.Header>
 
             <Table.Body>
-              <Table.Row>
+              <Table.Row className='tableRow'>
                 <Table.Cell>Servings: {nutrition.yield}</Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row className='tableRow'>
                 <Table.Cell>Calories: {nutrition.calories}</Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row className='tableRow'>
                 <Table.Cell>
                   Diet Labels:{' '}
                   {nutrition.dietLabels.map(label => label.toLowerCase() + ' ')}
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row className='tableRow'>
                 <Table.Cell>
                   Health Labels:{' '}
                   {nutrition.healthLabels.map(
@@ -333,7 +341,39 @@ class SingleRecipe extends React.Component {
                   )}
                 </Table.Cell>
               </Table.Row>
+            </Table.Body>
+          </Table>
+
+          {/* Create a new table here */}
+
+          <Table
+            celled
+            structured
+            style={{
+              width: '95%',
+              maxWidth: '1000px',
+              margin: '0 auto',
+              fontFamily: 'Roboto',
+              background: 'white',
+              fontWeight: 'normal',
+              borderRadius: '15px',
+              margin: '20px auto'
+            }}
+          >
+            <Table.Header
+              style={{
+                borderRadius: '15px'
+              }}
+            >
               <Table.Row>
+                <Table.HeaderCell style={{ background: ourColors.formColor }}>
+                  <Header as='h3'>Macronutrients</Header>
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+
+            <Table.Body>
+              <Table.Row className='tableRow'>
                 <Table.Cell>
                   Carbohydrates:{' '}
                   {nutrition.totalNutrients.CHOCDF
@@ -348,7 +388,7 @@ class SingleRecipe extends React.Component {
                   % Daily Value
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row className='tableRow'>
                 <Table.Cell>
                   Protein:{' '}
                   {nutrition.totalNutrients.PROCNT
@@ -363,7 +403,7 @@ class SingleRecipe extends React.Component {
                   % Daily Value
                 </Table.Cell>
               </Table.Row>
-              <Table.Row>
+              <Table.Row className='tableRow'>
                 <Table.Cell>
                   Fat:{' '}
                   {nutrition.totalNutrients.FAT
