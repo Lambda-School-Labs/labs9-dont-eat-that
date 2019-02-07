@@ -354,19 +354,20 @@ class SingleRecipe extends React.Component {
           {this.displayRecipe(recipe)}
           <Table
             celled
-            structured
             style={{
               width: '95%',
               maxWidth: '1000px',
               margin: '0 auto',
               fontFamily: 'Roboto',
-              background: 'white',
-              borderRadius: '15px'
+              background: 'white'
             }}
           >
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell style={{ background: ourColors.formColor }}>
+                <Table.HeaderCell
+                  colSpan='2'
+                  style={{ background: ourColors.formColor }}
+                >
                   <Header as='h3'>Nutrition Facts</Header>
                 </Table.HeaderCell>
               </Table.Row>
@@ -374,20 +375,22 @@ class SingleRecipe extends React.Component {
 
             <Table.Body>
               <Table.Row className='tableRow'>
-                <Table.Cell>Servings: {nutrition.yield}</Table.Cell>
+                <Table.Cell>Servings:</Table.Cell>
+                <Table.Cell>{nutrition.yield}</Table.Cell>
               </Table.Row>
               <Table.Row className='tableRow'>
-                <Table.Cell>Calories: {nutrition.calories}</Table.Cell>
+                <Table.Cell>Calories:</Table.Cell>
+                <Table.Cell>{nutrition.calories}</Table.Cell>
               </Table.Row>
               <Table.Row className='tableRow'>
+                <Table.Cell>Diet Labels:</Table.Cell>
                 <Table.Cell>
-                  Diet Labels:{' '}
                   {nutrition.dietLabels.map(label => label.toLowerCase() + ' ')}
                 </Table.Cell>
               </Table.Row>
               <Table.Row className='tableRow'>
+                <Table.Cell collapsing>Health Labels:</Table.Cell>
                 <Table.Cell>
-                  Health Labels:{' '}
                   {nutrition.healthLabels.map(
                     label => label.toLowerCase() + ' '
                   )}
@@ -400,15 +403,13 @@ class SingleRecipe extends React.Component {
 
           <Table
             celled
-            structured
             style={{
               width: '95%',
               maxWidth: '1000px',
               margin: '15px auto',
               fontFamily: 'Roboto',
               background: 'white',
-              fontWeight: 'normal',
-              borderRadius: '15px'
+              fontWeight: 'normal'
             }}
           >
             <Table.Header>
