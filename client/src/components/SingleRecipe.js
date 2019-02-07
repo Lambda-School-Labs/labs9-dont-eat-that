@@ -9,7 +9,8 @@ import {
   Segment,
   Image,
   Icon,
-  Responsive
+  Responsive,
+  Popup
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 
@@ -39,6 +40,13 @@ const ImageIngrDiv = styled.div`
 `;
 
 class SingleRecipe extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      copyTip: <span>Copy</span>
+    };
+  }
+
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getRecipe(id);

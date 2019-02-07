@@ -37,7 +37,11 @@ class SideMenu extends React.Component {
       return null;
     } else {
       return (
-        <Responsive minWidth={771} style={{ position: 'fixed', zIndex: '10' }}>
+        <Responsive
+          className='noPrint'
+          minWidth={771}
+          style={{ position: 'fixed', zIndex: '10' }}
+        >
           <Menu
             pointing
             vertical
@@ -94,7 +98,11 @@ class SideMenu extends React.Component {
           {!localStorage.getItem('uid') ? (
             <NavLink to='/signin'>
               <Message
-                style={{ maxWidth: '240px', background: ourColors.formColor, fontFamily:'Roboto' }}
+                style={{
+                  maxWidth: '240px',
+                  background: ourColors.formColor,
+                  fontFamily: 'Roboto'
+                }}
               >
                 <Message.Header>Signup/Login for Full Features!</Message.Header>
               </Message>
