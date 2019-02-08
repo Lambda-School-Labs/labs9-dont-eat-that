@@ -57,7 +57,7 @@ const fractFormat = value => {
     }
   }
   if (bestDenom === 100 && bestNumer === 33) {
-    return '1/3';
+    return '1/3'; // 1/3 wasn't working without being hard-coded for some reason
   }
   if (bestDenom === 100) {
     return `${Math.round(value * 100) / 100}`;
