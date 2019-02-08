@@ -116,7 +116,7 @@ const TopMenu = props => {
                   }
             }
           >
-            Don't Eat That
+            Smart Recipez
           </Menu.Item>
         </NavLink>
       </Responsive>
@@ -132,7 +132,7 @@ const TopMenu = props => {
                   }
             }
           >
-            DET
+            SR
           </Menu.Item>
         </NavLink>
       </Responsive>

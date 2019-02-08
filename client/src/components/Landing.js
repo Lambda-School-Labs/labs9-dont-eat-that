@@ -95,13 +95,13 @@ const Landing = props => {
     <LandingDiv style={{ height: '85vh' }}>
       <Responsive minWidth={1240}>
         <Header as='h1' style={headerStyles1()}>
-          DON'T EAT
+          SMART
           <br />
-          THAT
+          RECIPEZ
         </Header>
         <p style={{ fontFamily: 'Roboto' }}>
           Do you have trouble finding recipes that meet your dietary needs and
-          avoid your allergens? Don't Eat That is the app for you! Here you can
+          avoid your allergens? Smart Recipez is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
@@ -118,13 +118,13 @@ const Landing = props => {
       </Responsive>
       <Responsive minWidth={950} maxWidth={1239}>
         <Header as='h1' style={headerStyles2()}>
-          DON'T EAT
+          SMART
           <br />
-          THAT
+          RECIPEZ
         </Header>
         <p style={{ fontFamily: 'Roboto' }}>
           Do you have trouble finding recipes that meet your dietary needs and
-          avoid your allergens? Don't Eat That is the app for you! Here you can
+          avoid your allergens? Smart Recipez is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
@@ -141,13 +141,13 @@ const Landing = props => {
       </Responsive>
       <Responsive minWidth={781} maxWidth={949}>
         <Header as='h1' style={headerStyles21()}>
-          DON'T EAT
+          SMART
           <br />
-          THAT
+          RECIPEZ
         </Header>
         <p style={{ fontFamily: 'Roboto' }}>
           Do you have trouble finding recipes that meet your dietary needs and
-          avoid your allergens? Don't Eat That is the app for you! Here you can
+          avoid your allergens? Smart Recipez is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
@@ -164,13 +164,13 @@ const Landing = props => {
       </Responsive>
       <Responsive minWidth={501} maxWidth={780}>
         <Header as='h1' style={headerStyles3()}>
-          DON'T EAT
+          SMART
           <br />
-          THAT
+          RECIPEZ
         </Header>
         <p style={{ fontFamily: 'Roboto', background: '#EFF3F4' }}>
           Do you have trouble finding recipes that meet your dietary needs and
-          avoid your allergens? Don't Eat That is the app for you! Here you can
+          avoid your allergens? Smart Recipez is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
@@ -187,11 +187,9 @@ const Landing = props => {
       </Responsive>
       <Responsive maxWidth={500}>
         <Header as='h1' style={headerStyles4()}>
-          Don't
+          SMART
           <br />
-          Eat
-          <br />
-          That
+          RECIPEZ
         </Header>
         <Button
           onClick={e => props.history.push('/recipes')}

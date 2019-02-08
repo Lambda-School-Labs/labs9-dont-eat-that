@@ -326,11 +326,11 @@ class AddNewRecipeForm extends Component {
       const URL = 'https://donteatthat.herokuapp.com/api/image-upload/';
       const formData = new FormData();
       formData.append('image', this.state.selectedFile[0]);
-
+      
       return await axios
         .post(URL, formData)
         .then(res => {
-          console.log('in axios res', res.data.imageUrl);
+          // console.log('in axios res', res.data.imageUrl);
           this.setState({ imageUrl: res.data.imageUrl });
           // alert('Image ready to upload!');
           // return res.data.imageUrl;
@@ -344,9 +344,10 @@ class AddNewRecipeForm extends Component {
 
   handleInputSelectedFile = ev => {
     ev.preventDefault();
-    console.log(ev.target.files);
+    // console.log(ev.target.files);
     this.setState({
       selectedFile: ev.target.files
+
     });
   };
 
