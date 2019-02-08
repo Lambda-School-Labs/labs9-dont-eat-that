@@ -97,7 +97,7 @@ const Landing = props => {
         <Header as='h1' style={headerStyles1()}>
           SMART
           <br />
-          Recipez
+          RECIPEZ
         </Header>
         <p style={{ fontFamily: 'Roboto' }}>
           Do you have trouble finding recipes that meet your dietary needs and
