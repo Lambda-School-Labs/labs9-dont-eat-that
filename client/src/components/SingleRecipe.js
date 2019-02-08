@@ -56,6 +56,9 @@ const fractFormat = value => {
       bestErr = err;
     }
   }
+  if (bestDenom === 100 && bestNumer === 33) {
+    return '1/3';
+  }
   if (bestDenom === 100) {
     return `${Math.round(value * 100) / 100}`;
   }
@@ -66,6 +69,13 @@ const fractFormat = value => {
   }
   return `${bestNumer}/${bestDenom}`;
 };
+
+const nutritionLabelLister = arr => {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].toLowerCase().split('_').join(' ');
+  }
+  return arr.join(', ');
+}
 
 class SingleRecipe extends React.Component {
   constructor(props) {
@@ -385,15 +395,13 @@ class SingleRecipe extends React.Component {
               <Table.Row className='tableRow'>
                 <Table.Cell>Diet Labels:</Table.Cell>
                 <Table.Cell>
-                  {nutrition.dietLabels.map(label => label.toLowerCase() + ' ')}
+                  {nutritionLabelLister(nutrition.dietLabels)}
                 </Table.Cell>
               </Table.Row>
               <Table.Row className='tableRow'>
                 <Table.Cell collapsing>Health Labels:</Table.Cell>
                 <Table.Cell>
-                  {nutrition.healthLabels.map(
-                    label => label.toLowerCase() + ' '
-                  )}
+                  {nutritionLabelLister(nutrition.healthLabels)}
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
