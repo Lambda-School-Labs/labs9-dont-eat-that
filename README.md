@@ -15,6 +15,7 @@ Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 - Security
 - Efficiency and Scalability
 - Back-end API
+- Images
 - Contributing
 
 ### Team
@@ -379,6 +380,14 @@ Given part of a name of an ingredient, returns guesses at the ingredient's full 
 ##### GET https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract
 
 Given a URL of a website where a recipe is provided, attempts to parse the website and extract information about the recipe in question.
+
+### Images
+
+Our landing page image was sourced from Unsplash (Brooke Lark) at the following address: https://unsplash.com/photos/08bOYnH_r_E. The favicon main image was sourced from Pexels (Alexander Dummmer) at the following address: https://www.pexels.com/photo/food-plate-chocolate-dessert-132694/. The default image for recipes was also sourced at Pexels (Pixabay) at the following address: https://www.pexels.com/photo/aroma-chili-condiments-cook-357743/. The import recipe photo was sourced at Pexels (Lukasz Dziegel) at the following address: https://www.pexels.com/photo/grilled-dish-with-vegetables-on-round-white-ceramic-plate-1440119/.
+
+The recipe images, other than the default image, are dependant on the user. We have no control of where the images are taken from and their license. 
+
+The Unsplash license is at the following page: https://unsplash.com/license and the license for Pexel is at the following page: https://www.pexels.com/photo-license/.
 
 ### Contributing
 
