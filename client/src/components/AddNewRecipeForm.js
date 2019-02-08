@@ -47,10 +47,10 @@ const AddNewRecipeFormDiv = styled.div`
 
 const emptyIng = { name: '', quantity: '', unit: '', unitsList: [] };
 const exampleIng = {
-  name: 'water',
+  name: 'olive oil',
   quantity: 1,
-  unit: 'Cup',
-  unitsList: ['Cup']
+  unit: 'Tablespoon',
+  unitsList: ['Tablespoon']
 };
 
 class AddNewRecipeForm extends Component {
