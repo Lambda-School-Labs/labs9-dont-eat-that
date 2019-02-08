@@ -1,8 +1,8 @@
-# Don't Eat That
+# Smart Recipez
 
-Don't Eat That is an app where you can create and view recipes. You can copy other people's recipe or import a recipe from another site. If you save allergies, recipes with allergic ingredients are highlighted.
+Smart Recipez is an app where you can create and view recipes. You can copy other people's recipe or import a recipe from another site. If you save allergies, recipes with allergic ingredients are highlighted.
 
-Front-end Deployment: https://donteatthatapp.netlify.com/
+Front-end Deployment: https://smartrecipez.netlify.com/
 Back-end Deployment: https://donteatthat.herokuapp.com/
 Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 
@@ -24,6 +24,7 @@ Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 - Edward Jeong
 - Vance Leon
 - Peter Pham
+- PM Tristen Neu
 
 ### Installation
 
@@ -61,11 +62,11 @@ The app will break without the proper API keys placed into the app. We hid them 
 
 #### What problem does this application solve?
 
-There are a number of recipe sites online already, and a number of nutrition tracking websites, but we want to combine the two ideas. Don’t Eat That is designed to solve the problem of being able to upload and keep track of recipes that meet the user’s nutritional needs. In accordance with its name, it will particularly emphasize allergies: letting users filter by allergic ingredients and/or highlighting those ingredients to be avoided.
+There are a number of recipe sites online already, and a number of nutrition tracking websites, but we want to combine the two ideas. Smart Recipez is designed to solve the problem of being able to upload and keep track of recipes that meet the user’s nutritional needs. In accordance with its name, it will particularly emphasize allergies: letting users filter by allergic ingredients and/or highlighting those ingredients to be avoided.
 
 ##### User Story
 
-Shelly is allergic to shellfish and wants to compile a list of recipes that are suitable for her dietary needs. Luckily, she just downloaded Don’t Eat That! She opens the app and sets she allergy to shellfish in the settings. Then she views a list of recipes already created by other users where recipes with shellfish are highlighted in red so she avoids them. Although impressed by the recipes, she doesn’t find what she’s looking for and wants to add her own. Fortunately, she sees at the bottom of her screen a button to create recipes. So she clicks it, bringing her to a form asking her for a name, description, image, and ingredients. She saves it and now can view the recipe with its nutritional value when she cooks it again!
+Shelly is allergic to shellfish and wants to compile a list of recipes that are suitable for her dietary needs. Luckily, she just downloaded Smart Recipez! She opens the app and sets she allergy to shellfish in the settings. Then she views a list of recipes already created by other users where recipes with shellfish are highlighted in red so she avoids them. Although impressed by the recipes, she doesn’t find what she’s looking for and wants to add her own. Fortunately, she sees at the bottom of her screen a button to create recipes. So she clicks it, bringing her to a form asking her for a name, description, image, and ingredients. She saves it and now can view the recipe with its nutritional value when she cooks it again!
 
 #### Who are your competitors and how do they solve this problem? List at least three.
 
