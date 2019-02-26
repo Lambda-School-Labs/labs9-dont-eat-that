@@ -2,7 +2,7 @@
 
 Smart Recipez is an app where you can create and view recipes. You can copy other people's recipe or import a recipe from another site. If you save allergies, recipes with allergic ingredients are highlighted.
 
-Front-end Deployment: https://smartrecipez.netlify.com/
+Front-end Deployment: https://smartrecipez.com/
 Back-end Deployment: https://donteatthat.herokuapp.com/
 Wireframe: https://balsamiq.cloud/snv27r3/phc7e1w/rACD7
 
