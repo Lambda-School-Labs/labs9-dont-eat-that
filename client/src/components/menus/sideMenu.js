@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu, Responsive, Message } from 'semantic-ui-react';
 
 import ourColors from '../../ColorScheme';
+import DisplayTopRecipes from './displayTopRecipes.js';
 
 class SideMenu extends React.Component {
   // side menu should be hidden when landing page is shown
@@ -36,83 +37,83 @@ class SideMenu extends React.Component {
       return null;
     } else {
       return (
-        <Responsive minWidth={771}>
+        <Responsive
+          className='noPrint'
+          minWidth={771}
+          style={{ position: 'fixed', zIndex: '10' }}
+        >
           <Menu
             pointing
             vertical
             className='sideMenu'
             style={{ background: ourColors.menuColor }}
           >
-            <NavLink to='/recipes'>
-              <Menu.Item
-                name='/recipes'
-                active={item === '/recipes'}
-                onClick={this.handleItemClick}
-              >
-                Recipes List
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/recipes/new'>
-              <Menu.Item
-                name='/recipes/new'
-                active={item === '/recipes/new'}
-                onClick={this.handleItemClick}
-              >
-                New Recipe
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/recipes/import'>
-              <Menu.Item
-                name='/recipes/import'
-                active={item === '/recipes/import'}
-                onClick={this.handleItemClick}
-              >
-                Import Recipe
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/billing'>
-              <Menu.Item
-                name='/billing'
-                active={item === '/billing'}
-                onClick={this.handleItemClick}
-              >
-                Billing
-              </Menu.Item>
-            </NavLink>
-            <NavLink to='/settings'>
-              <Menu.Item
-                name='/settings'
-                active={item === '/settings'}
-                onClick={this.handleItemClick}
-              >
-                Settings & Allergies
-              </Menu.Item>
-            </NavLink>
+            <Menu.Item
+              as={NavLink}
+              exact
+              to='/recipes'
+              name='/recipes'
+              active={item === '/recipes'}
+              onClick={this.handleItemClick}
+            >
+              Recipes List
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/recipes/new'
+              name='/recipes/new'
+              active={item === '/recipes/new'}
+              onClick={this.handleItemClick}
+            >
+              New Recipe
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/recipes/import'
+              name='/recipes/import'
+              active={item === '/recipes/import'}
+              onClick={this.handleItemClick}
+            >
+              Import Recipe
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/billing'
+              name='/billing'
+              active={item === '/billing'}
+              onClick={this.handleItemClick}
+            >
+              Billing
+            </Menu.Item>
+            <Menu.Item
+              as={NavLink}
+              to='/settings'
+              name='/settings'
+              active={item === '/settings'}
+              onClick={this.handleItemClick}
+            >
+              Settings & Allergies
+            </Menu.Item>
           </Menu>
           {!localStorage.getItem('uid') ? (
-            <Message
-              style={{ maxWidth: '240px', background: ourColors.formColor }}
-            >
-              <Message.Header>Signup/Login for Full Features!</Message.Header>
-            </Message>
-          ) : null}
-
-          {(window.location.pathname === '/recipes/new' &&
-            localStorage.getItem('uid')) ||
-          window.location.pathname.indexOf('/edit') > 0 ? (
-            <Message
-              style={{ maxWidth: '240px', background: ourColors.formColor }}
-            >
-              <Message.Header>Image Upload</Message.Header>
-              <p>Drop a file or browse an image, then hit upload image!</p>
-            </Message>
+            <NavLink to='/signin'>
+              <Message
+                style={{
+                  maxWidth: '240px',
+                  background: ourColors.formColor,
+                  fontFamily: 'Roboto'
+                }}
+              >
+                <Message.Header>Signup/Login for Full Features!</Message.Header>
+              </Message>
+            </NavLink>
           ) : null}
           {window.location.pathname === '/settings' &&
           localStorage.getItem('uid') ? (
             <Message
               style={{ maxWidth: '240px', background: ourColors.formColor }}
             >
-              <Message.Header>Allergy Notications</Message.Header>
+              <Message.Header>Allergy Notifications</Message.Header>
               <Message.List>
                 <Message.Item>Recipes will be bordered in maroon</Message.Item>
                 <Message.Item>
@@ -121,6 +122,12 @@ class SideMenu extends React.Component {
               </Message.List>
             </Message>
           ) : null}
+
+          {/*  top rated recipes only shown when pathname includes recipes 
+           such  as recipes list, new recipe, import recipe */}
+          {window.location.pathname.slice(0, 8) === '/recipes' && (
+            <DisplayTopRecipes />
+          )}
         </Responsive>
       );
     }

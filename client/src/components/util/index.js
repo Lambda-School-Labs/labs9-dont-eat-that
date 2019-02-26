@@ -1,3 +1,25 @@
+export const getTopRatedRecipes = recipesArray => {
+  const compare = (a, b) => {
+    if (a.ratings.length > 0 && b.ratings.length > 0) {
+      return getAveRating(b.ratings) - getAveRating(a.ratings);
+    }
+    if (a.ratings.length > 0) return -1;
+
+    return 1;
+  };
+
+  return recipesArray.sort(compare);
+};
+
+const getAveRating = ratings => {
+  let sumRating = 0;
+  if (ratings.length < 1) return 0;
+
+  for (let i = 0; i < ratings.length; i++) sumRating += ratings[i].rating;
+
+  return sumRating / ratings.length;
+};
+
 export const searchFunc = (query, recipes) => {
   // checkIngredient function checks if a recipe's ingredient names has search query
   // and returns true or false
@@ -5,7 +27,7 @@ export const searchFunc = (query, recipes) => {
   const checkIngredient = recipe => {
     const result = recipe.ingredients.filter(ingredient => {
       //   let ingredientName = ingredient.name.toUpperCase();
-      return ingredient.name.toUpperCase().includes(query.toUpperCase());
+      return ingredient.name.toUpperCase().indexOf(query.toUpperCase()) >= 0;
     });
 
     // filter returns array and even empty array is truthy.
@@ -14,12 +36,11 @@ export const searchFunc = (query, recipes) => {
     return result.length > 0 ? true : false;
   };
   // returns recipes that has search query in recipe name or ingredient name
-  // console.log('Search index.js recipes = ', recipes);
   return recipes.filter(recipe => {
     // let recipeName = recipe.name.toUpperCase();
 
     return (
-      recipe.name.toUpperCase().includes(query.toUpperCase()) ||
+      recipe.name.toUpperCase().indexOf(query.toUpperCase()) >= 0 ||
       checkIngredient(recipe)
     );
   });
@@ -97,4 +118,15 @@ export const downloadRecipeToCSV = recipes => {
   link.setAttribute('href', encodeURI(csv));
   link.setAttribute('download', filename);
   link.click();
+};
+
+export const ratingsFunc = recipe => {
+  if (!recipe.ratings || !recipe.ratings[0]) {
+    return 0;
+  } else {
+    const ratingArr = recipe.ratings.map(rating => rating.rating);
+    const avgRating =
+      ratingArr.reduce((acc, num) => acc + num, 0) / recipe.ratings.length;
+    return Math.round(avgRating);
+  }
 };

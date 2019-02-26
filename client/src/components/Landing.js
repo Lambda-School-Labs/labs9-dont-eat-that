@@ -10,70 +10,198 @@ import { Button, Header, Responsive } from 'semantic-ui-react';
 const LandingDiv = styled.div`
   height: 100%;
   p {
-    margin: 0 auto 15px;
+    margin: 0 0 15px 45%;
     padding: 10px 0 10px 10px;
     max-width: 500px;
     text-align: left;
     line-height: 1.5;
+  }
+
+  @media (max-width: 1440px) {
+    p {
+      margin: 0 0 15px 40%;
+    }
+  }
+  @media (max-width: 1240px) {
+    p {
+      margin: 0 0 15px 32%;
+    }
+  }
+  @media (max-width: 1024px) {
+    p {
+      margin: 0 30px 15px 30%;
+    }
+  }
+  @media (max-width: 780px) {
+    p {
+      margin: 0 15px 15px 40%;
+      border-radius: 15px;
+    }
   }
 `;
 
 const Landing = props => {
   const headerStyles1 = () => {
     return {
-      fontFamily: `Roboto`,
-      textAlign: 'left',
+      fontFamily: `Montserrat`,
+      textAlign: 'center',
       fontSize: '7rem',
       fontWeight: 'normal',
-      margin: '10px 0 0 5%',
-      lineHeight: 1.2
+      margin: '75px 0 30px 25%'
     };
   };
   const headerStyles2 = () => {
     return {
-      fontFamily: `Roboto`,
+      fontFamily: `Montserrat`,
+      textAlign: 'center',
+      fontSize: '6rem',
+      fontWeight: 'normal',
+      margin: '75px 30px 30px 22%'
+    };
+  }
+  const headerStyles21 = () => {
+    return {
+      fontFamily: `Montserrat`,
+      textAlign: 'center',
+      fontSize: '5rem',
+      fontWeight: 'normal',
+      margin: '50px 30px 30px 22%'
+    };
+  }
+  const headerStyles3 = () => {
+    return {
+      fontFamily: `Montserrat`,
       textAlign: 'center',
       fontWeight: 'normal',
-      fontSize: '6rem',
-      margin: '0 0 30px'
+      fontSize: '5rem',
+      margin: '0 0 30px 35%',
+      paddingRight: '15px',
+      background: 'rgba(255,255,255,0.7)',
+      borderRadius: '15px'
+    };
+  };
+  const headerStyles4 = () => {
+    return {
+      fontFamily: `Montserrat`,
+      textAlign: 'center',
+      fontWeight: 'normal',
+      fontSize: '5rem',
+      margin: '0 10% 30px 10%',
+      background: 'rgba(255,255,255,0.7)',
+      borderRadius: '15px'
     };
   };
   return (
-    <LandingDiv>
-      <Responsive style={{ height: '90vh' }} minWidth={501}>
+    <LandingDiv style={{ height: '85vh' }}>
+      <Responsive minWidth={1240}>
         <Header as='h1' style={headerStyles1()}>
-          Don't
+          SMART
           <br />
-          Eat
-          <br />
-          That
+          RECIPEZ
         </Header>
-        <p style={{ background: ourColors.formColor, fontFamily: 'Roboto' }}>
+        <p style={{ fontFamily: 'Roboto' }}>
           Do you have trouble finding recipes that meet your dietary needs and
-          avoid your allergens? Don't Eat That is the app for you! Here you can
+          avoid your allergens? Smart Recipez is the app for you! Here you can
           collect recipes or upload your own, and easily see which don't meet
           your nutritional standards.
         </p>
         <Button
           onClick={e => props.history.push('/recipes')}
-          style={{ background: ourColors.buttonColor, color: 'white' }}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '25%'
+          }}
         >
-          Demo Site!
+          Enter Site
         </Button>
       </Responsive>
-      <Responsive style={{ height: '90vh' }} maxWidth={500}>
+      <Responsive minWidth={950} maxWidth={1239}>
         <Header as='h1' style={headerStyles2()}>
-          Don't
+          SMART
           <br />
-          Eat
+          RECIPEZ
+        </Header>
+        <p style={{ fontFamily: 'Roboto' }}>
+          Do you have trouble finding recipes that meet your dietary needs and
+          avoid your allergens? Smart Recipez is the app for you! Here you can
+          collect recipes or upload your own, and easily see which don't meet
+          your nutritional standards.
+        </p>
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '22%'
+          }}
+        >
+          Enter Site
+        </Button>
+      </Responsive>
+      <Responsive minWidth={781} maxWidth={949}>
+        <Header as='h1' style={headerStyles21()}>
+          SMART
           <br />
-          That
+          RECIPEZ
+        </Header>
+        <p style={{ fontFamily: 'Roboto' }}>
+          Do you have trouble finding recipes that meet your dietary needs and
+          avoid your allergens? Smart Recipez is the app for you! Here you can
+          collect recipes or upload your own, and easily see which don't meet
+          your nutritional standards.
+        </p>
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '22%'
+          }}
+        >
+          Enter Site
+        </Button>
+      </Responsive>
+      <Responsive minWidth={501} maxWidth={780}>
+        <Header as='h1' style={headerStyles3()}>
+          SMART
+          <br />
+          RECIPEZ
+        </Header>
+        <p style={{ fontFamily: 'Roboto', background: '#EFF3F4' }}>
+          Do you have trouble finding recipes that meet your dietary needs and
+          avoid your allergens? Smart Recipez is the app for you! Here you can
+          collect recipes or upload your own, and easily see which don't meet
+          your nutritional standards.
+        </p>
+        <Button
+          onClick={e => props.history.push('/recipes')}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            marginLeft: '35%'
+          }}
+        >
+          Enter Site
+        </Button>
+      </Responsive>
+      <Responsive maxWidth={500}>
+        <Header as='h1' style={headerStyles4()}>
+          SMART
+          <br />
+          RECIPEZ
         </Header>
         <Button
           onClick={e => props.history.push('/recipes')}
-          style={{ background: ourColors.buttonColor, color: 'white' }}
+          style={{
+            background: ourColors.buttonColor,
+            color: 'white',
+            margin: '0 auto',
+            boxShadow: '0 0 20px white',
+            border: '1px solid white'
+          }}
         >
-          Demo Site!
+          Enter Site
         </Button>
       </Responsive>
     </LandingDiv>

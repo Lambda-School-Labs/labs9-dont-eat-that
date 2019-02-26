@@ -125,7 +125,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 
@@ -139,13 +139,16 @@ table {
   font-family: 'Roboto', sans-serif;
 }
 
+.appContainer {
+  width: 100%;
+}
+
 .App {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 2000px;
   margin: 0 auto;
-
 }
 
 .navigationBar {
@@ -166,6 +169,7 @@ table {
 }
 
 .mainDisplaySection {
+  width: 100%;
   text-align: center;
   flex-grow: 1;
 }
@@ -175,13 +179,47 @@ table {
   justify-content: center;
 }
 
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
 
-/* .field{ 
-  height: 40px;
-} */
-
-/* .flexWrapCenter {
+.singleRecipeTitle {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-} */
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 10px 0;
+}
+
+
+.userRecipeButtons {
+  max-width: 100%;
+  margin-left: auto;
+  width: 100px;
+}
+
+.imageIngredients {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+@media (max-width: 500px) {
+  .imageIngredients {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media print {
+  .noPrint {
+    display: none;
+  }
+}

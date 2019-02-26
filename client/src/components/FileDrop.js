@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Popup } from 'semantic-ui-react';
-// import styled from 'styled-components';
+
 import ourColors from '../ColorScheme';
 
 import {
@@ -9,18 +8,8 @@ import {
   DropTextStyle
 } from './styleComponents/FileDropStyles';
 
-// const UploadButton = styled.div`
-//   height: 20px;
-//   marginTop: '15px',
-//   marginRight: '8px',
-//   marginLeft: '7px',
-//   width: '20%',
-//   minWidth: '100px',
-//   background: ${ourColors.buttonColor},
-//   color: 'white'
-// `;
-
 const FileDropFunc = props => {
+  // eslint-disable-next-line
   let uploaderClasses = 'file-uploader';
   if (props.dragging) {
     uploaderClasses += 'file-uploader--dragging';
@@ -39,67 +28,40 @@ const FileDropFunc = props => {
     >
       <DropInputField
         className='file-uploader-contents'
-        onChange={props.handleInputSelectedFile}
+        onChange={props.dropListener}
       >
         <DropTextStyle>
           {props.imageName ? props.imageName : 'Drop File Here'}
         </DropTextStyle>
-        <span>or</span>
+        <span style={{ marginBottom: '20px' }}>or</span>
         <br />
-
-        {/* <Button
+        <label
+          htmlFor='file'
           style={{
-            margin: '15px',
-            height: '80px',
-            width: '35%',
-            minWidth: '100px',
+            display: 'block',
+            maxWidth: '190px',
             background: ourColors.buttonColor,
+            fontSize: '1rem',
+            fontWeight: '500',
             color: 'white',
-            padding: '20px'
+            padding: '12px 24px',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            margin: '10px auto'
           }}
-        > */}
-        <label for='file' onCLick>
-          <input
-            type='file'
-            name='file'
-            id='file'
-            class='inputfile'
-            style={{
-              margin: '10px',
-              width: '35%',
-              minWidth: '100px',
-              background: ourColors.buttonColor,
-              color: 'white'
-            }}
-          />
+        >
+          {props.selectedFile
+            ? typeof props.selectedFile === 'boolean'
+              ? 'Choose a file...'
+              : props.selectedFile[0].name
+            : 'Choose a file...'}
         </label>
-        {/* </Button> */}
-
-        {/* <UploadButton onClick={console.log("i was clicked")}>
-          Upload Image
-        </UploadButton> */}
-        <Popup
-          trigger={
-            <Button
-              onClick={props.handleFileUpload}
-              style={{
-                margin: '10px',
-                width: '35%',
-                height: '48px',
-                minWidth: '100px',
-                background: ourColors.buttonColor,
-                color: 'white'
-              }}
-            >
-              Upload Image
-            </Button>
-          }
-          content={
-            props.selectedFile
-              ? 'Image Upload completed!'
-              : 'No image was uploaded.'
-          }
-          on='click'
+        <input
+          type='file'
+          name='file'
+          id='file'
+          onChange={props.handleInputSelectedFile}
+          className='inputfile'
         />
       </DropInputField>
     </DropCard>

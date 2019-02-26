@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Form, Card, Icon, Header } from 'semantic-ui-react';
+import { Form, Card, Icon, Header, Message, Responsive } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme';
 
@@ -11,7 +11,9 @@ import {
   getOwnRecipes,
   getForeignRecipes,
   getUser,
-  getAllergies
+  getAllergies,
+  getAllRecipes2,
+  removeAddRecipeError
 } from '../actions';
 
 import DisplayOneRecipe from './DisplayOneRecipe';
@@ -22,11 +24,17 @@ import DisplayTab from './displayTab.js';
 import { downloadRecipeToCSV } from '../components/util';
 
 const RecipeListPage = styled.div`
+  .ie9up {
+    max-width: 1000px !important;
+  }
+  max-width: 1180px;
+  margin: 0 auto;
+
   form {
     margin-top: 4px;
   }
   .header-icons {
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -42,6 +50,7 @@ const RecipeListPage = styled.div`
 
 // TabDiv manage Tab and search box
 const TabDiv = styled.div`
+  width: 97%;
   display: flex;
   justify-content: space-between;
   @media (max-width: 576px) {
@@ -79,6 +88,7 @@ const TabDiv = styled.div`
   .tab2 {
     margin-left: 4% !important;
     width: 50%;
+    height: 25px;
 
     @media (max-width: 576px) {
       display: flex;
@@ -88,10 +98,19 @@ const TabDiv = styled.div`
   }
 `;
 
+const DisplayRecipesDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const DisplayListDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  width: 95%;
+  .ie9up {
+    max-width: 1000px !important;
+  }
 `;
 
 class DisplayListRecipes extends Component {
@@ -100,7 +119,7 @@ class DisplayListRecipes extends Component {
     this.state = {
       query: '',
       isSearched: false,
-      personalCheck: true,
+      isLogged: localStorage.getItem('uid') ? true : false,
       displayedRecipes: []
     };
   }
@@ -108,11 +127,12 @@ class DisplayListRecipes extends Component {
   componentDidMount() {
     if (!localStorage.getItem('uid')) {
       this.props.getAllRecipes();
-    } else if (this.state.personalCheck) {
+    } else if (this.state.isLogged) {
       this.props.getOwnRecipes();
     } else {
       this.props.getForeignRecipes();
     }
+    this.props.getAllRecipes2();
     this.props.getUser();
     this.props.getAllergies();
   }
@@ -142,13 +162,13 @@ class DisplayListRecipes extends Component {
           // allergy sometime has array of string and sometimes has array of 'name:allergy'
           // so check the type and compare correct value
           if (typeof allergy === 'string')
-            return ingredient.name.includes(allergy);
+            return ingredient.name.indexOf(allergy) >= 0;
           // seeing if any allergies in one ingredient
-          else return ingredient.name.includes(allergy.name);
+          else return ingredient.name.indexOf(allergy.name) >= 0;
         });
-        return innerBoolArr.includes(true); // returns true if allergy in ingredient
+        return innerBoolArr.indexOf(true) >= 0; // returns true if allergy in ingredient
       });
-      if (outerBoolArr.includes(true)) {
+      if (outerBoolArr.indexOf(true) >= 0) {
         // seeing if any allergies in all ingredients
 
         return <DisplayOneRecipe key={recipe.id} recipe={recipe} allergy />;
@@ -172,11 +192,12 @@ class DisplayListRecipes extends Component {
   };
   // edge case for spacing, for later
 
-  checkHandler = async personal => {
+  checkHandler = async checked => {
+    console.log('checkHandler checked = ', checked);
     await this.setState({
-      personalCheck: personal
+      personalCheck: checked
     });
-    if (this.state.personalCheck) {
+    if (checked) {
       this.props.getOwnRecipes();
     } else {
       this.props.getForeignRecipes();
@@ -218,7 +239,11 @@ class DisplayListRecipes extends Component {
           )}
         </div>
         <TabDiv>
-          <DisplayTab className='tab' personalCheck={this.checkHandler} />
+          <DisplayTab
+            className='tab'
+            personalCheck={this.checkHandler}
+            isLogged={this.state.isLogged}
+          />
           <Form className='search'>
             <SimpleSearch
               query={this.state.query}
@@ -226,35 +251,86 @@ class DisplayListRecipes extends Component {
             />
           </Form>
         </TabDiv>
+        <DisplayRecipesDiv>
+          <DisplayListDiv>
+            <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
+              <Responsive minWidth={501}>
+                <Card
+                  style={{
+                    width: '200px',
+                    height: '200px',
+                    margin: '10px',
+                    boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
+                  }}
+                >
+                  <Card.Content
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Card.Header>Create a Recipe</Card.Header>
+                    <Card.Description>
+                      <Icon
+                        name='plus circle'
+                        size='big'
+                        style={{ color: ourColors.outlineColor }}
+                      />
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Responsive>
+              <Responsive maxWidth={500}>
+                <Card
+                  style={{
+                    width: '150px',
+                    height: '200px',
+                    margin: '10px',
+                    boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
+                  }}
+                >
+                  <Card.Content
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Card.Header>Create a Recipe</Card.Header>
+                    <Card.Description>
+                      <Icon
+                        name='plus circle'
+                        size='big'
+                        style={{ color: ourColors.outlineColor }}
+                      />
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              </Responsive>
+            </Link>
 
-        <DisplayListDiv>
-          <Link to='/recipes/new' style={{ textDecoration: 'none' }}>
-            <Card
-              style={{
-                width: '200px',
-                height: '200px',
-                margin: '10px',
-                boxShadow: `0 0 3px 1px ${ourColors.outlineColor}`
-              }}
-            >
-              <Card.Content
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <Card.Header>Create a Recipe</Card.Header>
-                <Card.Description>
-                  <Icon name='plus circle' size='big' />
-                </Card.Description>
-              </Card.Content>
-            </Card>
-          </Link>
-
-          {this.displayDiv()}
-        </DisplayListDiv>
+            {this.displayDiv()}
+          </DisplayListDiv>
+        </DisplayRecipesDiv>
+        {this.props.addRecipeError && (
+          <Message
+            onClick={this.props.removeAddRecipeError}
+            style={{
+              position: 'absolute',
+              top: '41.6px',
+              right: '5px',
+              textAlign: 'left',
+              zIndex: '5'
+            }}
+            negative
+          >
+            <Message.Header>Add/Import Recipe Failed</Message.Header>
+            <p>For imports, please try another recipe or website.</p>
+          </Message>
+        )}
       </RecipeListPage>
     );
   }
@@ -263,6 +339,7 @@ class DisplayListRecipes extends Component {
 const mapStateToProps = state => {
   return {
     recipes: state.recipesReducer.recipes,
+    addRecipeError: state.recipesReducer.addRecipeError,
     error: state.recipesReducer.error,
     allergies: state.usersReducer.user.allergies,
     user: state.usersReducer.user
@@ -271,5 +348,13 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getAllRecipes, getOwnRecipes, getForeignRecipes, getAllergies, getUser }
+  {
+    getAllRecipes,
+    getOwnRecipes,
+    getForeignRecipes,
+    getAllergies,
+    getUser,
+    getAllRecipes2,
+    removeAddRecipeError
+  }
 )(DisplayListRecipes);

@@ -7,7 +7,7 @@ import { withFirebase } from './components/firebase';
 import MainDisplaySection from './mainDisplaySection';
 import TopMenu from './components/menus/topMenu.js';
 import SideMenu from './components/menus/sideMenu.js';
-import cake from './images/cake.jpeg';
+import landingpageimg from './images/landingpage.jpg';
 
 class App extends Component {
   // componentDidMount and componentWillUnmout is used to check if user is loggedin
@@ -40,7 +40,7 @@ class App extends Component {
   appStyles = () => {
     if (window.location.pathname === '/') {
       return {
-        backgroundImage: `url(${cake})`,
+        backgroundImage: `url(${landingpageimg})`,
         backgroundSize: 'cover'
       };
     } else {
@@ -51,8 +51,6 @@ class App extends Component {
     this.listener();
   }
   render() {
-    if (localStorage.uid) {
-    }
     return (
       <StripeProvider apiKey={process.env.REACT_APP_STRIPE_KEY}>
         <div className='App' style={this.appStyles()}>
@@ -60,6 +58,10 @@ class App extends Component {
             className='navigationBar'
             isLoggedIn={this.state.isLoggedIn}
           />
+          {/* below div is a placeholder for topMenu.  TopMenu position is fixed
+  so below div is used to occupy topMenu's space, so other element is in
+  right place */}
+          <div style={{ zIndex: '5', width: '100%', height: '60px' }} />
           <div className='mainDisplay'>
             <SideMenu />
             <MainDisplaySection />

@@ -7,6 +7,7 @@ export const EDIT_RECIPE = 'EDIT_RECIPE';
 export const GET_NUTRITION = 'GET_NUTRITION';
 export const GET_RECIPE = 'GET_RECIPE';
 export const GET_RECIPES = 'GET_RECIPES';
+export const GET_RECIPES2 = 'GET_RECIPES2';
 export const GET_OWN_RECIPES = 'GET_OWN_RECIPES';
 export const GET_FOREIGN_RECIPES = 'GET_FOREIGN_RECIPES';
 export const GET_UALLERGIES = 'GET_UALLERGIES';
@@ -20,6 +21,8 @@ export const AUTOCOM_ING = 'AUTOCOM_ING';
 export const RESET_AUTOCOM = 'RESET_AUTOCOM';
 export const DELETE_ALLERGY = 'DELETE_ALLERGY';
 // export const FILE_UPLOAD = "FILE_UPLOAD";
+export const ADD_RECIPE_ERROR = 'ADD_RECIPE_ERROR';
+export const REMOVE_ADD_RECIPE_ERROR = 'REMOVE_ADD_RECIPE_ERROR';
 export const ERROR = 'ERROR';
 
 const URL = 'https://donteatthat.herokuapp.com';
@@ -30,6 +33,14 @@ export const getAllRecipes = () => dispatch => {
   axios
     .get(`${URL}/api/recipes/all`)
     .then(res => dispatch({ type: GET_RECIPES, payload: res.data }))
+    .catch(err => dispatch({ type: ERROR, payload: err }));
+};
+
+export const getAllRecipes2 = () => dispatch => {
+  dispatch({ type: GETTING_RECIPES });
+  axios
+    .get(`${URL}/api/recipes/all`)
+    .then(res => dispatch({ type: GET_RECIPES2, payload: res.data }))
     .catch(err => dispatch({ type: ERROR, payload: err }));
 };
 
@@ -64,7 +75,11 @@ export const addRecipe = recipe => dispatch => {
   axios
     .post(`${URL}/api/recipes/create`, recipe)
     .then(res => dispatch({ type: ADD_RECIPE, payload: res.data }))
-    .catch(err => dispatch({ type: ERROR, payload: err }));
+    .catch(err => dispatch({ type: ADD_RECIPE_ERROR, payload: err }));
+};
+
+export const removeAddRecipeError = () => dispatch => {
+  dispatch({ type: REMOVE_ADD_RECIPE_ERROR, payload: null });
 };
 
 export const editRecipe = (id, recipe) => (dispatch, getState) => {
@@ -202,7 +217,11 @@ export const ratingChange = (recipeid, newRating) => async (
           recipe_id: recipeid
         }
       ];
-    } else {
+    } else if (
+      ratings
+        .map(rating => rating.user_id === response.data.userid)
+        .indexOf(true) >= 0
+    ) {
       newRatings = ratings.map(rating => {
         return rating.id === response.data.ratingid
           ? {
@@ -213,6 +232,16 @@ export const ratingChange = (recipeid, newRating) => async (
             }
           : rating;
       });
+    } else {
+      newRatings = [
+        ...ratings,
+        {
+          id: response.data.ratingid,
+          rating: newRating,
+          user_id: response.data.userid,
+          recipe_id: recipeid
+        }
+      ];
     }
     const recipe = getState().recipesReducer.recipe;
     recipe.ratings = newRatings;

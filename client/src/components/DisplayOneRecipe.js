@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Rating, Card, Image } from 'semantic-ui-react';
+import { Rating, Card, Image, Responsive } from 'semantic-ui-react';
 
 import ourColors from '../ColorScheme.js';
 
@@ -28,45 +28,88 @@ const DisplayOneRecipe = props => {
       to={`/recipes/one/${props.recipe.id}`}
       style={{ textDecoration: 'none' }}
     >
-      <Card
-        style={{
-          boxShadow: props.allergy
-            ? `0 0 3px 5px ${ourColors.warningColor}`
-            : `0 0 3px 1px ${ourColors.outlineColor}`,
-          width: '200px',
-          height: '200px',
-          margin: '10px',
-          overflow: 'hidden',
-          fontFamily: 'Roboto'
-        }}
-      >
-        {props.recipe.imageUrl ? (
-          <Image src={props.recipe.imageUrl} style={{ height: '133px' }} />
-        ) : (
-          <Image src={defaultImage} />
-        )}
-        <Card.Content style={{ paddingTop: '4px' }}>
-          <Card.Header
-            as='h3'
-            style={{
-              maxHeight: '45px',
-              overflow: 'hidden',
-              fontSize: '1.1rem'
-            }}
-          >
-            {props.recipe.name}
-          </Card.Header>
-          <div>
-            <Rating
-              icon='star'
-              rating={ratingsFunc(props.recipe)}
-              maxRating={5}
-              disabled
-            />
-            {props.recipe.ratings ? props.recipe.ratings.length : 0}
-          </div>
-        </Card.Content>
-      </Card>
+      <Responsive minWidth={501}>
+        <Card
+          style={{
+            boxShadow: props.allergy
+              ? `0 0 3px 5px ${ourColors.warningColor}`
+              : `0 0 3px 1px ${ourColors.outlineColor}`,
+            width: '200px',
+            height: '200px',
+            margin: '10px',
+            overflow: 'hidden',
+            fontFamily: 'Roboto'
+          }}
+        >
+          {props.recipe.imageUrl ? (
+            <Image src={props.recipe.imageUrl} style={{ height: '133px' }} />
+          ) : (
+            <Image src={defaultImage} />
+          )}
+          <Card.Content style={{ paddingTop: '4px' }}>
+            <Card.Header
+              as='h3'
+              style={{
+                maxHeight: '45px',
+                overflow: 'hidden',
+                fontSize: '1.1rem'
+              }}
+            >
+              {props.recipe.name}
+            </Card.Header>
+            <div>
+              <Rating
+                icon='star'
+                rating={ratingsFunc(props.recipe)}
+                maxRating={5}
+                disabled
+              />
+              {props.recipe.ratings ? props.recipe.ratings.length : 0}
+            </div>
+          </Card.Content>
+        </Card>
+      </Responsive>
+      <Responsive maxWidth={500}>
+        <Card
+          style={{
+            boxShadow: props.allergy
+              ? `0 0 3px 5px ${ourColors.warningColor}`
+              : `0 0 3px 1px ${ourColors.outlineColor}`,
+            width: '150px',
+            height: '200px',
+            margin: '10px',
+            overflow: 'hidden',
+            fontFamily: 'Roboto'
+          }}
+        >
+          {props.recipe.imageUrl ? (
+            <Image src={props.recipe.imageUrl} style={{ height: '133px' }} />
+          ) : (
+            <Image src={defaultImage} />
+          )}
+          <Card.Content style={{ paddingTop: '4px' }}>
+            <Card.Header
+              as='h3'
+              style={{
+                maxHeight: '45px',
+                overflow: 'hidden',
+                fontSize: '1.1rem'
+              }}
+            >
+              {props.recipe.name}
+            </Card.Header>
+            <div>
+              <Rating
+                icon='star'
+                rating={ratingsFunc(props.recipe)}
+                maxRating={5}
+                disabled
+              />
+              {props.recipe.ratings ? props.recipe.ratings.length : 0}
+            </div>
+          </Card.Content>
+        </Card>
+      </Responsive>
     </Link>
   );
 };

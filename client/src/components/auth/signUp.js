@@ -11,6 +11,7 @@ import { getUser, addUser } from '../../actions';
 // eslint-disable-next-line
 import { domainToASCII } from 'url';
 import { ReCaptcha, loadReCaptcha } from 'react-recaptcha-google';
+import RenderInBrowser from 'react-render-in-browser';
 import ourColors from '../../ColorScheme';
 
 const SignUpPage = () => (
@@ -121,9 +122,9 @@ class SignUpFormBase extends Component {
       this.state.isReCaptcha === false;
 
     return (
-      <div className="flexCenter">
+      <div className='flexCenter'>
         <Segment style={{ background: ourColors.formColor }}>
-          <Header as="h1" textAlign="center">
+          <Header as='h1' textAlign='center'>
             SignUp
           </Header>
           <Form onSubmit={this.onSubmit} inverted>
@@ -163,9 +164,10 @@ class SignUpFormBase extends Component {
             </Form.Field>
 
             {error && <p>{error.message}</p>}
+        <RenderInBrowser except ie>
 
-            {/* You can replace captchaDemo with any ref word */}
-            <Form.Field className='flexCenter'>
+           {/* You can replace captchaDemo with any ref word  */}
+          <Form.Field className='flexCenter'>
               <ReCaptcha
                 ref={el => {
                   this.captchaDemo = el;
@@ -177,9 +179,14 @@ class SignUpFormBase extends Component {
                 onloadCallback={this.onLoadRecaptcha}
                 verifyCallback={this.verifyCallback}
               />
-            </Form.Field>
-            <div className="flexCenter">
-              <Button disabled={isInvalid} type="submit" style={{ background: ourColors.buttonColor, color: 'white' }}>
+            </Form.Field> 
+        </RenderInBrowser>
+            <div className='flexCenter'>
+              <Button
+                disabled={isInvalid}
+                type='submit'
+                style={{ background: ourColors.buttonColor, color: 'white' }}
+              >
                 Sign Up
               </Button>
             </div>
